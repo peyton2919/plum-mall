@@ -14,6 +14,7 @@ package cn.peyton.plum.core.inf.bo;
  * @version 1.0.0
  * </pre>
  */
-public interface IBo<P,T> {
+public interface IBo<T, P> {
+
 
 }

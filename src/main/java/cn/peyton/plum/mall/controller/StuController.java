@@ -89,4 +89,9 @@ public class StuController extends AppController {
 
         return "login2";
     }
+    @GetMapping("/test3")
+    public String test2(){
+
+        return "ok";
+    }
 }

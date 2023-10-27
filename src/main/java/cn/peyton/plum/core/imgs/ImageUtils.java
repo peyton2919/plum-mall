@@ -19,7 +19,6 @@ import java.io.Serializable;
  * @author peyton_yu
  * @version 1.0
  */
-@SuppressWarnings("ALL")
 public final class ImageUtils implements Serializable {
     /**
      * @Fields serialVersionUID

@@ -22,7 +22,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public abstract class BaseConvertBo<P, T> implements IBo<P, T>, Serializable {
+public abstract class BaseConvertBo<T, P> implements IBo<T, P>, Serializable {
     /** 要返回的集合 */
 //    protected List<P> params;
 
@@ -95,4 +95,6 @@ public abstract class BaseConvertBo<P, T> implements IBo<P, T>, Serializable {
     public static String convertIntToStr(Integer time) {
         return DateUtils.timestampToStrDate(time);
     }
+
+
 }

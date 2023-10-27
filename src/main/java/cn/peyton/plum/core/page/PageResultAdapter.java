@@ -1,7 +1,7 @@
 package cn.peyton.plum.core.page;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.core.inf.mapper.IMapperPrimary;
+import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.utils.base.Lists;
 
 import java.io.Serializable;
@@ -30,12 +30,12 @@ public final class PageResultAdapter<T> implements Serializable {
      * @param <T> 需要操作对象
      * @return PageResult对象
      */
-    public static <T> PageResult<T> adapt(IMapperPrimary mapper, PageQuery page,String keyword, BaseConvertBo baseConvertBo) {
+    public static <T> PageResult<T> adapt(IBaseMapper mapper, PageQuery page, String keyword, BaseConvertBo baseConvertBo) {
         PageResult<T> result = new PageResult<T>();
         int count = mapper.count(keyword);
         if (count > 0) {
             result.setTotal(count);
-            result.setData(baseConvertBo.adapter(mapper.selectByAllOrKeyword(page,keyword)));
+            result.setData(baseConvertBo.adapter(mapper.selectByAllOrKeyword(keyword, page)));
         }
         return result;
     }
