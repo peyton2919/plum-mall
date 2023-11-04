@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.MaterialMapper">
+	<resultMap id="ResultMaterialMap" type="cn.peyton.plum.mall.pojo.Material">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="create_id" property="createId" jdbcType="BIGINT"/>
+		<result column="type" property="type" jdbcType="TINYINT"/>
+		<result column="group_id" property="groupId" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="url" property="url" jdbcType="VARCHAR"/>
+		<result column="create_type" property="createType" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_sys_material_List">
+		`id`,`create_id`,`type`,`group_id`,`name`,`url`,`create_type`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Material" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_material`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="createId != null">`create_id`,</if>
+			<if test="type != null">`type`,</if>
+			<if test="groupId != null">`group_id`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="url != null">`url`,</if>
+			<if test="createType != null">`create_type`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="createId != null">#{createId},</if>
+			<if test="type != null">#{type},</if>
+			<if test="groupId != null">#{groupId},</if>
+			<if test="name != null">#{name},</if>
+			<if test="url != null">#{url},</if>
+			<if test="createType != null">#{createType},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_material`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Material">
+		update `sys_material`
+		<set>
+			<if test="createId != null">`create_id` = #{createId},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="groupId != null">`group_id` = #{groupId},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="url != null">`url` = #{url},</if>
+			<if test="createType != null">`create_type` = #{createType},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMaterialMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_material_List"/>
+		from `sys_material`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultMaterialMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultMaterialMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Material">
+
+	</update>
+
+</mapper>

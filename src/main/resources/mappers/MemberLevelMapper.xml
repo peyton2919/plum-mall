@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.MemberLevelMapper">
+	<resultMap id="ResultMemberLevelMap" type="cn.peyton.plum.mall.pojo.MemberLevel">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="discount" property="discount" jdbcType="INTEGER"/>
+		<result column="max_price" property="maxPrice" jdbcType="INTEGER"/>
+		<result column="max_times" property="maxTimes" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_member_level_List">
+		`id`,`name`,`level`,`is_del`,`discount`,`max_price`,`max_times`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.MemberLevel" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_member_level`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="level != null">`level`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="discount != null">`discount`,</if>
+			<if test="maxPrice != null">`max_price`,</if>
+			<if test="maxTimes != null">`max_times`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="level != null">#{level},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="discount != null">#{discount},</if>
+			<if test="maxPrice != null">#{maxPrice},</if>
+			<if test="maxTimes != null">#{maxTimes},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_member_level`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.MemberLevel">
+		update `tb_member_level`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="level != null">`level` = #{level},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="discount != null">`discount` = #{discount},</if>
+			<if test="maxPrice != null">`max_price` = #{maxPrice},</if>
+			<if test="maxTimes != null">`max_times` = #{maxTimes},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMemberLevelMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_member_level_List"/>
+		from `tb_member_level`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultMemberLevelMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultMemberLevelMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.MemberLevel">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.MemberLevel">
+
+	</update>
+
+</mapper>

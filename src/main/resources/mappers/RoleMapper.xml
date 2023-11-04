@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.RoleMapper">
+	<resultMap id="ResultRoleMap" type="cn.peyton.plum.mall.pojo.Role">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="data_scope" property="dataScope" jdbcType="VARCHAR"/>
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="permission" property="permission" jdbcType="VARCHAR"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_role_List">
+		`id`,`name`,`remark`,`data_scope`,`level`,`create_time`,`permission`,`update_time`,`is_del`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Role" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_role`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="remark != null">`remark`,</if>
+			<if test="dataScope != null">`data_scope`,</if>
+			<if test="level != null">`level`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="permission != null">`permission`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+			<if test="isDel != null">`is_del`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="dataScope != null">#{dataScope},</if>
+			<if test="level != null">#{level},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="permission != null">#{permission},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="isDel != null">#{isDel},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_role`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Role">
+		update `sys_role`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="dataScope != null">`data_scope` = #{dataScope},</if>
+			<if test="level != null">`level` = #{level},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="permission != null">`permission` = #{permission},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultRoleMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_role_List"/>
+		from `sys_role`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultRoleMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultRoleMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Role">
+
+	</update>
+
+</mapper>

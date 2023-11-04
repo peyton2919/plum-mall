@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.CityMapper">
+	<resultMap id="ResultCityMap" type="cn.peyton.plum.mall.pojo.City">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="city_id" property="cityId" jdbcType="INTEGER"/>
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+		<result column="area_code" property="areaCode" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="merger_name" property="mergerName" jdbcType="VARCHAR"/>
+		<result column="lng" property="lng" jdbcType="VARCHAR"/>
+		<result column="lat" property="lat" jdbcType="VARCHAR"/>
+		<result column="is_show" property="isShow" jdbcType="BIT"/>
+	</resultMap>
+
+	<sql id="Column_sys_city_List">
+		`id`,`city_id`,`level`,`parent_id`,`area_code`,`name`,`merger_name`,`lng`,`lat`,`is_show`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.City" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_city`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cityId != null">`city_id`,</if>
+			<if test="level != null">`level`,</if>
+			<if test="parentId != null">`parent_id`,</if>
+			<if test="areaCode != null">`area_code`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="mergerName != null">`merger_name`,</if>
+			<if test="lng != null">`lng`,</if>
+			<if test="lat != null">`lat`,</if>
+			<if test="isShow != null">`is_show`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cityId != null">#{cityId},</if>
+			<if test="level != null">#{level},</if>
+			<if test="parentId != null">#{parentId},</if>
+			<if test="areaCode != null">#{areaCode},</if>
+			<if test="name != null">#{name},</if>
+			<if test="mergerName != null">#{mergerName},</if>
+			<if test="lng != null">#{lng},</if>
+			<if test="lat != null">#{lat},</if>
+			<if test="isShow != null">#{isShow},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `sys_city`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.City">
+		update `sys_city`
+		<set>
+			<if test="cityId != null">`city_id` = #{cityId},</if>
+			<if test="level != null">`level` = #{level},</if>
+			<if test="parentId != null">`parent_id` = #{parentId},</if>
+			<if test="areaCode != null">`area_code` = #{areaCode},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="mergerName != null">`merger_name` = #{mergerName},</if>
+			<if test="lng != null">`lng` = #{lng},</if>
+			<if test="lat != null">`lat` = #{lat},</if>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultCityMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_sys_city_List"/>
+		from `sys_city`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultCityMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultCityMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.City">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.City">
+
+	</update>
+
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopProductReplyMapper">
+	<resultMap id="ResultShopProductReplyMap" type="cn.peyton.plum.mall.pojo.ShopProductReply">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="oid" property="oid" jdbcType="BIGINT"/>
+		<result column="unique_code" property="uniqueCode" jdbcType="VARCHAR"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="reply_type" property="replyType" jdbcType="VARCHAR"/>
+		<result column="product_score" property="productScore" jdbcType="TINYINT"/>
+		<result column="service_score" property="serviceScore" jdbcType="TINYINT"/>
+		<result column="comment" property="comment" jdbcType="VARCHAR"/>
+		<result column="pics" property="pics" jdbcType="LONGVARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="merchant_reply_content" property="merchantReplyContent" jdbcType="VARCHAR"/>
+		<result column="merchant_reply_time" property="merchantReplyTime" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="is_reply" property="isReply" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_reply_List">
+		`id`,`member_id`,`oid`,`unique_code`,`product_id`,`reply_type`,`product_score`,`service_score`,`comment`,`pics`,`create_time`,`merchant_reply_content`,`merchant_reply_time`,`is_del`,`is_reply`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_reply`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null">`member_id`,</if>
+			<if test="oid != null">`oid`,</if>
+			<if test="uniqueCode != null">`unique_code`,</if>
+			<if test="productId != null">`product_id`,</if>
+			<if test="replyType != null">`reply_type`,</if>
+			<if test="productScore != null">`product_score`,</if>
+			<if test="serviceScore != null">`service_score`,</if>
+			<if test="comment != null">`comment`,</if>
+			<if test="pics != null">`pics`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="merchantReplyContent != null">`merchant_reply_content`,</if>
+			<if test="merchantReplyTime != null">`merchant_reply_time`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="isReply != null">`is_reply`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null">#{memberId},</if>
+			<if test="oid != null">#{oid},</if>
+			<if test="uniqueCode != null">#{uniqueCode},</if>
+			<if test="productId != null">#{productId},</if>
+			<if test="replyType != null">#{replyType},</if>
+			<if test="productScore != null">#{productScore},</if>
+			<if test="serviceScore != null">#{serviceScore},</if>
+			<if test="comment != null">#{comment},</if>
+			<if test="pics != null">#{pics},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="merchantReplyContent != null">#{merchantReplyContent},</if>
+			<if test="merchantReplyTime != null">#{merchantReplyTime},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="isReply != null">#{isReply},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product_reply`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply">
+		update `tb_shop_product_reply`
+		<set>
+			<if test="memberId != null">`member_id` = #{memberId},</if>
+			<if test="oid != null">`oid` = #{oid},</if>
+			<if test="uniqueCode != null">`unique_code` = #{uniqueCode},</if>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="replyType != null">`reply_type` = #{replyType},</if>
+			<if test="productScore != null">`product_score` = #{productScore},</if>
+			<if test="serviceScore != null">`service_score` = #{serviceScore},</if>
+			<if test="comment != null">`comment` = #{comment},</if>
+			<if test="pics != null">`pics` = #{pics},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="merchantReplyContent != null">`merchant_reply_content` = #{merchantReplyContent},</if>
+			<if test="merchantReplyTime != null">`merchant_reply_time` = #{merchantReplyTime},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="isReply != null">`is_reply` = #{isReply},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductReplyMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_reply_List"/>
+		from `tb_shop_product_reply`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopProductReplyMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductReplyMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply">
+
+	</update>
+
+</mapper>

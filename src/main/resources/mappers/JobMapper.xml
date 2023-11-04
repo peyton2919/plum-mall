@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.JobMapper">
+	<resultMap id="ResultJobMap" type="cn.peyton.plum.mall.pojo.Job">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="dept_id" property="deptId" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_job_List">
+		`id`,`name`,`seq`,`dept_id`,`create_time`,`is_del`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Job" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_job`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="deptId != null">`dept_id`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="isDel != null">`is_del`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="deptId != null">#{deptId},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="isDel != null">#{isDel},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `sys_job`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Job">
+		update `sys_job`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="deptId != null">`dept_id` = #{deptId},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultJobMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_sys_job_List"/>
+		from `sys_job`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultJobMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultJobMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Job">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Job">
+
+	</update>
+
+</mapper>

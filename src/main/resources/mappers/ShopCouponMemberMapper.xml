@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopCouponMemberMapper">
+	<resultMap id="ResultShopCouponMemberMap" type="cn.peyton.plum.mall.pojo.ShopCouponMember">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="coupon_id" property="couponId" jdbcType="BIGINT"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="used" property="used" jdbcType="TINYINT"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_coupon_member_List">
+		`id`,`coupon_id`,`member_id`,`used`,`status`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_coupon_member`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="couponId != null">`coupon_id`,</if>
+			<if test="memberId != null">`member_id`,</if>
+			<if test="used != null">`used`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="couponId != null">#{couponId},</if>
+			<if test="memberId != null">#{memberId},</if>
+			<if test="used != null">#{used},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_coupon_member`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember">
+		update `tb_shop_coupon_member`
+		<set>
+			<if test="couponId != null">`coupon_id` = #{couponId},</if>
+			<if test="memberId != null">`member_id` = #{memberId},</if>
+			<if test="used != null">`used` = #{used},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopCouponMemberMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_coupon_member_List"/>
+		from `tb_shop_coupon_member`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember">
+
+	</update>
+
+</mapper>

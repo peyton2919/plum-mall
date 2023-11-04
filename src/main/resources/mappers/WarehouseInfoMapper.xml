@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.WarehouseInfoMapper">
+	<resultMap id="ResultWarehouseInfoMap" type="cn.peyton.plum.mall.pojo.WarehouseInfo">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="add" property="add" jdbcType="VARCHAR"/>
+		<result column="loaction" property="loaction" jdbcType="VARCHAR"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_warehouse_info_List">
+		`id`,`name`,`phone`,`add`,`loaction`,`explain`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_warehouse_info`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="phone != null">`phone`,</if>
+			<if test="add != null">`add`,</if>
+			<if test="loaction != null">`loaction`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="phone != null">#{phone},</if>
+			<if test="add != null">#{add},</if>
+			<if test="loaction != null">#{loaction},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_warehouse_info`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo">
+		update `tb_warehouse_info`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="add != null">`add` = #{add},</if>
+			<if test="loaction != null">`loaction` = #{loaction},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultWarehouseInfoMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_warehouse_info_List"/>
+		from `tb_warehouse_info`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultWarehouseInfoMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultWarehouseInfoMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo">
+
+	</update>
+
+</mapper>

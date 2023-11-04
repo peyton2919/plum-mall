@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.SupplierInfoMapper">
+	<resultMap id="ResultSupplierInfoMap" type="cn.peyton.plum.mall.pojo.SupplierInfo">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="sup_id" property="supId" jdbcType="BIGINT"/>
+		<result column="add" property="add" jdbcType="VARCHAR"/>
+		<result column="email" property="email" jdbcType="VARCHAR"/>
+		<result column="tel" property="tel" jdbcType="VARCHAR"/>
+		<result column="qq" property="qq" jdbcType="VARCHAR"/>
+		<result column="fax" property="fax" jdbcType="VARCHAR"/>
+		<result column="sex" property="sex" jdbcType="TINYINT"/>
+		<result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="web_site" property="webSite" jdbcType="VARCHAR"/>
+		<result column="web_code" property="webCode" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Column_tb_supplier_info_List">
+		`id`,`sup_id`,`add`,`email`,`tel`,`qq`,`fax`,`sex`,`birthday`,`explain`,`web_site`,`web_code`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_supplier_info`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="supId != null">`sup_id`,</if>
+			<if test="add != null">`add`,</if>
+			<if test="email != null">`email`,</if>
+			<if test="tel != null">`tel`,</if>
+			<if test="qq != null">`qq`,</if>
+			<if test="fax != null">`fax`,</if>
+			<if test="sex != null">`sex`,</if>
+			<if test="birthday != null">`birthday`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="webSite != null">`web_site`,</if>
+			<if test="webCode != null">`web_code`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="supId != null">#{supId},</if>
+			<if test="add != null">#{add},</if>
+			<if test="email != null">#{email},</if>
+			<if test="tel != null">#{tel},</if>
+			<if test="qq != null">#{qq},</if>
+			<if test="fax != null">#{fax},</if>
+			<if test="sex != null">#{sex},</if>
+			<if test="birthday != null">#{birthday},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="webSite != null">#{webSite},</if>
+			<if test="webCode != null">#{webCode},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_supplier_info`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
+		update `tb_supplier_info`
+		<set>
+			<if test="supId != null">`sup_id` = #{supId},</if>
+			<if test="add != null">`add` = #{add},</if>
+			<if test="email != null">`email` = #{email},</if>
+			<if test="tel != null">`tel` = #{tel},</if>
+			<if test="qq != null">`qq` = #{qq},</if>
+			<if test="fax != null">`fax` = #{fax},</if>
+			<if test="sex != null">`sex` = #{sex},</if>
+			<if test="birthday != null">`birthday` = #{birthday},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="webSite != null">`web_site` = #{webSite},</if>
+			<if test="webCode != null">`web_code` = #{webCode},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultSupplierInfoMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_supplier_info_List"/>
+		from `tb_supplier_info`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultSupplierInfoMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultSupplierInfoMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
+
+	</update>
+
+</mapper>

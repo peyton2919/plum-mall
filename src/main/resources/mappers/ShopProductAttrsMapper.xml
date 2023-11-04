@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopProductAttrsMapper">
+	<resultMap id="ResultShopProductAttrsMap" type="cn.peyton.plum.mall.pojo.ShopProductAttrs">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="attr_value" property="attrValue" jdbcType="VARCHAR"/>
+		<result column="attr_name" property="attrName" jdbcType="VARCHAR"/>
+		<result column="attr_icon" property="attrIcon" jdbcType="VARCHAR"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="method_type" property="methodType" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_attrs_List">
+		`id`,`product_id`,`seq`,`attr_value`,`attr_name`,`attr_icon`,`explain`,`method_type`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductAttrs" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_attrs`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">`product_id`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="attrValue != null">`attr_value`,</if>
+			<if test="attrName != null">`attr_name`,</if>
+			<if test="attrIcon != null">`attr_icon`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="methodType != null">`method_type`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">#{productId},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="attrValue != null">#{attrValue},</if>
+			<if test="attrName != null">#{attrName},</if>
+			<if test="attrIcon != null">#{attrIcon},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="methodType != null">#{methodType},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product_attrs`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductAttrs">
+		update `tb_shop_product_attrs`
+		<set>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="attrValue != null">`attr_value` = #{attrValue},</if>
+			<if test="attrName != null">`attr_name` = #{attrName},</if>
+			<if test="attrIcon != null">`attr_icon` = #{attrIcon},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="methodType != null">`method_type` = #{methodType},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductAttrsMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_attrs_List"/>
+		from `tb_shop_product_attrs`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopProductAttrsMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductAttrsMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductAttrs">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopProductAttrs">
+
+	</update>
+
+</mapper>

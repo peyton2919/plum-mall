@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.MenuMapper">
+	<resultMap id="ResultMenuMap" type="cn.peyton.plum.mall.pojo.Menu">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="i_frame" property="iFrame" jdbcType="TINYINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="component" property="component" jdbcType="VARCHAR"/>
+		<result column="pid" property="pid" jdbcType="BIGINT"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="icon" property="icon" jdbcType="VARCHAR"/>
+		<result column="path" property="path" jdbcType="VARCHAR"/>
+		<result column="cache" property="cache" jdbcType="TINYINT"/>
+		<result column="hidden" property="hidden" jdbcType="TINYINT"/>
+		<result column="component_name" property="componentName" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="permission" property="permission" jdbcType="VARCHAR"/>
+		<result column="type" property="type" jdbcType="TINYINT"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="router" property="router" jdbcType="VARCHAR"/>
+		<result column="router_method" property="routerMethod" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Column_sys_menu_List">
+		`id`,`i_frame`,`name`,`component`,`pid`,`seq`,`icon`,`path`,`cache`,`hidden`,`component_name`,`create_time`,`permission`,`type`,`is_del`,`router`,`router_method`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Menu" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_menu`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="iFrame != null">`i_frame`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="component != null">`component`,</if>
+			<if test="pid != null">`pid`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="icon != null">`icon`,</if>
+			<if test="path != null">`path`,</if>
+			<if test="cache != null">`cache`,</if>
+			<if test="hidden != null">`hidden`,</if>
+			<if test="componentName != null">`component_name`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="permission != null">`permission`,</if>
+			<if test="type != null">`type`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="router != null">`router`,</if>
+			<if test="routerMethod != null">`router_method`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="iFrame != null">#{iFrame},</if>
+			<if test="name != null">#{name},</if>
+			<if test="component != null">#{component},</if>
+			<if test="pid != null">#{pid},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="icon != null">#{icon},</if>
+			<if test="path != null">#{path},</if>
+			<if test="cache != null">#{cache},</if>
+			<if test="hidden != null">#{hidden},</if>
+			<if test="componentName != null">#{componentName},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="permission != null">#{permission},</if>
+			<if test="type != null">#{type},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="router != null">#{router},</if>
+			<if test="routerMethod != null">#{routerMethod},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_menu`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Menu">
+		update `sys_menu`
+		<set>
+			<if test="iFrame != null">`i_frame` = #{iFrame},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="component != null">`component` = #{component},</if>
+			<if test="pid != null">`pid` = #{pid},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="icon != null">`icon` = #{icon},</if>
+			<if test="path != null">`path` = #{path},</if>
+			<if test="cache != null">`cache` = #{cache},</if>
+			<if test="hidden != null">`hidden` = #{hidden},</if>
+			<if test="componentName != null">`component_name` = #{componentName},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="permission != null">`permission` = #{permission},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="router != null">`router` = #{router},</if>
+			<if test="routerMethod != null">`router_method` = #{routerMethod},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMenuMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_menu_List"/>
+		from `sys_menu`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultMenuMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultMenuMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Menu">
+
+	</update>
+
+</mapper>

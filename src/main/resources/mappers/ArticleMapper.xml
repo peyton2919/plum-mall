@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ArticleMapper">
+	<resultMap id="ResultArticleMap" type="cn.peyton.plum.mall.pojo.Article">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="author" property="author" jdbcType="VARCHAR"/>
+		<result column="image" property="image" jdbcType="VARCHAR"/>
+		<result column="synopsis" property="synopsis" jdbcType="VARCHAR"/>
+		<result column="content" property="content" jdbcType="LONGVARCHAR"/>
+		<result column="visit" property="visit" jdbcType="INTEGER"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="url" property="url" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="media_id" property="mediaId" jdbcType="VARCHAR"/>
+		<result column="is_pub" property="isPub" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_article_List">
+		`id`,`title`,`author`,`image`,`synopsis`,`content`,`visit`,`seq`,`url`,`create_time`,`update_time`,`is_del`,`product_id`,`media_id`,`is_pub`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Article" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_article`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="title != null">`title`,</if>
+			<if test="author != null">`author`,</if>
+			<if test="image != null">`image`,</if>
+			<if test="synopsis != null">`synopsis`,</if>
+			<if test="content != null">`content`,</if>
+			<if test="visit != null">`visit`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="url != null">`url`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="productId != null">`product_id`,</if>
+			<if test="mediaId != null">`media_id`,</if>
+			<if test="isPub != null">`is_pub`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="title != null">#{title},</if>
+			<if test="author != null">#{author},</if>
+			<if test="image != null">#{image},</if>
+			<if test="synopsis != null">#{synopsis},</if>
+			<if test="content != null">#{content},</if>
+			<if test="visit != null">#{visit},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="url != null">#{url},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="productId != null">#{productId},</if>
+			<if test="mediaId != null">#{mediaId},</if>
+			<if test="isPub != null">#{isPub},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_article`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Article">
+		update `tb_article`
+		<set>
+			<if test="title != null">`title` = #{title},</if>
+			<if test="author != null">`author` = #{author},</if>
+			<if test="image != null">`image` = #{image},</if>
+			<if test="synopsis != null">`synopsis` = #{synopsis},</if>
+			<if test="content != null">`content` = #{content},</if>
+			<if test="visit != null">`visit` = #{visit},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="url != null">`url` = #{url},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="mediaId != null">`media_id` = #{mediaId},</if>
+			<if test="isPub != null">`is_pub` = #{isPub},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultArticleMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_article_List"/>
+		from `tb_article`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultArticleMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultArticleMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Article">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Article">
+
+	</update>
+
+</mapper>

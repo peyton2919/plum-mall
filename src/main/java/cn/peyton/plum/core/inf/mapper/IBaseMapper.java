@@ -1,6 +1,7 @@
 package cn.peyton.plum.core.inf.mapper;
 
 import cn.peyton.plum.core.page.PageQuery;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
+@Mapper
 public interface IBaseMapper<K , T> {
 
     /**

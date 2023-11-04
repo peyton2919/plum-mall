@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.BrandMapper">
+	<resultMap id="ResultBrandMap" type="cn.peyton.plum.mall.pojo.Brand">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="sup_id" property="supId" jdbcType="BIGINT"/>
+		<result column="logo" property="logo" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="area" property="area" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_brand_List">
+		`id`,`sup_id`,`logo`,`name`,`area`,`seq`,`is_del`,`explain`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Brand" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_brand`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="supId != null">`sup_id`,</if>
+			<if test="logo != null">`logo`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="area != null">`area`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="supId != null">#{supId},</if>
+			<if test="logo != null">#{logo},</if>
+			<if test="name != null">#{name},</if>
+			<if test="area != null">#{area},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_brand`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Brand">
+		update `tb_brand`
+		<set>
+			<if test="supId != null">`sup_id` = #{supId},</if>
+			<if test="logo != null">`logo` = #{logo},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="area != null">`area` = #{area},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultBrandMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_brand_List"/>
+		from `tb_brand`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultBrandMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultBrandMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Brand">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Brand">
+
+	</update>
+
+</mapper>

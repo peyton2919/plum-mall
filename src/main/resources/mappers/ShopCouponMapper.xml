@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopCouponMapper">
+	<resultMap id="ResultShopCouponMap" type="cn.peyton.plum.mall.pojo.ShopCoupon">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="type" property="type" jdbcType="TINYINT"/>
+		<result column="value" property="value" jdbcType="DECIMAL"/>
+		<result column="total" property="total" jdbcType="INTEGER"/>
+		<result column="used" property="used" jdbcType="INTEGER"/>
+		<result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="start_time" property="startTime" jdbcType="INTEGER"/>
+		<result column="end_time" property="endTime" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_coupon_List">
+		`id`,`name`,`type`,`value`,`total`,`used`,`min_price`,`status`,`seq`,`remark`,`start_time`,`end_time`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_coupon`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="type != null">`type`,</if>
+			<if test="value != null">`value`,</if>
+			<if test="total != null">`total`,</if>
+			<if test="used != null">`used`,</if>
+			<if test="minPrice != null">`min_price`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="remark != null">`remark`,</if>
+			<if test="startTime != null">`start_time`,</if>
+			<if test="endTime != null">`end_time`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="type != null">#{type},</if>
+			<if test="value != null">#{value},</if>
+			<if test="total != null">#{total},</if>
+			<if test="used != null">#{used},</if>
+			<if test="minPrice != null">#{minPrice},</if>
+			<if test="status != null">#{status},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="startTime != null">#{startTime},</if>
+			<if test="endTime != null">#{endTime},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_coupon`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
+		update `tb_shop_coupon`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="value != null">`value` = #{value},</if>
+			<if test="total != null">`total` = #{total},</if>
+			<if test="used != null">`used` = #{used},</if>
+			<if test="minPrice != null">`min_price` = #{minPrice},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="startTime != null">`start_time` = #{startTime},</if>
+			<if test="endTime != null">`end_time` = #{endTime},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopCouponMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_coupon_List"/>
+		from `tb_shop_coupon`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopCouponMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopCouponMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
+
+	</update>
+
+</mapper>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopCartMapper">
+	<resultMap id="ResultShopCartMap" type="cn.peyton.plum.mall.pojo.ShopCart">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="type" property="type" jdbcType="VARCHAR"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="product_attr_unique" property="productAttrUnique" jdbcType="VARCHAR"/>
+		<result column="cart_num" property="cartNum" jdbcType="INTEGER"/>
+		<result column="is_pay" property="isPay" jdbcType="TINYINT"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="is_new" property="isNew" jdbcType="TINYINT"/>
+		<result column="combination_id" property="combinationId" jdbcType="BIGINT"/>
+		<result column="seckill_id" property="seckillId" jdbcType="BIGINT"/>
+		<result column="bargain_id" property="bargainId" jdbcType="BIGINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_cart_List">
+		`id`,`member_id`,`type`,`product_id`,`product_attr_unique`,`cart_num`,`is_pay`,`is_del`,`is_new`,`combination_id`,`seckill_id`,`bargain_id`,`create_time`,`update_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCart" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_cart`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null">`member_id`,</if>
+			<if test="type != null">`type`,</if>
+			<if test="productId != null">`product_id`,</if>
+			<if test="productAttrUnique != null">`product_attr_unique`,</if>
+			<if test="cartNum != null">`cart_num`,</if>
+			<if test="isPay != null">`is_pay`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="isNew != null">`is_new`,</if>
+			<if test="combinationId != null">`combination_id`,</if>
+			<if test="seckillId != null">`seckill_id`,</if>
+			<if test="bargainId != null">`bargain_id`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null">#{memberId},</if>
+			<if test="type != null">#{type},</if>
+			<if test="productId != null">#{productId},</if>
+			<if test="productAttrUnique != null">#{productAttrUnique},</if>
+			<if test="cartNum != null">#{cartNum},</if>
+			<if test="isPay != null">#{isPay},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="isNew != null">#{isNew},</if>
+			<if test="combinationId != null">#{combinationId},</if>
+			<if test="seckillId != null">#{seckillId},</if>
+			<if test="bargainId != null">#{bargainId},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_cart`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopCart">
+		update `tb_shop_cart`
+		<set>
+			<if test="memberId != null">`member_id` = #{memberId},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="productAttrUnique != null">`product_attr_unique` = #{productAttrUnique},</if>
+			<if test="cartNum != null">`cart_num` = #{cartNum},</if>
+			<if test="isPay != null">`is_pay` = #{isPay},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="isNew != null">`is_new` = #{isNew},</if>
+			<if test="combinationId != null">`combination_id` = #{combinationId},</if>
+			<if test="seckillId != null">`seckill_id` = #{seckillId},</if>
+			<if test="bargainId != null">`bargain_id` = #{bargainId},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopCartMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_cart_List"/>
+		from `tb_shop_cart`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopCartMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopCartMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCart">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopCart">
+
+	</update>
+
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShippingTemplatesFreeMapper">
+	<resultMap id="ResultShippingTemplatesFreeMap" type="cn.peyton.plum.mall.pojo.ShippingTemplatesFree">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+		<result column="temp_id" property="tempId" jdbcType="INTEGER"/>
+		<result column="city_id" property="cityId" jdbcType="INTEGER"/>
+		<result column="number" property="number" jdbcType="DECIMAL"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="type" property="type" jdbcType="TINYINT"/>
+		<result column="uniqid" property="uniqid" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Column_tb_shipping_templates_free_List">
+		`id`,`province_id`,`temp_id`,`city_id`,`number`,`price`,`type`,`uniqid`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesFree" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shipping_templates_free`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="provinceId != null">`province_id`,</if>
+			<if test="tempId != null">`temp_id`,</if>
+			<if test="cityId != null">`city_id`,</if>
+			<if test="number != null">`number`,</if>
+			<if test="price != null">`price`,</if>
+			<if test="type != null">`type`,</if>
+			<if test="uniqid != null">`uniqid`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="provinceId != null">#{provinceId},</if>
+			<if test="tempId != null">#{tempId},</if>
+			<if test="cityId != null">#{cityId},</if>
+			<if test="number != null">#{number},</if>
+			<if test="price != null">#{price},</if>
+			<if test="type != null">#{type},</if>
+			<if test="uniqid != null">#{uniqid},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_shipping_templates_free`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesFree">
+		update `tb_shipping_templates_free`
+		<set>
+			<if test="provinceId != null">`province_id` = #{provinceId},</if>
+			<if test="tempId != null">`temp_id` = #{tempId},</if>
+			<if test="cityId != null">`city_id` = #{cityId},</if>
+			<if test="number != null">`number` = #{number},</if>
+			<if test="price != null">`price` = #{price},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="uniqid != null">`uniqid` = #{uniqid},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShippingTemplatesFreeMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_shipping_templates_free_List"/>
+		from `tb_shipping_templates_free`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShippingTemplatesFreeMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShippingTemplatesFreeMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesFree">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesFree">
+
+	</update>
+
+</mapper>

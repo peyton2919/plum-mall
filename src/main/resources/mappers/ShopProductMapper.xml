@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopProductMapper">
+	<resultMap id="ResultShopProductMap" type="cn.peyton.plum.mall.pojo.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="image" property="image" jdbcType="VARCHAR"/>
+		<result column="slider_image" property="sliderImage" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="info" property="info" jdbcType="VARCHAR"/>
+		<result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+		<result column="cate_id" property="cateId" jdbcType="INTEGER"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="vip_price" property="vipPrice" jdbcType="DECIMAL"/>
+		<result column="ot_price" property="otPrice" jdbcType="DECIMAL"/>
+		<result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+		<result column="postage" property="postage" jdbcType="DECIMAL"/>
+		<result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="sales" property="sales" jdbcType="INTEGER"/>
+		<result column="stock" property="stock" jdbcType="INTEGER"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="is_hot" property="isHot" jdbcType="TINYINT"/>
+		<result column="is_benefit" property="isBenefit" jdbcType="TINYINT"/>
+		<result column="is_best" property="isBest" jdbcType="TINYINT"/>
+		<result column="is_new" property="isNew" jdbcType="TINYINT"/>
+		<result column="explain" property="explain" jdbcType="LONGVARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<result column="is_postage" property="isPostage" jdbcType="TINYINT"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="give_integral" property="giveIntegral" jdbcType="INTEGER"/>
+		<result column="is_good" property="isGood" jdbcType="TINYINT"/>
+		<result column="ficti" property="ficti" jdbcType="INTEGER"/>
+		<result column="browse" property="browse" jdbcType="INTEGER"/>
+		<result column="code_path" property="codePath" jdbcType="VARCHAR"/>
+		<result column="is_sub" property="isSub" jdbcType="TINYINT"/>
+		<result column="temp_id" property="tempId" jdbcType="INTEGER"/>
+		<result column="spec_type" property="specType" jdbcType="TINYINT"/>
+		<result column="is_integral" property="isIntegral" jdbcType="TINYINT"/>
+		<result column="integral" property="integral" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_List">
+		`id`,`image`,`slider_image`,`name`,`info`,`keyword`,`cate_id`,`price`,`vip_price`,`ot_price`,`cost_price`,`postage`,`unit_name`,`seq`,`sales`,`stock`,`is_show`,`is_hot`,`is_benefit`,`is_best`,`is_new`,`explain`,`create_time`,`update_time`,`is_postage`,`is_del`,`give_integral`,`is_good`,`ficti`,`browse`,`code_path`,`is_sub`,`temp_id`,`spec_type`,`is_integral`,`integral`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProduct" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="image != null">`image`,</if>
+			<if test="sliderImage != null">`slider_image`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="info != null">`info`,</if>
+			<if test="keyword != null">`keyword`,</if>
+			<if test="cateId != null">`cate_id`,</if>
+			<if test="price != null">`price`,</if>
+			<if test="vipPrice != null">`vip_price`,</if>
+			<if test="otPrice != null">`ot_price`,</if>
+			<if test="costPrice != null">`cost_price`,</if>
+			<if test="postage != null">`postage`,</if>
+			<if test="unitName != null">`unit_name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="sales != null">`sales`,</if>
+			<if test="stock != null">`stock`,</if>
+			<if test="isShow != null">`is_show`,</if>
+			<if test="isHot != null">`is_hot`,</if>
+			<if test="isBenefit != null">`is_benefit`,</if>
+			<if test="isBest != null">`is_best`,</if>
+			<if test="isNew != null">`is_new`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+			<if test="isPostage != null">`is_postage`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="giveIntegral != null">`give_integral`,</if>
+			<if test="isGood != null">`is_good`,</if>
+			<if test="ficti != null">`ficti`,</if>
+			<if test="browse != null">`browse`,</if>
+			<if test="codePath != null">`code_path`,</if>
+			<if test="isSub != null">`is_sub`,</if>
+			<if test="tempId != null">`temp_id`,</if>
+			<if test="specType != null">`spec_type`,</if>
+			<if test="isIntegral != null">`is_integral`,</if>
+			<if test="integral != null">`integral`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="image != null">#{image},</if>
+			<if test="sliderImage != null">#{sliderImage},</if>
+			<if test="name != null">#{name},</if>
+			<if test="info != null">#{info},</if>
+			<if test="keyword != null">#{keyword},</if>
+			<if test="cateId != null">#{cateId},</if>
+			<if test="price != null">#{price},</if>
+			<if test="vipPrice != null">#{vipPrice},</if>
+			<if test="otPrice != null">#{otPrice},</if>
+			<if test="costPrice != null">#{costPrice},</if>
+			<if test="postage != null">#{postage},</if>
+			<if test="unitName != null">#{unitName},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="sales != null">#{sales},</if>
+			<if test="stock != null">#{stock},</if>
+			<if test="isShow != null">#{isShow},</if>
+			<if test="isHot != null">#{isHot},</if>
+			<if test="isBenefit != null">#{isBenefit},</if>
+			<if test="isBest != null">#{isBest},</if>
+			<if test="isNew != null">#{isNew},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="isPostage != null">#{isPostage},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="giveIntegral != null">#{giveIntegral},</if>
+			<if test="isGood != null">#{isGood},</if>
+			<if test="ficti != null">#{ficti},</if>
+			<if test="browse != null">#{browse},</if>
+			<if test="codePath != null">#{codePath},</if>
+			<if test="isSub != null">#{isSub},</if>
+			<if test="tempId != null">#{tempId},</if>
+			<if test="specType != null">#{specType},</if>
+			<if test="isIntegral != null">#{isIntegral},</if>
+			<if test="integral != null">#{integral},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopProduct">
+		update `tb_shop_product`
+		<set>
+			<if test="image != null">`image` = #{image},</if>
+			<if test="sliderImage != null">`slider_image` = #{sliderImage},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="info != null">`info` = #{info},</if>
+			<if test="keyword != null">`keyword` = #{keyword},</if>
+			<if test="cateId != null">`cate_id` = #{cateId},</if>
+			<if test="price != null">`price` = #{price},</if>
+			<if test="vipPrice != null">`vip_price` = #{vipPrice},</if>
+			<if test="otPrice != null">`ot_price` = #{otPrice},</if>
+			<if test="costPrice != null">`cost_price` = #{costPrice},</if>
+			<if test="postage != null">`postage` = #{postage},</if>
+			<if test="unitName != null">`unit_name` = #{unitName},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="sales != null">`sales` = #{sales},</if>
+			<if test="stock != null">`stock` = #{stock},</if>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+			<if test="isHot != null">`is_hot` = #{isHot},</if>
+			<if test="isBenefit != null">`is_benefit` = #{isBenefit},</if>
+			<if test="isBest != null">`is_best` = #{isBest},</if>
+			<if test="isNew != null">`is_new` = #{isNew},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="isPostage != null">`is_postage` = #{isPostage},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="giveIntegral != null">`give_integral` = #{giveIntegral},</if>
+			<if test="isGood != null">`is_good` = #{isGood},</if>
+			<if test="ficti != null">`ficti` = #{ficti},</if>
+			<if test="browse != null">`browse` = #{browse},</if>
+			<if test="codePath != null">`code_path` = #{codePath},</if>
+			<if test="isSub != null">`is_sub` = #{isSub},</if>
+			<if test="tempId != null">`temp_id` = #{tempId},</if>
+			<if test="specType != null">`spec_type` = #{specType},</if>
+			<if test="isIntegral != null">`is_integral` = #{isIntegral},</if>
+			<if test="integral != null">`integral` = #{integral},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_List"/>
+		from `tb_shop_product`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopProductMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProduct">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopProduct">
+
+	</update>
+
+</mapper>

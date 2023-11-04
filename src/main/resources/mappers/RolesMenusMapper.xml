@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.RolesMenusMapper">
+	<resultMap id="ResultRolesMenusMap" type="cn.peyton.plum.mall.pojo.RolesMenus">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="menu_id" property="menuId" jdbcType="BIGINT"/>
+		<result column="role_id" property="roleId" jdbcType="BIGINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_roles_menus_List">
+		`id`,`menu_id`,`role_id`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.RolesMenus" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_roles_menus`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="menuId != null">`menu_id`,</if>
+			<if test="roleId != null">`role_id`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="menuId != null">#{menuId},</if>
+			<if test="roleId != null">#{roleId},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_roles_menus`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.RolesMenus">
+		update `sys_roles_menus`
+		<set>
+			<if test="menuId != null">`menu_id` = #{menuId},</if>
+			<if test="roleId != null">`role_id` = #{roleId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultRolesMenusMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_roles_menus_List"/>
+		from `sys_roles_menus`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultRolesMenusMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultRolesMenusMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RolesMenus">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.RolesMenus">
+
+	</update>
+
+</mapper>

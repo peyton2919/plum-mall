@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.NoticeMapper">
+	<resultMap id="ResultNoticeMap" type="cn.peyton.plum.mall.pojo.Notice">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="create_id" property="createId" jdbcType="BIGINT"/>
+		<result column="create_type" property="createType" jdbcType="TINYINT"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="content" property="content" jdbcType="LONGVARCHAR"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_notice_List">
+		`id`,`create_id`,`create_type`,`title`,`content`,`seq`,`is_del`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Notice" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_notice`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="createId != null">`create_id`,</if>
+			<if test="createType != null">`create_type`,</if>
+			<if test="title != null">`title`,</if>
+			<if test="content != null">`content`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="createId != null">#{createId},</if>
+			<if test="createType != null">#{createType},</if>
+			<if test="title != null">#{title},</if>
+			<if test="content != null">#{content},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_notice`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Notice">
+		update `tb_notice`
+		<set>
+			<if test="createId != null">`create_id` = #{createId},</if>
+			<if test="createType != null">`create_type` = #{createType},</if>
+			<if test="title != null">`title` = #{title},</if>
+			<if test="content != null">`content` = #{content},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultNoticeMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_notice_List"/>
+		from `tb_notice`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultNoticeMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultNoticeMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Notice">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Notice">
+
+	</update>
+
+</mapper>

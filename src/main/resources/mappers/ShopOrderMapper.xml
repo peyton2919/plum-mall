@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopOrderMapper">
+	<resultMap id="ResultShopOrderMap" type="cn.peyton.plum.mall.pojo.ShopOrder">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+		<result column="extend_order_id" property="extendOrderId" jdbcType="VARCHAR"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="member_real_name" property="memberRealName" jdbcType="VARCHAR"/>
+		<result column="member_phone" property="memberPhone" jdbcType="VARCHAR"/>
+		<result column="member_address" property="memberAddress" jdbcType="VARCHAR"/>
+		<result column="cart_id" property="cartId" jdbcType="VARCHAR"/>
+		<result column="freight_price" property="freightPrice" jdbcType="DECIMAL"/>
+		<result column="total_num" property="totalNum" jdbcType="INTEGER"/>
+		<result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+		<result column="total_postage" property="totalPostage" jdbcType="DECIMAL"/>
+		<result column="pay_price" property="payPrice" jdbcType="DECIMAL"/>
+		<result column="pay_postage" property="payPostage" jdbcType="DECIMAL"/>
+		<result column="deduction_price" property="deductionPrice" jdbcType="DECIMAL"/>
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER"/>
+		<result column="coupon_price" property="couponPrice" jdbcType="DECIMAL"/>
+		<result column="paid" property="paid" jdbcType="TINYINT"/>
+		<result column="pay_time" property="payTime" jdbcType="INTEGER"/>
+		<result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="refund_status" property="refundStatus" jdbcType="TINYINT"/>
+		<result column="refund_reason_wap_img" property="refundReasonWapImg" jdbcType="VARCHAR"/>
+		<result column="refund_reason_wap_explain" property="refundReasonWapExplain" jdbcType="VARCHAR"/>
+		<result column="refund_reason_time" property="refundReasonTime" jdbcType="INTEGER"/>
+		<result column="refund_reason_wap" property="refundReasonWap" jdbcType="VARCHAR"/>
+		<result column="refund_reason" property="refundReason" jdbcType="VARCHAR"/>
+		<result column="refund_price" property="refundPrice" jdbcType="DECIMAL"/>
+		<result column="delivery_sn" property="deliverySn" jdbcType="VARCHAR"/>
+		<result column="delivery_name" property="deliveryName" jdbcType="VARCHAR"/>
+		<result column="delivery_type" property="deliveryType" jdbcType="VARCHAR"/>
+		<result column="delivery_id" property="deliveryId" jdbcType="VARCHAR"/>
+		<result column="gain_integral" property="gainIntegral" jdbcType="INTEGER"/>
+		<result column="use_integral" property="useIntegral" jdbcType="INTEGER"/>
+		<result column="pay_integral" property="payIntegral" jdbcType="INTEGER"/>
+		<result column="back_integral" property="backIntegral" jdbcType="INTEGER"/>
+		<result column="mark" property="mark" jdbcType="VARCHAR"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="unique_cdoe" property="uniqueCdoe" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="combination_id" property="combinationId" jdbcType="BIGINT"/>
+		<result column="pink_id" property="pinkId" jdbcType="BIGINT"/>
+		<result column="cost" property="cost" jdbcType="DECIMAL"/>
+		<result column="seckill_id" property="seckillId" jdbcType="BIGINT"/>
+		<result column="bargain_id" property="bargainId" jdbcType="BIGINT"/>
+		<result column="verify_code" property="verifyCode" jdbcType="VARCHAR"/>
+		<result column="shop_id" property="shopId" jdbcType="BIGINT"/>
+		<result column="shipping_type" property="shippingType" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_order_List">
+		`id`,`order_id`,`extend_order_id`,`member_id`,`member_real_name`,`member_phone`,`member_address`,`cart_id`,`freight_price`,`total_num`,`total_price`,`total_postage`,`pay_price`,`pay_postage`,`deduction_price`,`coupon_id`,`coupon_price`,`paid`,`pay_time`,`pay_type`,`create_time`,`update_time`,`status`,`refund_status`,`refund_reason_wap_img`,`refund_reason_wap_explain`,`refund_reason_time`,`refund_reason_wap`,`refund_reason`,`refund_price`,`delivery_sn`,`delivery_name`,`delivery_type`,`delivery_id`,`gain_integral`,`use_integral`,`pay_integral`,`back_integral`,`mark`,`is_del`,`unique_cdoe`,`remark`,`combination_id`,`pink_id`,`cost`,`seckill_id`,`bargain_id`,`verify_code`,`shop_id`,`shipping_type`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopOrder" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_order`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">`order_id`,</if>
+			<if test="extendOrderId != null">`extend_order_id`,</if>
+			<if test="memberId != null">`member_id`,</if>
+			<if test="memberRealName != null">`member_real_name`,</if>
+			<if test="memberPhone != null">`member_phone`,</if>
+			<if test="memberAddress != null">`member_address`,</if>
+			<if test="cartId != null">`cart_id`,</if>
+			<if test="freightPrice != null">`freight_price`,</if>
+			<if test="totalNum != null">`total_num`,</if>
+			<if test="totalPrice != null">`total_price`,</if>
+			<if test="totalPostage != null">`total_postage`,</if>
+			<if test="payPrice != null">`pay_price`,</if>
+			<if test="payPostage != null">`pay_postage`,</if>
+			<if test="deductionPrice != null">`deduction_price`,</if>
+			<if test="couponId != null">`coupon_id`,</if>
+			<if test="couponPrice != null">`coupon_price`,</if>
+			<if test="paid != null">`paid`,</if>
+			<if test="payTime != null">`pay_time`,</if>
+			<if test="payType != null">`pay_type`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="refundStatus != null">`refund_status`,</if>
+			<if test="refundReasonWapImg != null">`refund_reason_wap_img`,</if>
+			<if test="refundReasonWapExplain != null">`refund_reason_wap_explain`,</if>
+			<if test="refundReasonTime != null">`refund_reason_time`,</if>
+			<if test="refundReasonWap != null">`refund_reason_wap`,</if>
+			<if test="refundReason != null">`refund_reason`,</if>
+			<if test="refundPrice != null">`refund_price`,</if>
+			<if test="deliverySn != null">`delivery_sn`,</if>
+			<if test="deliveryName != null">`delivery_name`,</if>
+			<if test="deliveryType != null">`delivery_type`,</if>
+			<if test="deliveryId != null">`delivery_id`,</if>
+			<if test="gainIntegral != null">`gain_integral`,</if>
+			<if test="useIntegral != null">`use_integral`,</if>
+			<if test="payIntegral != null">`pay_integral`,</if>
+			<if test="backIntegral != null">`back_integral`,</if>
+			<if test="mark != null">`mark`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="uniqueCdoe != null">`unique_cdoe`,</if>
+			<if test="remark != null">`remark`,</if>
+			<if test="combinationId != null">`combination_id`,</if>
+			<if test="pinkId != null">`pink_id`,</if>
+			<if test="cost != null">`cost`,</if>
+			<if test="seckillId != null">`seckill_id`,</if>
+			<if test="bargainId != null">`bargain_id`,</if>
+			<if test="verifyCode != null">`verify_code`,</if>
+			<if test="shopId != null">`shop_id`,</if>
+			<if test="shippingType != null">`shipping_type`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">#{orderId},</if>
+			<if test="extendOrderId != null">#{extendOrderId},</if>
+			<if test="memberId != null">#{memberId},</if>
+			<if test="memberRealName != null">#{memberRealName},</if>
+			<if test="memberPhone != null">#{memberPhone},</if>
+			<if test="memberAddress != null">#{memberAddress},</if>
+			<if test="cartId != null">#{cartId},</if>
+			<if test="freightPrice != null">#{freightPrice},</if>
+			<if test="totalNum != null">#{totalNum},</if>
+			<if test="totalPrice != null">#{totalPrice},</if>
+			<if test="totalPostage != null">#{totalPostage},</if>
+			<if test="payPrice != null">#{payPrice},</if>
+			<if test="payPostage != null">#{payPostage},</if>
+			<if test="deductionPrice != null">#{deductionPrice},</if>
+			<if test="couponId != null">#{couponId},</if>
+			<if test="couponPrice != null">#{couponPrice},</if>
+			<if test="paid != null">#{paid},</if>
+			<if test="payTime != null">#{payTime},</if>
+			<if test="payType != null">#{payType},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="status != null">#{status},</if>
+			<if test="refundStatus != null">#{refundStatus},</if>
+			<if test="refundReasonWapImg != null">#{refundReasonWapImg},</if>
+			<if test="refundReasonWapExplain != null">#{refundReasonWapExplain},</if>
+			<if test="refundReasonTime != null">#{refundReasonTime},</if>
+			<if test="refundReasonWap != null">#{refundReasonWap},</if>
+			<if test="refundReason != null">#{refundReason},</if>
+			<if test="refundPrice != null">#{refundPrice},</if>
+			<if test="deliverySn != null">#{deliverySn},</if>
+			<if test="deliveryName != null">#{deliveryName},</if>
+			<if test="deliveryType != null">#{deliveryType},</if>
+			<if test="deliveryId != null">#{deliveryId},</if>
+			<if test="gainIntegral != null">#{gainIntegral},</if>
+			<if test="useIntegral != null">#{useIntegral},</if>
+			<if test="payIntegral != null">#{payIntegral},</if>
+			<if test="backIntegral != null">#{backIntegral},</if>
+			<if test="mark != null">#{mark},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="uniqueCdoe != null">#{uniqueCdoe},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="combinationId != null">#{combinationId},</if>
+			<if test="pinkId != null">#{pinkId},</if>
+			<if test="cost != null">#{cost},</if>
+			<if test="seckillId != null">#{seckillId},</if>
+			<if test="bargainId != null">#{bargainId},</if>
+			<if test="verifyCode != null">#{verifyCode},</if>
+			<if test="shopId != null">#{shopId},</if>
+			<if test="shippingType != null">#{shippingType},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_order`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopOrder">
+		update `tb_shop_order`
+		<set>
+			<if test="orderId != null">`order_id` = #{orderId},</if>
+			<if test="extendOrderId != null">`extend_order_id` = #{extendOrderId},</if>
+			<if test="memberId != null">`member_id` = #{memberId},</if>
+			<if test="memberRealName != null">`member_real_name` = #{memberRealName},</if>
+			<if test="memberPhone != null">`member_phone` = #{memberPhone},</if>
+			<if test="memberAddress != null">`member_address` = #{memberAddress},</if>
+			<if test="cartId != null">`cart_id` = #{cartId},</if>
+			<if test="freightPrice != null">`freight_price` = #{freightPrice},</if>
+			<if test="totalNum != null">`total_num` = #{totalNum},</if>
+			<if test="totalPrice != null">`total_price` = #{totalPrice},</if>
+			<if test="totalPostage != null">`total_postage` = #{totalPostage},</if>
+			<if test="payPrice != null">`pay_price` = #{payPrice},</if>
+			<if test="payPostage != null">`pay_postage` = #{payPostage},</if>
+			<if test="deductionPrice != null">`deduction_price` = #{deductionPrice},</if>
+			<if test="couponId != null">`coupon_id` = #{couponId},</if>
+			<if test="couponPrice != null">`coupon_price` = #{couponPrice},</if>
+			<if test="paid != null">`paid` = #{paid},</if>
+			<if test="payTime != null">`pay_time` = #{payTime},</if>
+			<if test="payType != null">`pay_type` = #{payType},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="refundStatus != null">`refund_status` = #{refundStatus},</if>
+			<if test="refundReasonWapImg != null">`refund_reason_wap_img` = #{refundReasonWapImg},</if>
+			<if test="refundReasonWapExplain != null">`refund_reason_wap_explain` = #{refundReasonWapExplain},</if>
+			<if test="refundReasonTime != null">`refund_reason_time` = #{refundReasonTime},</if>
+			<if test="refundReasonWap != null">`refund_reason_wap` = #{refundReasonWap},</if>
+			<if test="refundReason != null">`refund_reason` = #{refundReason},</if>
+			<if test="refundPrice != null">`refund_price` = #{refundPrice},</if>
+			<if test="deliverySn != null">`delivery_sn` = #{deliverySn},</if>
+			<if test="deliveryName != null">`delivery_name` = #{deliveryName},</if>
+			<if test="deliveryType != null">`delivery_type` = #{deliveryType},</if>
+			<if test="deliveryId != null">`delivery_id` = #{deliveryId},</if>
+			<if test="gainIntegral != null">`gain_integral` = #{gainIntegral},</if>
+			<if test="useIntegral != null">`use_integral` = #{useIntegral},</if>
+			<if test="payIntegral != null">`pay_integral` = #{payIntegral},</if>
+			<if test="backIntegral != null">`back_integral` = #{backIntegral},</if>
+			<if test="mark != null">`mark` = #{mark},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="uniqueCdoe != null">`unique_cdoe` = #{uniqueCdoe},</if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="combinationId != null">`combination_id` = #{combinationId},</if>
+			<if test="pinkId != null">`pink_id` = #{pinkId},</if>
+			<if test="cost != null">`cost` = #{cost},</if>
+			<if test="seckillId != null">`seckill_id` = #{seckillId},</if>
+			<if test="bargainId != null">`bargain_id` = #{bargainId},</if>
+			<if test="verifyCode != null">`verify_code` = #{verifyCode},</if>
+			<if test="shopId != null">`shop_id` = #{shopId},</if>
+			<if test="shippingType != null">`shipping_type` = #{shippingType},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopOrderMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_order_List"/>
+		from `tb_shop_order`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopOrderMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopOrderMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrder">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopOrder">
+
+	</update>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.DictDetailMapper">
+	<resultMap id="ResultDictDetailMap" type="cn.peyton.plum.mall.pojo.DictDetail">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="label" property="label" jdbcType="VARCHAR"/>
+		<result column="value" property="value" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="dict_id" property="dictId" jdbcType="BIGINT"/>
+		<result column="dict_name" property="dictName" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="Column_sys_dict_detail_List">
+		`id`,`label`,`value`,`seq`,`dict_id`,`dict_name`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.DictDetail" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_dict_detail`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="label != null">`label`,</if>
+			<if test="value != null">`value`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="dictId != null">`dict_id`,</if>
+			<if test="dictName != null">`dict_name`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="label != null">#{label},</if>
+			<if test="value != null">#{value},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="dictId != null">#{dictId},</if>
+			<if test="dictName != null">#{dictName},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_dict_detail`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+		update `sys_dict_detail`
+		<set>
+			<if test="label != null">`label` = #{label},</if>
+			<if test="value != null">`value` = #{value},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="dictId != null">`dict_id` = #{dictId},</if>
+			<if test="dictName != null">`dict_name` = #{dictName},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultDictDetailMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_dict_detail_List"/>
+		from `sys_dict_detail`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultDictDetailMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultDictDetailMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+
+	</update>
+
+</mapper>

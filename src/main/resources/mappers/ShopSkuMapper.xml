@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopSkuMapper">
+	<resultMap id="ResultShopSkuMap" type="cn.peyton.plum.mall.pojo.ShopSku">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="sku_type" property="skuType" jdbcType="TINYINT"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_sku_List">
+		`id`,`name`,`sku_type`,`seq`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopSku" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_sku`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="skuType != null">`sku_type`,</if>
+			<if test="seq != null">`seq`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="skuType != null">#{skuType},</if>
+			<if test="seq != null">#{seq},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_sku`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopSku">
+		update `tb_shop_sku`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="skuType != null">`sku_type` = #{skuType},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopSkuMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_sku_List"/>
+		from `tb_shop_sku`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultShopSkuMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopSkuMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSku">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopSku">
+
+	</update>
+
+</mapper>

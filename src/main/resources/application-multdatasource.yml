@@ -15,14 +15,14 @@ spring:     #多数据源
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://localhost:3306/db_test?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+        url: jdbc:mysql://localhost:3306/db_mall?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
         username: root
         password: hc2919
 
       # 从库数据源slave
       slave:
         enabled: false
-        url: jdbc:mysql://localhost:3306/db_test?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+        url: jdbc:mysql://localhost:3306/db_mall?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
         username: root
         password: hc2919
       # 初始连接数

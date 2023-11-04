@@ -1,9 +1,9 @@
 package cn.peyton.plum.core.inf.service;
 
+import cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.page.PageQuery;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,13 +38,11 @@ public abstract class AbstractAppRealizeService<K,T,P> {
 
     private BaseConvertBo<T,P> bo;
 
-    @Resource
-    IBaseMapper<K, T> mapper;
+    private IBaseMapper<K, T> mapper;
+
+
 
     public AbstractAppRealizeService(){
-        if(null == bo){
-            bo = initRecordBo();
-        }
     }
 
     /**
@@ -54,6 +52,12 @@ public abstract class AbstractAppRealizeService<K,T,P> {
     public abstract BaseConvertBo<T, P> initRecordBo();
 
     /**
+     * <h4>初始化对象的 BO 类</h4>
+     * @return 对象BO类
+     */
+    public abstract IBaseMapper<K, T> initRecordMapper();
+
+    /**
      * <h4>添加对象</h4>
      * <pre>
      *     判断 P 对象 为 null 表示添加失败
@@ -61,11 +65,14 @@ public abstract class AbstractAppRealizeService<K,T,P> {
      * @param param 对象
      * @return 添加成功返回带 ID 对象, 否则返回 null
      */
+    @AutoWriteTimestamp
     public P add(P param) {
-        T recoed = bo.convert(param);
-        int result = mapper.insertSelective(recoed);
+
+        T recoed = initRecordBo().convert(param);
+        int result = initRecordMapper().insertSelective(recoed);
         if (result > 0) {
-            return  bo.compat(recoed);
+            param = initRecordBo().compat(recoed);
+            return  param;
         }
         return null;
     }

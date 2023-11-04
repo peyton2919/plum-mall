@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.SupplierMapper">
+	<resultMap id="ResultSupplierMap" type="cn.peyton.plum.mall.pojo.Supplier">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+		<result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="loc" property="loc" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="encrypt" property="encrypt" jdbcType="VARCHAR"/>
+		<result column="last_ip" property="lastIp" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_supplier_List">
+		`id`,`name`,`login_name`,`avatar`,`pwd`,`phone`,`loc`,`is_del`,`encrypt`,`last_ip`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Supplier" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_supplier`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="loginName != null">`login_name`,</if>
+			<if test="avatar != null">`avatar`,</if>
+			<if test="pwd != null">`pwd`,</if>
+			<if test="phone != null">`phone`,</if>
+			<if test="loc != null">`loc`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="encrypt != null">`encrypt`,</if>
+			<if test="lastIp != null">`last_ip`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="loginName != null">#{loginName},</if>
+			<if test="avatar != null">#{avatar},</if>
+			<if test="pwd != null">#{pwd},</if>
+			<if test="phone != null">#{phone},</if>
+			<if test="loc != null">#{loc},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="encrypt != null">#{encrypt},</if>
+			<if test="lastIp != null">#{lastIp},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_supplier`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Supplier">
+		update `tb_supplier`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="loginName != null">`login_name` = #{loginName},</if>
+			<if test="avatar != null">`avatar` = #{avatar},</if>
+			<if test="pwd != null">`pwd` = #{pwd},</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="loc != null">`loc` = #{loc},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="encrypt != null">`encrypt` = #{encrypt},</if>
+			<if test="lastIp != null">`last_ip` = #{lastIp},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultSupplierMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_supplier_List"/>
+		from `tb_supplier`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultSupplierMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultSupplierMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Supplier">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Supplier">
+
+	</update>
+
+</mapper>

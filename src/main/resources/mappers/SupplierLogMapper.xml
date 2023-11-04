@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.SupplierLogMapper">
+	<resultMap id="ResultSupplierLogMap" type="cn.peyton.plum.mall.pojo.SupplierLog">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="supplier_id" property="supplierId" jdbcType="BIGINT"/>
+		<result column="old_value" property="oldValue" jdbcType="LONGVARCHAR"/>
+		<result column="new_value" property="newValue" jdbcType="LONGVARCHAR"/>
+		<result column="operate_ip" property="operateIp" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_supplier_log_List">
+		`id`,`supplier_id`,`old_value`,`new_value`,`operate_ip`,`create_time`,`status`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.SupplierLog" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_supplier_log`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="supplierId != null">`supplier_id`,</if>
+			<if test="oldValue != null">`old_value`,</if>
+			<if test="newValue != null">`new_value`,</if>
+			<if test="operateIp != null">`operate_ip`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="status != null">`status`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="supplierId != null">#{supplierId},</if>
+			<if test="oldValue != null">#{oldValue},</if>
+			<if test="newValue != null">#{newValue},</if>
+			<if test="operateIp != null">#{operateIp},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="status != null">#{status},</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_supplier_log`
+		where `id` = #{id}
+	</delete>
+
+	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.SupplierLog">
+		update `sys_supplier_log`
+		<set>
+			<if test="supplierId != null">`supplier_id` = #{supplierId},</if>
+			<if test="oldValue != null">`old_value` = #{oldValue},</if>
+			<if test="newValue != null">`new_value` = #{newValue},</if>
+			<if test="operateIp != null">`operate_ip` = #{operateIp},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="status != null">`status` = #{status},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="ResultSupplierLogMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_supplier_log_List"/>
+		from `sys_supplier_log`
+		where `id` = #{id}
+	</select>
+
+	<!-- new create method   -->	
+
+	<select id="selectByAllOrKeyword" resultMap="ResultSupplierLogMap"  parameterType="map">
+
+	</select>
+
+	<select id="selectByObj" resultMap="ResultSupplierLogMap"  parameterType="map">
+
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+
+	</select>
+
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierLog">
+
+	</select>
+
+	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.SupplierLog">
+
+	</update>
+
+</mapper>
