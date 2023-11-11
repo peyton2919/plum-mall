@@ -26,6 +26,7 @@ public @interface AutoWriteTimestamp {
      *     对象的时间属性，多个时 用 `,` 格开
      *     字符串时间格式: yyyy-MM-dd HH:mm:ss
      * </pre>
+     *
      * @return
      */
     String value() default "createTime";

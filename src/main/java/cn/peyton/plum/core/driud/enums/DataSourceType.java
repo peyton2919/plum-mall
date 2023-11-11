@@ -14,8 +14,12 @@ package cn.peyton.plum.core.driud.enums;
  * </pre>
  */
 public enum DataSourceType {
-    /** 主库 */
+    /**
+     * 主库
+     */
     MASTER,
-    /**  从库 */
+    /**
+     * 从库
+     */
     SLAVE
 }

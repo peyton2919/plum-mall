@@ -1,69 +1,141 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.RolesDeptsMapper">
-	<resultMap id="ResultRolesDeptsMap" type="cn.peyton.plum.mall.pojo.RolesDepts">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="role_id" property="roleId" jdbcType="BIGINT"/>
-		<result column="dept_id" property="deptId" jdbcType="INTEGER"/>
-	</resultMap>
+    <resultMap id="ResultRolesDeptsMap" type="cn.peyton.plum.mall.pojo.RolesDepts">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="dept_id" property="deptId" jdbcType="INTEGER"/>
+    </resultMap>
 
-	<sql id="Column_sys_roles_depts_List">
-		`id`,`role_id`,`dept_id`
-	</sql>
+    <sql id="Column_sys_roles_depts_List">
+        `id`,`role_id`,`dept_id`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.RolesDepts" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `sys_roles_depts`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="roleId != null">`role_id`,</if>
-			<if test="deptId != null">`dept_id`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="roleId != null">#{roleId},</if>
-			<if test="deptId != null">#{deptId},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.RolesDepts" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `sys_roles_depts`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">`role_id`,</if>
+            <if test="deptId != null">`dept_id`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId},</if>
+            <if test="deptId != null">#{deptId},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `sys_roles_depts`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
+        update `sys_roles_depts`
+        <set>
+            <if test="roleId != null">`role_id` = #{roleId},</if>
+            <if test="deptId != null">`dept_id` = #{deptId},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
-		update `sys_roles_depts`
-		<set>
-			<if test="roleId != null">`role_id` = #{roleId},</if>
-			<if test="deptId != null">`dept_id` = #{deptId},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `sys_roles_depts`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultRolesDeptsMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_sys_roles_depts_List"/>
-		from `sys_roles_depts`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `sys_roles_depts`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+            <if test="deptId != null">
+                and `dept_id` = #{deptId}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultRolesDeptsMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultRolesDeptsMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_sys_roles_depts_List"/>
+        from `sys_roles_depts`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultRolesDeptsMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultRolesDeptsMap"  parameterType="map">
+        select
+        <include refid="Column_sys_roles_depts_List"/>
+        from `sys_roles_depts`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.roleId != null">
+                and `role_id` like concat('%',#{record.roleId},'%')
+            </if>
+            <if test="record.deptId != null">
+                and `dept_id` like concat('%',#{record.deptId},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultRolesDeptsMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_sys_roles_depts_List"/>
+        from `sys_roles_depts`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.roleId != null">
+                > and `role_id` = #{record.roleId}
+            </if>
+            <if test="record.deptId != null">
+                > and `dept_id` = #{record.deptId}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
+        select
+        count(`id`)
+        from `sys_roles_depts`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="roleId != null">
+                > and `role_id` like concat('%',#{roleId},'%')
+            </if>
+            <if test="deptId != null">
+                > and `dept_id` like concat('%',#{deptId},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.RolesDepts">
-
-	</update>
+        select
+        count(`id`)
+        from `sys_roles_depts`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="roleId != null">
+                > and `role_id` = #{roleId}
+            </if>
+            <if test="deptId != null">
+                > and `dept_id` = #{deptId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

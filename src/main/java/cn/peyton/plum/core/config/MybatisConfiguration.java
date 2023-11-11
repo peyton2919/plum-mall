@@ -1,5 +1,6 @@
 package cn.peyton.plum.core.config;
 
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.AutoMappingBehavior;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.LocalCacheScope;
@@ -61,6 +62,8 @@ public class MybatisConfiguration implements Serializable {
                 configuration.setLocalCacheScope(LocalCacheScope.SESSION);
                 //默认为OTHER,为了解决oracle插入null报错的问题要设置为NULL
                 configuration.setJdbcTypeForNull(JdbcType.NULL);
+                // 开启控制台打印 SQL
+                configuration.setLogImpl(StdOutImpl.class);
 
             }
         };

@@ -21,6 +21,7 @@ public final class LogUtils implements Serializable {
 
     /**
      * <4>异常写入 log中 </4>
+     *
      * @param depict 异常描述
      */
     public static void error(Object... depict) {
@@ -32,6 +33,7 @@ public final class LogUtils implements Serializable {
 
     /**
      * <4>信息写入 log中 </4>
+     *
      * @param depict 信息描述
      */
     public static void info(Object... depict) {
@@ -43,6 +45,7 @@ public final class LogUtils implements Serializable {
 
     /**
      * <h4>获取类名</h4>
+     *
      * @param _throwable
      * @return
      */
@@ -52,6 +55,7 @@ public final class LogUtils implements Serializable {
 
     /**
      * <h4>获取方法名</h4>
+     *
      * @param _throwable
      * @return
      */
@@ -61,6 +65,7 @@ public final class LogUtils implements Serializable {
 
     /**
      * <h4>获取行号</h4>
+     *
      * @param _throwable
      * @return
      */

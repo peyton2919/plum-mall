@@ -16,21 +16,34 @@ import java.io.Serializable;
  * @version: 1.0.0
  * </pre>
  */
-public class MailListener  implements Serializable {
-    /** 发送邮件 地址  */
+public class MailListener implements Serializable {
+    /**
+     * 发送邮件 地址
+     */
     private String from;
-    /** 端口  */
+    /**
+     * 端口
+     */
     private Integer port;
-    /** 密码  */
+    /**
+     * 密码
+     */
     private String password;
-    /**  主机 */
+    /**
+     * 主机
+     */
     private String host;
-    /**  名称 */
+    /**
+     * 名称
+     */
     private String nickname;
-    /**  是否需要加密 默认 false */
+    /**
+     * 是否需要加密 默认 false
+     */
     private boolean encryptMode = false;
 
-    public MailListener(){}
+    public MailListener() {
+    }
 
     /**
      * @return 发送邮件 地址

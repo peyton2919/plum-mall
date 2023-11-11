@@ -14,13 +14,14 @@ import java.util.Map;
  * @version: 1.0.0
  * </pre>
  */
-public final class Maps implements Serializable{
+public final class Maps implements Serializable {
 
     /**
      * <h4>判断map集合是否为空</h4>
+     *
      * @param map 集合
      * @param <K, V>
-     * @return 为true时,map集合为空
+     * @return 为true时, map集合为空
      */
     public static <K, V> boolean isNull(Map<K, V> map) {
         if (null == map) {
@@ -32,10 +33,11 @@ public final class Maps implements Serializable{
 
     /**
      * <h4>创建LinkHashMap</h4>
+     *
      * @param map
      */
     public static <K, V> void createLinkHashMap(Map<K, V> map) {
-        if (null == map){
+        if (null == map) {
             map = new LinkedHashMap<K, V>();
         }
     }
@@ -49,10 +51,11 @@ public final class Maps implements Serializable{
 
     /**
      * <h4>创建HashMap</h4>
+     *
      * @param map
      */
     public static <K, V> void createHashMap(Map<K, V> map) {
-        if (null == map){
+        if (null == map) {
             map = new HashMap<K, V>();
         }
     }

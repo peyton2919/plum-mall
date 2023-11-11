@@ -9,16 +9,16 @@ package cn.peyton.plum.core.validator.demo;
  *     并在相应的对象属性上加入hibernate validation 注解,
  *     调用check方法就可以用
  *      <dependency>
-             <groupId>javax.validation</groupId>
-             <artifactId>validation-api</artifactId>
-             <version>1.1.0.Final</version>
-         </dependency>
-
-         <dependency>
-             <groupId>org.hibernate</groupId>
-             <artifactId>hibernate-validator</artifactId>
-             <version>5.4.1.Final</version>
-         </dependency>
+ * <groupId>javax.validation</groupId>
+ * <artifactId>validation-api</artifactId>
+ * <version>1.1.0.Final</version>
+ * </dependency>
+ *
+ * <dependency>
+ * <groupId>org.hibernate</groupId>
+ * <artifactId>hibernate-validator</artifactId>
+ * <version>5.4.1.Final</version>
+ * </dependency>
  * </pre>
  * <pre>
  * @email <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>

@@ -1,73 +1,160 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShopSkuValueMapper">
-	<resultMap id="ResultShopSkuValueMap" type="cn.peyton.plum.mall.pojo.ShopSkuValue">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="sku_id" property="skuId" jdbcType="BIGINT"/>
-		<result column="sku_value" property="skuValue" jdbcType="VARCHAR"/>
-		<result column="seq" property="seq" jdbcType="INTEGER"/>
-	</resultMap>
+    <resultMap id="ResultShopSkuValueMap" type="cn.peyton.plum.mall.pojo.ShopSkuValue">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="sku_id" property="skuId" jdbcType="BIGINT"/>
+        <result column="sku_value" property="skuValue" jdbcType="VARCHAR"/>
+        <result column="seq" property="seq" jdbcType="SMALLINT"/>
+    </resultMap>
 
-	<sql id="Column_tb_shop_sku_value_List">
-		`id`,`sku_id`,`sku_value`,`seq`
-	</sql>
+    <sql id="Column_tb_shop_sku_value_List">
+        `id`,`sku_id`,`sku_value`,`seq`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `tb_shop_sku_value`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="skuId != null">`sku_id`,</if>
-			<if test="skuValue != null">`sku_value`,</if>
-			<if test="seq != null">`seq`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="skuId != null">#{skuId},</if>
-			<if test="skuValue != null">#{skuValue},</if>
-			<if test="seq != null">#{seq},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `tb_shop_sku_value`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="skuId != null">`sku_id`,</if>
+            <if test="skuValue != null">`sku_value`,</if>
+            <if test="seq != null">`seq`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="skuId != null">#{skuId},</if>
+            <if test="skuValue != null">#{skuValue},</if>
+            <if test="seq != null">#{seq},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `tb_shop_sku_value`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
+        update `tb_shop_sku_value`
+        <set>
+            <if test="skuId != null">`sku_id` = #{skuId},</if>
+            <if test="skuValue != null">`sku_value` = #{skuValue},</if>
+            <if test="seq != null">`seq` = #{seq},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
-		update `tb_shop_sku_value`
-		<set>
-			<if test="skuId != null">`sku_id` = #{skuId},</if>
-			<if test="skuValue != null">`sku_value` = #{skuValue},</if>
-			<if test="seq != null">`seq` = #{seq},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_shop_sku_value`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultShopSkuValueMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_tb_shop_sku_value_List"/>
-		from `tb_shop_sku_value`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `tb_shop_sku_value`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="skuId != null">
+                and `sku_id` = #{skuId}
+            </if>
+            <if test="skuValue != null">
+                and `sku_value` = #{skuValue}
+            </if>
+            <if test="seq != null">
+                and `seq` = #{seq}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultShopSkuValueMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultShopSkuValueMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_shop_sku_value_List"/>
+        from `tb_shop_sku_value`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultShopSkuValueMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultShopSkuValueMap"  parameterType="map">
+        select
+        <include refid="Column_tb_shop_sku_value_List"/>
+        from `tb_shop_sku_value`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.skuId != null">
+                and `sku_id` like concat('%',#{record.skuId},'%')
+            </if>
+            <if test="record.skuValue != null">
+                and `sku_value` like concat('%',#{record.skuValue},'%')
+            </if>
+            <if test="record.seq != null">
+                and `seq` like concat('%',#{record.seq},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultShopSkuValueMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_tb_shop_sku_value_List"/>
+        from `tb_shop_sku_value`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.skuId != null">
+                > and `sku_id` = #{record.skuId}
+            </if>
+            <if test="record.skuValue != null">
+                > and `sku_value` = #{record.skuValue}
+            </if>
+            <if test="record.seq != null">
+                > and `seq` = #{record.seq}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
+        select
+        count(`id`)
+        from `tb_shop_sku_value`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="skuId != null">
+                > and `sku_id` like concat('%',#{skuId},'%')
+            </if>
+            <if test="skuValue != null">
+                > and `sku_value` like concat('%',#{skuValue},'%')
+            </if>
+            <if test="seq != null">
+                > and `seq` like concat('%',#{seq},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
-
-	</update>
+        select
+        count(`id`)
+        from `tb_shop_sku_value`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="skuId != null">
+                > and `sku_id` = #{skuId}
+            </if>
+            <if test="skuValue != null">
+                > and `sku_value` = #{skuValue}
+            </if>
+            <if test="seq != null">
+                > and `seq` = #{seq}
+            </if>
+        </where>
+    </select>
 
 </mapper>

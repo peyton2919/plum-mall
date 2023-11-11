@@ -52,7 +52,8 @@ import java.util.List;
 public class AutoWriteTimestampAspect {
 
     @Pointcut("@annotation(cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp)")
-    public void timePointCut() {  }
+    public void timePointCut() {
+    }
 
     @Around("timePointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
@@ -62,7 +63,7 @@ public class AutoWriteTimestampAspect {
 
         String[] fieldNames = null;
         for (Annotation _anno : _annos) {
-            if (_anno instanceof AutoWriteTimestamp){
+            if (_anno instanceof AutoWriteTimestamp) {
                 AutoWriteTimestamp _tt = (AutoWriteTimestamp) _anno;
                 fieldNames = _tt.value().split(",");
                 break;
@@ -80,11 +81,11 @@ public class AutoWriteTimestampAspect {
                 if ("java.util.List".equals(_className)) {
                     List _list = (List) _args[i];
                     for (Object _obj : _list) {
-                        multi(_obj,fieldNames);
+                        multi(_obj, fieldNames);
                     }
 
                 } else if (_className != null && _className.contains("cn.peyton")) {
-                    multi(_args[i],fieldNames);
+                    multi(_args[i], fieldNames);
                 }
             }
         }
@@ -93,7 +94,8 @@ public class AutoWriteTimestampAspect {
 
     /**
      * <h4>循环多个</h4>
-     * @param obj 对象
+     *
+     * @param obj        对象
      * @param fieldNames 属性名集合
      */
     private void multi(Object obj, String[] fieldNames) {
@@ -104,8 +106,9 @@ public class AutoWriteTimestampAspect {
 
     /**
      * <h4>创建时间戳</h4>
+     *
      * @param fieldName 时间戳字段（createTime/updateTime)
-     * @param obj  要创建含时间戳的类
+     * @param obj       要创建含时间戳的类
      * @return
      */
     private JSONResult createTimestamp(String fieldName, Object obj) {
@@ -122,10 +125,10 @@ public class AutoWriteTimestampAspect {
         field.setAccessible(true);
         try {
             // 需要判断 该属性是 int 还是　String
-            String _tmp =field.getType().getName();
-            if (_tmp.contains("Integer")|| _tmp.contains("int")){
-                field.set(obj,DateUtils.dateToTimestamp());
-            }else if (_tmp.contains("String")){
+            String _tmp = field.getType().getName();
+            if (_tmp.contains("Integer") || _tmp.contains("int")) {
+                field.set(obj, DateUtils.dateToTimestamp());
+            } else if (_tmp.contains("String")) {
                 field.set(obj, DateUtils.timestampToStrDate(new Date()));
             } else if (_tmp.contains("Date")) {
                 field.set(obj, new Date());
@@ -133,7 +136,7 @@ public class AutoWriteTimestampAspect {
 
         } catch (IllegalAccessException e) {
             String _errMsg = " 设置当前对象{" + _name + "}的{" + fieldName + "}属性值错误 ";
-            LogUtils.error(obj,_errMsg,e.getMessage());
+            LogUtils.error(obj, _errMsg, e.getMessage());
             return JSONResult.error(_errMsg);
         }
         return null;
@@ -142,7 +145,7 @@ public class AutoWriteTimestampAspect {
     //@Before("execution(* cn.peyton.children.*.add*(..))")
     //@Before("timePointCut()")
     //@Before(value = "timePointCut()")
-    public Object before(JoinPoint point)  {
+    public Object before(JoinPoint point) {
         HttpServletResponse response = HttpServletResponseUtils.getResponse();
         HttpServletRequest request = HttpServletRequestUtils.getRequest();
 
@@ -152,12 +155,12 @@ public class AutoWriteTimestampAspect {
         Annotation[] _annos = method.getAnnotations();
         String fieldName = null;
         for (Annotation _anno : _annos) {
-            if (_anno instanceof AutoWriteTimestamp){
+            if (_anno instanceof AutoWriteTimestamp) {
                 AutoWriteTimestamp _tt = (AutoWriteTimestamp) _anno;
                 if (null == _tt.value() || "".equals(_tt.value())) {
                     fieldName = "createTime";
                 }
-                fieldName =_tt.value();
+                fieldName = _tt.value();
                 break;
             }
         }

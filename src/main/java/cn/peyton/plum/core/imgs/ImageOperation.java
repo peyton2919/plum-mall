@@ -60,9 +60,9 @@ public final class ImageOperation {
             BufferedImage bi = reader.read(0, param);
             // 保存新图片
             ImageIO.write(bi, writeImageFormat, new File(toPath));
-        } catch (Exception e){
+        } catch (Exception e) {
             LogUtils.error(e.getMessage());
-        }finally {
+        } finally {
             if (fis != null) {
                 fis.close();
             }
@@ -103,7 +103,7 @@ public final class ImageOperation {
      * @param heightRatio   高度缩小比例
      * @throws IOException
      */
-    public void reduceImageByRatio(MultipartFile multipartFile, String toImagePath, int widthRatio, int heightRatio){
+    public void reduceImageByRatio(MultipartFile multipartFile, String toImagePath, int widthRatio, int heightRatio) {
         try {
             insideReduceImageEqualProportion(ImageIO.read(multipartFile.getInputStream()), toImagePath, widthRatio, heightRatio);
         } catch (Exception e) {

@@ -45,6 +45,7 @@ public final class JsonMapper implements Serializable {
 
     /**
      * json数组转List
+     *
      * @param jsonStr
      * @param valueTypeRef
      * @return

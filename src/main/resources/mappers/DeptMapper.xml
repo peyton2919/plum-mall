@@ -1,81 +1,198 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.DeptMapper">
-	<resultMap id="ResultDeptMap" type="cn.peyton.plum.mall.pojo.Dept">
-		<id column="id" property="id" jdbcType="INTEGER"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="pid" property="pid" jdbcType="INTEGER"/>
-		<result column="seq" property="seq" jdbcType="INTEGER"/>
-		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
-	</resultMap>
+    <resultMap id="ResultDeptMap" type="cn.peyton.plum.mall.pojo.Dept">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="INTEGER"/>
+        <result column="seq" property="seq" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
+    </resultMap>
 
-	<sql id="Column_sys_dept_List">
-		`id`,`name`,`pid`,`seq`,`create_time`,`is_del`
-	</sql>
+    <sql id="Column_sys_dept_List">
+        `id`,`name`,`pid`,`seq`,`create_time`,`is_del`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Dept" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `sys_dept`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">`name`,</if>
-			<if test="pid != null">`pid`,</if>
-			<if test="seq != null">`seq`,</if>
-			<if test="createTime != null">`create_time`,</if>
-			<if test="isDel != null">`is_del`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="name != null">#{name},</if>
-			<if test="pid != null">#{pid},</if>
-			<if test="seq != null">#{seq},</if>
-			<if test="createTime != null">#{createTime},</if>
-			<if test="isDel != null">#{isDel},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Dept" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `sys_dept`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">`name`,</if>
+            <if test="pid != null">`pid`,</if>
+            <if test="seq != null">`seq`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="isDel != null">`is_del`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="seq != null">#{seq},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="isDel != null">#{isDel},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from `sys_dept`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Dept">
+        update `sys_dept`
+        <set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="pid != null">`pid` = #{pid},</if>
+            <if test="seq != null">`seq` = #{seq},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="isDel != null">`is_del` = #{isDel},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Dept">
-		update `sys_dept`
-		<set>
-			<if test="name != null">`name` = #{name},</if>
-			<if test="pid != null">`pid` = #{pid},</if>
-			<if test="seq != null">`seq` = #{seq},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
-			<if test="isDel != null">`is_del` = #{isDel},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from `sys_dept`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultDeptMap"  parameterType="java.lang.Integer">
-		select
-		<include refid="Column_sys_dept_List"/>
-		from `sys_dept`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Dept">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `sys_dept`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="pid != null">
+                and `pid` = #{pid}
+            </if>
+            <if test="seq != null">
+                and `seq` = #{seq}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="isDel != null">
+                and `is_del` = #{isDel}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultDeptMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultDeptMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Column_sys_dept_List"/>
+        from `sys_dept`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultDeptMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultDeptMap"  parameterType="map">
+        select
+        <include refid="Column_sys_dept_List"/>
+        from `sys_dept`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.name != null">
+                and `name` like concat('%',#{record.name},'%')
+            </if>
+            <if test="record.pid != null">
+                and `pid` like concat('%',#{record.pid},'%')
+            </if>
+            <if test="record.seq != null">
+                and `seq` like concat('%',#{record.seq},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+            <if test="record.isDel != null">
+                and `is_del` like concat('%',#{record.isDel},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultDeptMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_sys_dept_List"/>
+        from `sys_dept`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.name != null">
+                > and `name` = #{record.name}
+            </if>
+            <if test="record.pid != null">
+                > and `pid` = #{record.pid}
+            </if>
+            <if test="record.seq != null">
+                > and `seq` = #{record.seq}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+            <if test="record.isDel != null">
+                > and `is_del` = #{record.isDel}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Dept">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Dept">
+        select
+        count(`id`)
+        from `sys_dept`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="name != null">
+                > and `name` like concat('%',#{name},'%')
+            </if>
+            <if test="pid != null">
+                > and `pid` like concat('%',#{pid},'%')
+            </if>
+            <if test="seq != null">
+                > and `seq` like concat('%',#{seq},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="isDel != null">
+                > and `is_del` like concat('%',#{isDel},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Dept">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Dept">
-
-	</update>
+        select
+        count(`id`)
+        from `sys_dept`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="name != null">
+                > and `name` = #{name}
+            </if>
+            <if test="pid != null">
+                > and `pid` = #{pid}
+            </if>
+            <if test="seq != null">
+                > and `seq` = #{seq}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+            <if test="isDel != null">
+                > and `is_del` = #{isDel}
+            </if>
+        </where>
+    </select>
 
 </mapper>

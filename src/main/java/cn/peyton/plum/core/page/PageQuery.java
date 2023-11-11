@@ -18,22 +18,30 @@ import java.io.Serializable;
  * </pre>
  */
 public final class PageQuery implements Serializable {
-    /** 当前 页码 */
-    @Min(value = 1,message = "当前页码不合法")
+    /**
+     * 当前 页码
+     */
+    @Min(value = 1, message = "当前页码不合法")
     private int pageNo = 1;
-    /** 每页大小 */
-    @Min(value = 1,message = "每页展示数量不合法")
+    /**
+     * 每页大小
+     */
+    @Min(value = 1, message = "每页展示数量不合法")
     private int pageSize = 10;
-    /**  偏移量 {当前页 * 每页大小} */
+    /**
+     * 偏移量 {当前页 * 每页大小}
+     */
     private int offset;
 
     /**
      * 无参构造函数
      */
-    public PageQuery(){}
+    public PageQuery() {
+    }
 
     /**
      * 构造函数
+     *
      * @param pageNo 当前页数
      */
     public PageQuery(int pageNo) {
@@ -42,10 +50,11 @@ public final class PageQuery implements Serializable {
 
     /**
      * 构造函数
-     * @param pageNo 当前页数
+     *
+     * @param pageNo   当前页数
      * @param pageSize 每页大小
      */
-    public PageQuery(int pageNo,int pageSize) {
+    public PageQuery(int pageNo, int pageSize) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
     }
@@ -83,7 +92,7 @@ public final class PageQuery implements Serializable {
      * @return 偏移量 {当前页 * 每页大小}
      */
     public int getOffset() {
-        return (pageNo -1) * pageSize;
+        return (pageNo - 1) * pageSize;
     }
 
     /**

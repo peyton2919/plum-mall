@@ -21,29 +21,32 @@ public final class BigDecimalUtils implements Serializable {
 
     /**
      * BigDecimal 转 字符串 保留二个小数位
+     *
      * @param decimal 数值
      * @return 保留二个小数位
      */
     public static String getString(BigDecimal decimal) {
-        if (null == decimal)return null;
+        if (null == decimal) return null;
         return decimal.setScale(2, RoundingMode.HALF_UP).toString();
     }
 
     /**
      * 字符串 转 BigDecimal 超出返回 0.00
+     *
      * @param value 值 格式：(-)1234567890.001
      * @return 保留二个小数位
      */
     public static BigDecimal getDecimal(String value) {
-        if (Regulation.regex(Regulation.REGEX_DECIMAL,value)){
+        if (Regulation.regex(Regulation.REGEX_DECIMAL, value)) {
             return BigDecimal.valueOf(Double.parseDouble(value))
-                    .setScale(2,RoundingMode.HALF_UP);
+                    .setScale(2, RoundingMode.HALF_UP);
         }
         return BigDecimal.valueOf(0.00);
     }
 
     /**
      * <h4>格式 BigDecimal </h4>
+     *
      * @param value BigDecimal 值
      * @return 返回 BigDecimal 小数位二位
      */
@@ -53,7 +56,8 @@ public final class BigDecimalUtils implements Serializable {
 
     /**
      * <h4>格式 BigDecimal </h4>
-     * @param value BigDecimal 值
+     *
+     * @param value       BigDecimal 值
      * @param scaleLength 留小数位的长度
      * @return 返回 BigDecimal 小数位scaleLength
      */

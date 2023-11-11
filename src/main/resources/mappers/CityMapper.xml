@@ -1,97 +1,160 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.CityMapper">
-	<resultMap id="ResultCityMap" type="cn.peyton.plum.mall.pojo.City">
-		<id column="id" property="id" jdbcType="INTEGER"/>
-		<result column="city_id" property="cityId" jdbcType="INTEGER"/>
-		<result column="level" property="level" jdbcType="INTEGER"/>
-		<result column="parent_id" property="parentId" jdbcType="INTEGER"/>
-		<result column="area_code" property="areaCode" jdbcType="VARCHAR"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="merger_name" property="mergerName" jdbcType="VARCHAR"/>
-		<result column="lng" property="lng" jdbcType="VARCHAR"/>
-		<result column="lat" property="lat" jdbcType="VARCHAR"/>
-		<result column="is_show" property="isShow" jdbcType="BIT"/>
-	</resultMap>
+    <resultMap id="ResultCityMap" type="cn.peyton.plum.mall.pojo.City">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="seq" property="seq" jdbcType="SMALLINT"/>
+    </resultMap>
 
-	<sql id="Column_sys_city_List">
-		`id`,`city_id`,`level`,`parent_id`,`area_code`,`name`,`merger_name`,`lng`,`lat`,`is_show`
-	</sql>
+    <sql id="Column_sys_city_List">
+        `id`,`province_id`,`name`,`seq`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.City" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `sys_city`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="cityId != null">`city_id`,</if>
-			<if test="level != null">`level`,</if>
-			<if test="parentId != null">`parent_id`,</if>
-			<if test="areaCode != null">`area_code`,</if>
-			<if test="name != null">`name`,</if>
-			<if test="mergerName != null">`merger_name`,</if>
-			<if test="lng != null">`lng`,</if>
-			<if test="lat != null">`lat`,</if>
-			<if test="isShow != null">`is_show`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="cityId != null">#{cityId},</if>
-			<if test="level != null">#{level},</if>
-			<if test="parentId != null">#{parentId},</if>
-			<if test="areaCode != null">#{areaCode},</if>
-			<if test="name != null">#{name},</if>
-			<if test="mergerName != null">#{mergerName},</if>
-			<if test="lng != null">#{lng},</if>
-			<if test="lat != null">#{lat},</if>
-			<if test="isShow != null">#{isShow},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.City" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `sys_city`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="provinceId != null">`province_id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="seq != null">`seq`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="provinceId != null">#{provinceId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="seq != null">#{seq},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from `sys_city`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.City">
+        update `sys_city`
+        <set>
+            <if test="provinceId != null">`province_id` = #{provinceId},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="seq != null">`seq` = #{seq},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.City">
-		update `sys_city`
-		<set>
-			<if test="cityId != null">`city_id` = #{cityId},</if>
-			<if test="level != null">`level` = #{level},</if>
-			<if test="parentId != null">`parent_id` = #{parentId},</if>
-			<if test="areaCode != null">`area_code` = #{areaCode},</if>
-			<if test="name != null">`name` = #{name},</if>
-			<if test="mergerName != null">`merger_name` = #{mergerName},</if>
-			<if test="lng != null">`lng` = #{lng},</if>
-			<if test="lat != null">`lat` = #{lat},</if>
-			<if test="isShow != null">`is_show` = #{isShow},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from `sys_city`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultCityMap"  parameterType="java.lang.Integer">
-		select
-		<include refid="Column_sys_city_List"/>
-		from `sys_city`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.City">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `sys_city`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="provinceId != null">
+                and `province_id` = #{provinceId}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="seq != null">
+                and `seq` = #{seq}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultCityMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultCityMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Column_sys_city_List"/>
+        from `sys_city`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultCityMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultCityMap"  parameterType="map">
+        select
+        <include refid="Column_sys_city_List"/>
+        from `sys_city`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.provinceId != null">
+                and `province_id` like concat('%',#{record.provinceId},'%')
+            </if>
+            <if test="record.name != null">
+                and `name` like concat('%',#{record.name},'%')
+            </if>
+            <if test="record.seq != null">
+                and `seq` like concat('%',#{record.seq},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultCityMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_sys_city_List"/>
+        from `sys_city`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.provinceId != null">
+                > and `province_id` = #{record.provinceId}
+            </if>
+            <if test="record.name != null">
+                > and `name` = #{record.name}
+            </if>
+            <if test="record.seq != null">
+                > and `seq` = #{record.seq}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.City">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.City">
+        select
+        count(`id`)
+        from `sys_city`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="provinceId != null">
+                > and `province_id` like concat('%',#{provinceId},'%')
+            </if>
+            <if test="name != null">
+                > and `name` like concat('%',#{name},'%')
+            </if>
+            <if test="seq != null">
+                > and `seq` like concat('%',#{seq},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.City">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.City">
-
-	</update>
+        select
+        count(`id`)
+        from `sys_city`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="provinceId != null">
+                > and `province_id` = #{provinceId}
+            </if>
+            <if test="name != null">
+                > and `name` = #{name}
+            </if>
+            <if test="seq != null">
+                > and `seq` = #{seq}
+            </if>
+        </where>
+    </select>
 
 </mapper>

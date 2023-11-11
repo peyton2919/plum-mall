@@ -1,109 +1,350 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShopCouponMapper">
-	<resultMap id="ResultShopCouponMap" type="cn.peyton.plum.mall.pojo.ShopCoupon">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="type" property="type" jdbcType="TINYINT"/>
-		<result column="value" property="value" jdbcType="DECIMAL"/>
-		<result column="total" property="total" jdbcType="INTEGER"/>
-		<result column="used" property="used" jdbcType="INTEGER"/>
-		<result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
-		<result column="status" property="status" jdbcType="TINYINT"/>
-		<result column="seq" property="seq" jdbcType="INTEGER"/>
-		<result column="remark" property="remark" jdbcType="VARCHAR"/>
-		<result column="start_time" property="startTime" jdbcType="INTEGER"/>
-		<result column="end_time" property="endTime" jdbcType="INTEGER"/>
-		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
-	</resultMap>
+    <resultMap id="ResultShopCouponMap" type="cn.peyton.plum.mall.pojo.ShopCoupon">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="value" property="value" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="total" property="total" jdbcType="INTEGER"/>
+        <result column="used" property="used" jdbcType="INTEGER"/>
+        <result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+        <result column="max_price" property="maxPrice" jdbcType="DECIMAL"/>
+        <result column="start_time" property="startTime" jdbcType="INTEGER"/>
+        <result column="end_time" property="endTime" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="seq" property="seq" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+    </resultMap>
 
-	<sql id="Column_tb_shop_coupon_List">
-		`id`,`name`,`type`,`value`,`total`,`used`,`min_price`,`status`,`seq`,`remark`,`start_time`,`end_time`,`create_time`
-	</sql>
+    <sql id="Column_tb_shop_coupon_List">
+        `id`,`name`,`type`,`value`,`remark`,`total`,`used`,`min_price`,`max_price`,`start_time`,`end_time`,`status`,`seq`,`create_time`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `tb_shop_coupon`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">`name`,</if>
-			<if test="type != null">`type`,</if>
-			<if test="value != null">`value`,</if>
-			<if test="total != null">`total`,</if>
-			<if test="used != null">`used`,</if>
-			<if test="minPrice != null">`min_price`,</if>
-			<if test="status != null">`status`,</if>
-			<if test="seq != null">`seq`,</if>
-			<if test="remark != null">`remark`,</if>
-			<if test="startTime != null">`start_time`,</if>
-			<if test="endTime != null">`end_time`,</if>
-			<if test="createTime != null">`create_time`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="name != null">#{name},</if>
-			<if test="type != null">#{type},</if>
-			<if test="value != null">#{value},</if>
-			<if test="total != null">#{total},</if>
-			<if test="used != null">#{used},</if>
-			<if test="minPrice != null">#{minPrice},</if>
-			<if test="status != null">#{status},</if>
-			<if test="seq != null">#{seq},</if>
-			<if test="remark != null">#{remark},</if>
-			<if test="startTime != null">#{startTime},</if>
-			<if test="endTime != null">#{endTime},</if>
-			<if test="createTime != null">#{createTime},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `tb_shop_coupon`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">`name`,</if>
+            <if test="type != null">`type`,</if>
+            <if test="value != null">`value`,</if>
+            <if test="remark != null">`remark`,</if>
+            <if test="total != null">`total`,</if>
+            <if test="used != null">`used`,</if>
+            <if test="minPrice != null">`min_price`,</if>
+            <if test="maxPrice != null">`max_price`,</if>
+            <if test="startTime != null">`start_time`,</if>
+            <if test="endTime != null">`end_time`,</if>
+            <if test="status != null">`status`,</if>
+            <if test="seq != null">`seq`,</if>
+            <if test="createTime != null">`create_time`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="value != null">#{value},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="total != null">#{total},</if>
+            <if test="used != null">#{used},</if>
+            <if test="minPrice != null">#{minPrice},</if>
+            <if test="maxPrice != null">#{maxPrice},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="seq != null">#{seq},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `tb_shop_coupon`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
+        update `tb_shop_coupon`
+        <set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="value != null">`value` = #{value},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="total != null">`total` = #{total},</if>
+            <if test="used != null">`used` = #{used},</if>
+            <if test="minPrice != null">`min_price` = #{minPrice},</if>
+            <if test="maxPrice != null">`max_price` = #{maxPrice},</if>
+            <if test="startTime != null">`start_time` = #{startTime},</if>
+            <if test="endTime != null">`end_time` = #{endTime},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="seq != null">`seq` = #{seq},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
-		update `tb_shop_coupon`
-		<set>
-			<if test="name != null">`name` = #{name},</if>
-			<if test="type != null">`type` = #{type},</if>
-			<if test="value != null">`value` = #{value},</if>
-			<if test="total != null">`total` = #{total},</if>
-			<if test="used != null">`used` = #{used},</if>
-			<if test="minPrice != null">`min_price` = #{minPrice},</if>
-			<if test="status != null">`status` = #{status},</if>
-			<if test="seq != null">`seq` = #{seq},</if>
-			<if test="remark != null">`remark` = #{remark},</if>
-			<if test="startTime != null">`start_time` = #{startTime},</if>
-			<if test="endTime != null">`end_time` = #{endTime},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_shop_coupon`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultShopCouponMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_tb_shop_coupon_List"/>
-		from `tb_shop_coupon`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `tb_shop_coupon`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+            <if test="value != null">
+                and `value` = #{value}
+            </if>
+            <if test="remark != null">
+                and `remark` = #{remark}
+            </if>
+            <if test="total != null">
+                and `total` = #{total}
+            </if>
+            <if test="used != null">
+                and `used` = #{used}
+            </if>
+            <if test="minPrice != null">
+                and `min_price` = #{minPrice}
+            </if>
+            <if test="maxPrice != null">
+                and `max_price` = #{maxPrice}
+            </if>
+            <if test="startTime != null">
+                and `start_time` = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and `end_time` = #{endTime}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+            <if test="seq != null">
+                and `seq` = #{seq}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultShopCouponMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultShopCouponMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_shop_coupon_List"/>
+        from `tb_shop_coupon`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultShopCouponMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultShopCouponMap"  parameterType="map">
+        select
+        <include refid="Column_tb_shop_coupon_List"/>
+        from `tb_shop_coupon`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.name != null">
+                and `name` like concat('%',#{record.name},'%')
+            </if>
+            <if test="record.type != null">
+                and `type` like concat('%',#{record.type},'%')
+            </if>
+            <if test="record.value != null">
+                and `value` like concat('%',#{record.value},'%')
+            </if>
+            <if test="record.remark != null">
+                and `remark` like concat('%',#{record.remark},'%')
+            </if>
+            <if test="record.total != null">
+                and `total` like concat('%',#{record.total},'%')
+            </if>
+            <if test="record.used != null">
+                and `used` like concat('%',#{record.used},'%')
+            </if>
+            <if test="record.minPrice != null">
+                and `min_price` like concat('%',#{record.minPrice},'%')
+            </if>
+            <if test="record.maxPrice != null">
+                and `max_price` like concat('%',#{record.maxPrice},'%')
+            </if>
+            <if test="record.startTime != null">
+                and `start_time` like concat('%',#{record.startTime},'%')
+            </if>
+            <if test="record.endTime != null">
+                and `end_time` like concat('%',#{record.endTime},'%')
+            </if>
+            <if test="record.status != null">
+                and `status` like concat('%',#{record.status},'%')
+            </if>
+            <if test="record.seq != null">
+                and `seq` like concat('%',#{record.seq},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultShopCouponMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_tb_shop_coupon_List"/>
+        from `tb_shop_coupon`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.name != null">
+                > and `name` = #{record.name}
+            </if>
+            <if test="record.type != null">
+                > and `type` = #{record.type}
+            </if>
+            <if test="record.value != null">
+                > and `value` = #{record.value}
+            </if>
+            <if test="record.remark != null">
+                > and `remark` = #{record.remark}
+            </if>
+            <if test="record.total != null">
+                > and `total` = #{record.total}
+            </if>
+            <if test="record.used != null">
+                > and `used` = #{record.used}
+            </if>
+            <if test="record.minPrice != null">
+                > and `min_price` = #{record.minPrice}
+            </if>
+            <if test="record.maxPrice != null">
+                > and `max_price` = #{record.maxPrice}
+            </if>
+            <if test="record.startTime != null">
+                > and `start_time` = #{record.startTime}
+            </if>
+            <if test="record.endTime != null">
+                > and `end_time` = #{record.endTime}
+            </if>
+            <if test="record.status != null">
+                > and `status` = #{record.status}
+            </if>
+            <if test="record.seq != null">
+                > and `seq` = #{record.seq}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
+        select
+        count(`id`)
+        from `tb_shop_coupon`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="name != null">
+                > and `name` like concat('%',#{name},'%')
+            </if>
+            <if test="type != null">
+                > and `type` like concat('%',#{type},'%')
+            </if>
+            <if test="value != null">
+                > and `value` like concat('%',#{value},'%')
+            </if>
+            <if test="remark != null">
+                > and `remark` like concat('%',#{remark},'%')
+            </if>
+            <if test="total != null">
+                > and `total` like concat('%',#{total},'%')
+            </if>
+            <if test="used != null">
+                > and `used` like concat('%',#{used},'%')
+            </if>
+            <if test="minPrice != null">
+                > and `min_price` like concat('%',#{minPrice},'%')
+            </if>
+            <if test="maxPrice != null">
+                > and `max_price` like concat('%',#{maxPrice},'%')
+            </if>
+            <if test="startTime != null">
+                > and `start_time` like concat('%',#{startTime},'%')
+            </if>
+            <if test="endTime != null">
+                > and `end_time` like concat('%',#{endTime},'%')
+            </if>
+            <if test="status != null">
+                > and `status` like concat('%',#{status},'%')
+            </if>
+            <if test="seq != null">
+                > and `seq` like concat('%',#{seq},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopCoupon">
-
-	</update>
+        select
+        count(`id`)
+        from `tb_shop_coupon`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="name != null">
+                > and `name` = #{name}
+            </if>
+            <if test="type != null">
+                > and `type` = #{type}
+            </if>
+            <if test="value != null">
+                > and `value` = #{value}
+            </if>
+            <if test="remark != null">
+                > and `remark` = #{remark}
+            </if>
+            <if test="total != null">
+                > and `total` = #{total}
+            </if>
+            <if test="used != null">
+                > and `used` = #{used}
+            </if>
+            <if test="minPrice != null">
+                > and `min_price` = #{minPrice}
+            </if>
+            <if test="maxPrice != null">
+                > and `max_price` = #{maxPrice}
+            </if>
+            <if test="startTime != null">
+                > and `start_time` = #{startTime}
+            </if>
+            <if test="endTime != null">
+                > and `end_time` = #{endTime}
+            </if>
+            <if test="status != null">
+                > and `status` = #{status}
+            </if>
+            <if test="seq != null">
+                > and `seq` = #{seq}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+        </where>
+    </select>
 
 </mapper>

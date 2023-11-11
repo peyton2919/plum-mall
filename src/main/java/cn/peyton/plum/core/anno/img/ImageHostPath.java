@@ -20,6 +20,7 @@ import java.lang.annotation.*;
 public @interface ImageHostPath {
     /**
      * <h4>属性名称, 多个用 `,` 隔开</h4>
+     *
      * @return
      */
     String name();

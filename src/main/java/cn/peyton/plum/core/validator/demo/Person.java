@@ -16,9 +16,9 @@ public class Person {
     private Integer id;
 
     @NotNull(message = "名称不能为空!")
-    @Length(min = 0,max = 10, message = "名称长度最大为10个字符!")
+    @Length(min = 0, max = 10, message = "名称长度最大为10个字符!")
     private String name;
-    @Size(min = 1,max = 120,message = "年龄只能在1-120岁之间")
+    @Size(min = 1, max = 120, message = "年龄只能在1-120岁之间")
     private Integer age;
     @Date
     private String create;
@@ -29,7 +29,7 @@ public class Person {
     private String tel;
     @Phone
     private String phone;
-    @Length(min = 0,max = 12,message = "备注长度为12字符之内!")
+    @Length(min = 0, max = 12, message = "备注长度为12字符之内!")
     private String remarks;
 
     public Person() {

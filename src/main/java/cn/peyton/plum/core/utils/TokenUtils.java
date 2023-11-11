@@ -32,29 +32,36 @@ public class TokenUtils<T> implements Serializable {
      * TODO 正式运行时修改为15分钟 15*60*1000
      */
     private long expireTime = 900000l;
-    /** 发行者 */
+    /**
+     * 发行者
+     */
     private String issuer = "peyton.yu";
-    /** token 密钥 */
+    /**
+     * token 密钥
+     */
     private String tokenSecret = "y1u2p3DefaultPrivateProjectTestChatterPlumCom";
 
 
     /**
      * <h4>加密 Token</h4>
-     * @param userId 用户编号
+     *
+     * @param userId   用户编号
      * @param username 用户名称
      * @return
      */
-    public String sign( String userId, String username) {
+    public String sign(String userId, String username) {
         return sign(userId, username, getExpireTime());
     }
+
     /**
      * <h4>加密 Token</h4>
-     * @param userId 用户编号
-     * @param username 用户名称
+     *
+     * @param userId     用户编号
+     * @param username   用户名称
      * @param expireTime 过期时间（毫秒）
      * @return
      */
-    public String sign(String userId, String username,long expireTime) {
+    public String sign(String userId, String username, long expireTime) {
         return JWT.create()
                 .withIssuer(getIssuer()) //签名
                 .withClaim(Property.USERID, userId)
@@ -66,20 +73,22 @@ public class TokenUtils<T> implements Serializable {
     }
 
     /**
-     *  <h4>加密 Token</h4>
+     * <h4>加密 Token</h4>
+     *
      * @param key 键
      * @param obj 值
      * @return
      */
     public String signObj(String key, String obj) {
-        return signObj(key,obj,getExpireTime());
+        return signObj(key, obj, getExpireTime());
     }
 
 
     /**
      * <h4>加密 Token</h4>
-     * @param key 键
-     * @param obj 值
+     *
+     * @param key        键
+     * @param obj        值
      * @param expireTime 过期时间（毫秒）
      * @return
      */
@@ -94,8 +103,9 @@ public class TokenUtils<T> implements Serializable {
 
     /**
      * <h4>加密 Token</h4>
+     *
      * @param key 关键字
-     * @param t 对象
+     * @param t   对象
      * @return 字符串
      */
     public String sign(String key, T t) {
@@ -104,12 +114,13 @@ public class TokenUtils<T> implements Serializable {
 
     /**
      * <h4>加密 Token</h4>
-     * @param key 关键字
-     * @param t 对象
+     *
+     * @param key        关键字
+     * @param t          对象
      * @param expireTime 过期时间（毫秒）
      * @return 字符串
      */
-    public String sign(String key, T t,long expireTime) {
+    public String sign(String key, T t, long expireTime) {
         String json = JsonMapper.toJSon(t);
         return JWT.create()
                 .withIssuer(getIssuer()) //签名
@@ -121,6 +132,7 @@ public class TokenUtils<T> implements Serializable {
 
     /**
      * <h4>验证 token值是否被篡改</h4>
+     *
      * @param token
      * @return 返回 true 表示 没被篡改 ; false 表示 被篡改过;
      */
@@ -146,18 +158,19 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
-     * @param key 键
+     *
+     * @param key   键
      * @param token
-     * @param t 返回对象类型
+     * @param t     返回对象类型
      * @return 对象
      */
-    public T getObject(String key, String token,T t) {
+    public T getObject(String key, String token, T t) {
         try {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(tokenSecret)).withIssuer(getIssuer())
                     .build().verify(token);
             String value = jwt.getClaim(key).asString();
 
-            return (T) JsonMapper.readValue(value,t.getClass());
+            return (T) JsonMapper.readValue(value, t.getClass());
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
             return null;
@@ -172,6 +185,7 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
+     *
      * @param token token值
      * @return
      */
@@ -194,18 +208,19 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则返回的值不准;
      * </pre>
+     *
      * @param token token值
      * @return true 表示 过期; false 表示 未过期
      */
-    public boolean isExpire(String token)  {
+    public boolean isExpire(String token) {
         try {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(tokenSecret)).withIssuer(getIssuer())
                     .build().verify(token);
 
             long _date = jwt.getExpiresAt().getTime();
             long _curr = System.currentTimeMillis();
-            return (_curr>_date);
-        }catch (Exception e) {
+            return (_curr > _date);
+        } catch (Exception e) {
             LogUtils.error(e.getMessage());
             return false;
         }
@@ -219,6 +234,7 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
+     *
      * @param token token值
      * @return
      */
@@ -232,6 +248,7 @@ public class TokenUtils<T> implements Serializable {
             return null;
         }
     }
+
     /**
      * <h4> 根所 key 为 userId 解析 token</h4>
      * <pre>
@@ -240,6 +257,7 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
+     *
      * @param token
      * @return 用户编号
      */
@@ -263,6 +281,7 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
+     *
      * @param token
      * @return 用户名称
      */
@@ -276,6 +295,7 @@ public class TokenUtils<T> implements Serializable {
             return null;
         }
     }
+
     /**
      * <h4> 根据 key 为 timestamp 解析 token</h4>
      * <pre>
@@ -284,6 +304,7 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
+     *
      * @param token
      * @return 时间戳
      */
@@ -306,10 +327,11 @@ public class TokenUtils<T> implements Serializable {
      *  需要用verify方法,先验证下token值是否被篡改;
      *  否则会抛出异常;
      * </pre>
+     *
      * @param token
      * @return 值
      */
-    public String getValue(String key, String token)  {
+    public String getValue(String key, String token) {
         try {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(tokenSecret)).withIssuer(getIssuer())
                     .build().verify(token);
@@ -333,12 +355,13 @@ public class TokenUtils<T> implements Serializable {
      *     "username": "用户名称",
      *     "timeStamp": "存入时时间"
      * </pre>
+     *
      * @param token
      * @return
      */
     public Map<String, String> parseToken(String token) {
         try {
-            Map<String,String> map = Maps.createHashMap();
+            Map<String, String> map = Maps.createHashMap();
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(tokenSecret)).withIssuer(getIssuer())
                     .build().verify(token);
             map.put(Property.USERID, jwt.getClaim(Property.USERID).asString());
@@ -354,15 +377,16 @@ public class TokenUtils<T> implements Serializable {
 
     /**
      * <h4>判断是否 过期</h4>
+     *
      * @param accessToken token 值
-     * @param expireTime 要过期时间长
+     * @param expireTime  要过期时间长
      * @return 返回 true 表示 已过期 ; false 表示 未过期 ;
      */
-    public boolean isExpire(String accessToken,long expireTime) {
+    public boolean isExpire(String accessToken, long expireTime) {
         // 判断 token 是否过期
         long currentTime = System.currentTimeMillis();
         long oldTime = getTimestamp(accessToken);
-        if ((currentTime/1000 - oldTime/1000) > expireTime/1000) {
+        if ((currentTime / 1000 - oldTime / 1000) > expireTime / 1000) {
             return true;
         }
         return false;
@@ -375,6 +399,7 @@ public class TokenUtils<T> implements Serializable {
      * <pre>
      *     如果没配置就默认为 15分钟 (15 *60 *1000)
      * </pre>
+     *
      * @return
      */
     public long getExpireTime() {
@@ -386,6 +411,7 @@ public class TokenUtils<T> implements Serializable {
      * <pre>
      *     如果没配置就默认为 15分钟 (15 *60 *1000)
      * </pre>
+     *
      * @param expireTime
      */
     public void setExpireTime(long expireTime) {
@@ -407,14 +433,14 @@ public class TokenUtils<T> implements Serializable {
     }
 
     /**
-     * @return  发行者
+     * @return 发行者
      */
     public String getIssuer() {
         return issuer;
     }
 
     /**
-     * @param issuer  发行者
+     * @param issuer 发行者
      */
     public void setIssuer(String issuer) {
         this.issuer = issuer;
@@ -423,14 +449,22 @@ public class TokenUtils<T> implements Serializable {
     /**
      * <h3>key 的属性</h3>
      */
-    public interface Property{
-        /** 用户编号 key */
+    public interface Property {
+        /**
+         * 用户编号 key
+         */
         String USERID = "userId";
-        /** 用户名称 key */
+        /**
+         * 用户名称 key
+         */
         String USERNAME = "username";
-        /** 时间 key */
+        /**
+         * 时间 key
+         */
         String TIMESTAMP = "timestamp";
-        /** Token key */
+        /**
+         * Token key
+         */
         String TOKEN = "token";
     }
     // **************************************** get and set **************************************** //

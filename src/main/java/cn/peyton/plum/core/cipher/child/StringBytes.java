@@ -11,7 +11,8 @@ package cn.peyton.plum.core.cipher.child;
  */
 public final class StringBytes {
 
-    public StringBytes() { }
+    public StringBytes() {
+    }
 
     public static String toHexString(byte bytes[]) {
         char buf[] = new char[bytes.length * 2];

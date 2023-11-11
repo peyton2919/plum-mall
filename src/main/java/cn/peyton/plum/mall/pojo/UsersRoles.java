@@ -2,70 +2,77 @@ package cn.peyton.plum.mall.pojo;
 
 
 import java.io.Serializable;
+
 /**
  * <h3> 用户角色关联 实体类</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2023年11月03日 23:02:39
+ * @date 2023年11月10日 14:53:23
  * @version 1.0.0
  * </pre>
-*/
+ */
 public class UsersRoles implements Serializable {
-	/** 用户ID  */
-	private Long userId;
-	/** 角色ID  */
-	private Long roleId;
-	/**   */
-	private Long id;
+    /**
+     *
+     */
+    private Long id;
+    /**
+     * 用户ID
+     */
+    private Long userId;
+    /**
+     * 角色ID
+     */
+    private Long roleId;
 
-	//================================== Constructor =======================================//
+    //================================== Constructor =======================================//
 
-	//================================== Method =======================================//
+    //================================== Method =======================================//
 
 
-	//================================== PREFIX_GET AND PREFIX_SET =======================================//
+    //================================== PREFIX_GET AND PREFIX_SET =======================================//
 
-	/** 
-	 * @param userId 用户ID 
-	 */ 
-	public void setUserId(Long userId){
-		this.userId = userId;
-	}
+    /**
+     * @param id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	/** 
-	 * @return 用户ID 
-	 */ 
-	public Long getUserId(){
-		return userId;
-	}
+    /**
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/** 
-	 * @param roleId 角色ID 
-	 */ 
-	public void setRoleId(Long roleId){
-		this.roleId = roleId;
-	}
+    /**
+     * @param userId 用户ID
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	/** 
-	 * @return 角色ID 
-	 */ 
-	public Long getRoleId(){
-		return roleId;
-	}
+    /**
+     * @return 用户ID
+     */
+    public Long getUserId() {
+        return userId;
+    }
 
-	/** 
-	 * @param id  
-	 */ 
-	public void setId(Long id){
-		this.id = id;
-	}
+    /**
+     * @param roleId 角色ID
+     */
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
 
-	/** 
-	 * @return  
-	 */ 
-	public Long getId(){
-		return id;
-	}
+    /**
+     * @return 角色ID
+     */
+    public Long getRoleId() {
+        return roleId;
+    }
 
 }

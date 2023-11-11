@@ -4,7 +4,7 @@
  *     SpringBoot 整合 Quartz 定时任务：
  *     1. 添加jar：
  *          org.springframework.boot spring-boot-starter-quartz
-*      2. Quartz 使用思路：
+ *      2. Quartz 使用思路：
  *          1). Job --任务 --要做什么事？
  *          2). Trigger --触发器 -- 什么时候去做？
  *          3). Scheduler --任务调度 --什么时候需要去做什么事？
@@ -14,7 +14,7 @@
  *                  按照 Cron 的表达式来给定触发的时间,在withSchedule参数中调用
  *                  CronScheduleBuilder.cronSchedule("0/2 * * * * ?") Trigger trigger =
  *                      TriggerBuilder.newTrigger().withSchedule(SimpleScheduleBuilder.repeatSecondlyForever()).build;
-*           3). 创建 Scheduler 对象,在什么时间做什么事？
+ *           3). 创建 Scheduler 对象,在什么时间做什么事？
  *              Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
  *              scheduler.scheduleJob(job,trigger);
  *          4). 启动 scheduler.start();

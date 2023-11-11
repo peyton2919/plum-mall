@@ -19,11 +19,12 @@ public final class Md5Utils {
 
     /**
      * <h4>MD单向加密</h4>
+     *
      * @param content 要加密内容
      * @return 加密后内容
      */
     public final static String encrypt(String content) {
-        char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         try {
             byte[] btInput = content.getBytes();
             // 获得MD5摘要算法的 MessageDigest 对象
@@ -51,8 +52,9 @@ public final class Md5Utils {
 
     /**
      * <h4>MD单向加密</h4>
+     *
      * @param content 要加密内容
-     * @param key key值
+     * @param key     key值
      * @return 加密后内容
      */
     public static String encrypt(String content, String key) {

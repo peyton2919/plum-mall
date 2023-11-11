@@ -8,16 +8,16 @@ import java.io.IOException;
  * <h3>SpringBoot 整合 Filter方式</h3>
  * <h4>1、以前方式需要在web.xml中配置以下：</h4>
  * <h4>
- *     <filter>
- *         <filter-name>MyFilter</filter-name>
- *         <filter-class>cn.peyton.core.servlet.MyFilter</filter-class>
- *     </filter>
+ * <filter>
+ * <filter-name>MyFilter</filter-name>
+ * <filter-class>cn.peyton.core.servlet.MyFilter</filter-class>
+ * </filter>
  * </h4>
  * <h4>
- *     <filter-mapping>
- *          <filter-name>MyFilter</filter-name>
- *          <url-pattern>/test</url-pattern>
- *     </filter-mapping>
+ * <filter-mapping>
+ * <filter-name>MyFilter</filter-name>
+ * <url-pattern>/test</url-pattern>
+ * </filter-mapping>
  * </h4>
  * <h4>2、注解方式直接的类的头部添加</h4>
  * <h4>@WebServlet(name = "MyFilter",urlPatterns = "/test")</h4>

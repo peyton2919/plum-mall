@@ -19,8 +19,10 @@ import java.util.regex.Pattern;
 @Slf4j
 public final class Regulation implements Serializable {
 
-    /** 中文验证 正则表达式<br>  样式 ：2000/01/01 | 2000 01 01 | 2000-01-01 |
-     * 2000/01/01 12:00:00 | 2000 01 01 12:00:00 | 2000-01-01 12:00:00 */
+    /**
+     * 中文验证 正则表达式<br>  样式 ：2000/01/01 | 2000 01 01 | 2000-01-01 |
+     * 2000/01/01 12:00:00 | 2000 01 01 12:00:00 | 2000-01-01 12:00:00
+     */
     public static final String REGX_SIMPLE_DATE = "^((\\d{2}(([02468][048])|"
             + "([13579][26]))[\\-\\/\\s]?((((0?[13578])|"
             + "(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))"
@@ -37,24 +39,26 @@ public final class Regulation implements Serializable {
      *      格式:{yyyyMMdd,yyyy/MM/dd,yyyy-MM-dd}
      * </pre>
      */
-    public final  static String REGEX_DATE = "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})"
+    public final static String REGEX_DATE = "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})"
             + "(\\s*|[-\\/])(((0[13578]|1[02])(\\s*|[-\\/])(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)(\\s*|[-\\/])"
             + "(0[1-9]|[12][0-9]|30))|(02(\\s*|[-\\/])(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})"
             + "(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))(\\s*|[-\\/])02(\\s*|[-\\/])29))$";
 
-    /** <pre>
+    /**
+     * <pre>
      *      <h4>时间 验证</h4>
      *      格式:{HHmmss,HH-mm-ss,HH/mm/ss,HH:mm:ss}
      * </pre>
      */
-    public final  static String REGEX_TIME = "^([0-1]?[0-9]|2[0-3])(\\s*|[-\\/]|[:])([0-5][0-9])(\\s*|[-\\/]|[:])([0-5][0-9])$";
+    public final static String REGEX_TIME = "^([0-1]?[0-9]|2[0-3])(\\s*|[-\\/]|[:])([0-5][0-9])(\\s*|[-\\/]|[:])([0-5][0-9])$";
 
-    /** <pre>
+    /**
+     * <pre>
      *      <h4>时间 验证</h4>
      *      格式:{HH:mm:ss}
      * </pre>
      */
-    public final  static String REGEX_SIMPLE_TIME = "^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$";
+    public final static String REGEX_SIMPLE_TIME = "^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$";
 
     /**
      * <pre>
@@ -62,7 +66,7 @@ public final class Regulation implements Serializable {
      *      格式:{yyyyMMdd,yyyy/MM/dd,yyyy-MM-dd}} | {HHmmss,HH-mm-ss,HH/mm/ss,HH:mm:ss} 可任意搭配
      * </pre>
      */
-    public final  static String REGEX_DATETIME ="^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})" +
+    public final static String REGEX_DATETIME = "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})" +
             "(\\s*|[-\\/])(((0[13578]|1[02])(\\s*|[-\\/])(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)(\\s*|[-\\/])" +
             "(0[1-9]|[12][0-9]|30))|(02(\\s*|[-\\/])(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})" +
             "(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))(\\s*|[-\\/])02(\\s*|[-\\/])29))" +
@@ -75,7 +79,7 @@ public final class Regulation implements Serializable {
      * </pre>
      */
     public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+"
-                    + "[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+            + "[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 
     /**
      * <pre>
@@ -237,15 +241,16 @@ public final class Regulation implements Serializable {
 
     /**
      * <h4>正则校验</h4>
-     * @param check 校验规则 (在本类中以REGX_开头的静态属性)
+     *
+     * @param check     校验规则 (在本类中以REGX_开头的静态属性)
      * @param valiField 要校验的字符
      * @return true 表示校验通过 ; false 表示没校验通过;
      */
     public static Boolean regex(String check, String valiField) {
         try {
-            return  Pattern.matches(check,valiField);
+            return Pattern.matches(check, valiField);
         } catch (GlobalException e) {
-            log.error("正则匹配异常: 匹配规则:{} , 匹配字段:{}",check,valiField);
+            log.error("正则匹配异常: 匹配规则:{} , 匹配字段:{}", check, valiField);
             LogUtils.error(check, "不匹配", valiField, e.getMessage());
         }
         return false;
@@ -253,6 +258,7 @@ public final class Regulation implements Serializable {
 
     /**
      * <h4>格式不正确 提示</h4>
+     *
      * @param title 标题
      * @return
      */
@@ -262,6 +268,7 @@ public final class Regulation implements Serializable {
 
     /**
      * <h4>不可以为空 提示</h4>
+     *
      * @param title 标题
      * @return
      */
@@ -271,15 +278,16 @@ public final class Regulation implements Serializable {
 
     /**
      * <h4>长度 提示</h4>
+     *
      * @param title 标题
-     * @param min 最小值
+     * @param min   最小值
      * @param max
      * @return
      */
     public static String hintLength(String title, int min, int max) {
         if (min >= 0) {
             return title + "长度需要在" + max + "个字以内!";
-        }else {
+        } else {
             return title + "长度需要在" + min + "到" + max + " 个字之间!";
         }
     }
@@ -289,18 +297,23 @@ public final class Regulation implements Serializable {
      * <pre>
      *     返回正则字符串
      * </pre>
+     *
      * @param format 日期格式样式 [yyyy/MM/dd]
      * @return
      */
     public static String formatRegexDate(String format) {
         int length = format.length();
-        if (length != 8 && length != 10) {return null;}
+        if (length != 8 && length != 10) {
+            return null;
+        }
         String sub = "";
         String sub1 = "";
-        if (length == 10){
-            sub = format.substring(4,5);
+        if (length == 10) {
+            sub = format.substring(4, 5);
             sub1 = format.substring(7, 8);
-            if (!sub.equals(sub1)){return null;}
+            if (!sub.equals(sub1)) {
+                return null;
+            }
         }
         if ("/".equals(sub)) {
             return "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})\\/(((0[13578]|1[02])\\/(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)\\/(0[1-9]|[12][0-9]|30))|(02\\/(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))\\/02\\/29))$";
@@ -308,8 +321,8 @@ public final class Regulation implements Serializable {
             return "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})\\s*(((0[13578]|1[02])\\s*(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)\\s*(0[1-9]|[12][0-9]|30))|(02\\s*(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))\\s*02\\s*29))$";
         } else if ("-".equals(sub)) {
             return "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29))$";
-       }
-       //else {
+        }
+        //else {
 //            return "^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)(0[1-9]|[12][0-9]|30))|(02(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))0229))$";
 //        }
         return null;

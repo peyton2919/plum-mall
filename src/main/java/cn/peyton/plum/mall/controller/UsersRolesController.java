@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2023年11月03日 23:02:39
+ * @date 2023年11月10日 14:53:23
  * @version 1.0.0
  * </pre>
-*/
+ */
 @RestController
 public class UsersRolesController {
 
-	@Resource
-	private UsersRolesService usersRolesService;
+    @Resource
+    private UsersRolesService usersRolesService;
 
 }

@@ -31,17 +31,20 @@ public class SizeStrategy extends AbstractValidator {
         }
         if (StrUtils.isEmpty(value)) {
             if (existInt(type)) {
-                map.put(name,"数据类型不正确");
+                map.put(name, "数据类型不正确");
                 return;
             }
             try {
                 Integer va = Integer.valueOf(value.toString());
                 if (va < min || va > max) {
-                    map.put(name, message + "[取值范围:" + min + " ~ " + max + "之间]");
+                    if ("".equals(message)) {
+                        message = "[校验错误: 取值范围为 " + min + " ~ " + max + " 之间]";
+                    }
+                    map.put(name, message);
                 }
 
             } catch (Exception e) {
-                map.put(name,"数据转换异常了!");
+                map.put(name, "数据转换异常了!");
                 LogUtils.error(e.getMessage());
             }
 

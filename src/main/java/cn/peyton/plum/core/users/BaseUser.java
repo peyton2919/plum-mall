@@ -11,50 +11,64 @@ import java.io.Serializable;
  * @version: 1.0.0
  * </pre>
  */
-public abstract class BaseUser<K,T> implements IUser, Serializable {
+public abstract class BaseUser<K, T> implements IUser, Serializable {
+
+    /** token 值 */
+    private String token;
+    /**
+     * 用户登录类型
+     */
+    private String loginType;
+    /**
+     * 用户类型
+     */
+    private Integer userType;
 
     /**
      * <h4>设置用户类型[强制子类实现]</h4>
+     *
      * @return
      */
-    protected abstract Integer abstractType();
-
-    /**
-     * <h4>设置用户类型 数值[强制子类实现]</h4>
-     * @return -1为错误 0，1，2，3 正常
-     */
-    protected abstract Integer abstractLoginType();
-
-    /**
-     * <h4>设置 主键 数值[强制子类实现]</h4>
-     * @return 用户主键
-     */
-    protected abstract <K> K abstractPrimaryKey();
-
+    protected abstract Integer userType();
 
     /**
      * <h4>获取用户类型</h4>
+     *
      * @return
      */
-    public Integer getType() {
-        return abstractType();
+    public Integer getUserType() {
+        return this.userType();
     }
 
     /**
-     * <h4>获取用户类型 数值</h4>
-     * @return -1为错误 0，1，2，3 正常
+     * <h4>设置用户登录类型</h4>
+     *
+     * @param loginType
      */
-    public Integer getLoginType() {
-        return abstractLoginType();
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 
     /**
-     * @return 用户主键
+     * <h4>获取用户登录类型</h4>
+     *
+     * @return
      */
-    public <K> K getPrimaryKey() {
-        return abstractPrimaryKey();
+    public String getLoginType() {
+        return this.loginType;
     }
 
+    /**
+     * @return token 值
+     */
+    public String getToken() {
+        return token;
+    }
 
-
+    /**
+     * @param token token 值
+     */
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

@@ -20,11 +20,12 @@ public final class MailUtils implements Serializable {
 
     /**
      * <h4>获取Mail对象[单个]</h4>
+     *
      * @param receiver 接收者地址
      * @param password 密码[没有加密过]
      * @return
      */
-    public static Mail getMail(String receiver , String password) {
+    public static Mail getMail(String receiver, String password) {
         Mail mail = new Mail();
         mail.setSubject("密码 注册");
         mail.setMessage("你所注册的密码为: [ " + password + " ]");
@@ -36,18 +37,21 @@ public final class MailUtils implements Serializable {
 
     /**
      * <h4>获取Mail对象[多个]</h4>
+     *
      * @param receivers 接收者地址集合
-     * @param password 密码[没有加密过]
+     * @param password  密码[没有加密过]
      * @return
      */
     public static Mail getMail(List<String> receivers, String password) {
-        if (null == receivers || receivers.size() == 0) {return new Mail();}
+        if (null == receivers || receivers.size() == 0) {
+            return new Mail();
+        }
 
         Mail mail = new Mail();
         mail.setSubject("密码 注册");
         mail.setMessage("你所注册的密码为: [ " + password + " ]");
         Set<String> set = new HashSet<>();
-        for(String receiver : receivers) {
+        for (String receiver : receivers) {
             set.add(receiver);
         }
         mail.setReceivers(set);

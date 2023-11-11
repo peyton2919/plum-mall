@@ -15,7 +15,6 @@ import cn.peyton.plum.core.config.Location;
 public class TestDemo1 {
 
 
-
     public static void main(String[] args) {
 
         //Permission permission;

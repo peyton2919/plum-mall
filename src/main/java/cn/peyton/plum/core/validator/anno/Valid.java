@@ -13,19 +13,22 @@ import java.lang.annotation.*;
  * @version: 1.0.0
  * </pre>
  */
-@Target({ElementType.METHOD,ElementType.TYPE}) //表明此注解可用在方法上
+@Target({ElementType.METHOD, ElementType.TYPE}) //表明此注解可用在方法上
 @Retention(RetentionPolicy.RUNTIME) //运行时有效
 @Documented
 public @interface Valid {
-    /** 默认验证对象 */
+    /**
+     * 默认验证对象
+     */
     boolean require() default true;
 
-    /** 默认：true ; 为true时表示验证对象单一属性[遇到验证有错误时就返回,只返回一组错误或没有错误] */
+    /**
+     * 默认：true ; 为true时表示验证对象单一属性[遇到验证有错误时就返回,只返回一组错误或没有错误]
+     */
     boolean single() default true;
 
     //虽然没用到，但是要加上
     Class<?>[] groups() default {};
-
 
 
     /** 对象验证 */
@@ -54,8 +57,6 @@ public @interface Valid {
      * </pre>
      */
     // String rule() default "key->规则1|规则2:0,10|规则3:4;key->...";
-
-
 
 
 }

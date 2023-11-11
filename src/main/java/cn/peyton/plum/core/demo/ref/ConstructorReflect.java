@@ -19,6 +19,7 @@ public class ConstructorReflect {
 
     /**
      * 构造方法操作
+     *
      * @param r
      */
     public static void constructor(Class<?> r) {
@@ -28,7 +29,7 @@ public class ConstructorReflect {
             //获取构造方法上面指定的注解
             ConstructorAnnotation constructorAnnotation = constructor.getAnnotation(ConstructorAnnotation.class);
             //获取注解的属性值
-            if ("含参构造".equals(constructorAnnotation.value())){
+            if ("含参构造".equals(constructorAnnotation.value())) {
                 //获取各个参数名
                 Parameter[] parameters = constructor.getParameters();
                 for (Parameter parameter : parameters) {

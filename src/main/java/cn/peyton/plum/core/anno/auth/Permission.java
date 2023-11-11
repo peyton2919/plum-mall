@@ -18,23 +18,31 @@ import java.lang.annotation.Target;
  * @version 1.0.0
  * </pre>
  */
-@Target({ElementType.METHOD,ElementType.TYPE}) //表明此注解可用在方法上
+@Target({ElementType.METHOD, ElementType.TYPE}) //表明此注解可用在方法上
 @Retention(RetentionPolicy.RUNTIME) //运行时有效
 public @interface Permission {
     /** 需要验证的类型 */
     //String type();
 
-    /** 重定向的 链接地址 */
+    /**
+     * 重定向的 链接地址
+     */
     String redirect();
 
-    /**  从 session 中获取 对象的 key */
+    /**
+     * 从 session 中获取 对象的 key
+     */
     String key();
 
-    /** 需要核验名称, token */
+    /**
+     * 需要核验名称, token
+     */
     String verify() default "token";
     /**  */
 
-    /** 需要验证的对象 */
+    /**
+     * 需要验证的对象
+     */
     //虽然没用到，但是要加上
     Class<?>[] groups() default {};
 }

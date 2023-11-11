@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopOrderRefundMapper">
+    <resultMap id="ResultShopOrderRefundMap" type="cn.peyton.plum.mall.pojo.ShopOrderRefund">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="imgs" property="imgs" jdbcType="VARCHAR"/>
+        <result column="explain" property="explain" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="no_reason" property="noReason" jdbcType="VARCHAR"/>
+        <result column="refund_price" property="refundPrice" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Column_tb_shop_order_refund_List">
+        `id`,`imgs`,`explain`,`reason`,`no_reason`,`refund_price`,`create_time`,`update_time`
+    </sql>
+
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund" keyColumn="id"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into `tb_shop_order_refund`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imgs != null">`imgs`,</if>
+            <if test="explain != null">`explain`,</if>
+            <if test="reason != null">`reason`,</if>
+            <if test="noReason != null">`no_reason`,</if>
+            <if test="refundPrice != null">`refund_price`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="updateTime != null">`update_time`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imgs != null">#{imgs},</if>
+            <if test="explain != null">#{explain},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="noReason != null">#{noReason},</if>
+            <if test="refundPrice != null">#{refundPrice},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
+        update `tb_shop_order_refund`
+        <set>
+            <if test="imgs != null">`imgs` = #{imgs},</if>
+            <if test="explain != null">`explain` = #{explain},</if>
+            <if test="reason != null">`reason` = #{reason},</if>
+            <if test="noReason != null">`no_reason` = #{noReason},</if>
+            <if test="refundPrice != null">`refund_price` = #{refundPrice},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_shop_order_refund`
+        where `id` = #{id}
+    </delete>
+
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
+
+        select
+        count(`id`)
+        from `tb_shop_order_refund`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="imgs != null">
+                and `imgs` = #{imgs}
+            </if>
+            <if test="explain != null">
+                and `explain` = #{explain}
+            </if>
+            <if test="reason != null">
+                and `reason` = #{reason}
+            </if>
+            <if test="noReason != null">
+                and `no_reason` = #{noReason}
+            </if>
+            <if test="refundPrice != null">
+                and `refund_price` = #{refundPrice}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and `update_time` = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultShopOrderRefundMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_shop_order_refund_List"/>
+        from `tb_shop_order_refund`
+        where `id` = #{id}
+    </select>
+
+    <select id="selectByLiekAndObj" resultMap="ResultShopOrderRefundMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_shop_order_refund_List"/>
+        from `tb_shop_order_refund`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.imgs != null">
+                and `imgs` like concat('%',#{record.imgs},'%')
+            </if>
+            <if test="record.explain != null">
+                and `explain` like concat('%',#{record.explain},'%')
+            </if>
+            <if test="record.reason != null">
+                and `reason` like concat('%',#{record.reason},'%')
+            </if>
+            <if test="record.noReason != null">
+                and `no_reason` like concat('%',#{record.noReason},'%')
+            </if>
+            <if test="record.refundPrice != null">
+                and `refund_price` like concat('%',#{record.refundPrice},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+            <if test="record.updateTime != null">
+                and `update_time` like concat('%',#{record.updateTime},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="selectByObj" resultMap="ResultShopOrderRefundMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_shop_order_refund_List"/>
+        from `tb_shop_order_refund`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.imgs != null">
+                > and `imgs` = #{record.imgs}
+            </if>
+            <if test="record.explain != null">
+                > and `explain` = #{record.explain}
+            </if>
+            <if test="record.reason != null">
+                > and `reason` = #{record.reason}
+            </if>
+            <if test="record.noReason != null">
+                > and `no_reason` = #{record.noReason}
+            </if>
+            <if test="record.refundPrice != null">
+                > and `refund_price` = #{record.refundPrice}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+            <if test="record.updateTime != null">
+                > and `update_time` = #{record.updateTime}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
+
+        select
+        count(`id`)
+        from `tb_shop_order_refund`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="imgs != null">
+                > and `imgs` like concat('%',#{imgs},'%')
+            </if>
+            <if test="explain != null">
+                > and `explain` like concat('%',#{explain},'%')
+            </if>
+            <if test="reason != null">
+                > and `reason` like concat('%',#{reason},'%')
+            </if>
+            <if test="noReason != null">
+                > and `no_reason` like concat('%',#{noReason},'%')
+            </if>
+            <if test="refundPrice != null">
+                > and `refund_price` like concat('%',#{refundPrice},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null">
+                > and `update_time` like concat('%',#{updateTime},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
+
+        select
+        count(`id`)
+        from `tb_shop_order_refund`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="imgs != null">
+                > and `imgs` = #{imgs}
+            </if>
+            <if test="explain != null">
+                > and `explain` = #{explain}
+            </if>
+            <if test="reason != null">
+                > and `reason` = #{reason}
+            </if>
+            <if test="noReason != null">
+                > and `no_reason` = #{noReason}
+            </if>
+            <if test="refundPrice != null">
+                > and `refund_price` = #{refundPrice}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                > and `update_time` = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

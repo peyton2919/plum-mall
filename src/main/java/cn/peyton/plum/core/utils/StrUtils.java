@@ -25,6 +25,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * 判断字符串是否为空
+     *
      * @param str 字符串
      * @return true 为空, 否则 取反
      */
@@ -34,6 +35,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * 判断是否空格
+     *
      * @param str 字符串
      * @return true 为空, 否则 取反
      */
@@ -42,7 +44,7 @@ public final class StrUtils implements Serializable {
         if (strLen == 0) {
             return true;
         } else {
-            for(int i = 0; i < strLen; ++i) {
+            for (int i = 0; i < strLen; ++i) {
                 if (!Character.isWhitespace(str.charAt(i))) {
                     return false;
                 }
@@ -53,6 +55,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>为空判断,长度必需大于0</h4>
+     *
      * @param obj 字符串
      * @return 不为空返回true
      */
@@ -65,6 +68,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>为空判断</h4>
+     *
      * @param obj 字符串
      * @return 不为空返回true
      */
@@ -77,17 +81,19 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>检查对象如果为空,抛出 ValidationException 异常</h4>
+     *
      * @param obj
      * @param message
      */
     public static void checkNoNull(Object obj, String message) {
         if (null == obj) {
-            throw new ValidationException(JSONResult.error(ResponseStatus.VALIDATE_FAIL,message));
+            throw new ValidationException(JSONResult.error(ResponseStatus.VALIDATE_FAIL, message));
         }
     }
 
     /**
      * 获取字符串长度
+     *
      * @param str 字符串
      * @return 长度
      */
@@ -97,27 +103,30 @@ public final class StrUtils implements Serializable {
 
     /**
      * 字符连接
+     *
      * @param elements 字符集
      * @param <T>
      * @return
      */
     public static <T> String join(T... elements) {
-        return join((Object[])elements, (String)null);
+        return join((Object[]) elements, (String) null);
     }
 
     /**
      * 字符连接
-     * @param array 字符串数组
+     *
+     * @param array     字符串数组
      * @param delimiter 分隔符
      * @return
      */
     public static String join(Object[] array, String delimiter) {
-        return array == null ? null : join((Object[])array, delimiter, 0, array.length);
+        return array == null ? null : join((Object[]) array, delimiter, 0, array.length);
     }
 
     /**
      * 字符连接
-     * @param array 
+     *
+     * @param array
      * @param delimiter
      * @param startIndex
      * @param endIndex
@@ -131,7 +140,7 @@ public final class StrUtils implements Serializable {
         } else {
             StringJoiner joiner = new StringJoiner(toStringOrEmpty(delimiter));
 
-            for(int i = startIndex; i < endIndex; ++i) {
+            for (int i = startIndex; i < endIndex; ++i) {
                 joiner.add(toStringOrEmpty(array[i]));
             }
 
@@ -182,7 +191,8 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>字符串 转换成 String 集合</h4>
-     * @param str  字符串
+     *
+     * @param str 字符串
      * @return
      */
     public static List<String> splitToListString(String str) {
@@ -195,6 +205,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>字符串 转换成 String 集合[图片集合]</h4>
+     *
      * @param str 字符串
      * @return
      */
@@ -205,7 +216,9 @@ public final class StrUtils implements Serializable {
         String[] splits = str.split(",");
 
         int length = splits.length;
-        if (length <= 2){return  null;}
+        if (length <= 2) {
+            return null;
+        }
         String prefix = splits[0];
         length = length - 1;
         String suffix = splits[length];
@@ -219,6 +232,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>获取图片集合 最大数值</h4>
+     *
      * @param str
      * @return
      */
@@ -228,12 +242,15 @@ public final class StrUtils implements Serializable {
         }
         String[] splits = str.split(",");
         int length = splits.length;
-        if (length <= 2){return  0;}
+        if (length <= 2) {
+            return 0;
+        }
         return Integer.parseInt(splits[length - 2]);
     }
 
     /**
      * <h4>字符串集合 转成字符串</h4>
+     *
      * @param lists 字符串集合
      * @return
      */
@@ -254,6 +271,7 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>字符串集合 转成字符串</h4>
+     *
      * @param lists 字符串集合
      * @return
      */
@@ -271,8 +289,10 @@ public final class StrUtils implements Serializable {
         }
         return null;
     }
+
     /**
      * <h4>字符串集合 转成字符串</h4>
+     *
      * @param lists 字符串集合
      * @return
      */
@@ -293,9 +313,10 @@ public final class StrUtils implements Serializable {
 
     /**
      * <h4>截取字符串长度</h4>
+     *
      * @param value 字符串
      * @param begin 开始的位置
-     * @param end 结束的位置
+     * @param end   结束的位置
      * @return 截取后的字符串
      */
     public static String substring(String value, int begin, int end) {

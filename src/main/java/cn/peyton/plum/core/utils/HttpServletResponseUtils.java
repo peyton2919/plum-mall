@@ -24,6 +24,7 @@ public final class HttpServletResponseUtils implements Serializable {
 
     /**
      * <h4>写出 response </h4>
+     *
      * @param json
      */
     public static void returnJson(String json) {
@@ -49,10 +50,11 @@ public final class HttpServletResponseUtils implements Serializable {
      * <pre>
      *      必需引用 spring-web.jar 包
      * </pre>
+     *
      * @return
      */
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes _sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return  _sra.getResponse();
+        return _sra.getResponse();
     }
 }

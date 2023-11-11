@@ -20,6 +20,7 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
+     *
      * @param time 13位时间
      * @return 10位 时间戳
      */
@@ -29,6 +30,7 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
+     *
      * @return 10位 时间戳
      */
     public static Integer dateToTimestamp() {
@@ -37,6 +39,7 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
+     *
      * @param date 时间
      * @return 10位 时间戳
      */
@@ -46,31 +49,36 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
+     *
      * @param date 时间
      * @return 10位 时间戳
      */
     public static Integer dateToTimestamp(String date) {
-        return _dateToTimestamp(date,null);
+        return _dateToTimestamp(date, null);
     }
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
-     * @param date 时间
+     *
+     * @param date   时间
      * @param format 格式化时间样式
      * @return 10位 时间戳
      */
     public static Integer dateToTimestamp(String date, String format) {
-        return _dateToTimestamp(date,format);
+        return _dateToTimestamp(date, format);
     }
 
 
     /**
      * <h4>时间格式字符串</h4>
+     *
      * @param time 10位 时间戳
      * @return 时间格式字符串
      */
     public static String timestampToStrDate(Integer time) {
-        if (null == time){return null;}
+        if (null == time) {
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT.DATE_FORMAT_TIME);
         long _timeLong = Long.valueOf(time);
         return simpleDateFormat.format(new Date(_timeLong * 1000L));
@@ -78,17 +86,21 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>时间格式字符串</h4>
+     *
      * @param time 13位 时间戳
      * @return 时间格式字符串
      */
     public static String timestampToStrDate(Long time) {
-        if (null == time){return null;}
+        if (null == time) {
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT.DATE_FORMAT_TIME);
         return simpleDateFormat.format(new Date(time));
     }
 
     /**
      * <h4>时间格式字符串</h4>
+     *
      * @param date 时间
      * @return 时间格式字符串
      */
@@ -99,12 +111,15 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>时间格式字符串</h4>
-     * @param time 10位 时间戳
+     *
+     * @param time   10位 时间戳
      * @param format 格式化时间样式
      * @return 时间格式字符串
      */
-    public static String timestampToStrDate(Integer time,String format) {
-        if (null == time){return null;}
+    public static String timestampToStrDate(Integer time, String format) {
+        if (null == time) {
+            return null;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         long _timeLong = Long.valueOf(time);
         return simpleDateFormat.format(new Date(_timeLong * 1000L));
@@ -112,29 +127,33 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>10位时间戳转成时间格式</h4>
+     *
      * @param time 10位 时间戳
      * @return 时间
      */
-    public static Date timestampToDate(Integer time){
+    public static Date timestampToDate(Integer time) {
         return new Date(time * 1000L);
     }
 
 
     /**
      * <h4>时间转字符串</h4>
+     *
      * @param date 时间
      * @return
      */
     public static String conventDate2Str(Date date) {
         return conventDate2Str(date, FORMAT.DATE_FORMAT);
     }
+
     /**
      * <h4>时间转字符串</h4>
+     *
      * @param date 时间
-     * @param f 格式化样式
+     * @param f    格式化样式
      * @return
      */
-    public static String conventDate2Str(Date date,String f) {
+    public static String conventDate2Str(Date date, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);
         if (null != date && !"".equals(date)) {
             return format.format(date);
@@ -144,11 +163,12 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>字符串转时间</h4>
+     *
      * @param str 字符串
-     * @param f 格式化样式 格式: yyyy-MM-dd
+     * @param f   格式化样式 格式: yyyy-MM-dd
      * @return
      */
-    public static Date conventStr2Date(String str,String f) {
+    public static Date conventStr2Date(String str, String f) {
         SimpleDateFormat format = new SimpleDateFormat(f);
         if (null != str && !"".equals(str.trim())) {
             try {
@@ -160,8 +180,10 @@ public final class DateUtils implements Serializable {
         }
         return null;
     }
+
     /**
      * <h4>字符串转时间</h4>
+     *
      * @param str 字符串 格式: yyyy-MM-dd
      * @return
      */
@@ -171,12 +193,13 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
+     *
      * @param time 13位 时间戳
      * @return 10位 时间戳
      */
     private static Integer _dateToTimestamp(Long time) {
         try {
-            return (int) (time/1000);
+            return (int) (time / 1000);
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
             return 0;
@@ -185,25 +208,26 @@ public final class DateUtils implements Serializable {
 
     /**
      * <h4>生成 10 位 int 型的 时间戳</h4>
-     * @param date 时间
+     *
+     * @param date   时间
      * @param format 格式化时间样式
      * @return 10位 时间戳
      */
-    private static Integer _dateToTimestamp(String date,String format){
+    private static Integer _dateToTimestamp(String date, String format) {
         if (null == date) {
             return 0;
         }
         SimpleDateFormat simpleDateFormat =
-                new SimpleDateFormat(format == null? FORMAT.DATE_FORMAT_TIME:format);
+                new SimpleDateFormat(format == null ? FORMAT.DATE_FORMAT_TIME : format);
         try {
-            return (int) (simpleDateFormat.parse(date).getTime()/1000);
+            return (int) (simpleDateFormat.parse(date).getTime() / 1000);
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
             return 0;
         }
     }
 
-    public interface FORMAT{
+    public interface FORMAT {
         String DATE_FORMAT = "yyyy-MM-dd";
         String DATE_FORMAT_TIME = "yyyy-MM-dd HH:mm:ss";
         String DATE_FORMAT_STR = "yyyy年MM月dd日";

@@ -21,7 +21,7 @@ public final class PropertyUtils implements Serializable {
     private static PropertyUtils instance;
     private static String dir;
 
-    private PropertyUtils(){
+    private PropertyUtils() {
         try {
             Resource re = new ClassPathResource(dir);
             props = PropertiesLoaderUtils.loadProperties(re);
@@ -33,10 +33,11 @@ public final class PropertyUtils implements Serializable {
 
     /**
      * <h4>获取 PropertyUtil 对象</h4>
+     *
      * @param dir 路径
      * @return
      */
-    public static synchronized PropertyUtils getInstance(String dir){
+    public static synchronized PropertyUtils getInstance(String dir) {
         if (null == instance) {
             PropertyUtils.dir = dir;
             instance = new PropertyUtils();
@@ -46,15 +47,17 @@ public final class PropertyUtils implements Serializable {
 
     /**
      * <h4>获取 property值</h4>
+     *
      * @param key
      * @return
      */
-    public String getProperty(String key){
+    public String getProperty(String key) {
         return props.getProperty(key);
     }
 
     /**
      * <h4>获取 property值</h4>
+     *
      * @param key
      * @param defaultValue 默认值
      * @return

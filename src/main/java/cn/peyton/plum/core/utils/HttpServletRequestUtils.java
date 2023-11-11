@@ -1,6 +1,7 @@
 package cn.peyton.plum.core.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -25,8 +26,9 @@ public final class HttpServletRequestUtils implements Serializable {
 
     /**
      * <h3>获取 int类型值 </h3>
+     *
      * @param request Request对象
-     * @param key 键
+     * @param key     键
      * @return
      */
     public static int getInt(HttpServletRequest request, String key) {
@@ -37,10 +39,12 @@ public final class HttpServletRequestUtils implements Serializable {
             return -1;
         }
     }
+
     /**
      * <h3>获取 Long类型值 </h3>
+     *
      * @param request Request对象
-     * @param key 键
+     * @param key     键
      * @return
      */
     public static Long getLong(HttpServletRequest request, String key) {
@@ -51,10 +55,12 @@ public final class HttpServletRequestUtils implements Serializable {
             return -1L;
         }
     }
+
     /**
      * <h3>获取 Double类型值 </h3>
+     *
      * @param request Request对象
-     * @param key 键
+     * @param key     键
      * @return
      */
     public static Double getDouble(HttpServletRequest request, String key) {
@@ -65,10 +71,12 @@ public final class HttpServletRequestUtils implements Serializable {
             return -1d;
         }
     }
+
     /**
      * <h3>获取 Boolean类型值 </h3>
+     *
      * @param request Request对象
-     * @param key 键
+     * @param key     键
      * @return
      */
     public static Boolean getBoolean(HttpServletRequest request, String key) {
@@ -79,10 +87,12 @@ public final class HttpServletRequestUtils implements Serializable {
             return false;
         }
     }
+
     /**
      * <h3>获取 String 类型值 </h3>
+     *
      * @param request Request对象
-     * @param key 键
+     * @param key     键
      * @return
      */
     public static String getString(HttpServletRequest request, String key) {
@@ -103,12 +113,13 @@ public final class HttpServletRequestUtils implements Serializable {
 
     /**
      * <h4>赋值</h4>
+     *
      * @param parameterMap 参数集合
-     * @param className 类名
+     * @param className    类名
      * @param <T>
      * @return
      */
-    public static  <T> T voluation(Map<String, String[]> parameterMap, String className) {
+    public static <T> T voluation(Map<String, String[]> parameterMap, String className) {
         Class<?> c = null;
         T _bean = null;
         try {
@@ -138,13 +149,13 @@ public final class HttpServletRequestUtils implements Serializable {
                     field.setAccessible(true);
                     String type = field.getType().getTypeName();
                     String _v = value[0];
-                    String _tmp =(_v == null || "".equals(_v)) ? "0" : _v;
+                    String _tmp = (_v == null || "".equals(_v)) ? "0" : _v;
                     if (type.endsWith("int") || type.endsWith("Integer")) {
                         field.set(_bean, Integer.parseInt(_tmp));
                     } else if (type.endsWith("float") || type.endsWith("Float")) {
                         field.set(_bean, Float.parseFloat(_tmp));
                     } else if (type.endsWith("long") || type.endsWith("Long")) {
-                        field.set(_bean,Long.valueOf(_tmp));
+                        field.set(_bean, Long.valueOf(_tmp));
                     } else if (type.endsWith("double") || type.endsWith("Double")) {
                         field.set(_bean, Double.parseDouble(_tmp));
                     } else if (type.endsWith("short") || type.endsWith("Short")) {
@@ -172,11 +183,12 @@ public final class HttpServletRequestUtils implements Serializable {
 
     /**
      * <h4>判断是否是基础类型</h4>
+     *
      * @param typeName 基类类型名称
      * @return 返回 true 表示 基础类型 ; false 表示 对象
      */
     public static boolean isBaseType(String typeName) {
-        String baseType ="int,java.lang.Integer,float,java.lang.Float,java.lang.Character"
+        String baseType = "int,java.lang.Integer,float,java.lang.Float,java.lang.Character"
                 + "long,java.lang.Long,java.lang.String,double,java.lang.Double,"
                 + "short,java.lang.Short,char,byte,boolean,java.lang.Boolean,java.util.Date";
         return baseType.contains(typeName);
@@ -185,16 +197,18 @@ public final class HttpServletRequestUtils implements Serializable {
 
     /**
      * <h4>判断是否是数值类型</h4>
+     *
      * @param typeName 类型名称
      * @return
      */
     public static boolean isNumberType(String typeName) {
-        String baseType ="int,float,long,double,short";
+        String baseType = "int,float,long,double,short";
         return baseType.contains(typeName);
     }
 
     /**
      * <h4>排除一些javax 下的类 不做验证</h4>
+     *
      * @param typeName 类型名称
      * @return 返回 true 表示 是javax或spring自带 包下对象 ; false 表示 不是 javax或spring自带 包下对象
      */
@@ -210,11 +224,25 @@ public final class HttpServletRequestUtils implements Serializable {
      * <pre>
      *      必需引用 spring-web.jar 包
      * </pre>
+     *
      * @return
      */
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes _sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return  _sra.getRequest();
+        return _sra.getRequest();
+    }
+
+    /**
+     * <h4>获取当前的request</h4>
+     * <pre>
+     *      必需引用 spring-web.jar 包
+     * </pre>
+     *
+     * @return
+     */
+    public static HttpSession getSession() {
+
+       return  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
     }
 
 }

@@ -25,9 +25,13 @@ import jakarta.servlet.http.HttpServletRequest;
  * </pre>
  */
 public abstract class VerifyTokenController<IUser> {
-    /** 当前用户 */
+    /**
+     * 当前用户
+     */
     protected IUser baseUser;
-    /** token 值 */
+    /**
+     * token 值
+     */
     protected String token = "";
 
 
@@ -45,20 +49,22 @@ public abstract class VerifyTokenController<IUser> {
      *          并把 IUser 对象赋值给 baseUser;
      *          继承 AppController 子类, 可直接调用 baseUserParam;
      * </pre>
+     *
      * @param request
-     * @param param 当前当前对象(new 继承IUser的对象)
+     * @param param   当前当前对象(new 继承IUser的对象)
      */
-    protected void verifyTokenAndVoluation(HttpServletRequest request,IUser param) {
-        JSONResult<IUser> jsonResult = handleToken(request,param);
-        if (jsonResult.getCode() == 200){
+    protected void verifyTokenAndVoluation(HttpServletRequest request, IUser param) {
+        JSONResult<IUser> jsonResult = handleToken(request, param);
+        if (jsonResult.getCode() == 200) {
             baseUser = (IUser) jsonResult.getData();
         }
     }
 
     /**
      * <h4>保存token</h4>
+     *
      * @param param 继承IUser的对象
-     * @return 加密后的字符串(token值）
+     * @return 加密后的字符串(token值 ）
      */
     protected String saveToken(IUser param) {
         TokenUtils<IUser> _tokenUtils = new TokenUtils<>();
@@ -68,19 +74,20 @@ public abstract class VerifyTokenController<IUser> {
 
     /**
      * <h4>处理 token 逻辑</h4>
+     *
      * @param request
-     * @param param 继承IUser的对象
+     * @param param   继承IUser的对象
      * @return JSONResul对象
      */
-    private JSONResult<IUser> handleToken(HttpServletRequest request,IUser param) {
-        if (null == param){
+    private JSONResult<IUser> handleToken(HttpServletRequest request, IUser param) {
+        if (null == param) {
             LogUtils.info("用户对象为空");
             return JSONResult.fail(ResponseStatus.TOKEN_ILLEGAL);
         }
         Class<?> clazz = param.getClass();
         String key = clazz.getName();
         token = request.getHeader(TokenUtils.Property.TOKEN);
-        if (null == token || "".equals(token)){
+        if (null == token || "".equals(token)) {
             return JSONResult.fail(ResponseStatus.TOKEN_ILLEGAL);
         }
         TokenUtils<IUser> _tokenTools = new TokenUtils<IUser>();

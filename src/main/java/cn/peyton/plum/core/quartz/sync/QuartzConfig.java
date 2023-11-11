@@ -22,7 +22,6 @@ public class QuartzConfig implements Serializable {
 
     /**
      * 1. 创建 Job 对象
-     *
      */
     @Bean
     public JobDetailFactoryBean jobDetailFactoryBean() {
@@ -63,11 +62,12 @@ public class QuartzConfig implements Serializable {
 
 
     //================================= 第二种实现方式 ===================================
+
     /**
-     *  Cron Trigger 对象
+     * Cron Trigger 对象
      */
     @Bean
-    public CronTriggerFactoryBean cronTriggerFactoryBean(JobDetailFactoryBean jobDetailFactoryBean){
+    public CronTriggerFactoryBean cronTriggerFactoryBean(JobDetailFactoryBean jobDetailFactoryBean) {
         CronTriggerFactoryBean factory = new CronTriggerFactoryBean();
         //关联 JobDetail 对象
         factory.setJobDetail(jobDetailFactoryBean.getObject());
@@ -78,7 +78,7 @@ public class QuartzConfig implements Serializable {
 
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean(
-                CronTriggerFactoryBean cronTriggerFactoryBean) {
+            CronTriggerFactoryBean cronTriggerFactoryBean) {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         //关联 trigger
         factory.setTriggers(cronTriggerFactoryBean.getObject());

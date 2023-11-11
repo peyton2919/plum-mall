@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.UserExtractMapper">
+    <resultMap id="ResultMemberExtractMap" type="cn.peyton.plum.mall.pojo.UserExtract">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="shaer_id" property="shaerId" jdbcType="BIGINT"/>
+        <result column="shaer_type" property="shaerType" jdbcType="TINYINT"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="extract_type" property="extractType" jdbcType="VARCHAR"/>
+        <result column="bank_code" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bank_address" property="bankAddress" jdbcType="VARCHAR"/>
+        <result column="alipay_code" property="alipayCode" jdbcType="VARCHAR"/>
+        <result column="extract_price" property="extractPrice" jdbcType="DECIMAL"/>
+        <result column="explain" property="explain" jdbcType="VARCHAR"/>
+        <result column="balance" property="balance" jdbcType="DECIMAL"/>
+        <result column="fail_msg" property="failMsg" jdbcType="VARCHAR"/>
+        <result column="fail_time" property="failTime" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Column_tb_member_extract_List">
+        `id`,`shaer_id`,`shaer_type`,`real_name`,`extract_type`,`bank_code`,`bank_address`,`alipay_code`,`extract_price`,`explain`,`balance`,`fail_msg`,`fail_time`,`status`,`wechat`,`is_del`,`create_time`,`update_time`
+    </sql>
+
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.UserExtract" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `tb_member_extract`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shaerId != null">`shaer_id`,</if>
+            <if test="shaerType != null">`shaer_type`,</if>
+            <if test="realName != null">`real_name`,</if>
+            <if test="extractType != null">`extract_type`,</if>
+            <if test="bankCode != null">`bank_code`,</if>
+            <if test="bankAddress != null">`bank_address`,</if>
+            <if test="alipayCode != null">`alipay_code`,</if>
+            <if test="extractPrice != null">`extract_price`,</if>
+            <if test="explain != null">`explain`,</if>
+            <if test="balance != null">`balance`,</if>
+            <if test="failMsg != null">`fail_msg`,</if>
+            <if test="failTime != null">`fail_time`,</if>
+            <if test="status != null">`status`,</if>
+            <if test="wechat != null">`wechat`,</if>
+            <if test="isDel != null">`is_del`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="updateTime != null">`update_time`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shaerId != null">#{shaerId},</if>
+            <if test="shaerType != null">#{shaerType},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="extractType != null">#{extractType},</if>
+            <if test="bankCode != null">#{bankCode},</if>
+            <if test="bankAddress != null">#{bankAddress},</if>
+            <if test="alipayCode != null">#{alipayCode},</if>
+            <if test="extractPrice != null">#{extractPrice},</if>
+            <if test="explain != null">#{explain},</if>
+            <if test="balance != null">#{balance},</if>
+            <if test="failMsg != null">#{failMsg},</if>
+            <if test="failTime != null">#{failTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="wechat != null">#{wechat},</if>
+            <if test="isDel != null">#{isDel},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
+        update `tb_member_extract`
+        <set>
+            <if test="shaerId != null">`shaer_id` = #{shaerId},</if>
+            <if test="shaerType != null">`shaer_type` = #{shaerType},</if>
+            <if test="realName != null">`real_name` = #{realName},</if>
+            <if test="extractType != null">`extract_type` = #{extractType},</if>
+            <if test="bankCode != null">`bank_code` = #{bankCode},</if>
+            <if test="bankAddress != null">`bank_address` = #{bankAddress},</if>
+            <if test="alipayCode != null">`alipay_code` = #{alipayCode},</if>
+            <if test="extractPrice != null">`extract_price` = #{extractPrice},</if>
+            <if test="explain != null">`explain` = #{explain},</if>
+            <if test="balance != null">`balance` = #{balance},</if>
+            <if test="failMsg != null">`fail_msg` = #{failMsg},</if>
+            <if test="failTime != null">`fail_time` = #{failTime},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="wechat != null">`wechat` = #{wechat},</if>
+            <if test="isDel != null">`is_del` = #{isDel},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_member_extract`
+        where `id` = #{id}
+    </delete>
+
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
+
+        select
+        count(`id`)
+        from `tb_member_extract`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="shaerId != null">
+                and `shaer_id` = #{shaerId}
+            </if>
+            <if test="shaerType != null">
+                and `shaer_type` = #{shaerType}
+            </if>
+            <if test="realName != null">
+                and `real_name` = #{realName}
+            </if>
+            <if test="extractType != null">
+                and `extract_type` = #{extractType}
+            </if>
+            <if test="bankCode != null">
+                and `bank_code` = #{bankCode}
+            </if>
+            <if test="bankAddress != null">
+                and `bank_address` = #{bankAddress}
+            </if>
+            <if test="alipayCode != null">
+                and `alipay_code` = #{alipayCode}
+            </if>
+            <if test="extractPrice != null">
+                and `extract_price` = #{extractPrice}
+            </if>
+            <if test="explain != null">
+                and `explain` = #{explain}
+            </if>
+            <if test="balance != null">
+                and `balance` = #{balance}
+            </if>
+            <if test="failMsg != null">
+                and `fail_msg` = #{failMsg}
+            </if>
+            <if test="failTime != null">
+                and `fail_time` = #{failTime}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+            <if test="wechat != null">
+                and `wechat` = #{wechat}
+            </if>
+            <if test="isDel != null">
+                and `is_del` = #{isDel}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and `update_time` = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultMemberExtractMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_member_extract_List"/>
+        from `tb_member_extract`
+        where `id` = #{id}
+    </select>
+
+    <select id="selectByLiekAndObj" resultMap="ResultMemberExtractMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_member_extract_List"/>
+        from `tb_member_extract`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.shaerId != null">
+                and `shaer_id` like concat('%',#{record.shaerId},'%')
+            </if>
+            <if test="record.shaerType != null">
+                and `shaer_type` like concat('%',#{record.shaerType},'%')
+            </if>
+            <if test="record.realName != null">
+                and `real_name` like concat('%',#{record.realName},'%')
+            </if>
+            <if test="record.extractType != null">
+                and `extract_type` like concat('%',#{record.extractType},'%')
+            </if>
+            <if test="record.bankCode != null">
+                and `bank_code` like concat('%',#{record.bankCode},'%')
+            </if>
+            <if test="record.bankAddress != null">
+                and `bank_address` like concat('%',#{record.bankAddress},'%')
+            </if>
+            <if test="record.alipayCode != null">
+                and `alipay_code` like concat('%',#{record.alipayCode},'%')
+            </if>
+            <if test="record.extractPrice != null">
+                and `extract_price` like concat('%',#{record.extractPrice},'%')
+            </if>
+            <if test="record.explain != null">
+                and `explain` like concat('%',#{record.explain},'%')
+            </if>
+            <if test="record.balance != null">
+                and `balance` like concat('%',#{record.balance},'%')
+            </if>
+            <if test="record.failMsg != null">
+                and `fail_msg` like concat('%',#{record.failMsg},'%')
+            </if>
+            <if test="record.failTime != null">
+                and `fail_time` like concat('%',#{record.failTime},'%')
+            </if>
+            <if test="record.status != null">
+                and `status` like concat('%',#{record.status},'%')
+            </if>
+            <if test="record.wechat != null">
+                and `wechat` like concat('%',#{record.wechat},'%')
+            </if>
+            <if test="record.isDel != null">
+                and `is_del` like concat('%',#{record.isDel},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+            <if test="record.updateTime != null">
+                and `update_time` like concat('%',#{record.updateTime},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="selectByObj" resultMap="ResultMemberExtractMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_member_extract_List"/>
+        from `tb_member_extract`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.shaerId != null">
+                > and `shaer_id` = #{record.shaerId}
+            </if>
+            <if test="record.shaerType != null">
+                > and `shaer_type` = #{record.shaerType}
+            </if>
+            <if test="record.realName != null">
+                > and `real_name` = #{record.realName}
+            </if>
+            <if test="record.extractType != null">
+                > and `extract_type` = #{record.extractType}
+            </if>
+            <if test="record.bankCode != null">
+                > and `bank_code` = #{record.bankCode}
+            </if>
+            <if test="record.bankAddress != null">
+                > and `bank_address` = #{record.bankAddress}
+            </if>
+            <if test="record.alipayCode != null">
+                > and `alipay_code` = #{record.alipayCode}
+            </if>
+            <if test="record.extractPrice != null">
+                > and `extract_price` = #{record.extractPrice}
+            </if>
+            <if test="record.explain != null">
+                > and `explain` = #{record.explain}
+            </if>
+            <if test="record.balance != null">
+                > and `balance` = #{record.balance}
+            </if>
+            <if test="record.failMsg != null">
+                > and `fail_msg` = #{record.failMsg}
+            </if>
+            <if test="record.failTime != null">
+                > and `fail_time` = #{record.failTime}
+            </if>
+            <if test="record.status != null">
+                > and `status` = #{record.status}
+            </if>
+            <if test="record.wechat != null">
+                > and `wechat` = #{record.wechat}
+            </if>
+            <if test="record.isDel != null">
+                > and `is_del` = #{record.isDel}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+            <if test="record.updateTime != null">
+                > and `update_time` = #{record.updateTime}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
+
+        select
+        count(`id`)
+        from `tb_member_extract`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="shaerId != null">
+                > and `shaer_id` like concat('%',#{shaerId},'%')
+            </if>
+            <if test="shaerType != null">
+                > and `shaer_type` like concat('%',#{shaerType},'%')
+            </if>
+            <if test="realName != null">
+                > and `real_name` like concat('%',#{realName},'%')
+            </if>
+            <if test="extractType != null">
+                > and `extract_type` like concat('%',#{extractType},'%')
+            </if>
+            <if test="bankCode != null">
+                > and `bank_code` like concat('%',#{bankCode},'%')
+            </if>
+            <if test="bankAddress != null">
+                > and `bank_address` like concat('%',#{bankAddress},'%')
+            </if>
+            <if test="alipayCode != null">
+                > and `alipay_code` like concat('%',#{alipayCode},'%')
+            </if>
+            <if test="extractPrice != null">
+                > and `extract_price` like concat('%',#{extractPrice},'%')
+            </if>
+            <if test="explain != null">
+                > and `explain` like concat('%',#{explain},'%')
+            </if>
+            <if test="balance != null">
+                > and `balance` like concat('%',#{balance},'%')
+            </if>
+            <if test="failMsg != null">
+                > and `fail_msg` like concat('%',#{failMsg},'%')
+            </if>
+            <if test="failTime != null">
+                > and `fail_time` like concat('%',#{failTime},'%')
+            </if>
+            <if test="status != null">
+                > and `status` like concat('%',#{status},'%')
+            </if>
+            <if test="wechat != null">
+                > and `wechat` like concat('%',#{wechat},'%')
+            </if>
+            <if test="isDel != null">
+                > and `is_del` like concat('%',#{isDel},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null">
+                > and `update_time` like concat('%',#{updateTime},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
+
+        select
+        count(`id`)
+        from `tb_member_extract`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="shaerId != null">
+                > and `shaer_id` = #{shaerId}
+            </if>
+            <if test="shaerType != null">
+                > and `shaer_type` = #{shaerType}
+            </if>
+            <if test="realName != null">
+                > and `real_name` = #{realName}
+            </if>
+            <if test="extractType != null">
+                > and `extract_type` = #{extractType}
+            </if>
+            <if test="bankCode != null">
+                > and `bank_code` = #{bankCode}
+            </if>
+            <if test="bankAddress != null">
+                > and `bank_address` = #{bankAddress}
+            </if>
+            <if test="alipayCode != null">
+                > and `alipay_code` = #{alipayCode}
+            </if>
+            <if test="extractPrice != null">
+                > and `extract_price` = #{extractPrice}
+            </if>
+            <if test="explain != null">
+                > and `explain` = #{explain}
+            </if>
+            <if test="balance != null">
+                > and `balance` = #{balance}
+            </if>
+            <if test="failMsg != null">
+                > and `fail_msg` = #{failMsg}
+            </if>
+            <if test="failTime != null">
+                > and `fail_time` = #{failTime}
+            </if>
+            <if test="status != null">
+                > and `status` = #{status}
+            </if>
+            <if test="wechat != null">
+                > and `wechat` = #{wechat}
+            </if>
+            <if test="isDel != null">
+                > and `is_del` = #{isDel}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                > and `update_time` = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

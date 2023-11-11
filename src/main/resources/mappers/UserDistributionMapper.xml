@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.UserDistributionMapper">
+    <resultMap id="ResultUserDistributionMap" type="cn.peyton.plum.mall.pojo.UserDistribution">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="dist_id" property="distId" jdbcType="BIGINT"/>
+        <result column="shaer_id" property="shaerId" jdbcType="BIGINT"/>
+        <result column="shaer_type" property="shaerType" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Column_tb_user_distribution_List">
+        `id`,`dist_id`,`shaer_id`,`shaer_type`
+    </sql>
+
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.UserDistribution" keyColumn="id"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into `tb_user_distribution`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distId != null">`dist_id`,</if>
+            <if test="shaerId != null">`shaer_id`,</if>
+            <if test="shaerType != null">`shaer_type`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distId != null">#{distId},</if>
+            <if test="shaerId != null">#{shaerId},</if>
+            <if test="shaerType != null">#{shaerType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
+        update `tb_user_distribution`
+        <set>
+            <if test="distId != null">`dist_id` = #{distId},</if>
+            <if test="shaerId != null">`shaer_id` = #{shaerId},</if>
+            <if test="shaerType != null">`shaer_type` = #{shaerType},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_user_distribution`
+        where `id` = #{id}
+    </delete>
+
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
+
+        select
+        count(`id`)
+        from `tb_user_distribution`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="distId != null">
+                and `dist_id` = #{distId}
+            </if>
+            <if test="shaerId != null">
+                and `shaer_id` = #{shaerId}
+            </if>
+            <if test="shaerType != null">
+                and `shaer_type` = #{shaerType}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultUserDistributionMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_user_distribution_List"/>
+        from `tb_user_distribution`
+        where `id` = #{id}
+    </select>
+
+    <select id="selectByLiekAndObj" resultMap="ResultUserDistributionMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_user_distribution_List"/>
+        from `tb_user_distribution`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.distId != null">
+                and `dist_id` like concat('%',#{record.distId},'%')
+            </if>
+            <if test="record.shaerId != null">
+                and `shaer_id` like concat('%',#{record.shaerId},'%')
+            </if>
+            <if test="record.shaerType != null">
+                and `shaer_type` like concat('%',#{record.shaerType},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="selectByObj" resultMap="ResultUserDistributionMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_user_distribution_List"/>
+        from `tb_user_distribution`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.distId != null">
+                > and `dist_id` = #{record.distId}
+            </if>
+            <if test="record.shaerId != null">
+                > and `shaer_id` = #{record.shaerId}
+            </if>
+            <if test="record.shaerType != null">
+                > and `shaer_type` = #{record.shaerType}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
+
+        select
+        count(`id`)
+        from `tb_user_distribution`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="distId != null">
+                > and `dist_id` like concat('%',#{distId},'%')
+            </if>
+            <if test="shaerId != null">
+                > and `shaer_id` like concat('%',#{shaerId},'%')
+            </if>
+            <if test="shaerType != null">
+                > and `shaer_type` like concat('%',#{shaerType},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
+
+        select
+        count(`id`)
+        from `tb_user_distribution`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="distId != null">
+                > and `dist_id` = #{distId}
+            </if>
+            <if test="shaerId != null">
+                > and `shaer_id` = #{shaerId}
+            </if>
+            <if test="shaerType != null">
+                > and `shaer_type` = #{shaerType}
+            </if>
+        </where>
+    </select>
+
+</mapper>

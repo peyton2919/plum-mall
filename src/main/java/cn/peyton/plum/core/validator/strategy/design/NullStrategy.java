@@ -2,6 +2,7 @@ package cn.peyton.plum.core.validator.strategy.design;
 
 import cn.peyton.plum.core.validator.strategy.AbstractValidator;
 import cn.peyton.plum.core.validator.constraints.Null;
+
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class NullStrategy extends AbstractValidator {
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         Null tNull = (Null) annotation;
         message = tNull.message();
-        if (null != value){
+        if (null != value) {
             map.put(name, message);
         }
     }

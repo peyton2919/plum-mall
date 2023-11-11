@@ -22,7 +22,7 @@ public class NotNullStrategy extends AbstractValidator {
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         NotNull notNull = (NotNull) annotation;
         message = notNull.message();
-        if (!StrUtils.isNull(value)){
+        if (!StrUtils.isNull(value)) {
             map.put(name, message);
         }
     }

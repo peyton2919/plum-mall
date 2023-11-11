@@ -1,97 +1,276 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShippingTemplatesRegionMapper">
-	<resultMap id="ResultShippingTemplatesRegionMap" type="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
-		<id column="id" property="id" jdbcType="INTEGER"/>
-		<result column="province_id" property="provinceId" jdbcType="INTEGER"/>
-		<result column="temp_id" property="tempId" jdbcType="INTEGER"/>
-		<result column="city_id" property="cityId" jdbcType="INTEGER"/>
-		<result column="first" property="first" jdbcType="DECIMAL"/>
-		<result column="first_price" property="firstPrice" jdbcType="DECIMAL"/>
-		<result column="continues" property="continues" jdbcType="DECIMAL"/>
-		<result column="continue_price" property="continuePrice" jdbcType="DECIMAL"/>
-		<result column="type" property="type" jdbcType="TINYINT"/>
-		<result column="uniqid" property="uniqid" jdbcType="VARCHAR"/>
-	</resultMap>
+    <resultMap id="ResultShippingTemplatesRegionMap" type="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+        <result column="temp_id" property="tempId" jdbcType="INTEGER"/>
+        <result column="city_id" property="cityId" jdbcType="INTEGER"/>
+        <result column="first" property="first" jdbcType="DECIMAL"/>
+        <result column="first_price" property="firstPrice" jdbcType="DECIMAL"/>
+        <result column="continues" property="continues" jdbcType="DECIMAL"/>
+        <result column="continue_price" property="continuePrice" jdbcType="DECIMAL"/>
+        <result column="calc_type" property="calcType" jdbcType="TINYINT"/>
+        <result column="uniqid" property="uniqid" jdbcType="VARCHAR"/>
+    </resultMap>
 
-	<sql id="Column_tb_shipping_templates_region_List">
-		`id`,`province_id`,`temp_id`,`city_id`,`first`,`first_price`,`continues`,`continue_price`,`type`,`uniqid`
-	</sql>
+    <sql id="Column_tb_shipping_templates_region_List">
+        `id`,`province_id`,`temp_id`,`city_id`,`first`,`first_price`,`continues`,`continue_price`,`calc_type`,`uniqid`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `tb_shipping_templates_region`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="provinceId != null">`province_id`,</if>
-			<if test="tempId != null">`temp_id`,</if>
-			<if test="cityId != null">`city_id`,</if>
-			<if test="first != null">`first`,</if>
-			<if test="firstPrice != null">`first_price`,</if>
-			<if test="continues != null">`continues`,</if>
-			<if test="continuePrice != null">`continue_price`,</if>
-			<if test="type != null">`type`,</if>
-			<if test="uniqid != null">`uniqid`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="provinceId != null">#{provinceId},</if>
-			<if test="tempId != null">#{tempId},</if>
-			<if test="cityId != null">#{cityId},</if>
-			<if test="first != null">#{first},</if>
-			<if test="firstPrice != null">#{firstPrice},</if>
-			<if test="continues != null">#{continues},</if>
-			<if test="continuePrice != null">#{continuePrice},</if>
-			<if test="type != null">#{type},</if>
-			<if test="uniqid != null">#{uniqid},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion" keyColumn="id"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into `tb_shipping_templates_region`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="provinceId != null">`province_id`,</if>
+            <if test="tempId != null">`temp_id`,</if>
+            <if test="cityId != null">`city_id`,</if>
+            <if test="first != null">`first`,</if>
+            <if test="firstPrice != null">`first_price`,</if>
+            <if test="continues != null">`continues`,</if>
+            <if test="continuePrice != null">`continue_price`,</if>
+            <if test="calcType != null">`calc_type`,</if>
+            <if test="uniqid != null">`uniqid`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="provinceId != null">#{provinceId},</if>
+            <if test="tempId != null">#{tempId},</if>
+            <if test="cityId != null">#{cityId},</if>
+            <if test="first != null">#{first},</if>
+            <if test="firstPrice != null">#{firstPrice},</if>
+            <if test="continues != null">#{continues},</if>
+            <if test="continuePrice != null">#{continuePrice},</if>
+            <if test="calcType != null">#{calcType},</if>
+            <if test="uniqid != null">#{uniqid},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from `tb_shipping_templates_region`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
+        update `tb_shipping_templates_region`
+        <set>
+            <if test="provinceId != null">`province_id` = #{provinceId},</if>
+            <if test="tempId != null">`temp_id` = #{tempId},</if>
+            <if test="cityId != null">`city_id` = #{cityId},</if>
+            <if test="first != null">`first` = #{first},</if>
+            <if test="firstPrice != null">`first_price` = #{firstPrice},</if>
+            <if test="continues != null">`continues` = #{continues},</if>
+            <if test="continuePrice != null">`continue_price` = #{continuePrice},</if>
+            <if test="calcType != null">`calc_type` = #{calcType},</if>
+            <if test="uniqid != null">`uniqid` = #{uniqid},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
-		update `tb_shipping_templates_region`
-		<set>
-			<if test="provinceId != null">`province_id` = #{provinceId},</if>
-			<if test="tempId != null">`temp_id` = #{tempId},</if>
-			<if test="cityId != null">`city_id` = #{cityId},</if>
-			<if test="first != null">`first` = #{first},</if>
-			<if test="firstPrice != null">`first_price` = #{firstPrice},</if>
-			<if test="continues != null">`continues` = #{continues},</if>
-			<if test="continuePrice != null">`continue_price` = #{continuePrice},</if>
-			<if test="type != null">`type` = #{type},</if>
-			<if test="uniqid != null">`uniqid` = #{uniqid},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from `tb_shipping_templates_region`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultShippingTemplatesRegionMap"  parameterType="java.lang.Integer">
-		select
-		<include refid="Column_tb_shipping_templates_region_List"/>
-		from `tb_shipping_templates_region`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer"
+            parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `tb_shipping_templates_region`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="provinceId != null">
+                and `province_id` = #{provinceId}
+            </if>
+            <if test="tempId != null">
+                and `temp_id` = #{tempId}
+            </if>
+            <if test="cityId != null">
+                and `city_id` = #{cityId}
+            </if>
+            <if test="first != null">
+                and `first` = #{first}
+            </if>
+            <if test="firstPrice != null">
+                and `first_price` = #{firstPrice}
+            </if>
+            <if test="continues != null">
+                and `continues` = #{continues}
+            </if>
+            <if test="continuePrice != null">
+                and `continue_price` = #{continuePrice}
+            </if>
+            <if test="calcType != null">
+                and `calc_type` = #{calcType}
+            </if>
+            <if test="uniqid != null">
+                and `uniqid` = #{uniqid}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultShippingTemplatesRegionMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultShippingTemplatesRegionMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Column_tb_shipping_templates_region_List"/>
+        from `tb_shipping_templates_region`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultShippingTemplatesRegionMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultShippingTemplatesRegionMap"  parameterType="map">
+        select
+        <include refid="Column_tb_shipping_templates_region_List"/>
+        from `tb_shipping_templates_region`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.provinceId != null">
+                and `province_id` like concat('%',#{record.provinceId},'%')
+            </if>
+            <if test="record.tempId != null">
+                and `temp_id` like concat('%',#{record.tempId},'%')
+            </if>
+            <if test="record.cityId != null">
+                and `city_id` like concat('%',#{record.cityId},'%')
+            </if>
+            <if test="record.first != null">
+                and `first` like concat('%',#{record.first},'%')
+            </if>
+            <if test="record.firstPrice != null">
+                and `first_price` like concat('%',#{record.firstPrice},'%')
+            </if>
+            <if test="record.continues != null">
+                and `continues` like concat('%',#{record.continues},'%')
+            </if>
+            <if test="record.continuePrice != null">
+                and `continue_price` like concat('%',#{record.continuePrice},'%')
+            </if>
+            <if test="record.calcType != null">
+                and `calc_type` like concat('%',#{record.calcType},'%')
+            </if>
+            <if test="record.uniqid != null">
+                and `uniqid` like concat('%',#{record.uniqid},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultShippingTemplatesRegionMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_tb_shipping_templates_region_List"/>
+        from `tb_shipping_templates_region`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.provinceId != null">
+                > and `province_id` = #{record.provinceId}
+            </if>
+            <if test="record.tempId != null">
+                > and `temp_id` = #{record.tempId}
+            </if>
+            <if test="record.cityId != null">
+                > and `city_id` = #{record.cityId}
+            </if>
+            <if test="record.first != null">
+                > and `first` = #{record.first}
+            </if>
+            <if test="record.firstPrice != null">
+                > and `first_price` = #{record.firstPrice}
+            </if>
+            <if test="record.continues != null">
+                > and `continues` = #{record.continues}
+            </if>
+            <if test="record.continuePrice != null">
+                > and `continue_price` = #{record.continuePrice}
+            </if>
+            <if test="record.calcType != null">
+                > and `calc_type` = #{record.calcType}
+            </if>
+            <if test="record.uniqid != null">
+                > and `uniqid` = #{record.uniqid}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer"
+            parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
+        select
+        count(`id`)
+        from `tb_shipping_templates_region`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="provinceId != null">
+                > and `province_id` like concat('%',#{provinceId},'%')
+            </if>
+            <if test="tempId != null">
+                > and `temp_id` like concat('%',#{tempId},'%')
+            </if>
+            <if test="cityId != null">
+                > and `city_id` like concat('%',#{cityId},'%')
+            </if>
+            <if test="first != null">
+                > and `first` like concat('%',#{first},'%')
+            </if>
+            <if test="firstPrice != null">
+                > and `first_price` like concat('%',#{firstPrice},'%')
+            </if>
+            <if test="continues != null">
+                > and `continues` like concat('%',#{continues},'%')
+            </if>
+            <if test="continuePrice != null">
+                > and `continue_price` like concat('%',#{continuePrice},'%')
+            </if>
+            <if test="calcType != null">
+                > and `calc_type` like concat('%',#{calcType},'%')
+            </if>
+            <if test="uniqid != null">
+                > and `uniqid` like concat('%',#{uniqid},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesRegion">
-
-	</update>
+        select
+        count(`id`)
+        from `tb_shipping_templates_region`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="provinceId != null">
+                > and `province_id` = #{provinceId}
+            </if>
+            <if test="tempId != null">
+                > and `temp_id` = #{tempId}
+            </if>
+            <if test="cityId != null">
+                > and `city_id` = #{cityId}
+            </if>
+            <if test="first != null">
+                > and `first` = #{first}
+            </if>
+            <if test="firstPrice != null">
+                > and `first_price` = #{firstPrice}
+            </if>
+            <if test="continues != null">
+                > and `continues` = #{continues}
+            </if>
+            <if test="continuePrice != null">
+                > and `continue_price` = #{continuePrice}
+            </if>
+            <if test="calcType != null">
+                > and `calc_type` = #{calcType}
+            </if>
+            <if test="uniqid != null">
+                > and `uniqid` = #{uniqid}
+            </if>
+        </where>
+    </select>
 
 </mapper>

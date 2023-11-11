@@ -28,6 +28,7 @@ public class AopLogs implements Serializable {
 
     /**
      * <h4>监测service 包下执行时间 </h4>
+     *
      * @param point
      * @return
      * @throws Throwable
@@ -41,11 +42,11 @@ public class AopLogs implements Serializable {
         long endTime = System.currentTimeMillis();
         long exTimes = endTime - startTime;
         if (exTimes > 3000) {
-            log.error("当前执行耗时：{}",exTimes);
-        }else if (exTimes > 200){
-            log.warn("当前执行耗时：{}",exTimes);
-        }else {
-            log.info("当前执行耗时：{}",exTimes);
+            log.error("当前执行耗时：{}", exTimes);
+        } else if (exTimes > 200) {
+            log.warn("当前执行耗时：{}", exTimes);
+        } else {
+            log.info("当前执行耗时：{}", exTimes);
         }
         return result;
     }

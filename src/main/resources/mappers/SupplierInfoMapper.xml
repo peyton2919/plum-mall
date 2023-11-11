@@ -1,105 +1,312 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.SupplierInfoMapper">
-	<resultMap id="ResultSupplierInfoMap" type="cn.peyton.plum.mall.pojo.SupplierInfo">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="sup_id" property="supId" jdbcType="BIGINT"/>
-		<result column="add" property="add" jdbcType="VARCHAR"/>
-		<result column="email" property="email" jdbcType="VARCHAR"/>
-		<result column="tel" property="tel" jdbcType="VARCHAR"/>
-		<result column="qq" property="qq" jdbcType="VARCHAR"/>
-		<result column="fax" property="fax" jdbcType="VARCHAR"/>
-		<result column="sex" property="sex" jdbcType="TINYINT"/>
-		<result column="birthday" property="birthday" jdbcType="VARCHAR"/>
-		<result column="explain" property="explain" jdbcType="VARCHAR"/>
-		<result column="web_site" property="webSite" jdbcType="VARCHAR"/>
-		<result column="web_code" property="webCode" jdbcType="VARCHAR"/>
-	</resultMap>
+    <resultMap id="ResultSupplierInfoMap" type="cn.peyton.plum.mall.pojo.SupplierInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="sup_id" property="supId" jdbcType="BIGINT"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="qq" property="qq" jdbcType="VARCHAR"/>
+        <result column="fax" property="fax" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="TINYINT"/>
+        <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+        <result column="explain" property="explain" jdbcType="VARCHAR"/>
+        <result column="web_site" property="webSite" jdbcType="VARCHAR"/>
+        <result column="web_code" property="webCode" jdbcType="VARCHAR"/>
+    </resultMap>
 
-	<sql id="Column_tb_supplier_info_List">
-		`id`,`sup_id`,`add`,`email`,`tel`,`qq`,`fax`,`sex`,`birthday`,`explain`,`web_site`,`web_code`
-	</sql>
+    <sql id="Column_tb_supplier_info_List">
+        `id`,`sup_id`,`address`,`email`,`tel`,`qq`,`fax`,`sex`,`birthday`,`explain`,`web_site`,`web_code`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `tb_supplier_info`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="supId != null">`sup_id`,</if>
-			<if test="add != null">`add`,</if>
-			<if test="email != null">`email`,</if>
-			<if test="tel != null">`tel`,</if>
-			<if test="qq != null">`qq`,</if>
-			<if test="fax != null">`fax`,</if>
-			<if test="sex != null">`sex`,</if>
-			<if test="birthday != null">`birthday`,</if>
-			<if test="explain != null">`explain`,</if>
-			<if test="webSite != null">`web_site`,</if>
-			<if test="webCode != null">`web_code`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="supId != null">#{supId},</if>
-			<if test="add != null">#{add},</if>
-			<if test="email != null">#{email},</if>
-			<if test="tel != null">#{tel},</if>
-			<if test="qq != null">#{qq},</if>
-			<if test="fax != null">#{fax},</if>
-			<if test="sex != null">#{sex},</if>
-			<if test="birthday != null">#{birthday},</if>
-			<if test="explain != null">#{explain},</if>
-			<if test="webSite != null">#{webSite},</if>
-			<if test="webCode != null">#{webCode},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `tb_supplier_info`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supId != null">`sup_id`,</if>
+            <if test="address != null">`address`,</if>
+            <if test="email != null">`email`,</if>
+            <if test="tel != null">`tel`,</if>
+            <if test="qq != null">`qq`,</if>
+            <if test="fax != null">`fax`,</if>
+            <if test="sex != null">`sex`,</if>
+            <if test="birthday != null">`birthday`,</if>
+            <if test="explain != null">`explain`,</if>
+            <if test="webSite != null">`web_site`,</if>
+            <if test="webCode != null">`web_code`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supId != null">#{supId},</if>
+            <if test="address != null">#{address},</if>
+            <if test="email != null">#{email},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="qq != null">#{qq},</if>
+            <if test="fax != null">#{fax},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="explain != null">#{explain},</if>
+            <if test="webSite != null">#{webSite},</if>
+            <if test="webCode != null">#{webCode},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `tb_supplier_info`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
+        update `tb_supplier_info`
+        <set>
+            <if test="supId != null">`sup_id` = #{supId},</if>
+            <if test="address != null">`address` = #{address},</if>
+            <if test="email != null">`email` = #{email},</if>
+            <if test="tel != null">`tel` = #{tel},</if>
+            <if test="qq != null">`qq` = #{qq},</if>
+            <if test="fax != null">`fax` = #{fax},</if>
+            <if test="sex != null">`sex` = #{sex},</if>
+            <if test="birthday != null">`birthday` = #{birthday},</if>
+            <if test="explain != null">`explain` = #{explain},</if>
+            <if test="webSite != null">`web_site` = #{webSite},</if>
+            <if test="webCode != null">`web_code` = #{webCode},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
-		update `tb_supplier_info`
-		<set>
-			<if test="supId != null">`sup_id` = #{supId},</if>
-			<if test="add != null">`add` = #{add},</if>
-			<if test="email != null">`email` = #{email},</if>
-			<if test="tel != null">`tel` = #{tel},</if>
-			<if test="qq != null">`qq` = #{qq},</if>
-			<if test="fax != null">`fax` = #{fax},</if>
-			<if test="sex != null">`sex` = #{sex},</if>
-			<if test="birthday != null">`birthday` = #{birthday},</if>
-			<if test="explain != null">`explain` = #{explain},</if>
-			<if test="webSite != null">`web_site` = #{webSite},</if>
-			<if test="webCode != null">`web_code` = #{webCode},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_supplier_info`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultSupplierInfoMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_tb_supplier_info_List"/>
-		from `tb_supplier_info`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `tb_supplier_info`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="supId != null">
+                and `sup_id` = #{supId}
+            </if>
+            <if test="address != null">
+                and `address` = #{address}
+            </if>
+            <if test="email != null">
+                and `email` = #{email}
+            </if>
+            <if test="tel != null">
+                and `tel` = #{tel}
+            </if>
+            <if test="qq != null">
+                and `qq` = #{qq}
+            </if>
+            <if test="fax != null">
+                and `fax` = #{fax}
+            </if>
+            <if test="sex != null">
+                and `sex` = #{sex}
+            </if>
+            <if test="birthday != null">
+                and `birthday` = #{birthday}
+            </if>
+            <if test="explain != null">
+                and `explain` = #{explain}
+            </if>
+            <if test="webSite != null">
+                and `web_site` = #{webSite}
+            </if>
+            <if test="webCode != null">
+                and `web_code` = #{webCode}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultSupplierInfoMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultSupplierInfoMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_supplier_info_List"/>
+        from `tb_supplier_info`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultSupplierInfoMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultSupplierInfoMap"  parameterType="map">
+        select
+        <include refid="Column_tb_supplier_info_List"/>
+        from `tb_supplier_info`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.supId != null">
+                and `sup_id` like concat('%',#{record.supId},'%')
+            </if>
+            <if test="record.address != null">
+                and `address` like concat('%',#{record.address},'%')
+            </if>
+            <if test="record.email != null">
+                and `email` like concat('%',#{record.email},'%')
+            </if>
+            <if test="record.tel != null">
+                and `tel` like concat('%',#{record.tel},'%')
+            </if>
+            <if test="record.qq != null">
+                and `qq` like concat('%',#{record.qq},'%')
+            </if>
+            <if test="record.fax != null">
+                and `fax` like concat('%',#{record.fax},'%')
+            </if>
+            <if test="record.sex != null">
+                and `sex` like concat('%',#{record.sex},'%')
+            </if>
+            <if test="record.birthday != null">
+                and `birthday` like concat('%',#{record.birthday},'%')
+            </if>
+            <if test="record.explain != null">
+                and `explain` like concat('%',#{record.explain},'%')
+            </if>
+            <if test="record.webSite != null">
+                and `web_site` like concat('%',#{record.webSite},'%')
+            </if>
+            <if test="record.webCode != null">
+                and `web_code` like concat('%',#{record.webCode},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultSupplierInfoMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_tb_supplier_info_List"/>
+        from `tb_supplier_info`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.supId != null">
+                > and `sup_id` = #{record.supId}
+            </if>
+            <if test="record.address != null">
+                > and `address` = #{record.address}
+            </if>
+            <if test="record.email != null">
+                > and `email` = #{record.email}
+            </if>
+            <if test="record.tel != null">
+                > and `tel` = #{record.tel}
+            </if>
+            <if test="record.qq != null">
+                > and `qq` = #{record.qq}
+            </if>
+            <if test="record.fax != null">
+                > and `fax` = #{record.fax}
+            </if>
+            <if test="record.sex != null">
+                > and `sex` = #{record.sex}
+            </if>
+            <if test="record.birthday != null">
+                > and `birthday` = #{record.birthday}
+            </if>
+            <if test="record.explain != null">
+                > and `explain` = #{record.explain}
+            </if>
+            <if test="record.webSite != null">
+                > and `web_site` = #{record.webSite}
+            </if>
+            <if test="record.webCode != null">
+                > and `web_code` = #{record.webCode}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
+        select
+        count(`id`)
+        from `tb_supplier_info`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="supId != null">
+                > and `sup_id` like concat('%',#{supId},'%')
+            </if>
+            <if test="address != null">
+                > and `address` like concat('%',#{address},'%')
+            </if>
+            <if test="email != null">
+                > and `email` like concat('%',#{email},'%')
+            </if>
+            <if test="tel != null">
+                > and `tel` like concat('%',#{tel},'%')
+            </if>
+            <if test="qq != null">
+                > and `qq` like concat('%',#{qq},'%')
+            </if>
+            <if test="fax != null">
+                > and `fax` like concat('%',#{fax},'%')
+            </if>
+            <if test="sex != null">
+                > and `sex` like concat('%',#{sex},'%')
+            </if>
+            <if test="birthday != null">
+                > and `birthday` like concat('%',#{birthday},'%')
+            </if>
+            <if test="explain != null">
+                > and `explain` like concat('%',#{explain},'%')
+            </if>
+            <if test="webSite != null">
+                > and `web_site` like concat('%',#{webSite},'%')
+            </if>
+            <if test="webCode != null">
+                > and `web_code` like concat('%',#{webCode},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
-
-	</update>
+        select
+        count(`id`)
+        from `tb_supplier_info`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="supId != null">
+                > and `sup_id` = #{supId}
+            </if>
+            <if test="address != null">
+                > and `address` = #{address}
+            </if>
+            <if test="email != null">
+                > and `email` = #{email}
+            </if>
+            <if test="tel != null">
+                > and `tel` = #{tel}
+            </if>
+            <if test="qq != null">
+                > and `qq` = #{qq}
+            </if>
+            <if test="fax != null">
+                > and `fax` = #{fax}
+            </if>
+            <if test="sex != null">
+                > and `sex` = #{sex}
+            </if>
+            <if test="birthday != null">
+                > and `birthday` = #{birthday}
+            </if>
+            <if test="explain != null">
+                > and `explain` = #{explain}
+            </if>
+            <if test="webSite != null">
+                > and `web_site` = #{webSite}
+            </if>
+            <if test="webCode != null">
+                > and `web_code` = #{webCode}
+            </if>
+        </where>
+    </select>
 
 </mapper>

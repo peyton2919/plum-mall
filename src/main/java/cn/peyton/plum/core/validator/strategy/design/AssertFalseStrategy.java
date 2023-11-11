@@ -25,14 +25,14 @@ public class AssertFalseStrategy extends AbstractValidator {
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         AssertFalse af = (AssertFalse) annotation;
         message = af.message();
-        if (!BOOL.equals(type) && !BOOLEAN.equals(type)){
+        if (!BOOL.equals(type) && !BOOLEAN.equals(type)) {
             map.put(name, message);
         }
-        if (StrUtils.isEmpty(value)){
+        if (StrUtils.isEmpty(value)) {
             if (!FALSE.equals(value.toString().trim())) {
                 map.put(name, message);
             }
-        }else {
+        } else {
             map.put(name, message);
         }
     }

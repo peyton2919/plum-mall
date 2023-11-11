@@ -576,8 +576,8 @@ public final class ImageUtils implements Serializable {
      * @param src
      * @param result 保存的路径和名称
      * @param height 高
-     * @param width 宽
-     * @param bb 是否补白
+     * @param width  宽
+     * @param bb     是否补白
      * @throws IOException
      */
     @SuppressWarnings("static-access")

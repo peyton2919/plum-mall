@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @version 1.0.0
  * </pre>
  */
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
 public @interface Future {
@@ -27,6 +27,7 @@ public @interface Future {
 
     /**
      * <h4>格式 [yyyy/MM/dd]</h4>
+     *
      * @return 时间格式
      */
     String format() default "yyyy/MM/dd";

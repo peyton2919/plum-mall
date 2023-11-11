@@ -13,18 +13,18 @@ public interface ICipher {
 
     /**
      * <h4>加密</h4>
-     *
      */
     void encoder();
 
     /**
      * <h4>解密</h4>
-     *
      */
     void decoder();
 
-    public class Code{
-        /** 编码格式为 'UTF' */
-        public static final String CHARACTER ="UTF-8";
+    public class Code {
+        /**
+         * 编码格式为 'UTF'
+         */
+        public static final String CHARACTER = "UTF-8";
     }
 }

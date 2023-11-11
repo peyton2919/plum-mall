@@ -19,7 +19,7 @@ public class TestReflect {
     public static void main(String[] args) {
         try {
             //获取字节码对象
-            Class<?> r= Class.forName("cn.peyton.plum.core.demo.ref.Reflect");
+            Class<?> r = Class.forName("cn.peyton.plum.core.demo.ref.Reflect");
             //类操作
             ClassReflect.class1(r);
 
@@ -43,7 +43,7 @@ public class TestReflect {
             // 反射赋值
             System.out.println("获取Demo对象name值: " + demo.getName());
 
-            _field.set(demo,"Tom");
+            _field.set(demo, "Tom");
             System.out.println("反射赋值后取值: " + demo.getName());
 
         } catch (ClassNotFoundException e) {

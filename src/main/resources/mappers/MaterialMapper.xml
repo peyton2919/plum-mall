@@ -1,89 +1,236 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.MaterialMapper">
-	<resultMap id="ResultMaterialMap" type="cn.peyton.plum.mall.pojo.Material">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="create_id" property="createId" jdbcType="BIGINT"/>
-		<result column="type" property="type" jdbcType="TINYINT"/>
-		<result column="group_id" property="groupId" jdbcType="BIGINT"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="url" property="url" jdbcType="VARCHAR"/>
-		<result column="create_type" property="createType" jdbcType="TINYINT"/>
-		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
-	</resultMap>
+    <resultMap id="ResultMaterialMap" type="cn.peyton.plum.mall.pojo.Material">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="group_id" property="groupId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="create_type" property="createType" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+    </resultMap>
 
-	<sql id="Column_sys_material_List">
-		`id`,`create_id`,`type`,`group_id`,`name`,`url`,`create_type`,`create_time`
-	</sql>
+    <sql id="Column_sys_material_List">
+        `id`,`create_id`,`type`,`group_id`,`name`,`url`,`create_type`,`create_time`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Material" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `sys_material`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="createId != null">`create_id`,</if>
-			<if test="type != null">`type`,</if>
-			<if test="groupId != null">`group_id`,</if>
-			<if test="name != null">`name`,</if>
-			<if test="url != null">`url`,</if>
-			<if test="createType != null">`create_type`,</if>
-			<if test="createTime != null">`create_time`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="createId != null">#{createId},</if>
-			<if test="type != null">#{type},</if>
-			<if test="groupId != null">#{groupId},</if>
-			<if test="name != null">#{name},</if>
-			<if test="url != null">#{url},</if>
-			<if test="createType != null">#{createType},</if>
-			<if test="createTime != null">#{createTime},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Material" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `sys_material`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">`create_id`,</if>
+            <if test="type != null">`type`,</if>
+            <if test="groupId != null">`group_id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="url != null">`url`,</if>
+            <if test="createType != null">`create_type`,</if>
+            <if test="createTime != null">`create_time`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="groupId != null">#{groupId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="url != null">#{url},</if>
+            <if test="createType != null">#{createType},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `sys_material`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Material">
+        update `sys_material`
+        <set>
+            <if test="createId != null">`create_id` = #{createId},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="groupId != null">`group_id` = #{groupId},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="url != null">`url` = #{url},</if>
+            <if test="createType != null">`create_type` = #{createType},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Material">
-		update `sys_material`
-		<set>
-			<if test="createId != null">`create_id` = #{createId},</if>
-			<if test="type != null">`type` = #{type},</if>
-			<if test="groupId != null">`group_id` = #{groupId},</if>
-			<if test="name != null">`name` = #{name},</if>
-			<if test="url != null">`url` = #{url},</if>
-			<if test="createType != null">`create_type` = #{createType},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `sys_material`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultMaterialMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_sys_material_List"/>
-		from `sys_material`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `sys_material`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="createId != null">
+                and `create_id` = #{createId}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+            <if test="groupId != null">
+                and `group_id` = #{groupId}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="url != null">
+                and `url` = #{url}
+            </if>
+            <if test="createType != null">
+                and `create_type` = #{createType}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultMaterialMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultMaterialMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_sys_material_List"/>
+        from `sys_material`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultMaterialMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultMaterialMap"  parameterType="map">
+        select
+        <include refid="Column_sys_material_List"/>
+        from `sys_material`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.createId != null">
+                and `create_id` like concat('%',#{record.createId},'%')
+            </if>
+            <if test="record.type != null">
+                and `type` like concat('%',#{record.type},'%')
+            </if>
+            <if test="record.groupId != null">
+                and `group_id` like concat('%',#{record.groupId},'%')
+            </if>
+            <if test="record.name != null">
+                and `name` like concat('%',#{record.name},'%')
+            </if>
+            <if test="record.url != null">
+                and `url` like concat('%',#{record.url},'%')
+            </if>
+            <if test="record.createType != null">
+                and `create_type` like concat('%',#{record.createType},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultMaterialMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_sys_material_List"/>
+        from `sys_material`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.createId != null">
+                > and `create_id` = #{record.createId}
+            </if>
+            <if test="record.type != null">
+                > and `type` = #{record.type}
+            </if>
+            <if test="record.groupId != null">
+                > and `group_id` = #{record.groupId}
+            </if>
+            <if test="record.name != null">
+                > and `name` = #{record.name}
+            </if>
+            <if test="record.url != null">
+                > and `url` = #{record.url}
+            </if>
+            <if test="record.createType != null">
+                > and `create_type` = #{record.createType}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
+        select
+        count(`id`)
+        from `sys_material`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="createId != null">
+                > and `create_id` like concat('%',#{createId},'%')
+            </if>
+            <if test="type != null">
+                > and `type` like concat('%',#{type},'%')
+            </if>
+            <if test="groupId != null">
+                > and `group_id` like concat('%',#{groupId},'%')
+            </if>
+            <if test="name != null">
+                > and `name` like concat('%',#{name},'%')
+            </if>
+            <if test="url != null">
+                > and `url` like concat('%',#{url},'%')
+            </if>
+            <if test="createType != null">
+                > and `create_type` like concat('%',#{createType},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Material">
-
-	</update>
+        select
+        count(`id`)
+        from `sys_material`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="createId != null">
+                > and `create_id` = #{createId}
+            </if>
+            <if test="type != null">
+                > and `type` = #{type}
+            </if>
+            <if test="groupId != null">
+                > and `group_id` = #{groupId}
+            </if>
+            <if test="name != null">
+                > and `name` = #{name}
+            </if>
+            <if test="url != null">
+                > and `url` = #{url}
+            </if>
+            <if test="createType != null">
+                > and `create_type` = #{createType}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+        </where>
+    </select>
 
 </mapper>

@@ -15,22 +15,25 @@ import java.io.IOException;
  * Create: 2018-08-19 21:55
  * Version: 1.0.0
  * </pre>
+ *
  * @author peyton
  */
-public class  ValidationException extends RuntimeException {
+public class ValidationException extends RuntimeException {
 
     /**
      * <h4>验证异常 PrintWriter 写出信息</h4>
+     *
      * @param jsonResult jsonResult 对象{封装的数据}
      */
-    public ValidationException(JSONResult jsonResult)  {
+    public ValidationException(JSONResult jsonResult) {
         HttpServletResponseUtils.returnJson(JsonMapper.toJSon(jsonResult));
     }
 
     /**
      * <h4>异常构造</h4>
+     *
      * @param result 要返回的包装好的JSON数据
-     * @param url  链接地址 如: /err 或 /app/add
+     * @param url    链接地址 如: /err 或 /app/add
      */
     public ValidationException(JSONResult result, String url) {
         try {
@@ -41,7 +44,7 @@ public class  ValidationException extends RuntimeException {
                     _sb.append("?result=" + result);
                 }
                 HttpServletResponseUtils.getResponse().sendRedirect(_sb.toString());
-            }else {
+            } else {
                 HttpServletResponseUtils.returnJson(JsonMapper.toJSon(result));
             }
         } catch (IOException e) {

@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * <h3>加入此注解,需要 token 验证</h3>
- <pre>
+ * <pre>
  *     通过 @Token 注解方式(注释在 controller 层上需要 Token 验证的的方法上);
  *     配合 TokenAspect 类 aop 切片使用;
  * </pre>
@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * @version 1.0.0
  * </pre>
  */
-@Target({ElementType.METHOD,ElementType.TYPE}) //表明此注解可用在方法上
+@Target({ElementType.METHOD, ElementType.TYPE}) //表明此注解可用在方法上
 @Retention(RetentionPolicy.RUNTIME) //运行时有效
 public @interface Token {
 

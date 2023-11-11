@@ -15,11 +15,12 @@ import java.util.Map;
 public interface IValidator {
     /**
      * <h4>类型验证器</h4>
+     *
      * @param annotation 注解类型
-     * @param name 属性名称
-     * @param type 属性类型
-     * @param value 值
-     * @param map 错误信息集合 [LinkedHashMap]
+     * @param name       属性名称
+     * @param type       属性类型
+     * @param value      值
+     * @param map        错误信息集合 [LinkedHashMap]
      */
     void compare(Annotation annotation, String name,
                  String type, Object value, Map<String, String> map);

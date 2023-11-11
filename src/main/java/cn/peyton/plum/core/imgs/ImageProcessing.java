@@ -27,7 +27,7 @@ import java.util.Random;
  * @version: 1.0.0
  * </pre>
  */
-public final class ImageProcessing  implements Serializable {
+public final class ImageProcessing implements Serializable {
 
     private static String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -35,6 +35,7 @@ public final class ImageProcessing  implements Serializable {
 
     /**
      * <h3>将CommonsMultipartFile转换成File</h3>
+     *
      * @param file
      * @return
      */
@@ -51,68 +52,72 @@ public final class ImageProcessing  implements Serializable {
     /**
      * <h3>处理缩略图，并返回新生成图片的相对值路径</h3>
      * <h4>适用于spring文件上传</h4>
+     *
      * @param thumbnailInputStream 上传文件流
-     * @param fileName 文件名
-     * @param targetAddr 存放目标地址
-     * @param watermarkName 水印名称{文件存在resources下}
+     * @param fileName             文件名
+     * @param targetAddr           存放目标地址
+     * @param watermarkName        水印名称{文件存在resources下}
      * @return
      */
-    public static String execute(InputStream thumbnailInputStream,String fileName,
-                                 String targetAddr,String watermarkName) {
-        return _execute(thumbnailInputStream,fileName, targetAddr,watermarkName, Positions.BOTTOM_RIGHT,
+    public static String execute(InputStream thumbnailInputStream, String fileName,
+                                 String targetAddr, String watermarkName) {
+        return _execute(thumbnailInputStream, fileName, targetAddr, watermarkName, Positions.BOTTOM_RIGHT,
                 0.8f, 0.25f, 200, 200);
     }
 
     /**
      * <h3>图片转换</h3>
+     *
      * @param thumbnailInputStream 文件对象
-     * @param fileName 文件名
-     * @param targetAddr 文件存储目标路径
-     * @param watermarkName 水印名称{文件存在resources下}
-     * @param width 图片宽度
-     * @param height 图片高度
+     * @param fileName             文件名
+     * @param targetAddr           文件存储目标路径
+     * @param watermarkName        水印名称{文件存在resources下}
+     * @param width                图片宽度
+     * @param height               图片高度
      * @return
      */
-    public static String execute(InputStream thumbnailInputStream,String fileName,
+    public static String execute(InputStream thumbnailInputStream, String fileName,
                                  String targetAddr, String watermarkName, int width, int height) {
-        return _execute(thumbnailInputStream,fileName, targetAddr,watermarkName, Positions.BOTTOM_RIGHT,
+        return _execute(thumbnailInputStream, fileName, targetAddr, watermarkName, Positions.BOTTOM_RIGHT,
                 0.8f, 0.25f, width, height);
     }
 
     /**
      * <h3>图片转换</h3>
+     *
      * @param thumbnailInputStream 文件对象
-     * @param fileName 文件名称
-     * @param targetAddr 文件存储目标路径
-     * @param watermarkName 水印名称{文件存在resources下}
-     * @param positions 图片处理的位置 {Positions.BOTTOM_RIGHT}
-     * @param outputQuality 输出质量{0~1f}之间
-     * @param opacity 不透明度{0~1f}之间
-     * @param width 图片宽度
-     * @param height 图片高度
+     * @param fileName             文件名称
+     * @param targetAddr           文件存储目标路径
+     * @param watermarkName        水印名称{文件存在resources下}
+     * @param positions            图片处理的位置 {Positions.BOTTOM_RIGHT}
+     * @param outputQuality        输出质量{0~1f}之间
+     * @param opacity              不透明度{0~1f}之间
+     * @param width                图片宽度
+     * @param height               图片高度
      * @return
      */
-    public static String execute(InputStream thumbnailInputStream,String fileName, String targetAddr,String watermarkName, Positions positions,
-                                  float outputQuality, float opacity,int width,int height) {
-        return _execute(thumbnailInputStream,fileName, targetAddr,watermarkName, positions, outputQuality, opacity, width, height);
+    public static String execute(InputStream thumbnailInputStream, String fileName, String targetAddr, String watermarkName, Positions positions,
+                                 float outputQuality, float opacity, int width, int height) {
+        return _execute(thumbnailInputStream, fileName, targetAddr, watermarkName, positions, outputQuality, opacity, width, height);
     }
 
     /**
      * <h3>图片转换</h3>
+     *
      * @param thumbnailInputStream 文件对象
      * @param fileName
-     * @param targetAddr 文件存储目标路径
-     * @param watermarkName 水印名称{文件存在resources下}
-     * @param positions 图片处理的位置 {Positions.BOTTOM_RIGHT}
-     * @param outputQuality 输出质量{0~1f}之间
-     * @param opacity 不透明度{0~1f}之间
-     * @param width 图片宽度
-     * @param height 图片高度
+     * @param targetAddr           文件存储目标路径
+     * @param watermarkName        水印名称{文件存在resources下}
+     * @param positions            图片处理的位置 {Positions.BOTTOM_RIGHT}
+     * @param outputQuality        输出质量{0~1f}之间
+     * @param opacity              不透明度{0~1f}之间
+     * @param width                图片宽度
+     * @param height               图片高度
      * @return
      */
-    private static String _execute(InputStream thumbnailInputStream,String fileName,
-                                   String targetAddr,String watermarkName, Positions positions,
-                                   float outputQuality, float opacity,int width,int height) {
+    private static String _execute(InputStream thumbnailInputStream, String fileName,
+                                   String targetAddr, String watermarkName, Positions positions,
+                                   float outputQuality, float opacity, int width, int height) {
         // if(null == watermarkName || watermarkName.length() == 0){
         //     watermarkName = "watermark.png";
         // }
@@ -148,6 +153,7 @@ public final class ImageProcessing  implements Serializable {
 
     /**
      * 创建目标路径所涉及到的目录
+     *
      * @param targetAddr
      */
     private static void makeDirPath(String targetAddr) {
@@ -159,6 +165,7 @@ public final class ImageProcessing  implements Serializable {
 
     /**
      * 获取输入文件流的扩展名
+     *
      * @param fileName 文件名称
      * @return
      */
@@ -168,6 +175,7 @@ public final class ImageProcessing  implements Serializable {
 
     /**
      * 生成随机文件名，当前年月日小时分钟秒钟 + 五位随机数
+     *
      * @return
      */
     private static String getRandomFileName() {

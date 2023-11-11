@@ -1,22 +1,38 @@
 package cn.peyton.plum.mall.service.impl;
 
-import cn.peyton.plum.mall.service.MenuService;
+import cn.peyton.plum.core.inf.BaseConvertBo;
+import cn.peyton.plum.core.inf.mapper.IBaseMapper;
+import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.mall.bo.MenuBo;
 import cn.peyton.plum.mall.mapper.MenuMapper;
-import org.springframework.stereotype.Service;
+import cn.peyton.plum.mall.param.MenuParam;
+import cn.peyton.plum.mall.pojo.Menu;
+import cn.peyton.plum.mall.service.MenuService;
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  * <h3> 菜单 Service 实现类</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2023年11月03日 23:02:39
+ * @date 2023年11月11日 18:10:52
  * @version 1.0.0
  * </pre>
-*/
+ */
 @Service("menuService")
-public class MenuServiceImpl implements MenuService {
-	@Resource
-	private MenuMapper menuMapper;
+public class MenuServiceImpl extends AbstractAppRealizeService<Long, Menu, MenuParam> implements MenuService {
+    @Resource
+    private MenuMapper menuMapper;
+
+    @Override
+    public BaseConvertBo<Menu, MenuParam> initBo() {
+        return new MenuBo();
+    }
+
+    @Override
+    public IBaseMapper<Long, Menu> initMapper() {
+        return menuMapper;
+    }
 
 }

@@ -19,7 +19,8 @@ import java.lang.reflect.Parameter;
 public class MethodReflect {
 
     /**
-     *方法操作
+     * 方法操作
+     *
      * @param r
      */
     public static void method(Class<?> r) {

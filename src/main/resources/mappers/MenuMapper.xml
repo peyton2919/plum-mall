@@ -1,125 +1,407 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.MenuMapper">
-	<resultMap id="ResultMenuMap" type="cn.peyton.plum.mall.pojo.Menu">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="i_frame" property="iFrame" jdbcType="TINYINT"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="component" property="component" jdbcType="VARCHAR"/>
-		<result column="pid" property="pid" jdbcType="BIGINT"/>
-		<result column="seq" property="seq" jdbcType="INTEGER"/>
-		<result column="icon" property="icon" jdbcType="VARCHAR"/>
-		<result column="path" property="path" jdbcType="VARCHAR"/>
-		<result column="cache" property="cache" jdbcType="TINYINT"/>
-		<result column="hidden" property="hidden" jdbcType="TINYINT"/>
-		<result column="component_name" property="componentName" jdbcType="VARCHAR"/>
-		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
-		<result column="permission" property="permission" jdbcType="VARCHAR"/>
-		<result column="type" property="type" jdbcType="TINYINT"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
-		<result column="router" property="router" jdbcType="VARCHAR"/>
-		<result column="router_method" property="routerMethod" jdbcType="VARCHAR"/>
-	</resultMap>
+    <resultMap id="ResultMenuMap" type="cn.peyton.plum.mall.pojo.Menu">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="i_frame" property="iFrame" jdbcType="TINYINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="BIGINT"/>
+        <result column="seq" property="seq" jdbcType="SMALLINT"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="cache" property="cache" jdbcType="TINYINT"/>
+        <result column="hidden" property="hidden" jdbcType="TINYINT"/>
+        <result column="component_name" property="componentName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="permission" property="permission" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
+        <result column="router" property="router" jdbcType="VARCHAR"/>
+        <result column="router_method" property="routerMethod" jdbcType="VARCHAR"/>
+    </resultMap>
 
-	<sql id="Column_sys_menu_List">
-		`id`,`i_frame`,`name`,`component`,`pid`,`seq`,`icon`,`path`,`cache`,`hidden`,`component_name`,`create_time`,`permission`,`type`,`is_del`,`router`,`router_method`
-	</sql>
+    <sql id="Column_sys_menu_List">
+        `id`,`i_frame`,`name`,`component`,`pid`,`seq`,`icon`,`path`,`cache`,`hidden`,`component_name`,`create_time`,`permission`,`type`,`is_del`,`router`,`router_method`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Menu" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `sys_menu`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="iFrame != null">`i_frame`,</if>
-			<if test="name != null">`name`,</if>
-			<if test="component != null">`component`,</if>
-			<if test="pid != null">`pid`,</if>
-			<if test="seq != null">`seq`,</if>
-			<if test="icon != null">`icon`,</if>
-			<if test="path != null">`path`,</if>
-			<if test="cache != null">`cache`,</if>
-			<if test="hidden != null">`hidden`,</if>
-			<if test="componentName != null">`component_name`,</if>
-			<if test="createTime != null">`create_time`,</if>
-			<if test="permission != null">`permission`,</if>
-			<if test="type != null">`type`,</if>
-			<if test="isDel != null">`is_del`,</if>
-			<if test="router != null">`router`,</if>
-			<if test="routerMethod != null">`router_method`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="iFrame != null">#{iFrame},</if>
-			<if test="name != null">#{name},</if>
-			<if test="component != null">#{component},</if>
-			<if test="pid != null">#{pid},</if>
-			<if test="seq != null">#{seq},</if>
-			<if test="icon != null">#{icon},</if>
-			<if test="path != null">#{path},</if>
-			<if test="cache != null">#{cache},</if>
-			<if test="hidden != null">#{hidden},</if>
-			<if test="componentName != null">#{componentName},</if>
-			<if test="createTime != null">#{createTime},</if>
-			<if test="permission != null">#{permission},</if>
-			<if test="type != null">#{type},</if>
-			<if test="isDel != null">#{isDel},</if>
-			<if test="router != null">#{router},</if>
-			<if test="routerMethod != null">#{routerMethod},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Menu" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `sys_menu`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="iFrame != null">`i_frame`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="component != null">`component`,</if>
+            <if test="pid != null">`pid`,</if>
+            <if test="seq != null">`seq`,</if>
+            <if test="icon != null">`icon`,</if>
+            <if test="path != null">`path`,</if>
+            <if test="cache != null">`cache`,</if>
+            <if test="hidden != null">`hidden`,</if>
+            <if test="componentName != null">`component_name`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="permission != null">`permission`,</if>
+            <if test="type != null">`type`,</if>
+            <if test="isDel != null">`is_del`,</if>
+            <if test="router != null">`router`,</if>
+            <if test="routerMethod != null">`router_method`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="iFrame != null">#{iFrame},</if>
+            <if test="name != null">#{name},</if>
+            <if test="component != null">#{component},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="seq != null">#{seq},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="path != null">#{path},</if>
+            <if test="cache != null">#{cache},</if>
+            <if test="hidden != null">#{hidden},</if>
+            <if test="componentName != null">#{componentName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="permission != null">#{permission},</if>
+            <if test="type != null">#{type},</if>
+            <if test="isDel != null">#{isDel},</if>
+            <if test="router != null">#{router},</if>
+            <if test="routerMethod != null">#{routerMethod},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `sys_menu`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Menu">
+        update `sys_menu`
+        <set>
+            <if test="iFrame != null">`i_frame` = #{iFrame},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="component != null">`component` = #{component},</if>
+            <if test="pid != null">`pid` = #{pid},</if>
+            <if test="seq != null">`seq` = #{seq},</if>
+            <if test="icon != null">`icon` = #{icon},</if>
+            <if test="path != null">`path` = #{path},</if>
+            <if test="cache != null">`cache` = #{cache},</if>
+            <if test="hidden != null">`hidden` = #{hidden},</if>
+            <if test="componentName != null">`component_name` = #{componentName},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="permission != null">`permission` = #{permission},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="isDel != null">`is_del` = #{isDel},</if>
+            <if test="router != null">`router` = #{router},</if>
+            <if test="routerMethod != null">`router_method` = #{routerMethod},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Menu">
-		update `sys_menu`
-		<set>
-			<if test="iFrame != null">`i_frame` = #{iFrame},</if>
-			<if test="name != null">`name` = #{name},</if>
-			<if test="component != null">`component` = #{component},</if>
-			<if test="pid != null">`pid` = #{pid},</if>
-			<if test="seq != null">`seq` = #{seq},</if>
-			<if test="icon != null">`icon` = #{icon},</if>
-			<if test="path != null">`path` = #{path},</if>
-			<if test="cache != null">`cache` = #{cache},</if>
-			<if test="hidden != null">`hidden` = #{hidden},</if>
-			<if test="componentName != null">`component_name` = #{componentName},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
-			<if test="permission != null">`permission` = #{permission},</if>
-			<if test="type != null">`type` = #{type},</if>
-			<if test="isDel != null">`is_del` = #{isDel},</if>
-			<if test="router != null">`router` = #{router},</if>
-			<if test="routerMethod != null">`router_method` = #{routerMethod},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `sys_menu`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultMenuMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_sys_menu_List"/>
-		from `sys_menu`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `sys_menu`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="iFrame != null">
+                and `i_frame` = #{iFrame}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="component != null">
+                and `component` = #{component}
+            </if>
+            <if test="pid != null">
+                and `pid` = #{pid}
+            </if>
+            <if test="seq != null">
+                and `seq` = #{seq}
+            </if>
+            <if test="icon != null">
+                and `icon` = #{icon}
+            </if>
+            <if test="path != null">
+                and `path` = #{path}
+            </if>
+            <if test="cache != null">
+                and `cache` = #{cache}
+            </if>
+            <if test="hidden != null">
+                and `hidden` = #{hidden}
+            </if>
+            <if test="componentName != null">
+                and `component_name` = #{componentName}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="permission != null">
+                and `permission` = #{permission}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+            <if test="isDel != null">
+                and `is_del` = #{isDel}
+            </if>
+            <if test="router != null">
+                and `router` = #{router}
+            </if>
+            <if test="routerMethod != null">
+                and `router_method` = #{routerMethod}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultMenuMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultMenuMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_sys_menu_List"/>
+        from `sys_menu`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultMenuMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultMenuMap"  parameterType="map">
+        select
+        <include refid="Column_sys_menu_List"/>
+        from `sys_menu`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.iFrame != null">
+                and `i_frame` like concat('%',#{record.iFrame},'%')
+            </if>
+            <if test="record.name != null">
+                and `name` like concat('%',#{record.name},'%')
+            </if>
+            <if test="record.component != null">
+                and `component` like concat('%',#{record.component},'%')
+            </if>
+            <if test="record.pid != null">
+                and `pid` like concat('%',#{record.pid},'%')
+            </if>
+            <if test="record.seq != null">
+                and `seq` like concat('%',#{record.seq},'%')
+            </if>
+            <if test="record.icon != null">
+                and `icon` like concat('%',#{record.icon},'%')
+            </if>
+            <if test="record.path != null">
+                and `path` like concat('%',#{record.path},'%')
+            </if>
+            <if test="record.cache != null">
+                and `cache` like concat('%',#{record.cache},'%')
+            </if>
+            <if test="record.hidden != null">
+                and `hidden` like concat('%',#{record.hidden},'%')
+            </if>
+            <if test="record.componentName != null">
+                and `component_name` like concat('%',#{record.componentName},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+            <if test="record.permission != null">
+                and `permission` like concat('%',#{record.permission},'%')
+            </if>
+            <if test="record.type != null">
+                and `type` like concat('%',#{record.type},'%')
+            </if>
+            <if test="record.isDel != null">
+                and `is_del` like concat('%',#{record.isDel},'%')
+            </if>
+            <if test="record.router != null">
+                and `router` like concat('%',#{record.router},'%')
+            </if>
+            <if test="record.routerMethod != null">
+                and `router_method` like concat('%',#{record.routerMethod},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultMenuMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_sys_menu_List"/>
+        from `sys_menu`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.iFrame != null">
+                > and `i_frame` = #{record.iFrame}
+            </if>
+            <if test="record.name != null">
+                > and `name` = #{record.name}
+            </if>
+            <if test="record.component != null">
+                > and `component` = #{record.component}
+            </if>
+            <if test="record.pid != null">
+                > and `pid` = #{record.pid}
+            </if>
+            <if test="record.seq != null">
+                > and `seq` = #{record.seq}
+            </if>
+            <if test="record.icon != null">
+                > and `icon` = #{record.icon}
+            </if>
+            <if test="record.path != null">
+                > and `path` = #{record.path}
+            </if>
+            <if test="record.cache != null">
+                > and `cache` = #{record.cache}
+            </if>
+            <if test="record.hidden != null">
+                > and `hidden` = #{record.hidden}
+            </if>
+            <if test="record.componentName != null">
+                > and `component_name` = #{record.componentName}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+            <if test="record.permission != null">
+                > and `permission` = #{record.permission}
+            </if>
+            <if test="record.type != null">
+                > and `type` = #{record.type}
+            </if>
+            <if test="record.isDel != null">
+                > and `is_del` = #{record.isDel}
+            </if>
+            <if test="record.router != null">
+                > and `router` = #{record.router}
+            </if>
+            <if test="record.routerMethod != null">
+                > and `router_method` = #{record.routerMethod}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
+        select
+        count(`id`)
+        from `sys_menu`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="iFrame != null">
+                > and `i_frame` like concat('%',#{iFrame},'%')
+            </if>
+            <if test="name != null">
+                > and `name` like concat('%',#{name},'%')
+            </if>
+            <if test="component != null">
+                > and `component` like concat('%',#{component},'%')
+            </if>
+            <if test="pid != null">
+                > and `pid` like concat('%',#{pid},'%')
+            </if>
+            <if test="seq != null">
+                > and `seq` like concat('%',#{seq},'%')
+            </if>
+            <if test="icon != null">
+                > and `icon` like concat('%',#{icon},'%')
+            </if>
+            <if test="path != null">
+                > and `path` like concat('%',#{path},'%')
+            </if>
+            <if test="cache != null">
+                > and `cache` like concat('%',#{cache},'%')
+            </if>
+            <if test="hidden != null">
+                > and `hidden` like concat('%',#{hidden},'%')
+            </if>
+            <if test="componentName != null">
+                > and `component_name` like concat('%',#{componentName},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="permission != null">
+                > and `permission` like concat('%',#{permission},'%')
+            </if>
+            <if test="type != null">
+                > and `type` like concat('%',#{type},'%')
+            </if>
+            <if test="isDel != null">
+                > and `is_del` like concat('%',#{isDel},'%')
+            </if>
+            <if test="router != null">
+                > and `router` like concat('%',#{router},'%')
+            </if>
+            <if test="routerMethod != null">
+                > and `router_method` like concat('%',#{routerMethod},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Menu">
-
-	</update>
+        select
+        count(`id`)
+        from `sys_menu`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="iFrame != null">
+                > and `i_frame` = #{iFrame}
+            </if>
+            <if test="name != null">
+                > and `name` = #{name}
+            </if>
+            <if test="component != null">
+                > and `component` = #{component}
+            </if>
+            <if test="pid != null">
+                > and `pid` = #{pid}
+            </if>
+            <if test="seq != null">
+                > and `seq` = #{seq}
+            </if>
+            <if test="icon != null">
+                > and `icon` = #{icon}
+            </if>
+            <if test="path != null">
+                > and `path` = #{path}
+            </if>
+            <if test="cache != null">
+                > and `cache` = #{cache}
+            </if>
+            <if test="hidden != null">
+                > and `hidden` = #{hidden}
+            </if>
+            <if test="componentName != null">
+                > and `component_name` = #{componentName}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+            <if test="permission != null">
+                > and `permission` = #{permission}
+            </if>
+            <if test="type != null">
+                > and `type` = #{type}
+            </if>
+            <if test="isDel != null">
+                > and `is_del` = #{isDel}
+            </if>
+            <if test="router != null">
+                > and `router` = #{router}
+            </if>
+            <if test="routerMethod != null">
+                > and `router_method` = #{routerMethod}
+            </if>
+        </where>
+    </select>
 
 </mapper>

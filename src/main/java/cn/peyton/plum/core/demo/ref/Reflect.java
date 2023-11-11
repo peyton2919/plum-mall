@@ -22,7 +22,7 @@ public class Reflect {
     private Integer id;
 
     @ConstructorAnnotation("无参构造")
-    private Reflect(){
+    private Reflect() {
 
     }
 
@@ -33,7 +33,7 @@ public class Reflect {
     }
 
     @MethodAnnotation("公共方法获取实例")
-    public static Reflect getReflect(){
+    public static Reflect getReflect() {
         return new Reflect();
     }
 

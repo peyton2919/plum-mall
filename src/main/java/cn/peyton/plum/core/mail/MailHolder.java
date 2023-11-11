@@ -33,9 +33,9 @@ public final class MailHolder implements Serializable {
     @Resource
     private ApplicationContext applicationContext;
 
-    private MailHolder(){
+    private MailHolder() {
         mailListener = applicationContext.getBean(MailListener.class);
-        if (null == mailListener){
+        if (null == mailListener) {
             throw new GlobalException("没有在spring配置文件中配置MailListener 参数" +
                     " [要配置发送邮件,需要在spring配置文件中,配置MailListener]");
         }
@@ -43,12 +43,13 @@ public final class MailHolder implements Serializable {
 
     /**
      * <h4>单例模式</h4>
+     *
      * @param receiver 接收者地址
      * @param password 密码
      * @return
      */
-    public static synchronized MailHolder getInstance(String receiver , String password) {
-        if (null == instance){
+    public static synchronized MailHolder getInstance(String receiver, String password) {
+        if (null == instance) {
             instance = new MailHolder();
             MailHolder.receiver = receiver;
             MailHolder.password = password;
@@ -58,6 +59,7 @@ public final class MailHolder implements Serializable {
 
     /**
      * <h4>发送邮件</h4>
+     *
      * @return
      */
     public boolean send() {
@@ -70,9 +72,9 @@ public final class MailHolder implements Serializable {
             for (String str : mail.getReceivers()) {
                 email.addTo(str);
             }
-            email.setFrom(mailListener.getFrom(),mailListener.getNickname());
+            email.setFrom(mailListener.getFrom(), mailListener.getNickname());
             email.setSmtpPort(mailListener.getPort());
-            email.setAuthentication(mailListener.getFrom(),mailListener.getPassword());
+            email.setAuthentication(mailListener.getFrom(), mailListener.getPassword());
             email.setSubject(mail.getSubject());
             email.setMsg(mail.getMessage());
             email.send();
@@ -87,6 +89,7 @@ public final class MailHolder implements Serializable {
 
     /**
      * <h4>解密</h4>
+     *
      * @param encryptContent 要解密内容
      * @return 解密后内容
      */
@@ -96,6 +99,7 @@ public final class MailHolder implements Serializable {
 
     /**
      * <h4>加密</h4>
+     *
      * @param content 内容
      * @return 加密后内容
      */

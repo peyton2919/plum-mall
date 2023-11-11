@@ -15,6 +15,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 //@ConfigurationProperties(prefix = "user", ignoreUnknownFields = false)
-@PropertySource(value = "classpath:i18n/login.properties",encoding = "UTF-8")
+@PropertySource(value = "classpath:i18n/login.properties", encoding = "UTF-8")
 public class PropertySourceConfiguration {
 }

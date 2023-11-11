@@ -14,7 +14,7 @@ import java.util.List;
  * </pre>
  */
 public final class SerializableUtils implements Serializable {
-	/**
+    /**
      * 序列化
      *
      * @param object
@@ -77,7 +77,7 @@ public final class SerializableUtils implements Serializable {
      */
     public static byte[] serializeList(List<?> list) {
 
-        if (list==null||list.size()==0) {
+        if (list == null || list.size() == 0) {
             return null;
         }
         ObjectOutputStream oos = null;

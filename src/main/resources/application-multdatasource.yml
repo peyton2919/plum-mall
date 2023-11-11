@@ -1,4 +1,4 @@
-spring:     #多数据源
+spring: #多数据源
   thymeleaf:
     cache: false  # \u662F\u5426\u5F00\u542F\u7F13\u5B58\uFF0C\u9ED8\u8BA4true
     mode: HTML5

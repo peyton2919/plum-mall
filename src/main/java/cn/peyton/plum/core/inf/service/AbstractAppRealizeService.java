@@ -34,119 +34,132 @@ import java.util.List;
  * </pre>
  */
 @Service
-public abstract class AbstractAppRealizeService<K,T,P> {
+public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService<K, T, P> {
 
-    private BaseConvertBo<T,P> bo;
-
-    private IBaseMapper<K, T> mapper;
-
-
-
-    public AbstractAppRealizeService(){
-    }
 
     /**
      * <h4>初始化对象的 BO 类</h4>
+     *
      * @return 对象BO类
      */
-    public abstract BaseConvertBo<T, P> initRecordBo();
+    public abstract BaseConvertBo<T, P> initBo();
 
     /**
      * <h4>初始化对象的 BO 类</h4>
+     *
      * @return 对象BO类
      */
-    public abstract IBaseMapper<K, T> initRecordMapper();
+    public abstract IBaseMapper<K, T> initMapper();
 
     /**
      * <h4>添加对象</h4>
      * <pre>
      *     判断 P 对象 为 null 表示添加失败
      * </pre>
+     *
      * @param param 对象
      * @return 添加成功返回带 ID 对象, 否则返回 null
      */
     @AutoWriteTimestamp
     public P add(P param) {
 
-        T recoed = initRecordBo().convert(param);
-        int result = initRecordMapper().insertSelective(recoed);
+        T recoed = initBo().convert(param);
+        int result = initMapper().insertSelective(recoed);
         if (result > 0) {
-            param = initRecordBo().compat(recoed);
-            return  param;
+            return initBo().compat(recoed);
         }
         return null;
     }
+
     /**
      * <h4>更新 对象[根据属性是否有值 更新]</h4>
+     *
      * @param param 对象
      * @return true 表示 成功, 否则 取 false
      */
     public Boolean update(P param) {
 
-        return mapper.updateByPrimaryKeySelective(bo.convert(param)) > 0 ? true : false;
+        return initMapper().updateSelective(initBo().convert(param)) > 0;
     }
+
     /**
      * <h4>根据 ID 删除 T对象</h4>
+     *
      * @param id 对象ID
      * @return true 表示 成功, 否则 取 false
      */
     public Boolean delete(K id) {
 
-        return mapper.deleteByPrimaryKey(id) > 0 ? true : false;
+        return initMapper().deleteByPrimaryKey(id) > 0;
     }
+
     /**
      * <h4>判断是否重名</h4>
+     *
      * @param param 对象
      * @return true 表示 重名, 否则 取 false
      */
     public Boolean isRename(P param) {
 
-        return mapper.isRename(bo.convert(param)) > 0 ? true : false;
+        return initMapper().isRename(initBo().convert(param)) > 0;
     }
+
     /**
      * <h4>根据 ID 查找 T对象</h4>
+     *
      * @param id 对象ID
      * @return 对象
      */
     public P findById(K id) {
-        return bo.compat(mapper.selectByPrimaryKey(id));
+        return initBo().compat(initMapper().selectByPrimaryKey(id));
     }
+
     /**
-     * <h4>分页查询(全部或关键字模糊查找)</h4>
-     * @param keyword 关键字, 当keyword = null 时为全部查询
-     * @param page 分页对象
+     * <h4>分页查询(模糊查找)</h4>
+     *
+     * @param param 关键字, 当 param = null 时为全部查询
+     * @param page  分页对象
      * @return 对象集合
      */
-    public List<P> findByAllOrKeyword(String keyword, PageQuery page) {
+    public List<P> findByLikeAndObj(P param, PageQuery page) {
 
-        return bo.adapter(mapper.selectByAllOrKeyword(keyword,page));
+        return initBo().adapter(initMapper().selectByLiekAndObj(initBo().convert(param), page));
     }
+
     /**
      * <h4>根据对象条件查找</h4>
+     *
      * @param param 对象
-     * @param page 分页对象
+     * @param page  分页对象
      * @return 对象集合
      */
     public List<P> findByObj(P param, PageQuery page) {
+        T convert = initBo().convert(param);
 
-        return bo.adapter(mapper.selectByObj(bo.convert(param),page));
+        List<T> ts = initMapper().selectByObj(convert, page);
+        List<P> adapter = initBo().adapter(ts);
+        return adapter;
     }
+
     /**
      * <h4>查找全部数量(全部或关键字模糊查找)</h4>
-     * @param keyword 关键字, 当keyword = null 时为全部查询
+     *
+     * @param param 关键字, 当 param = null 时为全部查询
      * @return 总条数
      */
-    public Integer count(String keyword) {
-        return mapper.count(keyword);
+    public Integer countByLike(P param) {
+        return initMapper().countByLike(initBo().convert(param));
     }
+
     /**
-     * <h4>更新状态</h4>
-     * @param id 主键
-     * @param status 状态值
-     * @return true 表示 成功, 否则 取 false
+     * <h4>查找全部数量(全部或关键字模糊查找)</h4>
+     *
+     * @param param 关键字, 当 param = null 时为全部查询
+     * @return 总条数
      */
-    public Boolean upStatus(K id, Integer status) {
-        return mapper.upStatus(id, status) > 0 ? true : false;
+    public Integer count(P param) {
+        return initMapper().count(initBo().convert(param));
     }
+
 
 }

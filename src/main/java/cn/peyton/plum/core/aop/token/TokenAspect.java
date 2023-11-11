@@ -36,9 +36,12 @@ import java.lang.reflect.Method;
 @Component
 @Slf4j
 public class TokenAspect {
-    /** 切面点  */
+    /**
+     * 切面点
+     */
     @Pointcut("@annotation(cn.peyton.plum.core.anno.token.Token)")
-    public void pointCut() { }
+    public void pointCut() {
+    }
 
     @Around("pointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {

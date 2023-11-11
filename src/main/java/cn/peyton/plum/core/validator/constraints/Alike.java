@@ -29,6 +29,7 @@ public @interface Alike {
      * @return 需要判断的元素 字段名称(必选)
      */
     String fieldName();
+
     /**
      * @return 错误信息提示
      */

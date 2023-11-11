@@ -37,8 +37,11 @@ import java.util.List;
 public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
     //@Value("${web.host}")   // 在application.yml 中配置 web.host
     //private String HOST;
-    /** 根目录 */
+    /**
+     * 根目录
+     */
     private String basePath;
+
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return true;
@@ -56,7 +59,7 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
         //String basePath = request.getScheme()+"://" +
         //        request.getServerName() + ":" + request.getServerPort() +
         //        request.getContextPath() + "/";
-        basePath = request.getScheme()+"://" +
+        basePath = request.getScheme() + "://" +
                 request.getServerName() + ":" + request.getServerPort();
         System.out.println("basePath  " + basePath);
 
@@ -69,20 +72,20 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
             Object _object = jsonResult.getData();
             if (_object instanceof List<?>) {
                 List<?> _objects = (List<?>) _object;
-                if(null != _objects && _objects.size()>0){
+                if (null != _objects && _objects.size() > 0) {
                     for (Object _obj : _objects) {
                         try {
                             int count = 0;
-                            recurrence(_obj,count);
+                            recurrence(_obj, count);
                         } catch (IllegalAccessException e) {
                             LogUtils.error(e.getMessage());
                         }
                     }
                 }
-            }else if (_object instanceof Class<?>){
+            } else if (_object instanceof Class<?>) {
                 try {
                     int count = 0;
-                    recurrence(_object,count);
+                    recurrence(_object, count);
                 } catch (IllegalAccessException e) {
                     LogUtils.error(e.getMessage());
                 }
@@ -96,12 +99,13 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
      * <pre>
      *     递归最多10次
      * </pre>
+     *
      * @param obj
      * @throws IllegalAccessException
      */
-    private void recurrence(Object obj,int count) throws IllegalAccessException {
-        count ++;
-        if(count > 10){
+    private void recurrence(Object obj, int count) throws IllegalAccessException {
+        count++;
+        if (count > 10) {
             return;
         }
         Field[] declaredFields = obj.getClass().getDeclaredFields();
@@ -114,14 +118,14 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
                     field.setAccessible(true);
                     Object fieldObj = field.get(obj);
                     // 调用递归
-                    recurrence(fieldObj,count);
+                    recurrence(fieldObj, count);
                     addImgPathPrefix(obj);
                 } else if (("java.util.List").equals(name)) {
                     field.setAccessible(true);
                     List<Object> listObj = (List<Object>) field.get(obj);
                     for (Object lo : listObj) {
                         int _tmpCount = 0;
-                        recurrence(lo,_tmpCount);
+                        recurrence(lo, _tmpCount);
                     }
                 }
             }
@@ -131,21 +135,22 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
     /**
      * <h4>添加图片 前缀</h4>
+     *
      * @param _obj
      */
-    private void addImgPathPrefix(Object _obj){
-        Class<?> clazz  = _obj.getClass();
+    private void addImgPathPrefix(Object _obj) {
+        Class<?> clazz = _obj.getClass();
         ImageHostPath annotation = clazz.getAnnotation(ImageHostPath.class);
         if (null != annotation) {
 
             String[] _splits = annotation.name().split(",");
-            for(String _str : _splits){
+            for (String _str : _splits) {
                 try {
                     Field _field = clazz.getDeclaredField(_str);
                     _field.setAccessible(true);
                     String _tmp = (String) _field.get(_obj);
-                    if (!_tmp.startsWith("http")){
-                        _field.set(_obj,basePath + _tmp);
+                    if (!_tmp.startsWith("http")) {
+                        _field.set(_obj, basePath + _tmp);
                     }
                 } catch (NoSuchFieldException e) {
                     LogUtils.error(e.getMessage());

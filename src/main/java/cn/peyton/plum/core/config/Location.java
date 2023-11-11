@@ -26,17 +26,21 @@ import java.io.Serializable;
  */
 public final class Location implements Serializable {
 
-    /** @return 获取 class目录 */
+    /**
+     * @return 获取 class目录
+     */
     private static String path;
 
     private static Location instance = null;
 
-    /** 私有构造 */
+    /**
+     * 私有构造
+     */
     private Location() {
         path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     }
 
-    public static synchronized Location getInstance(){
+    public static synchronized Location getInstance() {
         if (null == instance) {
             instance = new Location();
         }
@@ -45,24 +49,37 @@ public final class Location implements Serializable {
 
     /**
      * <h4>获取 class目录</h4>
+     *
      * @return
      */
     public String getPath() {
         return path;
     }
 
-    /** 产品图片 存放位置 图片写入磁盘时用 {完整目录x:/xx/xx/images/product/} */
-    public static String IMG_PRODUCT = Location.getInstance().getPath() +"static/images/product/";
-    /** 广告图片 存放位置 图片写入磁盘时用 {完整目录x:/xx/xx/images/advert/} */
-    public static String IMG_ADVERT = Location.getInstance().getPath()+"static/images/advert/";
-    /** 头像图片 存放位置 图片写入磁盘时用 {完整目录x:/xx/xx/images/avatar/} */
-    public static String IMG_AVATAR = Location.getInstance().getPath()+"static/images/avatar/";
+    /**
+     * 产品图片 存放位置 图片写入磁盘时用 {完整目录x:/xx/xx/images/product/}
+     */
+    public static String IMG_PRODUCT = Location.getInstance().getPath() + "static/images/product/";
+    /**
+     * 广告图片 存放位置 图片写入磁盘时用 {完整目录x:/xx/xx/images/advert/}
+     */
+    public static String IMG_ADVERT = Location.getInstance().getPath() + "static/images/advert/";
+    /**
+     * 头像图片 存放位置 图片写入磁盘时用 {完整目录x:/xx/xx/images/avatar/}
+     */
+    public static String IMG_AVATAR = Location.getInstance().getPath() + "static/images/avatar/";
 
-    /** 产品图片 根目录 简短目录名保存到数据库 {/images/product/} */
+    /**
+     * 产品图片 根目录 简短目录名保存到数据库 {/images/product/}
+     */
     public static String IMG_PRODUCT_SHORT = "/images/product/";
-    /** 广告图片 根目录 简短目录名保存到数据库 {/images/advert/} */
+    /**
+     * 广告图片 根目录 简短目录名保存到数据库 {/images/advert/}
+     */
     public static String IMG_ADVERT_SHORT = "/images/advert/";
-    /** 头像图片 根目录 简短目录名保存到数据库 {/images/avatar/} */
+    /**
+     * 头像图片 根目录 简短目录名保存到数据库 {/images/avatar/}
+     */
     public static String IMG_AVATAR_SHORT = "/images/avatar/";
 
 

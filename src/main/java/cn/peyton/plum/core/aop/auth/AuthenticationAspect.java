@@ -40,9 +40,12 @@ public class AuthenticationAspect {
     // 4. 判断 seesion 是否存值
     // 5.
 
-    /** 切面点  */
+    /**
+     * 切面点
+     */
     @Pointcut("@annotation(cn.peyton.plum.core.anno.auth.Permission)")
-    public void pointCut() { }
+    public void pointCut() {
+    }
 
     @Around("pointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
@@ -84,7 +87,7 @@ public class AuthenticationAspect {
         return point.proceed();
     }
 
-    private void  _redirect(HttpServletRequest request,HttpServletResponse response,String url) throws IOException {
+    private void _redirect(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
         request.getSession().setAttribute("errMsg", "请登录");
         response.sendRedirect(url);
     }

@@ -20,26 +20,39 @@ package cn.peyton.plum.core.cipher.enums;
  * </pre>
  */
 public enum SymmetricCipher {
-    /** DES 加密解密方式 键大小必须等于56  */
-    DES(0,"DES"),
-    /** DESede(TripleDES) 加密解密方式  键大小必须等于112或168  */
-    DESEDE(1,"DESEDE"),
-    /** AES 加密解密方式 键大小必须等于128, 192或256，但192和256位可能不可用  */
-    AES(2,"AES"),
-    /** Blowfish 加密解密方式 键大小必须是8的倍数，只能从32到448（包括）  */
-    BLOWFISH(3,"BLOWFISH"),
-    /** RC2 加密解密方式 密钥大小必须介于40到1024位之间  */
-    RC2(4,"RC2");
+    /**
+     * DES 加密解密方式 键大小必须等于56
+     */
+    DES(0, "DES"),
+    /**
+     * DESede(TripleDES) 加密解密方式  键大小必须等于112或168
+     */
+    DESEDE(1, "DESEDE"),
+    /**
+     * AES 加密解密方式 键大小必须等于128, 192或256，但192和256位可能不可用
+     */
+    AES(2, "AES"),
+    /**
+     * Blowfish 加密解密方式 键大小必须是8的倍数，只能从32到448（包括）
+     */
+    BLOWFISH(3, "BLOWFISH"),
+    /**
+     * RC2 加密解密方式 密钥大小必须介于40到1024位之间
+     */
+    RC2(4, "RC2");
 
     private int id;
     private String value;
-    private SymmetricCipher(int id,String value) {
+
+    private SymmetricCipher(int id, String value) {
         this.id = id;
         this.value = value;
     }
+
     public int getId() {
         return id;
     }
+
     public String getValue() {
         return value;
     }

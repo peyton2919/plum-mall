@@ -27,17 +27,18 @@ public class RedisConfiguration {
 
     /**
      * 1. 创建 JedisPoolConfig 对象，在该对象中完成一些链接池配置。
+     *
      * @return
      */
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig config = new JedisPoolConfig();
         //最大空闲数
-       config.setMaxIdle(10);
+        config.setMaxIdle(10);
         //最小空闲数
-       config.setMinIdle(5);
+        config.setMinIdle(5);
         //最大链接数
-       config.setMaxTotal(20);
+        config.setMaxTotal(20);
 
         return config;
     }

@@ -19,6 +19,7 @@ public class MyQuartz implements Job {
 
     /**
      * 任务被触发时执行的方法
+     *
      * @param jobExecutionContext
      * @throws JobExecutionException
      */

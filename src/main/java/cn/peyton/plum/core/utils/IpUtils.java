@@ -88,6 +88,7 @@ public final class IpUtils implements Serializable {
 
     /**
      * <h4>获取最后IP</h4>
+     *
      * @param request
      * @return
      */
@@ -103,6 +104,7 @@ public final class IpUtils implements Serializable {
 
     /**
      * <h>判断IP是否合法</h>
+     *
      * @param request
      * @return
      */
@@ -130,6 +132,7 @@ public final class IpUtils implements Serializable {
 
     /**
      * <h4>获取最后服务器 部分IP</h4>
+     *
      * @return
      */
     public static String getLastServerIpSegment() {
@@ -144,6 +147,7 @@ public final class IpUtils implements Serializable {
 
     /**
      * <h4>获取服务器IP</h4>
+     *
      * @return
      */
     public static String getServerIP() {
@@ -160,41 +164,43 @@ public final class IpUtils implements Serializable {
 
     /**
      * <h4>获取客户端IP地址</h4>
+     *
      * @param request
      * @return Ip地址
      */
     public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
-            if(ip.equals("127.0.0.1")){
+            if (ip.equals("127.0.0.1")) {
                 //根据网卡取本机配置的IP
-                InetAddress inet=null;
+                InetAddress inet = null;
                 try {
                     inet = InetAddress.getLocalHost();
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                ip= inet.getHostAddress();
+                ip = inet.getHostAddress();
             }
         }
         // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if(ip != null && ip.length() > 15){
-            if(ip.indexOf(",") > 0){
-                ip = ip.substring(0,ip.indexOf(","));
+        if (ip != null && ip.length() > 15) {
+            if (ip.indexOf(",") > 0) {
+                ip = ip.substring(0, ip.indexOf(","));
             }
         }
-        return ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip;
+        return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
     }
 
     /**
      * <h>获取物理网卡地址</h>
+     *
      * @return
      */
     public static String getMacAddress() {
@@ -203,16 +209,16 @@ public final class IpUtils implements Serializable {
             InetAddress inetAddress = InetAddress.getLocalHost();
             byte[] mac = NetworkInterface.getByInetAddress(inetAddress).getHardwareAddress();
 
-            for(int i=0; i<mac.length; i++) {
-                if(i!=0) {
+            for (int i = 0; i < mac.length; i++) {
+                if (i != 0) {
                     sb.append("-");
                 }
                 //字节转换为整数
-                int temp = mac[i]&0xff;
+                int temp = mac[i] & 0xff;
                 String str = Integer.toHexString(temp);
-                if(str.length()== 1) {
+                if (str.length() == 1) {
                     sb.append("0").append(str);
-                }else {
+                } else {
                     sb.append(str);
                 }
             }

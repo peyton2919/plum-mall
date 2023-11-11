@@ -4,460 +4,549 @@ import cn.peyton.plum.mall.pojo.ShopProductSkuDetail;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
 /**
- * <h3> 商品规格详细表 参数 传递类[用来展示数据]类</h3>
+ * <h3> 商品规格详细 参数 传递类[用来展示数据]类</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2023年11月03日 23:02:39
+ * @date 2023年11月10日 14:53:24
  * @version 1.0.0
  * </pre>
-*/
+ */
 public class ShopProductSkuDetailParam implements Serializable {
-	/**   */
-	private Long id;
-	/** 商品ID  */
-	private Long productId;
-	/** 商品属性索引值 (attr_value|attr_value[|....])  */
-	private String skus;
-	/** 属性对应的库存  */
-	private Integer stock;
-	/** 销量  */
-	private Integer sales;
-	/** 封面图片  */
-	private String cover;
-	/** 唯一值  */
-	private String uniqueCode;
-	/** 商品条码  */
-	private String barCode;
-	/** 商品价格(批发)  */
-	private BigDecimal price;
-	/** 会员价格  */
-	private BigDecimal vipPrice;
-	/** 市场价  */
-	private BigDecimal otPrice;
-	/** 成本价  */
-	private BigDecimal costPrice;
-	/** 重量  */
-	private BigDecimal weight;
-	/** 体积  */
-	private BigDecimal volume;
-	/** 一级返佣  */
-	private BigDecimal brokerage;
-	/** 二级返佣  */
-	private BigDecimal brokerageTwo;
-	/** 拼团价  */
-	private BigDecimal pinkPrice;
-	/** 拼团库存  */
-	private Integer pinkStock;
-	/** 秒杀价  */
-	private BigDecimal seckillPrice;
-	/** 秒杀库存  */
-	private Integer seckillStock;
-	/** 需要多少积分兑换  */
-	private Integer integral;
-	/** 仓库Id  */
-	private Integer warehouseId;
-	/** 仓库说明  */
-	private String warehouseExplain;
+    /**
+     * 编号 { 对应 psd_id }
+     */
+    private Long id;
+    /**
+     * 商品Id
+     */
+    private Long productId;
+    /**
+     * 商品属性索引值 (attr_value|attr_value[|....])
+     */
+    private String skus;
+    /**
+     * 属性对应的库存,默认0
+     */
+    private Integer stock;
+    /**
+     * 销量,默认0
+     */
+    private Integer sales;
+    /**
+     * 封面图片
+     */
+    private String cover;
+    /**
+     * 唯一值
+     */
+    private String uniqueCode;
+    /**
+     * 商品条码
+     */
+    private String barCode;
+    /**
+     * 需要多少积分兑换
+     */
+    private Integer integral;
+    /**
+     * 商品价格(批发)
+     */
+    private BigDecimal price;
+    /**
+     * 会员价格
+     */
+    private BigDecimal vipPrice;
+    /**
+     * 市场价格
+     */
+    private BigDecimal otPrice;
+    /**
+     * 成本价格
+     */
+    private BigDecimal costPrice;
+    /**
+     * 重量
+     */
+    private BigDecimal weight;
+    /**
+     * 体积
+     */
+    private BigDecimal volume;
+    /**
+     * 一级返佣
+     */
+    private BigDecimal brokerage;
+    /**
+     * 二级返佣
+     */
+    private BigDecimal brokerageTwo;
+    /**
+     * 拼团价格
+     */
+    private BigDecimal pinkPrice;
+    /**
+     * 拼团库存
+     */
+    private Integer pinkStock;
+    /**
+     * 砍价价格
+     */
+    private BigDecimal bargainPrice;
+    /**
+     * 砍价库存
+     */
+    private Integer bargainStock;
+    /**
+     * 秒杀价格
+     */
+    private BigDecimal seckillPrice;
+    /**
+     * 秒杀库存
+     */
+    private Integer seckillStock;
+    /**
+     * 仓库Id
+     */
+    private Integer warehouseId;
+    /**
+     * 仓库说明
+     */
+    private String warehouseExplain;
 
-	//================================== Constructor =======================================//
+    //================================== Constructor =======================================//
 
-	//================================== Method =======================================//
+    //================================== Method =======================================//
 
 
-	//================================== PREFIX_GET AND PREFIX_SET =======================================//
+    //================================== PREFIX_GET AND PREFIX_SET =======================================//
 
-	/** 
-	 * @param id  
-	 */ 
-	public void setId(Long id){
-		this.id = id;
-	}
+    /**
+     * @param id 编号 { 对应 psd_id }
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	/** 
-	 * @return  
-	 */ 
-	public Long getId(){
-		return id;
-	}
+    /**
+     * @return 编号 { 对应 psd_id }
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/** 
-	 * @param productId 商品ID 
-	 */ 
-	public void setProductId(Long productId){
-		this.productId = productId;
-	}
+    /**
+     * @param productId 商品Id
+     */
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
-	/** 
-	 * @return 商品ID 
-	 */ 
-	public Long getProductId(){
-		return productId;
-	}
+    /**
+     * @return 商品Id
+     */
+    public Long getProductId() {
+        return productId;
+    }
 
-	/** 
-	 * @param skus 商品属性索引值 (attr_value|attr_value[|....]) 
-	 */ 
-	public void setSkus(String skus){
-		this.skus = skus;
-	}
+    /**
+     * @param skus 商品属性索引值 (attr_value|attr_value[|....])
+     */
+    public void setSkus(String skus) {
+        this.skus = skus;
+    }
 
-	/** 
-	 * @return 商品属性索引值 (attr_value|attr_value[|....]) 
-	 */ 
-	public String getSkus(){
-		return skus;
-	}
+    /**
+     * @return 商品属性索引值 (attr_value|attr_value[|....])
+     */
+    public String getSkus() {
+        return skus;
+    }
 
-	/** 
-	 * @param stock 属性对应的库存 
-	 */ 
-	public void setStock(Integer stock){
-		this.stock = stock;
-	}
+    /**
+     * @param stock 属性对应的库存,默认0
+     */
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
 
-	/** 
-	 * @return 属性对应的库存 
-	 */ 
-	public Integer getStock(){
-		return stock;
-	}
+    /**
+     * @return 属性对应的库存, 默认0
+     */
+    public Integer getStock() {
+        return stock;
+    }
 
-	/** 
-	 * @param sales 销量 
-	 */ 
-	public void setSales(Integer sales){
-		this.sales = sales;
-	}
+    /**
+     * @param sales 销量,默认0
+     */
+    public void setSales(Integer sales) {
+        this.sales = sales;
+    }
 
-	/** 
-	 * @return 销量 
-	 */ 
-	public Integer getSales(){
-		return sales;
-	}
+    /**
+     * @return 销量, 默认0
+     */
+    public Integer getSales() {
+        return sales;
+    }
 
-	/** 
-	 * @param cover 封面图片 
-	 */ 
-	public void setCover(String cover){
-		this.cover = cover;
-	}
+    /**
+     * @param cover 封面图片
+     */
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
 
-	/** 
-	 * @return 封面图片 
-	 */ 
-	public String getCover(){
-		return cover;
-	}
+    /**
+     * @return 封面图片
+     */
+    public String getCover() {
+        return cover;
+    }
 
-	/** 
-	 * @param uniqueCode 唯一值 
-	 */ 
-	public void setUniqueCode(String uniqueCode){
-		this.uniqueCode = uniqueCode;
-	}
+    /**
+     * @param uniqueCode 唯一值
+     */
+    public void setUniqueCode(String uniqueCode) {
+        this.uniqueCode = uniqueCode;
+    }
 
-	/** 
-	 * @return 唯一值 
-	 */ 
-	public String getUniqueCode(){
-		return uniqueCode;
-	}
+    /**
+     * @return 唯一值
+     */
+    public String getUniqueCode() {
+        return uniqueCode;
+    }
 
-	/** 
-	 * @param barCode 商品条码 
-	 */ 
-	public void setBarCode(String barCode){
-		this.barCode = barCode;
-	}
+    /**
+     * @param barCode 商品条码
+     */
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
 
-	/** 
-	 * @return 商品条码 
-	 */ 
-	public String getBarCode(){
-		return barCode;
-	}
+    /**
+     * @return 商品条码
+     */
+    public String getBarCode() {
+        return barCode;
+    }
 
-	/** 
-	 * @param price 商品价格(批发) 
-	 */ 
-	public void setPrice(BigDecimal price){
-		this.price = price;
-	}
+    /**
+     * @param integral 需要多少积分兑换
+     */
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
+    }
 
-	/** 
-	 * @return 商品价格(批发) 
-	 */ 
-	public BigDecimal getPrice(){
-		return price;
-	}
+    /**
+     * @return 需要多少积分兑换
+     */
+    public Integer getIntegral() {
+        return integral;
+    }
 
-	/** 
-	 * @param vipPrice 会员价格 
-	 */ 
-	public void setVipPrice(BigDecimal vipPrice){
-		this.vipPrice = vipPrice;
-	}
+    /**
+     * @param price 商品价格(批发)
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	/** 
-	 * @return 会员价格 
-	 */ 
-	public BigDecimal getVipPrice(){
-		return vipPrice;
-	}
+    /**
+     * @return 商品价格(批发)
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	/** 
-	 * @param otPrice 市场价 
-	 */ 
-	public void setOtPrice(BigDecimal otPrice){
-		this.otPrice = otPrice;
-	}
+    /**
+     * @param vipPrice 会员价格
+     */
+    public void setVipPrice(BigDecimal vipPrice) {
+        this.vipPrice = vipPrice;
+    }
 
-	/** 
-	 * @return 市场价 
-	 */ 
-	public BigDecimal getOtPrice(){
-		return otPrice;
-	}
+    /**
+     * @return 会员价格
+     */
+    public BigDecimal getVipPrice() {
+        return vipPrice;
+    }
 
-	/** 
-	 * @param costPrice 成本价 
-	 */ 
-	public void setCostPrice(BigDecimal costPrice){
-		this.costPrice = costPrice;
-	}
+    /**
+     * @param otPrice 市场价格
+     */
+    public void setOtPrice(BigDecimal otPrice) {
+        this.otPrice = otPrice;
+    }
 
-	/** 
-	 * @return 成本价 
-	 */ 
-	public BigDecimal getCostPrice(){
-		return costPrice;
-	}
+    /**
+     * @return 市场价格
+     */
+    public BigDecimal getOtPrice() {
+        return otPrice;
+    }
 
-	/** 
-	 * @param weight 重量 
-	 */ 
-	public void setWeight(BigDecimal weight){
-		this.weight = weight;
-	}
+    /**
+     * @param costPrice 成本价格
+     */
+    public void setCostPrice(BigDecimal costPrice) {
+        this.costPrice = costPrice;
+    }
 
-	/** 
-	 * @return 重量 
-	 */ 
-	public BigDecimal getWeight(){
-		return weight;
-	}
+    /**
+     * @return 成本价格
+     */
+    public BigDecimal getCostPrice() {
+        return costPrice;
+    }
 
-	/** 
-	 * @param volume 体积 
-	 */ 
-	public void setVolume(BigDecimal volume){
-		this.volume = volume;
-	}
+    /**
+     * @param weight 重量
+     */
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
 
-	/** 
-	 * @return 体积 
-	 */ 
-	public BigDecimal getVolume(){
-		return volume;
-	}
+    /**
+     * @return 重量
+     */
+    public BigDecimal getWeight() {
+        return weight;
+    }
 
-	/** 
-	 * @param brokerage 一级返佣 
-	 */ 
-	public void setBrokerage(BigDecimal brokerage){
-		this.brokerage = brokerage;
-	}
+    /**
+     * @param volume 体积
+     */
+    public void setVolume(BigDecimal volume) {
+        this.volume = volume;
+    }
 
-	/** 
-	 * @return 一级返佣 
-	 */ 
-	public BigDecimal getBrokerage(){
-		return brokerage;
-	}
+    /**
+     * @return 体积
+     */
+    public BigDecimal getVolume() {
+        return volume;
+    }
 
-	/** 
-	 * @param brokerageTwo 二级返佣 
-	 */ 
-	public void setBrokerageTwo(BigDecimal brokerageTwo){
-		this.brokerageTwo = brokerageTwo;
-	}
+    /**
+     * @param brokerage 一级返佣
+     */
+    public void setBrokerage(BigDecimal brokerage) {
+        this.brokerage = brokerage;
+    }
 
-	/** 
-	 * @return 二级返佣 
-	 */ 
-	public BigDecimal getBrokerageTwo(){
-		return brokerageTwo;
-	}
+    /**
+     * @return 一级返佣
+     */
+    public BigDecimal getBrokerage() {
+        return brokerage;
+    }
 
-	/** 
-	 * @param pinkPrice 拼团价 
-	 */ 
-	public void setPinkPrice(BigDecimal pinkPrice){
-		this.pinkPrice = pinkPrice;
-	}
+    /**
+     * @param brokerageTwo 二级返佣
+     */
+    public void setBrokerageTwo(BigDecimal brokerageTwo) {
+        this.brokerageTwo = brokerageTwo;
+    }
 
-	/** 
-	 * @return 拼团价 
-	 */ 
-	public BigDecimal getPinkPrice(){
-		return pinkPrice;
-	}
+    /**
+     * @return 二级返佣
+     */
+    public BigDecimal getBrokerageTwo() {
+        return brokerageTwo;
+    }
 
-	/** 
-	 * @param pinkStock 拼团库存 
-	 */ 
-	public void setPinkStock(Integer pinkStock){
-		this.pinkStock = pinkStock;
-	}
+    /**
+     * @param pinkPrice 拼团价格
+     */
+    public void setPinkPrice(BigDecimal pinkPrice) {
+        this.pinkPrice = pinkPrice;
+    }
 
-	/** 
-	 * @return 拼团库存 
-	 */ 
-	public Integer getPinkStock(){
-		return pinkStock;
-	}
+    /**
+     * @return 拼团价格
+     */
+    public BigDecimal getPinkPrice() {
+        return pinkPrice;
+    }
 
-	/** 
-	 * @param seckillPrice 秒杀价 
-	 */ 
-	public void setSeckillPrice(BigDecimal seckillPrice){
-		this.seckillPrice = seckillPrice;
-	}
+    /**
+     * @param pinkStock 拼团库存
+     */
+    public void setPinkStock(Integer pinkStock) {
+        this.pinkStock = pinkStock;
+    }
 
-	/** 
-	 * @return 秒杀价 
-	 */ 
-	public BigDecimal getSeckillPrice(){
-		return seckillPrice;
-	}
+    /**
+     * @return 拼团库存
+     */
+    public Integer getPinkStock() {
+        return pinkStock;
+    }
 
-	/** 
-	 * @param seckillStock 秒杀库存 
-	 */ 
-	public void setSeckillStock(Integer seckillStock){
-		this.seckillStock = seckillStock;
-	}
+    /**
+     * @param bargainPrice 砍价价格
+     */
+    public void setBargainPrice(BigDecimal bargainPrice) {
+        this.bargainPrice = bargainPrice;
+    }
 
-	/** 
-	 * @return 秒杀库存 
-	 */ 
-	public Integer getSeckillStock(){
-		return seckillStock;
-	}
+    /**
+     * @return 砍价价格
+     */
+    public BigDecimal getBargainPrice() {
+        return bargainPrice;
+    }
 
-	/** 
-	 * @param integral 需要多少积分兑换 
-	 */ 
-	public void setIntegral(Integer integral){
-		this.integral = integral;
-	}
+    /**
+     * @param bargainStock 砍价库存
+     */
+    public void setBargainStock(Integer bargainStock) {
+        this.bargainStock = bargainStock;
+    }
 
-	/** 
-	 * @return 需要多少积分兑换 
-	 */ 
-	public Integer getIntegral(){
-		return integral;
-	}
+    /**
+     * @return 砍价库存
+     */
+    public Integer getBargainStock() {
+        return bargainStock;
+    }
 
-	/** 
-	 * @param warehouseId 仓库Id 
-	 */ 
-	public void setWarehouseId(Integer warehouseId){
-		this.warehouseId = warehouseId;
-	}
+    /**
+     * @param seckillPrice 秒杀价格
+     */
+    public void setSeckillPrice(BigDecimal seckillPrice) {
+        this.seckillPrice = seckillPrice;
+    }
 
-	/** 
-	 * @return 仓库Id 
-	 */ 
-	public Integer getWarehouseId(){
-		return warehouseId;
-	}
+    /**
+     * @return 秒杀价格
+     */
+    public BigDecimal getSeckillPrice() {
+        return seckillPrice;
+    }
 
-	/** 
-	 * @param warehouseExplain 仓库说明 
-	 */ 
-	public void setWarehouseExplain(String warehouseExplain){
-		this.warehouseExplain = warehouseExplain;
-	}
+    /**
+     * @param seckillStock 秒杀库存
+     */
+    public void setSeckillStock(Integer seckillStock) {
+        this.seckillStock = seckillStock;
+    }
 
-	/** 
-	 * @return 仓库说明 
-	 */ 
-	public String getWarehouseExplain(){
-		return warehouseExplain;
-	}
+    /**
+     * @return 秒杀库存
+     */
+    public Integer getSeckillStock() {
+        return seckillStock;
+    }
 
-	/**
-	 * <h4>对象转成ShopProductSkuDetail对象<h4> 
-	 * <pre>
-	 * 	 转换字段如下:
-	 * 	 [id,productId,skus,stock,sales,cover,uniqueCode,barCode,price,vipPrice,otPrice,costPrice,weight,volume,brokerage,brokerageTwo,pinkPrice,pinkStock,seckillPrice,seckillStock,integral,warehouseId,warehouseExplain]
-	 * </pre>
-	 */
-	public ShopProductSkuDetail convert(){
-		ShopProductSkuDetail shopProductSkuDetail = new ShopProductSkuDetail(); 
-		shopProductSkuDetail.setId(id);
-		shopProductSkuDetail.setProductId(productId);
-		shopProductSkuDetail.setSkus(skus);
-		shopProductSkuDetail.setStock(stock);
-		shopProductSkuDetail.setSales(sales);
-		shopProductSkuDetail.setCover(cover);
-		shopProductSkuDetail.setUniqueCode(uniqueCode);
-		shopProductSkuDetail.setBarCode(barCode);
-		shopProductSkuDetail.setPrice(price);
-		shopProductSkuDetail.setVipPrice(vipPrice);
-		shopProductSkuDetail.setOtPrice(otPrice);
-		shopProductSkuDetail.setCostPrice(costPrice);
-		shopProductSkuDetail.setWeight(weight);
-		shopProductSkuDetail.setVolume(volume);
-		shopProductSkuDetail.setBrokerage(brokerage);
-		shopProductSkuDetail.setBrokerageTwo(brokerageTwo);
-		shopProductSkuDetail.setPinkPrice(pinkPrice);
-		shopProductSkuDetail.setPinkStock(pinkStock);
-		shopProductSkuDetail.setSeckillPrice(seckillPrice);
-		shopProductSkuDetail.setSeckillStock(seckillStock);
-		shopProductSkuDetail.setIntegral(integral);
-		shopProductSkuDetail.setWarehouseId(warehouseId);
-		shopProductSkuDetail.setWarehouseExplain(warehouseExplain);
-		return shopProductSkuDetail;
-	} 
-	/**
-	 * <h4>ShopProductSkuDetail对象转成ShopProductSkuDetailParam对象<h4> 
-	 * <pre>
-	 * 	 转换字段如下:
-	 * 	 [id,productId,skus,stock,sales,cover,uniqueCode,barCode,price,vipPrice,otPrice,costPrice,weight,volume,brokerage,brokerageTwo,pinkPrice,pinkStock,seckillPrice,seckillStock,integral,warehouseId,warehouseExplain]
-	 * </pre>
-	 */
-	public ShopProductSkuDetailParam compat(ShopProductSkuDetail shopProductSkuDetail){ 
-		if(null == shopProductSkuDetail){
-			return new ShopProductSkuDetailParam();
-		}
-		this.setId(shopProductSkuDetail.getId());
-		this.setProductId(shopProductSkuDetail.getProductId());
-		this.setSkus(shopProductSkuDetail.getSkus());
-		this.setStock(shopProductSkuDetail.getStock());
-		this.setSales(shopProductSkuDetail.getSales());
-		this.setCover(shopProductSkuDetail.getCover());
-		this.setUniqueCode(shopProductSkuDetail.getUniqueCode());
-		this.setBarCode(shopProductSkuDetail.getBarCode());
-		this.setPrice(shopProductSkuDetail.getPrice());
-		this.setVipPrice(shopProductSkuDetail.getVipPrice());
-		this.setOtPrice(shopProductSkuDetail.getOtPrice());
-		this.setCostPrice(shopProductSkuDetail.getCostPrice());
-		this.setWeight(shopProductSkuDetail.getWeight());
-		this.setVolume(shopProductSkuDetail.getVolume());
-		this.setBrokerage(shopProductSkuDetail.getBrokerage());
-		this.setBrokerageTwo(shopProductSkuDetail.getBrokerageTwo());
-		this.setPinkPrice(shopProductSkuDetail.getPinkPrice());
-		this.setPinkStock(shopProductSkuDetail.getPinkStock());
-		this.setSeckillPrice(shopProductSkuDetail.getSeckillPrice());
-		this.setSeckillStock(shopProductSkuDetail.getSeckillStock());
-		this.setIntegral(shopProductSkuDetail.getIntegral());
-		this.setWarehouseId(shopProductSkuDetail.getWarehouseId());
-		this.setWarehouseExplain(shopProductSkuDetail.getWarehouseExplain());
-		return this;
-	} 
+    /**
+     * @param warehouseId 仓库Id
+     */
+    public void setWarehouseId(Integer warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    /**
+     * @return 仓库Id
+     */
+    public Integer getWarehouseId() {
+        return warehouseId;
+    }
+
+    /**
+     * @param warehouseExplain 仓库说明
+     */
+    public void setWarehouseExplain(String warehouseExplain) {
+        this.warehouseExplain = warehouseExplain;
+    }
+
+    /**
+     * @return 仓库说明
+     */
+    public String getWarehouseExplain() {
+        return warehouseExplain;
+    }
+
+
+    /**
+     * <h4>对象转成ShopProductSkuDetail对象<h4>
+     * <pre>
+     * 	 转换字段如下:
+     * 	 [id,productId,skus,stock,sales,cover,uniqueCode,barCode,price,vipPrice,otPrice,costPrice,weight,volume,brokerage,brokerageTwo,pinkPrice,pinkStock,seckillPrice,seckillStock,integral,warehouseId,warehouseExplain]
+     * </pre>
+     */
+    public ShopProductSkuDetail convert() {
+        ShopProductSkuDetail shopProductSkuDetail = new ShopProductSkuDetail();
+        shopProductSkuDetail.setId(id);
+        shopProductSkuDetail.setProductId(productId);
+        shopProductSkuDetail.setSkus(skus);
+        shopProductSkuDetail.setStock(stock);
+        shopProductSkuDetail.setSales(sales);
+        shopProductSkuDetail.setCover(cover);
+        shopProductSkuDetail.setUniqueCode(uniqueCode);
+        shopProductSkuDetail.setBarCode(barCode);
+        shopProductSkuDetail.setIntegral(integral);
+        shopProductSkuDetail.setPrice(price);
+        shopProductSkuDetail.setVipPrice(vipPrice);
+        shopProductSkuDetail.setOtPrice(otPrice);
+        shopProductSkuDetail.setCostPrice(costPrice);
+        shopProductSkuDetail.setWeight(weight);
+        shopProductSkuDetail.setVolume(volume);
+        shopProductSkuDetail.setBrokerage(brokerage);
+        shopProductSkuDetail.setBrokerageTwo(brokerageTwo);
+        shopProductSkuDetail.setPinkPrice(pinkPrice);
+        shopProductSkuDetail.setPinkStock(pinkStock);
+        shopProductSkuDetail.setBargainPrice(bargainPrice);
+        shopProductSkuDetail.setBargainStock(bargainStock);
+        shopProductSkuDetail.setSeckillPrice(seckillPrice);
+        shopProductSkuDetail.setSeckillStock(seckillStock);
+        shopProductSkuDetail.setWarehouseId(warehouseId);
+        shopProductSkuDetail.setWarehouseExplain(warehouseExplain);
+        return shopProductSkuDetail;
+    }
+
+    /**
+     * <h4>ShopProductSkuDetail对象转成ShopProductSkuDetailParam对象<h4>
+     * <pre>
+     * 	 转换字段如下:
+     * 	 [id,productId,skus,stock,sales,cover,uniqueCode,barCode,price,vipPrice,otPrice,costPrice,weight,volume,brokerage,brokerageTwo,pinkPrice,pinkStock,seckillPrice,seckillStock,integral,warehouseId,warehouseExplain]
+     * </pre>
+     */
+    public ShopProductSkuDetailParam compat(ShopProductSkuDetail shopProductSkuDetail) {
+        if (null == shopProductSkuDetail) {
+            return new ShopProductSkuDetailParam();
+        }
+        this.setId(shopProductSkuDetail.getId());
+        this.setProductId(shopProductSkuDetail.getProductId());
+        this.setSkus(shopProductSkuDetail.getSkus());
+        this.setStock(shopProductSkuDetail.getStock());
+        this.setSales(shopProductSkuDetail.getSales());
+        this.setCover(shopProductSkuDetail.getCover());
+        this.setUniqueCode(shopProductSkuDetail.getUniqueCode());
+        this.setBarCode(shopProductSkuDetail.getBarCode());
+        this.setIntegral(shopProductSkuDetail.getIntegral());
+        this.setPrice(shopProductSkuDetail.getPrice());
+        this.setVipPrice(shopProductSkuDetail.getVipPrice());
+        this.setOtPrice(shopProductSkuDetail.getOtPrice());
+        this.setCostPrice(shopProductSkuDetail.getCostPrice());
+        this.setWeight(shopProductSkuDetail.getWeight());
+        this.setVolume(shopProductSkuDetail.getVolume());
+        this.setBrokerage(shopProductSkuDetail.getBrokerage());
+        this.setBrokerageTwo(shopProductSkuDetail.getBrokerageTwo());
+        this.setPinkPrice(shopProductSkuDetail.getPinkPrice());
+        this.setPinkStock(shopProductSkuDetail.getPinkStock());
+        this.setBargainPrice(shopProductSkuDetail.getBargainPrice());
+        this.setBargainStock(shopProductSkuDetail.getBargainStock());
+        this.setSeckillPrice(shopProductSkuDetail.getSeckillPrice());
+        this.setSeckillStock(shopProductSkuDetail.getSeckillStock());
+        this.setWarehouseId(shopProductSkuDetail.getWarehouseId());
+        this.setWarehouseExplain(shopProductSkuDetail.getWarehouseExplain());
+        return this;
+    }
 }

@@ -18,7 +18,7 @@ import java.util.Map;
  * @version 1.0.0
  * </pre>
  */
-public class AlikeStrategy  extends AbstractValidator {
+public class AlikeStrategy extends AbstractValidator {
     @Override
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         Alike _alike = (Alike) annotation;
@@ -26,8 +26,8 @@ public class AlikeStrategy  extends AbstractValidator {
         String _cName = _alike.fieldName();
 
         Class<?> clazz = value.getClass();
-        Field pwField = null,cpwField = null;
-        String _pw = null,_cpw = null;
+        Field pwField = null, cpwField = null;
+        String _pw = null, _cpw = null;
         try {
             pwField = clazz.getDeclaredField(_cName);
             cpwField = clazz.getDeclaredField(name);
@@ -44,7 +44,7 @@ public class AlikeStrategy  extends AbstractValidator {
             LogUtils.error(e.getMessage());
             map.put(name, "[异常] 属性值获取错误。");
         }
-        if(null == _cpw || !(_cpw).equals(_pw)) {
+        if (null == _cpw || !(_cpw).equals(_pw)) {
             map.put(name, _alike.message());
         }
     }

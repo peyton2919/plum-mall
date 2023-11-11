@@ -12,13 +12,19 @@ import java.util.Set;
  * @version: 1.0.0
  * </pre>
  */
-public class Mail implements Serializable{
+public class Mail implements Serializable {
 
-    /** 主题 */
+    /**
+     * 主题
+     */
     private String subject;
-    /**  信息 */
+    /**
+     * 信息
+     */
     private String message;
-    /** 接收者集合 */
+    /**
+     * 接收者集合
+     */
     private Set<String> receivers;
 
     //================================== Constructor =======================================//
@@ -31,8 +37,9 @@ public class Mail implements Serializable{
 
     /**
      * <h4>构造函数</h4>
-     * @param subject 主题
-     * @param message 信息
+     *
+     * @param subject   主题
+     * @param message   信息
      * @param receivers 接收者集合
      */
     public Mail(String subject, String message, Set<String> receivers) {
@@ -57,7 +64,7 @@ public class Mail implements Serializable{
     }
 
     /**
-     * @return  信息
+     * @return 信息
      */
     public String getMessage() {
         return message;

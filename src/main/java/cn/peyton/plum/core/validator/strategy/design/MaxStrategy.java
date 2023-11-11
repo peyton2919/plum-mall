@@ -22,7 +22,7 @@ public class MaxStrategy extends AbstractValidator {
     @Override
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         if (existInt(type)) {
-            map.put(name,"数据类型不正确");
+            map.put(name, "数据类型不正确");
             return;
         }
         Max max = (Max) annotation;

@@ -15,11 +15,14 @@ import java.util.List;
  * </pre>
  */
 public final class FileUtils implements Serializable {
-    /** */
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     /**
      * 删除文件夹(包含当前文件夹)
+     *
      * @param folderPath 文件夹完整绝对路径  D:/aa
      */
     public static void delFolder(String folderPath) {
@@ -76,7 +79,8 @@ public final class FileUtils implements Serializable {
 
     /**
      * 删除单个文件
-     * @param pathAndName   被删除文件的文件名
+     *
+     * @param pathAndName 被删除文件的文件名
      * @return 单个文件删除成功返回true，否则返回false
      */
     public static boolean delFile(String pathAndName) {
@@ -89,24 +93,29 @@ public final class FileUtils implements Serializable {
         }
         return flag;
     }
+
     /**
      * 判断文件名是否存在
+     *
      * @param pathName 路径(绝对路径如：c:\\_temp\\ 或  c:/_temp/ 必须以\\ 或/结束)
      * @param fileName 文件名(如：file.jsp)
      * @return 有存在返回 true 否则为false
      */
-    public static boolean isFileNameExists(String pathName , String fileName){
-        File file = new File(pathName+fileName);
-        if(file.exists()) {return true;}
+    public static boolean isFileNameExists(String pathName, String fileName) {
+        File file = new File(pathName + fileName);
+        if (file.exists()) {
+            return true;
+        }
         return false;
     }
 
     /**
      * 创建文件 ,当存在相同的文件名时不做处理
+     *
      * @param pathName 要给出绝对路径和文件名
-     * @return 返回true表示有创建文件,并且文件创建成功,否则就表示文件已经存在不做处理
+     * @return 返回true表示有创建文件, 并且文件创建成功, 否则就表示文件已经存在不做处理
      */
-    public static boolean createNewFile(String pathName){
+    public static boolean createNewFile(String pathName) {
         File file = new File(pathName);
         boolean result = false;
         if (!file.exists()) {
@@ -118,31 +127,35 @@ public final class FileUtils implements Serializable {
         }
         return result;
     }
+
     /**
      * 创建文件目录 ,当存在相同的文件目录名时不做处理
+     *
      * @param pathDirectoryName 要给出绝对路径和目录名称
-     * @return 返回true表示有创建文件目录,并且文件创建成功,否则就表示文件目录已经存在不做处理
+     * @return 返回true表示有创建文件目录, 并且文件创建成功, 否则就表示文件目录已经存在不做处理
      */
-    public static boolean createDirectory(String pathDirectoryName){
+    public static boolean createDirectory(String pathDirectoryName) {
         //如果文件夹不存在则创建
-        File file =new File(pathDirectoryName);
+        File file = new File(pathDirectoryName);
         boolean result = false;
         if (!file.exists() && !file.isDirectory()) {
             result = file.mkdirs();
         }
         return result;
     }
+
     /**
      * 文件或文件目录重命名
+     *
      * @param oldPathName 要给出绝对路径和目录名称
-     * @param newName 要改成新的文件名或文件目录
-     * @return 返回true表示有创建文件目录,并且文件创建成功,否则就表示文件目录已经存在不做处理
+     * @param newName     要改成新的文件名或文件目录
+     * @return 返回true表示有创建文件目录, 并且文件创建成功, 否则就表示文件目录已经存在不做处理
      */
-    public static boolean rename(String oldPathName , String newName) {
+    public static boolean rename(String oldPathName, String newName) {
         boolean result = false;
         File oldFile = new File(oldPathName);
         String path = oldFile.getPath();
-        String newPathName = path.substring(0, path.lastIndexOf("\\")+1) + newName;
+        String newPathName = path.substring(0, path.lastIndexOf("\\") + 1) + newName;
         File newFile = new File(newPathName);
         if (!newFile.exists()) {
             oldFile.renameTo(newFile);
@@ -150,32 +163,37 @@ public final class FileUtils implements Serializable {
         }
         return result;
     }
+
     /**
      * 查找文件目录下的所有文件
+     *
      * @param resultLists 查找返回文件的集合
-     * @param path 绝对路径
+     * @param path        绝对路径
      * @param isSearchAll 是否查找全部,true为查找当前文件目录所以子目录,false为只查找当前目录下的文件 ,子目录不做查找;
      */
-    public static void  searchAllFile(List<File> resultLists , String path , boolean isSearchAll) {
+    public static void searchAllFile(List<File> resultLists, String path, boolean isSearchAll) {
         File file = new File(path);
-        File[] array= file.listFiles();
+        File[] array = file.listFiles();
         for (int i = 0; i < array.length; i++) {
             if (array[i].isFile()) {
                 resultLists.add(array[i]);
-            }else if (array[i].isDirectory()) {
-                if (isSearchAll) {searchAllFile(resultLists , array[i].getPath(),isSearchAll);}
+            } else if (array[i].isDirectory()) {
+                if (isSearchAll) {
+                    searchAllFile(resultLists, array[i].getPath(), isSearchAll);
+                }
             }
         }
     }
 
     /**
      * 根据关键字查找目录下的所有文件
+     *
      * @param resultLists 查找返回文件的集合
-     * @param folder 要查找的文件对象
-     * @param keyWord 关键字
-     * @param isSearchAll  是否查找全部,true为查找当前文件目录所以子目录,false为只查找当前目录下的文件 ,子目录不做查找;
+     * @param folder      要查找的文件对象
+     * @param keyWord     关键字
+     * @param isSearchAll 是否查找全部,true为查找当前文件目录所以子目录,false为只查找当前目录下的文件 ,子目录不做查找;
      */
-    public static void searchKeywordsFile(List<File> resultLists , File folder, final String keyWord, boolean isSearchAll) {
+    public static void searchKeywordsFile(List<File> resultLists, File folder, final String keyWord, boolean isSearchAll) {
         // 递归查找包含关键字的文件
         // 运用内部匿名类获得文件
         File[] subFolders = folder.listFiles(new FileFilter() {
@@ -184,7 +202,7 @@ public final class FileUtils implements Serializable {
             public boolean accept(File pathname) {
                 // 目录或文件包含关键字
                 if (pathname.isDirectory() || (pathname.isFile() && pathname.getName()
-                        .toLowerCase().contains(keyWord.toLowerCase()))){
+                        .toLowerCase().contains(keyWord.toLowerCase()))) {
 
                     return true;
                 }
@@ -199,17 +217,19 @@ public final class FileUtils implements Serializable {
                 // 如果是文件夹，则递归调用本方法，然后把所有的文件加到结果列表中
             } else {
                 if (isSearchAll) {
-                    searchKeywordsFile(resultLists , subFolders[i], keyWord,isSearchAll);
+                    searchKeywordsFile(resultLists, subFolders[i], keyWord, isSearchAll);
                 }
             }
         }
     }
+
     /**
      * <h3>改变路径</h3>
      * <pre>
      *     路径 如: c:/tools 变换后 c:/tools/
      *          如: c:/tools/ 就不作改变直接返回 c:/tools/
      * </pre>
+     *
      * @param path 路径
      * @return
      */
@@ -217,7 +237,7 @@ public final class FileUtils implements Serializable {
         String t = path.substring(path.length() - 1);
         int l = path.lastIndexOf("/");
         System.out.println(l);
-        return ("/".equals(t) || "\\".equals(t)) ? (path) : (path + (l > -1 ? "/":"\\"));
+        return ("/".equals(t) || "\\".equals(t)) ? (path) : (path + (l > -1 ? "/" : "\\"));
     }
 
 }

@@ -35,14 +35,15 @@ public abstract class AbstractValidator implements IValidator {
 
     /**
      * <h4>正则匹配[多个用','分开]</h4>
+     *
      * @param value 值
-     * @param rule 正则规则
+     * @param rule  正则规则
      */
-    protected boolean regex(String value , String rule) {
+    protected boolean regex(String value, String rule) {
         String[] splits = value.split(",");
         Pattern pattern;
         Matcher matcher;
-        for (String s : splits){
+        for (String s : splits) {
             pattern = Pattern.compile(rule);
             matcher = pattern.matcher(s.trim());
             if (!matcher.matches()) {
@@ -57,6 +58,7 @@ public abstract class AbstractValidator implements IValidator {
      * <pre>
      *     比对 [BigDecimal , Float , Double , float , double , String]
      * </pre>
+     *
      * @param type 数据 类型
      * @return true为不是浮点类型
      */
@@ -71,18 +73,20 @@ public abstract class AbstractValidator implements IValidator {
         }
         return true;
     }
+
     /**
      * <h4>判断整型 数字 类型</h4>
      * <pre>
      *     比对 [Integer,Long , int , String]
      * </pre>
+     *
      * @param type 数据 类型
      * @return true为不是整型类型
      */
     protected boolean existInt(String type) {
         if (INTEGER.contains(type) ||
                 INT.contains(type) ||
-                LONG.contains(type)||
+                LONG.contains(type) ||
                 STRING.contains(type)) {
             return false;
         }
@@ -91,6 +95,7 @@ public abstract class AbstractValidator implements IValidator {
 
     /**
      * <h4>时间格式化</h4>
+     *
      * @param format
      * @return
      */
@@ -100,12 +105,13 @@ public abstract class AbstractValidator implements IValidator {
 
     /**
      * <h4>获取时间 毫秒数</h4>
-     * @param value 时间值
+     *
+     * @param value  时间值
      * @param format 时间格式化
      * @return
      * @throws ParseException
      */
-    protected long getTimeMillis(String value,String format) throws ParseException {
+    protected long getTimeMillis(String value, String format) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         Date date = dateFormat.parse(value);
         return date.getTime();

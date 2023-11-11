@@ -15,10 +15,12 @@ import java.io.Serializable;
  */
 public final class PathUtils implements Serializable {
     static String seperator = System.getProperty("file.separator");
+
     /**
      * <h4>获取路径</h4>
+     *
      * @param location 位置名
-     * @param request request对象
+     * @param request  request对象
      * @return
      */
     public final static String getPath(String location, HttpServletRequest request) {
@@ -27,13 +29,14 @@ public final class PathUtils implements Serializable {
 
     /**
      * <h4>图片上传时的路径名称转换</h4>
-     * @param location 图片保存的上级根目录名称
-     * @param name 图片原始名称
-     * @param dataPath 保存到数据库中的图片路径
+     *
+     * @param location     图片保存的上级根目录名称
+     * @param name         图片原始名称
+     * @param dataPath     保存到数据库中的图片路径
      * @param completePath 完整的图片路径
      */
     public final static void convertPath(HttpServletRequest request, String location, String name,
-                                         StringBuilder dataPath , StringBuilder completePath) {
+                                         StringBuilder dataPath, StringBuilder completePath) {
         if (null == name || null == dataPath || null == completePath) {
             return;
         }
@@ -51,7 +54,8 @@ public final class PathUtils implements Serializable {
 
     /**
      * <h4>获取完整文件路径</h4>
-     * @param name 名称
+     *
+     * @param name    名称
      * @param request 请求对象
      * @return 完成路径
      */
@@ -63,6 +67,7 @@ public final class PathUtils implements Serializable {
      * 获取根目录地址
      * win 系统存在 d:/projectdev/images/;
      * 其他系统存在 /home/projectdev/images/;
+     *
      * @return
      */
     public final static String getImgBasePath() {
@@ -71,7 +76,7 @@ public final class PathUtils implements Serializable {
         String basePath = "";
         if (os.toLowerCase().startsWith("win")) {
             basePath = "d:/projectdev/images/";
-        }else {
+        } else {
             basePath = "/home/projectdev/images/";
         }
         basePath = basePath.replace("/", seperator);
@@ -80,6 +85,7 @@ public final class PathUtils implements Serializable {
 
     /**
      * <h4>获取 到target class的目录</h4>
+     *
      * @return
      */
     public final static String getTargetClass() {
@@ -89,6 +95,7 @@ public final class PathUtils implements Serializable {
 
     /**
      * <h3>获取项目的图片地址</h3>
+     *
      * @param id 编号
      * @return
      */

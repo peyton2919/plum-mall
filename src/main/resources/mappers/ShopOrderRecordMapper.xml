@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.ShopOrderRecordMapper">
+    <resultMap id="ResultShopOrderRecordMap" type="cn.peyton.plum.mall.pojo.ShopOrderRecord">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="o_id" property="oId" jdbcType="BIGINT"/>
+        <result column="operate_type" property="operateType" jdbcType="VARCHAR"/>
+        <result column="operate_message" property="operateMessage" jdbcType="VARCHAR"/>
+        <result column="operate_ip" property="operateIp" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Column_tb_shop_order_record_List">
+        `id`,`o_id`,`operate_type`,`operate_message`,`operate_ip`,`create_time`,`update_time`
+    </sql>
+
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRecord" keyColumn="id"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into `tb_shop_order_record`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="oId != null">`o_id`,</if>
+            <if test="operateType != null">`operate_type`,</if>
+            <if test="operateMessage != null">`operate_message`,</if>
+            <if test="operateIp != null">`operate_ip`,</if>
+            <if test="createTime != null">`create_time`,</if>
+            <if test="updateTime != null">`update_time`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="oId != null">#{oId},</if>
+            <if test="operateType != null">#{operateType},</if>
+            <if test="operateMessage != null">#{operateMessage},</if>
+            <if test="operateIp != null">#{operateIp},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRecord">
+        update `tb_shop_order_record`
+        <set>
+            <if test="oId != null">`o_id` = #{oId},</if>
+            <if test="operateType != null">`operate_type` = #{operateType},</if>
+            <if test="operateMessage != null">`operate_message` = #{operateMessage},</if>
+            <if test="operateIp != null">`operate_ip` = #{operateIp},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_shop_order_record`
+        where `id` = #{id}
+    </delete>
+
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRecord">
+
+        select
+        count(`id`)
+        from `tb_shop_order_record`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="oId != null">
+                and `o_id` = #{oId}
+            </if>
+            <if test="operateType != null">
+                and `operate_type` = #{operateType}
+            </if>
+            <if test="operateMessage != null">
+                and `operate_message` = #{operateMessage}
+            </if>
+            <if test="operateIp != null">
+                and `operate_ip` = #{operateIp}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and `update_time` = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="ResultShopOrderRecordMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_shop_order_record_List"/>
+        from `tb_shop_order_record`
+        where `id` = #{id}
+    </select>
+
+    <select id="selectByLiekAndObj" resultMap="ResultShopOrderRecordMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_shop_order_record_List"/>
+        from `tb_shop_order_record`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.oId != null">
+                and `o_id` like concat('%',#{record.oId},'%')
+            </if>
+            <if test="record.operateType != null">
+                and `operate_type` like concat('%',#{record.operateType},'%')
+            </if>
+            <if test="record.operateMessage != null">
+                and `operate_message` like concat('%',#{record.operateMessage},'%')
+            </if>
+            <if test="record.operateIp != null">
+                and `operate_ip` like concat('%',#{record.operateIp},'%')
+            </if>
+            <if test="record.createTime != null">
+                and `create_time` like concat('%',#{record.createTime},'%')
+            </if>
+            <if test="record.updateTime != null">
+                and `update_time` like concat('%',#{record.updateTime},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="selectByObj" resultMap="ResultShopOrderRecordMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_shop_order_record_List"/>
+        from `tb_shop_order_record`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.oId != null">
+                > and `o_id` = #{record.oId}
+            </if>
+            <if test="record.operateType != null">
+                > and `operate_type` = #{record.operateType}
+            </if>
+            <if test="record.operateMessage != null">
+                > and `operate_message` = #{record.operateMessage}
+            </if>
+            <if test="record.operateIp != null">
+                > and `operate_ip` = #{record.operateIp}
+            </if>
+            <if test="record.createTime != null">
+                > and `create_time` = #{record.createTime}
+            </if>
+            <if test="record.updateTime != null">
+                > and `update_time` = #{record.updateTime}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRecord">
+
+        select
+        count(`id`)
+        from `tb_shop_order_record`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="oId != null">
+                > and `o_id` like concat('%',#{oId},'%')
+            </if>
+            <if test="operateType != null">
+                > and `operate_type` like concat('%',#{operateType},'%')
+            </if>
+            <if test="operateMessage != null">
+                > and `operate_message` like concat('%',#{operateMessage},'%')
+            </if>
+            <if test="operateIp != null">
+                > and `operate_ip` like concat('%',#{operateIp},'%')
+            </if>
+            <if test="createTime != null">
+                > and `create_time` like concat('%',#{createTime},'%')
+            </if>
+            <if test="updateTime != null">
+                > and `update_time` like concat('%',#{updateTime},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRecord">
+
+        select
+        count(`id`)
+        from `tb_shop_order_record`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="oId != null">
+                > and `o_id` = #{oId}
+            </if>
+            <if test="operateType != null">
+                > and `operate_type` = #{operateType}
+            </if>
+            <if test="operateMessage != null">
+                > and `operate_message` = #{operateMessage}
+            </if>
+            <if test="operateIp != null">
+                > and `operate_ip` = #{operateIp}
+            </if>
+            <if test="createTime != null">
+                > and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                > and `update_time` = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

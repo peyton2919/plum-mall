@@ -45,7 +45,8 @@ public class ValidationAspect {
      * 切面点
      */
     @Pointcut("@annotation(cn.peyton.plum.core.validator.anno.Valid)")
-    public void pointCut() { }
+    public void pointCut() {
+    }
 
     @Around("pointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
@@ -60,7 +61,9 @@ public class ValidationAspect {
         Class<?>[] _parameterTypes = _method.getParameterTypes();
 
         // 判断 是否有参数; 如果 没有参数 就不做验证,程序继续
-        if (!(null != _parameterTypes && _parameterTypes.length > 0)){ return point.proceed(_args); }
+        if (!(null != _parameterTypes && _parameterTypes.length > 0)) {
+            return point.proceed(_args);
+        }
 
         // 获取request [post,get] 请求参数 key value
         Map<String, String[]> _parameterValueMap = _request.getParameterMap();
@@ -71,15 +74,17 @@ public class ValidationAspect {
         for (Parameter _p : _parameters) {
             String _filedType = _p.getType().getTypeName();
             //判断如果是 对象类型 这个拦截器则暂时不做处理
-            if (!HttpServletRequestUtils.isBaseType(_filedType)) { continue; }
+            if (!HttpServletRequestUtils.isBaseType(_filedType)) {
+                continue;
+            }
 
             String _filedName = _p.getName();
             String[] _ps = _parameterValueMap.get(_filedName);
-            if (null == _ps||"".equals(_ps[0])||"undefined".equals(_ps[0])) {
+            if (null == _ps || "".equals(_ps[0]) || "undefined".equals(_ps[0])) {
                 String _errMsg = "参数名称: [" + _filedName + "]不能为空值;";
                 // HttpServletResponseTools.returnJson(response
                 //        , JsonMapper.toJSon(JSONResult.fail(HttpStatusCode.FAIL.getCode(), _errMsg, null, response.getStatus())));
-                return JSONResult.fail( ResponseStatus.VALIDATE_FAIL.getCode(),_errMsg, null, _response.getStatus());
+                return JSONResult.fail(ResponseStatus.VALIDATE_FAIL.getCode(), _errMsg, null, _response.getStatus());
             }
         }
 
@@ -88,7 +93,7 @@ public class ValidationAspect {
         Valid _validAnnotation = _method.getAnnotation(Valid.class);
         // 有 @Valid 注解，需要验证
         if (null != _validAnnotation && _validAnnotation.require()) {
-            Map<String,String> _errMap = Maps.createLinkHashMap();
+            Map<String, String> _errMap = Maps.createLinkHashMap();
 
             //验证参数 true: 验证单个错误就返回当前错误信息; false: 验证全部完全后返回全部错误信息;
             boolean _single = _validAnnotation.single();
@@ -116,18 +121,18 @@ public class ValidationAspect {
                     }
                 } else { // 验证 对象
                     //调用赋值方法: HttpServletRequestUtil.voluation，并验证方法: Validation.valid
-                    _errMap = Validation.valid(HttpServletRequestUtils.voluation(_parameterValueMap,_typeName), _single);
+                    _errMap = Validation.valid(HttpServletRequestUtils.voluation(_parameterValueMap, _typeName), _single);
                 }
                 //_single 为 true 时表示单一验证，有一个验证不通过就直接跳出
-                if (_single && _errMap.size() >0) {
+                if (_single && _errMap.size() > 0) {
                     break;
                 }
             }
-            if (null != _errMap && _errMap.size() >0){
+            if (null != _errMap && _errMap.size() > 0) {
                 // 写到页面
                 //HttpServletResponseTools.returnJson(
                 //        response, JsonMapper.toJSon(JSONResult.error(HttpStatusCode.get(HttpStatusCode.ERR_VALID.getCode()),_errMap)));
-                return JSONResult.error(ResponseStatus.VALIDATE_FAIL,_errMap);
+                return JSONResult.error(ResponseStatus.VALIDATE_FAIL, _errMap);
             }
         }
         return point.proceed();

@@ -1,7 +1,5 @@
 package cn.peyton.plum.core.page;
 
-import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.utils.base.Lists;
 
 import java.io.Serializable;
@@ -20,7 +18,8 @@ import java.util.List;
  */
 public final class PageResultAdapter<T> implements Serializable {
 
-    public PageResultAdapter() { }
+    public PageResultAdapter() {
+    }
 
     /**
      * <h4>查找 全部 对象集合的适配器</h4>
@@ -30,26 +29,27 @@ public final class PageResultAdapter<T> implements Serializable {
      * @param <T> 需要操作对象
      * @return PageResult对象
      */
-    public static <T> PageResult<T> adapt(IBaseMapper mapper, PageQuery page, String keyword, BaseConvertBo baseConvertBo) {
-        PageResult<T> result = new PageResult<T>();
-        int count = mapper.count(keyword);
-        if (count > 0) {
-            result.setTotal(count);
-            result.setData(baseConvertBo.adapter(mapper.selectByAllOrKeyword(keyword, page)));
-        }
-        return result;
-    }
+    //public static <T> PageResult<T> adapt(IBaseMapper mapper, PageQuery page, String keyword, BaseConvertBo baseConvertBo) {
+    //    PageResult<T> result = new PageResult<T>();
+    //    int count = mapper.count(keyword);
+    //    if (count > 0) {
+    //        result.setTotal(count);
+    //        result.setData(baseConvertBo.adapter(mapper.selectByAllOrKeyword(keyword, page)));
+    //    }
+    //    return result;
+    //}
 
 
     /**
      * <h4>封装数据</h4>
-     * @param data 对象集合
+     *
+     * @param data  对象集合
      * @param count 条数
-     * @param <T> 需要操作对象
+     * @param <T>   需要操作对象
      * @return
      */
     public static <T> PageResult<T> adapt(List<T> data, Integer count) {
-        PageResult<T> result= new PageResult<T>();
+        PageResult<T> result = new PageResult<T>();
         if (Lists.isNotEmptyList(data)) {
             result.setData(data);
             result.setTotal(count);
@@ -59,6 +59,7 @@ public final class PageResultAdapter<T> implements Serializable {
 
     /**
      * <h4>返回一个空的PageResult</h4>s
+     *
      * @param <T> 需要操作对象
      * @return
      */

@@ -18,6 +18,7 @@ public class ClassReflect {
 
     /**
      * 类操作
+     *
      * @param r
      */
     public static void class1(Class<?> r) {
@@ -28,7 +29,7 @@ public class ClassReflect {
         //获取类上所有注解
         Annotation[] annotations = r.getAnnotations();
         //获取类上指定的注解
-        ClassAnnotation classAnnotation =r.getAnnotation(ClassAnnotation.class);
+        ClassAnnotation classAnnotation = r.getAnnotation(ClassAnnotation.class);
         //注解的全限定类名
         String aClass = classAnnotation.annotationType().getName();
         //判断是否有指定注解

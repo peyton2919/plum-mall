@@ -1,149 +1,569 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShopProductSkuDetailMapper">
-	<resultMap id="ResultShopProductSkuDetailMap" type="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="product_id" property="productId" jdbcType="BIGINT"/>
-		<result column="skus" property="skus" jdbcType="VARCHAR"/>
-		<result column="stock" property="stock" jdbcType="INTEGER"/>
-		<result column="sales" property="sales" jdbcType="INTEGER"/>
-		<result column="cover" property="cover" jdbcType="VARCHAR"/>
-		<result column="unique_code" property="uniqueCode" jdbcType="VARCHAR"/>
-		<result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
-		<result column="price" property="price" jdbcType="DECIMAL"/>
-		<result column="vip_price" property="vipPrice" jdbcType="DECIMAL"/>
-		<result column="ot_price" property="otPrice" jdbcType="DECIMAL"/>
-		<result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
-		<result column="weight" property="weight" jdbcType="DECIMAL"/>
-		<result column="volume" property="volume" jdbcType="DECIMAL"/>
-		<result column="brokerage" property="brokerage" jdbcType="DECIMAL"/>
-		<result column="brokerage_two" property="brokerageTwo" jdbcType="DECIMAL"/>
-		<result column="pink_price" property="pinkPrice" jdbcType="DECIMAL"/>
-		<result column="pink_stock" property="pinkStock" jdbcType="INTEGER"/>
-		<result column="seckill_price" property="seckillPrice" jdbcType="DECIMAL"/>
-		<result column="seckill_stock" property="seckillStock" jdbcType="INTEGER"/>
-		<result column="integral" property="integral" jdbcType="INTEGER"/>
-		<result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
-		<result column="warehouse_explain" property="warehouseExplain" jdbcType="VARCHAR"/>
-	</resultMap>
+    <resultMap id="ResultShopProductSkuDetailMap" type="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="product_id" property="productId" jdbcType="BIGINT"/>
+        <result column="skus" property="skus" jdbcType="VARCHAR"/>
+        <result column="stock" property="stock" jdbcType="INTEGER"/>
+        <result column="sales" property="sales" jdbcType="INTEGER"/>
+        <result column="cover" property="cover" jdbcType="VARCHAR"/>
+        <result column="unique_code" property="uniqueCode" jdbcType="VARCHAR"/>
+        <result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
+        <result column="integral" property="integral" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="vip_price" property="vipPrice" jdbcType="DECIMAL"/>
+        <result column="ot_price" property="otPrice" jdbcType="DECIMAL"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="volume" property="volume" jdbcType="DECIMAL"/>
+        <result column="brokerage" property="brokerage" jdbcType="DECIMAL"/>
+        <result column="brokerage_two" property="brokerageTwo" jdbcType="DECIMAL"/>
+        <result column="pink_price" property="pinkPrice" jdbcType="DECIMAL"/>
+        <result column="pink_stock" property="pinkStock" jdbcType="INTEGER"/>
+        <result column="bargain_price" property="bargainPrice" jdbcType="DECIMAL"/>
+        <result column="bargain_stock" property="bargainStock" jdbcType="INTEGER"/>
+        <result column="seckill_price" property="seckillPrice" jdbcType="DECIMAL"/>
+        <result column="seckill_stock" property="seckillStock" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="warehouse_explain" property="warehouseExplain" jdbcType="VARCHAR"/>
 
-	<sql id="Column_tb_shop_product_sku_detail_List">
-		`id`,`product_id`,`skus`,`stock`,`sales`,`cover`,`unique_code`,`bar_code`,`price`,`vip_price`,`ot_price`,`cost_price`,`weight`,`volume`,`brokerage`,`brokerage_two`,`pink_price`,`pink_stock`,`seckill_price`,`seckill_stock`,`integral`,`warehouse_id`,`warehouse_explain`
-	</sql>
+    </resultMap>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `tb_shop_product_sku_detail`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="productId != null">`product_id`,</if>
-			<if test="skus != null">`skus`,</if>
-			<if test="stock != null">`stock`,</if>
-			<if test="sales != null">`sales`,</if>
-			<if test="cover != null">`cover`,</if>
-			<if test="uniqueCode != null">`unique_code`,</if>
-			<if test="barCode != null">`bar_code`,</if>
-			<if test="price != null">`price`,</if>
-			<if test="vipPrice != null">`vip_price`,</if>
-			<if test="otPrice != null">`ot_price`,</if>
-			<if test="costPrice != null">`cost_price`,</if>
-			<if test="weight != null">`weight`,</if>
-			<if test="volume != null">`volume`,</if>
-			<if test="brokerage != null">`brokerage`,</if>
-			<if test="brokerageTwo != null">`brokerage_two`,</if>
-			<if test="pinkPrice != null">`pink_price`,</if>
-			<if test="pinkStock != null">`pink_stock`,</if>
-			<if test="seckillPrice != null">`seckill_price`,</if>
-			<if test="seckillStock != null">`seckill_stock`,</if>
-			<if test="integral != null">`integral`,</if>
-			<if test="warehouseId != null">`warehouse_id`,</if>
-			<if test="warehouseExplain != null">`warehouse_explain`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="productId != null">#{productId},</if>
-			<if test="skus != null">#{skus},</if>
-			<if test="stock != null">#{stock},</if>
-			<if test="sales != null">#{sales},</if>
-			<if test="cover != null">#{cover},</if>
-			<if test="uniqueCode != null">#{uniqueCode},</if>
-			<if test="barCode != null">#{barCode},</if>
-			<if test="price != null">#{price},</if>
-			<if test="vipPrice != null">#{vipPrice},</if>
-			<if test="otPrice != null">#{otPrice},</if>
-			<if test="costPrice != null">#{costPrice},</if>
-			<if test="weight != null">#{weight},</if>
-			<if test="volume != null">#{volume},</if>
-			<if test="brokerage != null">#{brokerage},</if>
-			<if test="brokerageTwo != null">#{brokerageTwo},</if>
-			<if test="pinkPrice != null">#{pinkPrice},</if>
-			<if test="pinkStock != null">#{pinkStock},</if>
-			<if test="seckillPrice != null">#{seckillPrice},</if>
-			<if test="seckillStock != null">#{seckillStock},</if>
-			<if test="integral != null">#{integral},</if>
-			<if test="warehouseId != null">#{warehouseId},</if>
-			<if test="warehouseExplain != null">#{warehouseExplain},</if>
-		</trim>
-	</insert>
+    <sql id="Column_tb_shop_product_sku_detail_List">
+        `id`,`product_id`,`skus`,`stock`,`sales`,`cover`,`unique_code`,`bar_code`,`price`,`vip_price`,`ot_price`,`cost_price`,`weight`,`volume`,`brokerage`,`brokerage_two`,`pink_price`,`pink_stock`,`seckill_price`,`seckill_stock`,`integral`,`warehouse_id`,`warehouse_explain`
+    </sql>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `tb_shop_product_sku_detail`
-		where `id` = #{id}
-	</delete>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail" keyColumn="id"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into `tb_shop_product_sku_detail`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">`product_id`,</if>
+            <if test="skus != null">`skus`,</if>
+            <if test="stock != null">`stock`,</if>
+            <if test="sales != null">`sales`,</if>
+            <if test="cover != null">`cover`,</if>
+            <if test="uniqueCode != null">`unique_code`,</if>
+            <if test="barCode != null">`bar_code`,</if>
+            <if test="integral != null">`integral`,</if>
+            <if test="price != null">`price`,</if>
+            <if test="vipPrice != null">`vip_price`,</if>
+            <if test="otPrice != null">`ot_price`,</if>
+            <if test="costPrice != null">`cost_price`,</if>
+            <if test="weight != null">`weight`,</if>
+            <if test="volume != null">`volume`,</if>
+            <if test="brokerage != null">`brokerage`,</if>
+            <if test="brokerageTwo != null">`brokerage_two`,</if>
+            <if test="pinkPrice != null">`pink_price`,</if>
+            <if test="pinkStock != null">`pink_stock`,</if>
+            <if test="bargainPrice != null">`bargain_price`,</if>
+            <if test="bargainStock != null">`bargain_stock`,</if>
+            <if test="seckillPrice != null">`seckill_price`,</if>
+            <if test="seckillStock != null">`seckill_stock`,</if>
+            <if test="warehouseId != null">`warehouse_id`,</if>
+            <if test="warehouseExplain != null">`warehouse_explain`,</if>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
-		update `tb_shop_product_sku_detail`
-		<set>
-			<if test="productId != null">`product_id` = #{productId},</if>
-			<if test="skus != null">`skus` = #{skus},</if>
-			<if test="stock != null">`stock` = #{stock},</if>
-			<if test="sales != null">`sales` = #{sales},</if>
-			<if test="cover != null">`cover` = #{cover},</if>
-			<if test="uniqueCode != null">`unique_code` = #{uniqueCode},</if>
-			<if test="barCode != null">`bar_code` = #{barCode},</if>
-			<if test="price != null">`price` = #{price},</if>
-			<if test="vipPrice != null">`vip_price` = #{vipPrice},</if>
-			<if test="otPrice != null">`ot_price` = #{otPrice},</if>
-			<if test="costPrice != null">`cost_price` = #{costPrice},</if>
-			<if test="weight != null">`weight` = #{weight},</if>
-			<if test="volume != null">`volume` = #{volume},</if>
-			<if test="brokerage != null">`brokerage` = #{brokerage},</if>
-			<if test="brokerageTwo != null">`brokerage_two` = #{brokerageTwo},</if>
-			<if test="pinkPrice != null">`pink_price` = #{pinkPrice},</if>
-			<if test="pinkStock != null">`pink_stock` = #{pinkStock},</if>
-			<if test="seckillPrice != null">`seckill_price` = #{seckillPrice},</if>
-			<if test="seckillStock != null">`seckill_stock` = #{seckillStock},</if>
-			<if test="integral != null">`integral` = #{integral},</if>
-			<if test="warehouseId != null">`warehouse_id` = #{warehouseId},</if>
-			<if test="warehouseExplain != null">`warehouse_explain` = #{warehouseExplain},</if>
-		</set>
-		where id = #{id}
-	</update>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="skus != null">#{skus},</if>
+            <if test="stock != null">#{stock},</if>
+            <if test="sales != null">#{sales},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="uniqueCode != null">#{uniqueCode},</if>
+            <if test="barCode != null">#{barCode},</if>
+            <if test="integral != null">#{integral},</if>
+            <if test="price != null">#{price},</if>
+            <if test="vipPrice != null">#{vipPrice},</if>
+            <if test="otPrice != null">#{otPrice},</if>
+            <if test="costPrice != null">#{costPrice},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="volume != null">#{volume},</if>
+            <if test="brokerage != null">#{brokerage},</if>
+            <if test="brokerageTwo != null">#{brokerageTwo},</if>
+            <if test="pinkPrice != null">#{pinkPrice},</if>
+            <if test="pinkStock != null">#{pinkStock},</if>
+            <if test="bargainPrice != null">#{bargainPrice},</if>
+            <if test="bargainStock != null">#{bargainStock},</if>
+            <if test="seckillPrice != null">#{seckillPrice},</if>
+            <if test="seckillStock != null">#{seckillStock},</if>
+            <if test="warehouseId != null">#{warehouseId},</if>
+            <if test="warehouseExplain != null">#{warehouseExplain},</if>
 
-	<select id="selectByPrimaryKey" resultMap="ResultShopProductSkuDetailMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_tb_shop_product_sku_detail_List"/>
-		from `tb_shop_product_sku_detail`
-		where `id` = #{id}
-	</select>
+        </trim>
+    </insert>
 
-	<!-- new create method   -->	
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
+        update `tb_shop_product_sku_detail`
+        <set>
+            <if test="productId != null">`product_id` = #{productId},</if>
+            <if test="skus != null">`skus` = #{skus},</if>
+            <if test="stock != null">`stock` = #{stock},</if>
+            <if test="sales != null">`sales` = #{sales},</if>
+            <if test="cover != null">`cover` = #{cover},</if>
+            <if test="uniqueCode != null">`unique_code` = #{uniqueCode},</if>
+            <if test="barCode != null">`bar_code` = #{barCode},</if>
+            <if test="integral != null">`integral` = #{integral},</if>
+            <if test="price != null">`price` = #{price},</if>
+            <if test="vipPrice != null">`vip_price` = #{vipPrice},</if>
+            <if test="otPrice != null">`ot_price` = #{otPrice},</if>
+            <if test="costPrice != null">`cost_price` = #{costPrice},</if>
+            <if test="weight != null">`weight` = #{weight},</if>
+            <if test="volume != null">`volume` = #{volume},</if>
+            <if test="brokerage != null">`brokerage` = #{brokerage},</if>
+            <if test="brokerageTwo != null">`brokerage_two` = #{brokerageTwo},</if>
+            <if test="pinkPrice != null">`pink_price` = #{pinkPrice},</if>
+            <if test="pinkStock != null">`pink_stock` = #{pinkStock},</if>
+            <if test="bargainPrice != null">`bargain_price` = #{bargainPrice},</if>
+            <if test="bargainStock != null">`bargain_stock` = #{bargainStock},</if>
+            <if test="seckillPrice != null">`seckill_price` = #{seckillPrice},</if>
+            <if test="seckillStock != null">`seckill_stock` = #{seckillStock},</if>
+            <if test="warehouseId != null">`warehouse_id` = #{warehouseId},</if>
+            <if test="warehouseExplain != null">`warehouse_explain` = #{warehouseExplain},</if>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultShopProductSkuDetailMap"  parameterType="map">
+        </set>
+        where id = #{id}
+    </update>
 
-	</select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `tb_shop_product_sku_detail`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByObj" resultMap="ResultShopProductSkuDetailMap"  parameterType="map">
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
 
-	</select>
+        select
+        count(`id`)
+        from `tb_shop_product_sku_detail`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="productId != null">
+                and `product_id` = #{productId}
+            </if>
+            <if test="skus != null">
+                and `skus` = #{skus}
+            </if>
+            <if test="stock != null">
+                and `stock` = #{stock}
+            </if>
+            <if test="sales != null">
+                and `sales` = #{sales}
+            </if>
+            <if test="cover != null">
+                and `cover` = #{cover}
+            </if>
+            <if test="uniqueCode != null">
+                and `unique_code` = #{uniqueCode}
+            </if>
+            <if test="barCode != null">
+                and `bar_code` = #{barCode}
+            </if>
+            <if test="integral != null">
+                and `integral` = #{integral}
+            </if>
+            <if test="price != null">
+                and `price` = #{price}
+            </if>
+            <if test="vipPrice != null">
+                and `vip_price` = #{vipPrice}
+            </if>
+            <if test="otPrice != null">
+                and `ot_price` = #{otPrice}
+            </if>
+            <if test="costPrice != null">
+                and `cost_price` = #{costPrice}
+            </if>
+            <if test="weight != null">
+                and `weight` = #{weight}
+            </if>
+            <if test="volume != null">
+                and `volume` = #{volume}
+            </if>
+            <if test="brokerage != null">
+                and `brokerage` = #{brokerage}
+            </if>
+            <if test="brokerageTwo != null">
+                and `brokerage_two` = #{brokerageTwo}
+            </if>
+            <if test="pinkPrice != null">
+                and `pink_price` = #{pinkPrice}
+            </if>
+            <if test="pinkStock != null">
+                and `pink_stock` = #{pinkStock}
+            </if>
+            <if test="bargainPrice != null">
+                and `bargain_price` = #{bargainPrice}
+            </if>
+            <if test="bargainStock != null">
+                and `bargain_stock` = #{bargainStock}
+            </if>
+            <if test="seckillPrice != null">
+                and `seckill_price` = #{seckillPrice}
+            </if>
+            <if test="seckillStock != null">
+                and `seckill_stock` = #{seckillStock}
+            </if>
+            <if test="warehouseId != null">
+                and `warehouse_id` = #{warehouseId}
+            </if>
+            <if test="warehouseExplain != null">
+                and `warehouse_explain` = #{warehouseExplain}
+            </if>
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        </where>
+    </select>
 
-	</select>
+    <select id="selectByPrimaryKey" resultMap="ResultShopProductSkuDetailMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_tb_shop_product_sku_detail_List"/>
+        from `tb_shop_product_sku_detail`
+        where `id` = #{id}
+    </select>
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
+    <select id="selectByLiekAndObj" resultMap="ResultShopProductSkuDetailMap" parameterType="map">
 
-	</select>
+        select
+        <include refid="Column_tb_shop_product_sku_detail_List"/>
+        from `tb_shop_product_sku_detail`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.productId != null">
+                and `product_id` like concat('%',#{record.productId},'%')
+            </if>
+            <if test="record.skus != null">
+                and `skus` like concat('%',#{record.skus},'%')
+            </if>
+            <if test="record.stock != null">
+                and `stock` like concat('%',#{record.stock},'%')
+            </if>
+            <if test="record.sales != null">
+                and `sales` like concat('%',#{record.sales},'%')
+            </if>
+            <if test="record.cover != null">
+                and `cover` like concat('%',#{record.cover},'%')
+            </if>
+            <if test="record.uniqueCode != null">
+                and `unique_code` like concat('%',#{record.uniqueCode},'%')
+            </if>
+            <if test="record.barCode != null">
+                and `bar_code` like concat('%',#{record.barCode},'%')
+            </if>
+            <if test="record.integral != null">
+                and `integral` like concat('%',#{record.integral},'%')
+            </if>
+            <if test="record.price != null">
+                and `price` like concat('%',#{record.price},'%')
+            </if>
+            <if test="record.vipPrice != null">
+                and `vip_price` like concat('%',#{record.vipPrice},'%')
+            </if>
+            <if test="record.otPrice != null">
+                and `ot_price` like concat('%',#{record.otPrice},'%')
+            </if>
+            <if test="record.costPrice != null">
+                and `cost_price` like concat('%',#{record.costPrice},'%')
+            </if>
+            <if test="record.weight != null">
+                and `weight` like concat('%',#{record.weight},'%')
+            </if>
+            <if test="record.volume != null">
+                and `volume` like concat('%',#{record.volume},'%')
+            </if>
+            <if test="record.brokerage != null">
+                and `brokerage` like concat('%',#{record.brokerage},'%')
+            </if>
+            <if test="record.brokerageTwo != null">
+                and `brokerage_two` like concat('%',#{record.brokerageTwo},'%')
+            </if>
+            <if test="record.pinkPrice != null">
+                and `pink_price` like concat('%',#{record.pinkPrice},'%')
+            </if>
+            <if test="record.pinkStock != null">
+                and `pink_stock` like concat('%',#{record.pinkStock},'%')
+            </if>
+            <if test="record.bargainPrice != null">
+                and `bargain_price` like concat('%',#{record.bargainPrice},'%')
+            </if>
+            <if test="record.bargainStock != null">
+                and `bargain_stock` like concat('%',#{record.bargainStock},'%')
+            </if>
+            <if test="record.seckillPrice != null">
+                and `seckill_price` like concat('%',#{record.seckillPrice},'%')
+            </if>
+            <if test="record.seckillStock != null">
+                and `seckill_stock` like concat('%',#{record.seckillStock},'%')
+            </if>
+            <if test="record.warehouseId != null">
+                and `warehouse_id` like concat('%',#{record.warehouseId},'%')
+            </if>
+            <if test="record.warehouseExplain != null">
+                and `warehouse_explain` like concat('%',#{record.warehouseExplain},'%')
+            </if>
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</update>
+    <select id="selectByObj" resultMap="ResultShopProductSkuDetailMap" parameterType="map">
+
+        select
+        <include refid="Column_tb_shop_product_sku_detail_List"/>
+        from `tb_shop_product_sku_detail`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.productId != null">
+                > and `product_id` = #{record.productId}
+            </if>
+            <if test="record.skus != null">
+                > and `skus` = #{record.skus}
+            </if>
+            <if test="record.stock != null">
+                > and `stock` = #{record.stock}
+            </if>
+            <if test="record.sales != null">
+                > and `sales` = #{record.sales}
+            </if>
+            <if test="record.cover != null">
+                > and `cover` = #{record.cover}
+            </if>
+            <if test="record.uniqueCode != null">
+                > and `unique_code` = #{record.uniqueCode}
+            </if>
+            <if test="record.barCode != null">
+                > and `bar_code` = #{record.barCode}
+            </if>
+            <if test="record.integral != null">
+                > and `integral` = #{record.integral}
+            </if>
+            <if test="record.price != null">
+                > and `price` = #{record.price}
+            </if>
+            <if test="record.vipPrice != null">
+                > and `vip_price` = #{record.vipPrice}
+            </if>
+            <if test="record.otPrice != null">
+                > and `ot_price` = #{record.otPrice}
+            </if>
+            <if test="record.costPrice != null">
+                > and `cost_price` = #{record.costPrice}
+            </if>
+            <if test="record.weight != null">
+                > and `weight` = #{record.weight}
+            </if>
+            <if test="record.volume != null">
+                > and `volume` = #{record.volume}
+            </if>
+            <if test="record.brokerage != null">
+                > and `brokerage` = #{record.brokerage}
+            </if>
+            <if test="record.brokerageTwo != null">
+                > and `brokerage_two` = #{record.brokerageTwo}
+            </if>
+            <if test="record.pinkPrice != null">
+                > and `pink_price` = #{record.pinkPrice}
+            </if>
+            <if test="record.pinkStock != null">
+                > and `pink_stock` = #{record.pinkStock}
+            </if>
+            <if test="record.bargainPrice != null">
+                > and `bargain_price` = #{record.bargainPrice}
+            </if>
+            <if test="record.bargainStock != null">
+                > and `bargain_stock` = #{record.bargainStock}
+            </if>
+            <if test="record.seckillPrice != null">
+                > and `seckill_price` = #{record.seckillPrice}
+            </if>
+            <if test="record.seckillStock != null">
+                > and `seckill_stock` = #{record.seckillStock}
+            </if>
+            <if test="record.warehouseId != null">
+                > and `warehouse_id` = #{record.warehouseId}
+            </if>
+            <if test="record.warehouseExplain != null">
+                > and `warehouse_explain` = #{record.warehouseExplain}
+            </if>
+
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
+
+    <select id="countByLike" resultType="java.lang.Integer"
+            parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
+
+        select
+        count(`id`)
+        from `tb_shop_product_sku_detail`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="productId != null">
+                > and `product_id` like concat('%',#{productId},'%')
+            </if>
+            <if test="skus != null">
+                > and `skus` like concat('%',#{skus},'%')
+            </if>
+            <if test="stock != null">
+                > and `stock` like concat('%',#{stock},'%')
+            </if>
+            <if test="sales != null">
+                > and `sales` like concat('%',#{sales},'%')
+            </if>
+            <if test="cover != null">
+                > and `cover` like concat('%',#{cover},'%')
+            </if>
+            <if test="uniqueCode != null">
+                > and `unique_code` like concat('%',#{uniqueCode},'%')
+            </if>
+            <if test="barCode != null">
+                > and `bar_code` like concat('%',#{barCode},'%')
+            </if>
+            <if test="integral != null">
+                > and `integral` like concat('%',#{integral},'%')
+            </if>
+            <if test="price != null">
+                > and `price` like concat('%',#{price},'%')
+            </if>
+            <if test="vipPrice != null">
+                > and `vip_price` like concat('%',#{vipPrice},'%')
+            </if>
+            <if test="otPrice != null">
+                > and `ot_price` like concat('%',#{otPrice},'%')
+            </if>
+            <if test="costPrice != null">
+                > and `cost_price` like concat('%',#{costPrice},'%')
+            </if>
+            <if test="weight != null">
+                > and `weight` like concat('%',#{weight},'%')
+            </if>
+            <if test="volume != null">
+                > and `volume` like concat('%',#{volume},'%')
+            </if>
+            <if test="brokerage != null">
+                > and `brokerage` like concat('%',#{brokerage},'%')
+            </if>
+            <if test="brokerageTwo != null">
+                > and `brokerage_two` like concat('%',#{brokerageTwo},'%')
+            </if>
+            <if test="pinkPrice != null">
+                > and `pink_price` like concat('%',#{pinkPrice},'%')
+            </if>
+            <if test="pinkStock != null">
+                > and `pink_stock` like concat('%',#{pinkStock},'%')
+            </if>
+            <if test="bargainPrice != null">
+                > and `bargain_price` like concat('%',#{bargainPrice},'%')
+            </if>
+            <if test="bargainStock != null">
+                > and `bargain_stock` like concat('%',#{bargainStock},'%')
+            </if>
+            <if test="seckillPrice != null">
+                > and `seckill_price` like concat('%',#{seckillPrice},'%')
+            </if>
+            <if test="seckillStock != null">
+                > and `seckill_stock` like concat('%',#{seckillStock},'%')
+            </if>
+            <if test="warehouseId != null">
+                > and `warehouse_id` like concat('%',#{warehouseId},'%')
+            </if>
+            <if test="warehouseExplain != null">
+                > and `warehouse_explain` like concat('%',#{warehouseExplain},'%')
+            </if>
+
+        </where>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
+
+        select
+        count(`id`)
+        from `tb_shop_product_sku_detail`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="productId != null">
+                > and `product_id` = #{productId}
+            </if>
+            <if test="skus != null">
+                > and `skus` = #{skus}
+            </if>
+            <if test="stock != null">
+                > and `stock` = #{stock}
+            </if>
+            <if test="sales != null">
+                > and `sales` = #{sales}
+            </if>
+            <if test="cover != null">
+                > and `cover` = #{cover}
+            </if>
+            <if test="uniqueCode != null">
+                > and `unique_code` = #{uniqueCode}
+            </if>
+            <if test="barCode != null">
+                > and `bar_code` = #{barCode}
+            </if>
+            <if test="integral != null">
+                > and `integral` = #{integral}
+            </if>
+            <if test="price != null">
+                > and `price` = #{price}
+            </if>
+            <if test="vipPrice != null">
+                > and `vip_price` = #{vipPrice}
+            </if>
+            <if test="otPrice != null">
+                > and `ot_price` = #{otPrice}
+            </if>
+            <if test="costPrice != null">
+                > and `cost_price` = #{costPrice}
+            </if>
+            <if test="weight != null">
+                > and `weight` = #{weight}
+            </if>
+            <if test="volume != null">
+                > and `volume` = #{volume}
+            </if>
+            <if test="brokerage != null">
+                > and `brokerage` = #{brokerage}
+            </if>
+            <if test="brokerageTwo != null">
+                > and `brokerage_two` = #{brokerageTwo}
+            </if>
+            <if test="pinkPrice != null">
+                > and `pink_price` = #{pinkPrice}
+            </if>
+            <if test="pinkStock != null">
+                > and `pink_stock` = #{pinkStock}
+            </if>
+            <if test="bargainPrice != null">
+                > and `bargain_price` = #{bargainPrice}
+            </if>
+            <if test="bargainStock != null">
+                > and `bargain_stock` = #{bargainStock}
+            </if>
+            <if test="seckillPrice != null">
+                > and `seckill_price` = #{seckillPrice}
+            </if>
+            <if test="seckillStock != null">
+                > and `seckill_stock` = #{seckillStock}
+            </if>
+            <if test="warehouseId != null">
+                > and `warehouse_id` = #{warehouseId}
+            </if>
+            <if test="warehouseExplain != null">
+                > and `warehouse_explain` = #{warehouseExplain}
+            </if>
+
+        </where>
+    </select>
 
 </mapper>

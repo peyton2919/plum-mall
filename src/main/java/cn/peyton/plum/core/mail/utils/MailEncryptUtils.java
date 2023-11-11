@@ -20,6 +20,7 @@ public final class MailEncryptUtils implements Serializable {
 
     /**
      * <h4>加密[]</h4>
+     *
      * @param content 要加密内容
      * @return 加密后内容
      */
@@ -29,6 +30,7 @@ public final class MailEncryptUtils implements Serializable {
 
     /**
      * <h4>解密</h4>
+     *
      * @param encryptContent 要解密内容
      * @return 解密后内容
      */

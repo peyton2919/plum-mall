@@ -21,14 +21,17 @@ public abstract class UserUtils<T> implements Serializable {
      * <pre>
      *     key默认为: PROPERTY.SESSION_USER
      * </pre>
+     *
      * @param session
      * @return 用户传递对象类
      */
     public final static <T> T getUser(HttpSession session) {
         return UserUtils.getUser(session, null);
     }
+
     /**
      * <h4> 从 session 获取 用户对象</h4>
+     *
      * @param session
      * @param key
      * @return 用户传递对象类
@@ -42,22 +45,24 @@ public abstract class UserUtils<T> implements Serializable {
 
     /**
      * <h4>保存用户到 session 中</h4>
+     *
      * @param session
-     * @param t 用户对象
+     * @param t       用户对象
      * @param <T>
      */
     public final static <T> void saveUser(HttpSession session, T t) {
-        saveUser(session, t,SESSION_USER);
+        saveUser(session, t, SESSION_USER);
     }
 
     /**
      * <h4>保存用户到 session 中</h4>
+     *
      * @param session
-     * @param t 用户对象
-     * @param key 用户key
+     * @param t       用户对象
+     * @param key     用户key
      * @param <T>
      */
-    public final static <T> void saveUser(HttpSession session, T t,String key) {
+    public final static <T> void saveUser(HttpSession session, T t, String key) {
         session.setAttribute(key, t);
     }
 }

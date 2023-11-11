@@ -15,6 +15,7 @@ public final class NameUtils implements Serializable {
 
     /**
      * <h4>名称转换成UUID</h4>
+     *
      * @param fileName 旧文件名
      * @return 新文件名
      */
@@ -25,6 +26,7 @@ public final class NameUtils implements Serializable {
 
     /**
      * <h4>获取 图片名</h4>
+     *
      * @param str 图片路径 如: xxx/xxx/aaa.jpg 获取到[aaa.jpg]
      * @return 图片名
      */
@@ -32,12 +34,13 @@ public final class NameUtils implements Serializable {
         if (str == null || "".equals(str)) {
             return "";
         } else {
-            return str.substring(str.lastIndexOf("/") +1);
+            return str.substring(str.lastIndexOf("/") + 1);
         }
     }
 
     /**
      * <H4>获取图片扩展名 .png</H4>
+     *
      * @param name 图片名
      * @return 扩展名 [.ext]
      */

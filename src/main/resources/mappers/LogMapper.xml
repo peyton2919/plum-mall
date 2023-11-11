@@ -1,93 +1,255 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.LogMapper">
-	<resultMap id="ResultLogMap" type="cn.peyton.plum.mall.pojo.Log">
-		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="type" property="type" jdbcType="TINYINT"/>
-		<result column="target_id" property="targetId" jdbcType="BIGINT"/>
-		<result column="old_value" property="oldValue" jdbcType="LONGVARCHAR"/>
-		<result column="new_value" property="newValue" jdbcType="LONGVARCHAR"/>
-		<result column="operator" property="operator" jdbcType="VARCHAR"/>
-		<result column="operate_time" property="operateTime" jdbcType="INTEGER"/>
-		<result column="operate_ip" property="operateIp" jdbcType="VARCHAR"/>
-		<result column="status" property="status" jdbcType="TINYINT"/>
-	</resultMap>
+    <resultMap id="ResultLogMap" type="cn.peyton.plum.mall.pojo.Log">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="target_id" property="targetId" jdbcType="BIGINT"/>
+        <result column="old_value" property="oldValue" jdbcType="LONGVARCHAR"/>
+        <result column="new_value" property="newValue" jdbcType="LONGVARCHAR"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+        <result column="operate_time" property="operateTime" jdbcType="INTEGER"/>
+        <result column="operate_ip" property="operateIp" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+    </resultMap>
 
-	<sql id="Column_sys_log_List">
-		`id`,`type`,`target_id`,`old_value`,`new_value`,`operator`,`operate_time`,`operate_ip`,`status`
-	</sql>
+    <sql id="Column_sys_log_List">
+        `id`,`type`,`target_id`,`old_value`,`new_value`,`operator`,`operate_time`,`operate_ip`,`status`
+    </sql>
 
-	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Log" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-		insert into `sys_log`
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="type != null">`type`,</if>
-			<if test="targetId != null">`target_id`,</if>
-			<if test="oldValue != null">`old_value`,</if>
-			<if test="newValue != null">`new_value`,</if>
-			<if test="operator != null">`operator`,</if>
-			<if test="operateTime != null">`operate_time`,</if>
-			<if test="operateIp != null">`operate_ip`,</if>
-			<if test="status != null">`status`,</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="type != null">#{type},</if>
-			<if test="targetId != null">#{targetId},</if>
-			<if test="oldValue != null">#{oldValue},</if>
-			<if test="newValue != null">#{newValue},</if>
-			<if test="operator != null">#{operator},</if>
-			<if test="operateTime != null">#{operateTime},</if>
-			<if test="operateIp != null">#{operateIp},</if>
-			<if test="status != null">#{status},</if>
-		</trim>
-	</insert>
+    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Log" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into `sys_log`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">`type`,</if>
+            <if test="targetId != null">`target_id`,</if>
+            <if test="oldValue != null">`old_value`,</if>
+            <if test="newValue != null">`new_value`,</if>
+            <if test="operator != null">`operator`,</if>
+            <if test="operateTime != null">`operate_time`,</if>
+            <if test="operateIp != null">`operate_ip`,</if>
+            <if test="status != null">`status`,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="targetId != null">#{targetId},</if>
+            <if test="oldValue != null">#{oldValue},</if>
+            <if test="newValue != null">#{newValue},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="operateTime != null">#{operateTime},</if>
+            <if test="operateIp != null">#{operateIp},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `sys_log`
-		where `id` = #{id}
-	</delete>
+    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Log">
+        update `sys_log`
+        <set>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="targetId != null">`target_id` = #{targetId},</if>
+            <if test="oldValue != null">`old_value` = #{oldValue},</if>
+            <if test="newValue != null">`new_value` = #{newValue},</if>
+            <if test="operator != null">`operator` = #{operator},</if>
+            <if test="operateTime != null">`operate_time` = #{operateTime},</if>
+            <if test="operateIp != null">`operate_ip` = #{operateIp},</if>
+            <if test="status != null">`status` = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
 
-	<update id="updateByPrimaryKeySelective" parameterType="cn.peyton.plum.mall.pojo.Log">
-		update `sys_log`
-		<set>
-			<if test="type != null">`type` = #{type},</if>
-			<if test="targetId != null">`target_id` = #{targetId},</if>
-			<if test="oldValue != null">`old_value` = #{oldValue},</if>
-			<if test="newValue != null">`new_value` = #{newValue},</if>
-			<if test="operator != null">`operator` = #{operator},</if>
-			<if test="operateTime != null">`operate_time` = #{operateTime},</if>
-			<if test="operateIp != null">`operate_ip` = #{operateIp},</if>
-			<if test="status != null">`status` = #{status},</if>
-		</set>
-		where id = #{id}
-	</update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from `sys_log`
+        where `id` = #{id}
+    </delete>
 
-	<select id="selectByPrimaryKey" resultMap="ResultLogMap"  parameterType="java.lang.Long">
-		select
-		<include refid="Column_sys_log_List"/>
-		from `sys_log`
-		where `id` = #{id}
-	</select>
+    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Log">
 
-	<!-- new create method   -->	
+        select
+        count(`id`)
+        from `sys_log`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+            <if test="targetId != null">
+                and `target_id` = #{targetId}
+            </if>
+            <if test="oldValue != null">
+                and `old_value` = #{oldValue}
+            </if>
+            <if test="newValue != null">
+                and `new_value` = #{newValue}
+            </if>
+            <if test="operator != null">
+                and `operator` = #{operator}
+            </if>
+            <if test="operateTime != null">
+                and `operate_time` = #{operateTime}
+            </if>
+            <if test="operateIp != null">
+                and `operate_ip` = #{operateIp}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+        </where>
+    </select>
 
-	<select id="selectByAllOrKeyword" resultMap="ResultLogMap"  parameterType="map">
+    <select id="selectByPrimaryKey" resultMap="ResultLogMap" parameterType="java.lang.Long">
+        select
+        <include refid="Column_sys_log_List"/>
+        from `sys_log`
+        where `id` = #{id}
+    </select>
 
-	</select>
+    <select id="selectByLiekAndObj" resultMap="ResultLogMap" parameterType="map">
 
-	<select id="selectByObj" resultMap="ResultLogMap"  parameterType="map">
+        select
+        <include refid="Column_sys_log_List"/>
+        from `sys_log`
+        <where>
+            <if test="record.id != null">
+                and `id` like concat('%',#{record.id},'%')
+            </if>
+            <if test="record.type != null">
+                and `type` like concat('%',#{record.type},'%')
+            </if>
+            <if test="record.targetId != null">
+                and `target_id` like concat('%',#{record.targetId},'%')
+            </if>
+            <if test="record.oldValue != null">
+                and `old_value` like concat('%',#{record.oldValue},'%')
+            </if>
+            <if test="record.newValue != null">
+                and `new_value` like concat('%',#{record.newValue},'%')
+            </if>
+            <if test="record.operator != null">
+                and `operator` like concat('%',#{record.operator},'%')
+            </if>
+            <if test="record.operateTime != null">
+                and `operate_time` like concat('%',#{record.operateTime},'%')
+            </if>
+            <if test="record.operateIp != null">
+                and `operate_ip` like concat('%',#{record.operateIp},'%')
+            </if>
+            <if test="record.status != null">
+                and `status` like concat('%',#{record.status},'%')
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="selectByObj" resultMap="ResultLogMap" parameterType="map">
 
-	<select id="count" resultType = "java.lang.Integer" parameterType="java.lang.String">
+        select
+        <include refid="Column_sys_log_List"/>
+        from `sys_log`
+        <where>
+            <if test="record.id != null">
+                > and `id` = #{record.id}
+            </if>
+            <if test="record.type != null">
+                > and `type` = #{record.type}
+            </if>
+            <if test="record.targetId != null">
+                > and `target_id` = #{record.targetId}
+            </if>
+            <if test="record.oldValue != null">
+                > and `old_value` = #{record.oldValue}
+            </if>
+            <if test="record.newValue != null">
+                > and `new_value` = #{record.newValue}
+            </if>
+            <if test="record.operator != null">
+                > and `operator` = #{record.operator}
+            </if>
+            <if test="record.operateTime != null">
+                > and `operate_time` = #{record.operateTime}
+            </if>
+            <if test="record.operateIp != null">
+                > and `operate_ip` = #{record.operateIp}
+            </if>
+            <if test="record.status != null">
+                > and `status` = #{record.status}
+            </if>
+        </where>
+        limit #{page.offset},#{page.pageSize}
+    </select>
 
-	</select>
+    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Log">
 
-	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Log">
+        select
+        count(`id`)
+        from `sys_log`
+        <where>
+            <if test="id != null">
+                > and `id` like concat('%',#{id},'%')
+            </if>
+            <if test="type != null">
+                > and `type` like concat('%',#{type},'%')
+            </if>
+            <if test="targetId != null">
+                > and `target_id` like concat('%',#{targetId},'%')
+            </if>
+            <if test="oldValue != null">
+                > and `old_value` like concat('%',#{oldValue},'%')
+            </if>
+            <if test="newValue != null">
+                > and `new_value` like concat('%',#{newValue},'%')
+            </if>
+            <if test="operator != null">
+                > and `operator` like concat('%',#{operator},'%')
+            </if>
+            <if test="operateTime != null">
+                > and `operate_time` like concat('%',#{operateTime},'%')
+            </if>
+            <if test="operateIp != null">
+                > and `operate_ip` like concat('%',#{operateIp},'%')
+            </if>
+            <if test="status != null">
+                > and `status` like concat('%',#{status},'%')
+            </if>
+        </where>
+    </select>
 
-	</select>
+    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Log">
 
-	<update id="upStatus" parameterType="cn.peyton.plum.mall.pojo.Log">
-
-	</update>
+        select
+        count(`id`)
+        from `sys_log`
+        <where>
+            <if test="id != null">
+                > and `id` = #{id}
+            </if>
+            <if test="type != null">
+                > and `type` = #{type}
+            </if>
+            <if test="targetId != null">
+                > and `target_id` = #{targetId}
+            </if>
+            <if test="oldValue != null">
+                > and `old_value` = #{oldValue}
+            </if>
+            <if test="newValue != null">
+                > and `new_value` = #{newValue}
+            </if>
+            <if test="operator != null">
+                > and `operator` = #{operator}
+            </if>
+            <if test="operateTime != null">
+                > and `operate_time` = #{operateTime}
+            </if>
+            <if test="operateIp != null">
+                > and `operate_ip` = #{operateIp}
+            </if>
+            <if test="status != null">
+                > and `status` = #{status}
+            </if>
+        </where>
+    </select>
 
 </mapper>

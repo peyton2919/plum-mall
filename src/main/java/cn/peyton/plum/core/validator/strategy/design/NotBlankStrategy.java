@@ -22,7 +22,7 @@ public class NotBlankStrategy extends AbstractValidator {
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         NotBlank notBlank = (NotBlank) annotation;
         message = notBlank.message();
-        if (!StrUtils.isEmpty(value)){
+        if (!StrUtils.isEmpty(value)) {
             map.put(name, message);
         }
     }

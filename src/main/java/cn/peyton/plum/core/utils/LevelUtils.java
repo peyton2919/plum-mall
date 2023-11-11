@@ -12,10 +12,14 @@ import java.io.Serializable;
  * </pre>
  */
 public final class LevelUtils implements Serializable {
-    /**  连接符 */
+    /**
+     * 连接符
+     */
     public final static String SEPARATOR = ".";
 
-    /**  Level 根目录 默认: 0 */
+    /**
+     * Level 根目录 默认: 0
+     */
     public final static String ROOT = "0";
 
     /**
@@ -30,11 +34,12 @@ public final class LevelUtils implements Serializable {
      *     0.1.3
      *     0.4
      * </pre>
+     *
      * @param parentLevel
      * @param parentId
      * @return
      */
-    public static String calculateLevel(String parentLevel,int parentId) {
+    public static String calculateLevel(String parentLevel, int parentId) {
         if (StrUtils.isBlank(parentLevel)) {
             return ROOT;
         } else {
@@ -51,11 +56,12 @@ public final class LevelUtils implements Serializable {
      *     0.1.3
      *     0.4
      * </pre>
+     *
      * @param parentLevel
      * @param parentId
      * @return
      */
-    public static String calculateLevelLong(String parentLevel,Long parentId) {
+    public static String calculateLevelLong(String parentLevel, Long parentId) {
         if (StrUtils.isBlank(parentLevel)) {
             return ROOT;
         } else {
@@ -72,11 +78,12 @@ public final class LevelUtils implements Serializable {
      *     0.1.3
      *     0.4
      * </pre>
+     *
      * @param parentLevel
      * @param parentId
      * @return
      */
-    public static String calculateLevelObject(String parentLevel,Object parentId) {
+    public static String calculateLevelObject(String parentLevel, Object parentId) {
         if (StrUtils.isBlank(parentLevel)) {
             return ROOT;
         } else {

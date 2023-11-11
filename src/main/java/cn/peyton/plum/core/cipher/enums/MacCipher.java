@@ -2,7 +2,7 @@ package cn.peyton.plum.core.cipher.enums;
 
 /**
  * <h3>MAC算法可选以下多种算法</h3>
- * 	 * <pre>
+ * * <pre>
  * 	 * HmacMD5
  * 	 * HmacSHA1
  * 	 * HmacSHA256
@@ -19,25 +19,28 @@ package cn.peyton.plum.core.cipher.enums;
  * </pre>
  */
 public enum MacCipher {
-    HmacMD5(0,"HmacMD5") ,
+    HmacMD5(0, "HmacMD5"),
 
-    HmacSHA1(1,"HmacSHA1") ,
+    HmacSHA1(1, "HmacSHA1"),
 
-    HmacSHA256(2,"HmacSHA256")  ,
+    HmacSHA256(2, "HmacSHA256"),
 
-    HmacSHA384(3,"HmacSHA384"),
+    HmacSHA384(3, "HmacSHA384"),
 
-    HmacSHA512(4,"HmacSHA512");
+    HmacSHA512(4, "HmacSHA512");
 
     private int id;
     private String value;
+
     private MacCipher(int id, String value) {
         this.id = id;
         this.value = value;
     }
+
     public int getId() {
         return id;
     }
+
     public String getValue() {
         return value;
     }

@@ -44,6 +44,7 @@ public class GlobalException extends RuntimeException {
 
     /**
      * <h4>验证异常 PrintWriter 写出信息</h4>
+     *
      * @param jsonResult jsonResult 对象{封装的数据}
      */
     public GlobalException(JSONResult jsonResult) {
@@ -52,8 +53,9 @@ public class GlobalException extends RuntimeException {
 
     /**
      * <h4>异常构造</h4>
+     *
      * @param result 要返回的包装好的JSON数据
-     * @param url  链接地址 如: /err 或 /app/add
+     * @param url    链接地址 如: /err 或 /app/add
      */
     public GlobalException(JSONResult result, String url) {
         try {
@@ -64,7 +66,7 @@ public class GlobalException extends RuntimeException {
                     _sb.append("?result=" + result);
                 }
                 HttpServletResponseUtils.getResponse().sendRedirect(_sb.toString());
-            }else {
+            } else {
                 HttpServletResponseUtils.returnJson(JsonMapper.toJSon(result));
             }
         } catch (IOException e) {
