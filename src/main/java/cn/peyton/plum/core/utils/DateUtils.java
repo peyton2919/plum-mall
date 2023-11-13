@@ -215,7 +215,7 @@ public final class DateUtils implements Serializable {
      */
     private static Integer _dateToTimestamp(String date, String format) {
         if (null == date) {
-            return 0;
+            return null;
         }
         SimpleDateFormat simpleDateFormat =
                 new SimpleDateFormat(format == null ? FORMAT.DATE_FORMAT_TIME : format);

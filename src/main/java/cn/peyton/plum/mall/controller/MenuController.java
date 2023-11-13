@@ -1,7 +1,9 @@
 package cn.peyton.plum.mall.controller;
 
+import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.mall.service.MenuService;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,5 +20,12 @@ public class MenuController {
 
     @Resource
     private MenuService menuService;
+
+    @GetMapping("/findall")
+    public JSONResult<?> findAll(){
+        return JSONResult.success(menuService.findMenuListByShareIdAndType(1L,2));
+    }
+
+
 
 }

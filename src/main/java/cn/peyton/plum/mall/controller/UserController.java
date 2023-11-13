@@ -7,10 +7,7 @@ import cn.peyton.plum.core.imgs.ImageProcessing;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.users.IUser;
-import cn.peyton.plum.core.utils.FileUtils;
-import cn.peyton.plum.core.utils.HttpServletRequestUtils;
-import cn.peyton.plum.core.utils.LogUtils;
-import cn.peyton.plum.core.utils.MessageUtils;
+import cn.peyton.plum.core.utils.*;
 import cn.peyton.plum.core.validator.Regulation;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Length;
@@ -23,9 +20,10 @@ import cn.peyton.plum.mall.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Date;
 
 /**
  * <h3> 系统用户 Controller 类</h3>
@@ -37,6 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
  * </pre>
  */
 @RestController
+@RequestMapping("/pc/manager/user")
+@CrossOrigin(origins = "*")
 public class UserController extends PcController<UserParam> {
     /** 验证码 在缓存中的时间 */
     public final static String KEY_PHONE_CODE_CACHE_TIME = "PHONE_TIME_2203262148";
@@ -44,8 +44,7 @@ public class UserController extends PcController<UserParam> {
     public final static String KEY_SESSION_PHONE_CODE = "SESSION_PHONE_CODE_220323";
     /** session中的 手机号码 key */
     public final static String KEY_SESSION_PHONE = "SESSION_PHONE_220324";
-    /** token中 手机号码 key */
-    public final static String KEY_TOKEN = "TOKEN_2203231641";
+
     /** MD5 加密 key */
     private final static String KEY_PASSWORD_ENCODER = "userControllerPassword";
 
@@ -68,7 +67,7 @@ public class UserController extends PcController<UserParam> {
         }
 
         // 判断是否可用 ,返回 true 表示应该手机被禁用
-        param.setEnabled(0);
+        param.setStatus(0);
         if(userService.isRename(param)){
             return JSONResult.fail("该手机号码被禁用,请联系管理员");
         }
@@ -104,28 +103,42 @@ public class UserController extends PcController<UserParam> {
         return JSONResult.success(MessageUtils.createSMSTemplate(code + ""));
     }
 
-    // 用户注册
-    @PostMapping("/reg")
+    // 用户注册UserParam userParam
+    @GetMapping("/reg")
     @Valid(single = false)
-    public JSONResult<?> reg(UserParam userParam){
-        if (userService.checkStatus(userParam.getUsername(), IUser.LOGIN_TYPE_ACCOUNT, STATUS_MINUS)) {
-            return JSONResult.fail("该用户名称已经存在,请重新输入。");
-        }else if (userService.checkStatus(userParam.getPhone(), IUser.LOGIN_TYPE_PHONE, STATUS_MINUS)){
-            return JSONResult.fail("该手机号码已经存在,请重新输入。");
-        } else if (userService.checkStatus(userParam.getEmail(), IUser.LOGIN_TYPE_EMAIL, STATUS_MINUS)) {
-            return JSONResult.fail("该邮箱号已经存在,请重新输入。");
-        }
+    public JSONResult<?> reg(){
+        //if (userService.checkStatus(userParam.getUsername(), IUser.LOGIN_TYPE_ACCOUNT, STATUS_MINUS)) {
+        //    return JSONResult.fail("该用户名称已经存在,请重新输入。");
+        //}else if (userService.checkStatus(userParam.getPhone(), IUser.LOGIN_TYPE_PHONE, STATUS_MINUS)){
+        //    return JSONResult.fail("该手机号码已经存在,请重新输入。");
+        //} else if (userService.checkStatus(userParam.getEmail(), IUser.LOGIN_TYPE_EMAIL, STATUS_MINUS)) {
+        //    return JSONResult.fail("该邮箱号已经存在,请重新输入。");
+        //}
+        UserParam userParam = new UserParam();
+        userParam.setEmail("9602588@qq.com");
+        userParam.setPassword("123456");
+        userParam.setUsername("tom1");
+        userParam.setPhone("13500001234");
+        userParam.setNickName("tom1");
         // 密码加密
         userParam.setPassword(BaseCipher.encoderMD5(userParam.getPassword(),KEY_PASSWORD_ENCODER));
         UserParam _param = userService.reg(userParam);
         return (null != _param)?JSONResult.success(_param):JSONResult.fail("注册失败,请联系管理员。");
     }
 
-    // 用户账户登录
+    @GetMapping("/get")
+    public JSONResult<?> get(){
+        return JSONResult.success(userService.findById(1L));
+    }
+
+
+
+    // 用户账户登录"content-type":"application/x-www-form-urlencoded;charset=utf-8"
     @PostMapping("/login")
     @Valid
     public JSONResult<?> login(@NotBlank(message = "用户名不能为空！") String keyword,
-                                       @NotBlank(message = "密码不能为空！") String password) {
+                                       @NotBlank(message = "密码不能为空！") String password,
+                    HttpServletRequest request) {
         UserParam param = new UserParam();
         String _loginType = IUser.LOGIN_TYPE_ACCOUNT;
         if (Regulation.regex(Regulation.REGEX_EMAIL_ALL ,keyword)){
@@ -140,10 +153,19 @@ public class UserController extends PcController<UserParam> {
         }
 
         // 根据用户邮箱/手机号/账号 登录 ; 返回 为空表示 应该用户账号密码不正确 ;
-        UserParam _param = userService.login(keyword,
-                BaseCipher.encoderMD5(password, KEY_PASSWORD_ENCODER), _loginType);
+        String _tmpp = BaseCipher.encoderMD5(password, KEY_PASSWORD_ENCODER);
+        UserParam _param = userService.login(keyword,_tmpp
+                , _loginType);
         if(null == _param){
             return JSONResult.fail("用户名称或密码错误。");
+        }
+        // 更新最后登录 IP
+        UserParam _uIp = new UserParam();
+        _uIp.setId(_param.getId());
+        _uIp.setLastIp(IpUtils.getRemoteIp(request));
+        _uIp.setLastLoginTime(DateUtils.timestampToStrDate(new Date()));
+        if(!userService.update(_uIp)){
+            return JSONResult.fail("用户登录异常,请联系管理员。");
         }
         _param.setLoginType(_loginType);
         _param.setToken(saveToken(_param));
@@ -209,30 +231,63 @@ public class UserController extends PcController<UserParam> {
         // 从 token 获取 对象
         UserParam userParam = handleToken(param);
         // todo
-
-
-        return null;
+        if(!userParam.getUsername().equals(param.getUsername())){
+            if (userService.checkStatus(userParam.getUsername(), IUser.LOGIN_TYPE_ACCOUNT, STATUS_MINUS)) {
+                return JSONResult.fail("该用户名称已经存在,请重新输入。");
+            }
+        }else if (!userParam.getPhone().equals(param.getPhone())){
+            if (userService.checkStatus(userParam.getPhone(), IUser.LOGIN_TYPE_PHONE, STATUS_MINUS)){
+                return JSONResult.fail("该手机号码已经存在,请重新输入。");
+            }
+        }else if(!userParam.getEmail().equals(param.getEmail())){
+            if (userService.checkStatus(userParam.getEmail(), IUser.LOGIN_TYPE_EMAIL, STATUS_MINUS)) {
+                return JSONResult.fail("该邮箱号已经存在,请重新输入。");
+            }
+        }
+        param.setId(userParam.getId());
+        param.setIsDel(null);
+        param.setCreateTime(null);
+        param.setPassword(null);
+        param.setStatus(null);
+        return (userService.update(param)) ? JSONResult.success("更新成功", param)
+                : JSONResult.fail("注册失败,请联系管理员。");
     }
 
     // 修改用户密码
     @Valid
     @Token
     @PostMapping("/user/repassword")
-    public JSONResult<UserParam> editPassword(UserParam param,
-                                              @NotBlank(message = "新密码不能为空！")
-                                              @Length(min = 6,max = 30,message = "密码长度为6~30的字符!")
-                                              String newPwd) {
+    public JSONResult<UserParam> editPassword(
+          @NotBlank(message = "旧密码不能为空！")
+          @Length(min = 6,max = 20,message = "密码长度为6~20的字符!")
+          String oldPassword,
+          @NotBlank(message = "新密码不能为空！")
+          @Length(min = 6,max = 20,message = "密码长度为6~20的字符!")
+          String newPassword,
+          @NotBlank(message = "确认密码不能为空！")String confirmPassword) {
         // 从 token 获取 对象
         UserParam _userParam = handleToken(new UserParam());
         UserParam _tmpParam = new UserParam();
         _tmpParam.setId(_userParam.getId());
-        //_userParam.setPassword(BaseCipher.encoderMD5(oldPassword,KEY_PASSWORD_ENCODER));
+        _userParam.setPassword(BaseCipher.encoderMD5(oldPassword,KEY_PASSWORD_ENCODER));
+        String _opTmp = _userParam.getPassword();
+
         // todo
         if(!userService.isRename(_tmpParam)){
             return JSONResult.fail("旧密码输入不正确");
         }
-        return null;
-
+        if (!newPassword.equals(confirmPassword)) {
+            return JSONResult.fail("确认密码输入有误,请重新输入。");
+        }
+        String newPwd = BaseCipher.encoderMD5(newPassword, KEY_PASSWORD_ENCODER);
+        if (_opTmp.equals(newPwd)) {
+            return JSONResult.fail("新密码与旧密码相同,不需要修改。");
+        }
+        UserParam _upPw = new UserParam();
+        _upPw.setId(_userParam.getId());
+        _upPw.setPassword(newPwd);
+        return (userService.update(_upPw))? JSONResult.success("密码更新成功")
+                : JSONResult.fail("密码更新失败。");
     }
 
 }

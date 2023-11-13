@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.controller;
 
-import cn.peyton.plum.mall.service.RolesDeptsService;
+import cn.peyton.plum.mall.service.RoleDeptService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-public class RolesDeptsController {
+public class RoleDeptController {
 
     @Resource
-    private RolesDeptsService rolesDeptsService;
+    private RoleDeptService roleDeptService;
 
 }

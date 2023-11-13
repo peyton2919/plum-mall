@@ -1,160 +1,158 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.DistrictMapper">
-    <resultMap id="ResultDistrictMap" type="cn.peyton.plum.mall.pojo.District">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="province_id" property="provinceId" jdbcType="INTEGER"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="seq" property="seq" jdbcType="SMALLINT"/>
-    </resultMap>
+	<resultMap id="ResultDistrictMap" type="cn.peyton.plum.mall.pojo.District">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+	</resultMap>
 
-    <sql id="Column_sys_district_List">
-        `id`,`province_id`,`name`,`seq`
-    </sql>
+	<sql id="Column_sys_district_List">
+		`id`,`province_id`,`name`,`seq`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.District" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `sys_district`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="provinceId != null">`province_id`,</if>
-            <if test="name != null">`name`,</if>
-            <if test="seq != null">`seq`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="provinceId != null">#{provinceId},</if>
-            <if test="name != null">#{name},</if>
-            <if test="seq != null">#{seq},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.District" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_district`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="provinceId != null">`province_id`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="provinceId != null">#{provinceId},</if>
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.District">
-        update `sys_district`
-        <set>
-            <if test="provinceId != null">`province_id` = #{provinceId},</if>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="seq != null">`seq` = #{seq},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.District">
+		update `sys_district`
+		<set>
+			<if test="provinceId != null">`province_id` = #{provinceId},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete
-        from `sys_district`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `sys_district`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.District">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.District">
 
-        select
-        count(`id`)
-        from `sys_district`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="provinceId != null">
-                and `province_id` = #{provinceId}
-            </if>
-            <if test="name != null">
-                and `name` = #{name}
-            </if>
-            <if test="seq != null">
-                and `seq` = #{seq}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_district`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="provinceId != null">
+				and `province_id` = #{provinceId}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultDistrictMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Column_sys_district_List"/>
-        from `sys_district`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultDistrictMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_sys_district_List"/>
+		from `sys_district`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultDistrictMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultDistrictMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_district_List"/>
-        from `sys_district`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.provinceId != null">
-                and `province_id` like concat('%',#{record.provinceId},'%')
-            </if>
-            <if test="record.name != null">
-                and `name` like concat('%',#{record.name},'%')
-            </if>
-            <if test="record.seq != null">
-                and `seq` like concat('%',#{record.seq},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_district_List"/>
+		from `sys_district`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.provinceId != null">
+				and `province_id` like concat('%',#{record.provinceId},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultDistrictMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultDistrictMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_district_List"/>
-        from `sys_district`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.provinceId != null">
-                > and `province_id` = #{record.provinceId}
-            </if>
-            <if test="record.name != null">
-                > and `name` = #{record.name}
-            </if>
-            <if test="record.seq != null">
-                > and `seq` = #{record.seq}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_district_List"/>
+		from `sys_district`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.provinceId != null">
+>				and `province_id` = #{record.provinceId}
+			</if>
+			<if test="record.name != null">
+>				and `name` = #{record.name}
+			</if>
+			<if test="record.seq != null">
+>				and `seq` = #{record.seq}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.District">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.District">
 
-        select
-        count(`id`)
-        from `sys_district`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="provinceId != null">
-                > and `province_id` like concat('%',#{provinceId},'%')
-            </if>
-            <if test="name != null">
-                > and `name` like concat('%',#{name},'%')
-            </if>
-            <if test="seq != null">
-                > and `seq` like concat('%',#{seq},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_district`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="provinceId != null">
+>				and `province_id` like concat('%',#{provinceId},'%')
+			</if>
+			<if test="name != null">
+>				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="seq != null">
+>				and `seq` like concat('%',#{seq},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.District">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.District">
 
-        select
-        count(`id`)
-        from `sys_district`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="provinceId != null">
-                > and `province_id` = #{provinceId}
-            </if>
-            <if test="name != null">
-                > and `name` = #{name}
-            </if>
-            <if test="seq != null">
-                > and `seq` = #{seq}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_district`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="provinceId != null">
+>				and `province_id` = #{provinceId}
+			</if>
+			<if test="name != null">
+>				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+>				and `seq` = #{seq}
+			</if>
+		</where>
+	</select>
 
 </mapper>

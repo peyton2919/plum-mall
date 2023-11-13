@@ -4,6 +4,8 @@ import cn.peyton.plum.core.inf.service.IBaseService;
 import cn.peyton.plum.mall.param.MenuParam;
 import cn.peyton.plum.mall.pojo.Menu;
 
+import java.util.List;
+
 /**
  * <h3> 菜单 Service 接口</h3>
  * <pre>
@@ -14,5 +16,13 @@ import cn.peyton.plum.mall.pojo.Menu;
  * </pre>
  */
 public interface MenuService extends IBaseService<Long, Menu, MenuParam> {
+
+    /**
+     * <h4>根据用户Id及类型查找菜单对象集合</h4>
+     * @param shareId 用户Id
+     * @param shareType 用户类型
+     * @return
+     */
+    List<MenuParam> findMenuListByShareIdAndType(Long shareId, Integer shareType);
 
 }

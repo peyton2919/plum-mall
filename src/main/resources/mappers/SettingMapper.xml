@@ -1,388 +1,386 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.SettingMapper">
-    <resultMap id="ResultSettingMap" type="cn.peyton.plum.mall.pojo.Setting">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="open_reg" property="openReg" jdbcType="TINYINT"/>
-        <result column="reg_method" property="regMethod" jdbcType="VARCHAR"/>
-        <result column="password_min" property="passwordMin" jdbcType="TINYINT"/>
-        <result column="password_encrypt" property="passwordEncrypt" jdbcType="VARCHAR"/>
-        <result column="upload_method" property="uploadMethod" jdbcType="VARCHAR"/>
-        <result column="upload_config" property="uploadConfig" jdbcType="LONGVARCHAR"/>
-        <result column="api_safe" property="apiSafe" jdbcType="TINYINT"/>
-        <result column="api_secret" property="apiSecret" jdbcType="VARCHAR"/>
-        <result column="close_order_minute" property="closeOrderMinute" jdbcType="INTEGER"/>
-        <result column="auto_received_day" property="autoReceivedDay" jdbcType="INTEGER"/>
-        <result column="after_sale_day" property="afterSaleDay" jdbcType="INTEGER"/>
-        <result column="alipay" property="alipay" jdbcType="LONGVARCHAR"/>
-        <result column="wxpay" property="wxpay" jdbcType="LONGVARCHAR"/>
-        <result column="ship" property="ship" jdbcType="LONGVARCHAR"/>
-        <result column="status" property="status" jdbcType="TINYINT"/>
-    </resultMap>
+	<resultMap id="ResultSettingMap" type="cn.peyton.plum.mall.pojo.Setting">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="open_reg" property="openReg" jdbcType="TINYINT"/>
+		<result column="reg_method" property="regMethod" jdbcType="VARCHAR"/>
+		<result column="password_min" property="passwordMin" jdbcType="TINYINT"/>
+		<result column="password_encrypt" property="passwordEncrypt" jdbcType="VARCHAR"/>
+		<result column="upload_method" property="uploadMethod" jdbcType="VARCHAR"/>
+		<result column="upload_config" property="uploadConfig" jdbcType="LONGVARCHAR"/>
+		<result column="api_safe" property="apiSafe" jdbcType="TINYINT"/>
+		<result column="api_secret" property="apiSecret" jdbcType="VARCHAR"/>
+		<result column="close_order_minute" property="closeOrderMinute" jdbcType="INTEGER"/>
+		<result column="auto_received_day" property="autoReceivedDay" jdbcType="INTEGER"/>
+		<result column="after_sale_day" property="afterSaleDay" jdbcType="INTEGER"/>
+		<result column="alipay" property="alipay" jdbcType="LONGVARCHAR"/>
+		<result column="wxpay" property="wxpay" jdbcType="LONGVARCHAR"/>
+		<result column="ship" property="ship" jdbcType="LONGVARCHAR"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+	</resultMap>
 
-    <sql id="Column_sys_setting_List">
-        `id`,`open_reg`,`reg_method`,`password_min`,`password_encrypt`,`upload_method`,`upload_config`,`api_safe`,`api_secret`,`close_order_minute`,`auto_received_day`,`after_sale_day`,`alipay`,`wxpay`,`ship`,`status`
-    </sql>
+	<sql id="Column_sys_setting_List">
+		`id`,`open_reg`,`reg_method`,`password_min`,`password_encrypt`,`upload_method`,`upload_config`,`api_safe`,`api_secret`,`close_order_minute`,`auto_received_day`,`after_sale_day`,`alipay`,`wxpay`,`ship`,`status`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Setting" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `sys_setting`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="openReg != null">`open_reg`,</if>
-            <if test="regMethod != null">`reg_method`,</if>
-            <if test="passwordMin != null">`password_min`,</if>
-            <if test="passwordEncrypt != null">`password_encrypt`,</if>
-            <if test="uploadMethod != null">`upload_method`,</if>
-            <if test="uploadConfig != null">`upload_config`,</if>
-            <if test="apiSafe != null">`api_safe`,</if>
-            <if test="apiSecret != null">`api_secret`,</if>
-            <if test="closeOrderMinute != null">`close_order_minute`,</if>
-            <if test="autoReceivedDay != null">`auto_received_day`,</if>
-            <if test="afterSaleDay != null">`after_sale_day`,</if>
-            <if test="alipay != null">`alipay`,</if>
-            <if test="wxpay != null">`wxpay`,</if>
-            <if test="ship != null">`ship`,</if>
-            <if test="status != null">`status`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="openReg != null">#{openReg},</if>
-            <if test="regMethod != null">#{regMethod},</if>
-            <if test="passwordMin != null">#{passwordMin},</if>
-            <if test="passwordEncrypt != null">#{passwordEncrypt},</if>
-            <if test="uploadMethod != null">#{uploadMethod},</if>
-            <if test="uploadConfig != null">#{uploadConfig},</if>
-            <if test="apiSafe != null">#{apiSafe},</if>
-            <if test="apiSecret != null">#{apiSecret},</if>
-            <if test="closeOrderMinute != null">#{closeOrderMinute},</if>
-            <if test="autoReceivedDay != null">#{autoReceivedDay},</if>
-            <if test="afterSaleDay != null">#{afterSaleDay},</if>
-            <if test="alipay != null">#{alipay},</if>
-            <if test="wxpay != null">#{wxpay},</if>
-            <if test="ship != null">#{ship},</if>
-            <if test="status != null">#{status},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Setting" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_setting`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="openReg != null">`open_reg`,</if>
+			<if test="regMethod != null">`reg_method`,</if>
+			<if test="passwordMin != null">`password_min`,</if>
+			<if test="passwordEncrypt != null">`password_encrypt`,</if>
+			<if test="uploadMethod != null">`upload_method`,</if>
+			<if test="uploadConfig != null">`upload_config`,</if>
+			<if test="apiSafe != null">`api_safe`,</if>
+			<if test="apiSecret != null">`api_secret`,</if>
+			<if test="closeOrderMinute != null">`close_order_minute`,</if>
+			<if test="autoReceivedDay != null">`auto_received_day`,</if>
+			<if test="afterSaleDay != null">`after_sale_day`,</if>
+			<if test="alipay != null">`alipay`,</if>
+			<if test="wxpay != null">`wxpay`,</if>
+			<if test="ship != null">`ship`,</if>
+			<if test="status != null">`status`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="openReg != null">#{openReg},</if>
+			<if test="regMethod != null">#{regMethod},</if>
+			<if test="passwordMin != null">#{passwordMin},</if>
+			<if test="passwordEncrypt != null">#{passwordEncrypt},</if>
+			<if test="uploadMethod != null">#{uploadMethod},</if>
+			<if test="uploadConfig != null">#{uploadConfig},</if>
+			<if test="apiSafe != null">#{apiSafe},</if>
+			<if test="apiSecret != null">#{apiSecret},</if>
+			<if test="closeOrderMinute != null">#{closeOrderMinute},</if>
+			<if test="autoReceivedDay != null">#{autoReceivedDay},</if>
+			<if test="afterSaleDay != null">#{afterSaleDay},</if>
+			<if test="alipay != null">#{alipay},</if>
+			<if test="wxpay != null">#{wxpay},</if>
+			<if test="ship != null">#{ship},</if>
+			<if test="status != null">#{status},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Setting">
-        update `sys_setting`
-        <set>
-            <if test="openReg != null">`open_reg` = #{openReg},</if>
-            <if test="regMethod != null">`reg_method` = #{regMethod},</if>
-            <if test="passwordMin != null">`password_min` = #{passwordMin},</if>
-            <if test="passwordEncrypt != null">`password_encrypt` = #{passwordEncrypt},</if>
-            <if test="uploadMethod != null">`upload_method` = #{uploadMethod},</if>
-            <if test="uploadConfig != null">`upload_config` = #{uploadConfig},</if>
-            <if test="apiSafe != null">`api_safe` = #{apiSafe},</if>
-            <if test="apiSecret != null">`api_secret` = #{apiSecret},</if>
-            <if test="closeOrderMinute != null">`close_order_minute` = #{closeOrderMinute},</if>
-            <if test="autoReceivedDay != null">`auto_received_day` = #{autoReceivedDay},</if>
-            <if test="afterSaleDay != null">`after_sale_day` = #{afterSaleDay},</if>
-            <if test="alipay != null">`alipay` = #{alipay},</if>
-            <if test="wxpay != null">`wxpay` = #{wxpay},</if>
-            <if test="ship != null">`ship` = #{ship},</if>
-            <if test="status != null">`status` = #{status},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Setting">
+		update `sys_setting`
+		<set>
+			<if test="openReg != null">`open_reg` = #{openReg},</if>
+			<if test="regMethod != null">`reg_method` = #{regMethod},</if>
+			<if test="passwordMin != null">`password_min` = #{passwordMin},</if>
+			<if test="passwordEncrypt != null">`password_encrypt` = #{passwordEncrypt},</if>
+			<if test="uploadMethod != null">`upload_method` = #{uploadMethod},</if>
+			<if test="uploadConfig != null">`upload_config` = #{uploadConfig},</if>
+			<if test="apiSafe != null">`api_safe` = #{apiSafe},</if>
+			<if test="apiSecret != null">`api_secret` = #{apiSecret},</if>
+			<if test="closeOrderMinute != null">`close_order_minute` = #{closeOrderMinute},</if>
+			<if test="autoReceivedDay != null">`auto_received_day` = #{autoReceivedDay},</if>
+			<if test="afterSaleDay != null">`after_sale_day` = #{afterSaleDay},</if>
+			<if test="alipay != null">`alipay` = #{alipay},</if>
+			<if test="wxpay != null">`wxpay` = #{wxpay},</if>
+			<if test="ship != null">`ship` = #{ship},</if>
+			<if test="status != null">`status` = #{status},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete
-        from `sys_setting`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `sys_setting`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
 
-        select
-        count(`id`)
-        from `sys_setting`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="openReg != null">
-                and `open_reg` = #{openReg}
-            </if>
-            <if test="regMethod != null">
-                and `reg_method` = #{regMethod}
-            </if>
-            <if test="passwordMin != null">
-                and `password_min` = #{passwordMin}
-            </if>
-            <if test="passwordEncrypt != null">
-                and `password_encrypt` = #{passwordEncrypt}
-            </if>
-            <if test="uploadMethod != null">
-                and `upload_method` = #{uploadMethod}
-            </if>
-            <if test="uploadConfig != null">
-                and `upload_config` = #{uploadConfig}
-            </if>
-            <if test="apiSafe != null">
-                and `api_safe` = #{apiSafe}
-            </if>
-            <if test="apiSecret != null">
-                and `api_secret` = #{apiSecret}
-            </if>
-            <if test="closeOrderMinute != null">
-                and `close_order_minute` = #{closeOrderMinute}
-            </if>
-            <if test="autoReceivedDay != null">
-                and `auto_received_day` = #{autoReceivedDay}
-            </if>
-            <if test="afterSaleDay != null">
-                and `after_sale_day` = #{afterSaleDay}
-            </if>
-            <if test="alipay != null">
-                and `alipay` = #{alipay}
-            </if>
-            <if test="wxpay != null">
-                and `wxpay` = #{wxpay}
-            </if>
-            <if test="ship != null">
-                and `ship` = #{ship}
-            </if>
-            <if test="status != null">
-                and `status` = #{status}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_setting`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="openReg != null">
+				and `open_reg` = #{openReg}
+			</if>
+			<if test="regMethod != null">
+				and `reg_method` = #{regMethod}
+			</if>
+			<if test="passwordMin != null">
+				and `password_min` = #{passwordMin}
+			</if>
+			<if test="passwordEncrypt != null">
+				and `password_encrypt` = #{passwordEncrypt}
+			</if>
+			<if test="uploadMethod != null">
+				and `upload_method` = #{uploadMethod}
+			</if>
+			<if test="uploadConfig != null">
+				and `upload_config` = #{uploadConfig}
+			</if>
+			<if test="apiSafe != null">
+				and `api_safe` = #{apiSafe}
+			</if>
+			<if test="apiSecret != null">
+				and `api_secret` = #{apiSecret}
+			</if>
+			<if test="closeOrderMinute != null">
+				and `close_order_minute` = #{closeOrderMinute}
+			</if>
+			<if test="autoReceivedDay != null">
+				and `auto_received_day` = #{autoReceivedDay}
+			</if>
+			<if test="afterSaleDay != null">
+				and `after_sale_day` = #{afterSaleDay}
+			</if>
+			<if test="alipay != null">
+				and `alipay` = #{alipay}
+			</if>
+			<if test="wxpay != null">
+				and `wxpay` = #{wxpay}
+			</if>
+			<if test="ship != null">
+				and `ship` = #{ship}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultSettingMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Column_sys_setting_List"/>
-        from `sys_setting`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultSettingMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_sys_setting_List"/>
+		from `sys_setting`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultSettingMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultSettingMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_setting_List"/>
-        from `sys_setting`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.openReg != null">
-                and `open_reg` like concat('%',#{record.openReg},'%')
-            </if>
-            <if test="record.regMethod != null">
-                and `reg_method` like concat('%',#{record.regMethod},'%')
-            </if>
-            <if test="record.passwordMin != null">
-                and `password_min` like concat('%',#{record.passwordMin},'%')
-            </if>
-            <if test="record.passwordEncrypt != null">
-                and `password_encrypt` like concat('%',#{record.passwordEncrypt},'%')
-            </if>
-            <if test="record.uploadMethod != null">
-                and `upload_method` like concat('%',#{record.uploadMethod},'%')
-            </if>
-            <if test="record.uploadConfig != null">
-                and `upload_config` like concat('%',#{record.uploadConfig},'%')
-            </if>
-            <if test="record.apiSafe != null">
-                and `api_safe` like concat('%',#{record.apiSafe},'%')
-            </if>
-            <if test="record.apiSecret != null">
-                and `api_secret` like concat('%',#{record.apiSecret},'%')
-            </if>
-            <if test="record.closeOrderMinute != null">
-                and `close_order_minute` like concat('%',#{record.closeOrderMinute},'%')
-            </if>
-            <if test="record.autoReceivedDay != null">
-                and `auto_received_day` like concat('%',#{record.autoReceivedDay},'%')
-            </if>
-            <if test="record.afterSaleDay != null">
-                and `after_sale_day` like concat('%',#{record.afterSaleDay},'%')
-            </if>
-            <if test="record.alipay != null">
-                and `alipay` like concat('%',#{record.alipay},'%')
-            </if>
-            <if test="record.wxpay != null">
-                and `wxpay` like concat('%',#{record.wxpay},'%')
-            </if>
-            <if test="record.ship != null">
-                and `ship` like concat('%',#{record.ship},'%')
-            </if>
-            <if test="record.status != null">
-                and `status` like concat('%',#{record.status},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_setting_List"/>
+		from `sys_setting`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.openReg != null">
+				and `open_reg` like concat('%',#{record.openReg},'%')
+			</if>
+			<if test="record.regMethod != null">
+				and `reg_method` like concat('%',#{record.regMethod},'%')
+			</if>
+			<if test="record.passwordMin != null">
+				and `password_min` like concat('%',#{record.passwordMin},'%')
+			</if>
+			<if test="record.passwordEncrypt != null">
+				and `password_encrypt` like concat('%',#{record.passwordEncrypt},'%')
+			</if>
+			<if test="record.uploadMethod != null">
+				and `upload_method` like concat('%',#{record.uploadMethod},'%')
+			</if>
+			<if test="record.uploadConfig != null">
+				and `upload_config` like concat('%',#{record.uploadConfig},'%')
+			</if>
+			<if test="record.apiSafe != null">
+				and `api_safe` like concat('%',#{record.apiSafe},'%')
+			</if>
+			<if test="record.apiSecret != null">
+				and `api_secret` like concat('%',#{record.apiSecret},'%')
+			</if>
+			<if test="record.closeOrderMinute != null">
+				and `close_order_minute` like concat('%',#{record.closeOrderMinute},'%')
+			</if>
+			<if test="record.autoReceivedDay != null">
+				and `auto_received_day` like concat('%',#{record.autoReceivedDay},'%')
+			</if>
+			<if test="record.afterSaleDay != null">
+				and `after_sale_day` like concat('%',#{record.afterSaleDay},'%')
+			</if>
+			<if test="record.alipay != null">
+				and `alipay` like concat('%',#{record.alipay},'%')
+			</if>
+			<if test="record.wxpay != null">
+				and `wxpay` like concat('%',#{record.wxpay},'%')
+			</if>
+			<if test="record.ship != null">
+				and `ship` like concat('%',#{record.ship},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` like concat('%',#{record.status},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultSettingMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultSettingMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_setting_List"/>
-        from `sys_setting`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.openReg != null">
-                > and `open_reg` = #{record.openReg}
-            </if>
-            <if test="record.regMethod != null">
-                > and `reg_method` = #{record.regMethod}
-            </if>
-            <if test="record.passwordMin != null">
-                > and `password_min` = #{record.passwordMin}
-            </if>
-            <if test="record.passwordEncrypt != null">
-                > and `password_encrypt` = #{record.passwordEncrypt}
-            </if>
-            <if test="record.uploadMethod != null">
-                > and `upload_method` = #{record.uploadMethod}
-            </if>
-            <if test="record.uploadConfig != null">
-                > and `upload_config` = #{record.uploadConfig}
-            </if>
-            <if test="record.apiSafe != null">
-                > and `api_safe` = #{record.apiSafe}
-            </if>
-            <if test="record.apiSecret != null">
-                > and `api_secret` = #{record.apiSecret}
-            </if>
-            <if test="record.closeOrderMinute != null">
-                > and `close_order_minute` = #{record.closeOrderMinute}
-            </if>
-            <if test="record.autoReceivedDay != null">
-                > and `auto_received_day` = #{record.autoReceivedDay}
-            </if>
-            <if test="record.afterSaleDay != null">
-                > and `after_sale_day` = #{record.afterSaleDay}
-            </if>
-            <if test="record.alipay != null">
-                > and `alipay` = #{record.alipay}
-            </if>
-            <if test="record.wxpay != null">
-                > and `wxpay` = #{record.wxpay}
-            </if>
-            <if test="record.ship != null">
-                > and `ship` = #{record.ship}
-            </if>
-            <if test="record.status != null">
-                > and `status` = #{record.status}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_setting_List"/>
+		from `sys_setting`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.openReg != null">
+>				and `open_reg` = #{record.openReg}
+			</if>
+			<if test="record.regMethod != null">
+>				and `reg_method` = #{record.regMethod}
+			</if>
+			<if test="record.passwordMin != null">
+>				and `password_min` = #{record.passwordMin}
+			</if>
+			<if test="record.passwordEncrypt != null">
+>				and `password_encrypt` = #{record.passwordEncrypt}
+			</if>
+			<if test="record.uploadMethod != null">
+>				and `upload_method` = #{record.uploadMethod}
+			</if>
+			<if test="record.uploadConfig != null">
+>				and `upload_config` = #{record.uploadConfig}
+			</if>
+			<if test="record.apiSafe != null">
+>				and `api_safe` = #{record.apiSafe}
+			</if>
+			<if test="record.apiSecret != null">
+>				and `api_secret` = #{record.apiSecret}
+			</if>
+			<if test="record.closeOrderMinute != null">
+>				and `close_order_minute` = #{record.closeOrderMinute}
+			</if>
+			<if test="record.autoReceivedDay != null">
+>				and `auto_received_day` = #{record.autoReceivedDay}
+			</if>
+			<if test="record.afterSaleDay != null">
+>				and `after_sale_day` = #{record.afterSaleDay}
+			</if>
+			<if test="record.alipay != null">
+>				and `alipay` = #{record.alipay}
+			</if>
+			<if test="record.wxpay != null">
+>				and `wxpay` = #{record.wxpay}
+			</if>
+			<if test="record.ship != null">
+>				and `ship` = #{record.ship}
+			</if>
+			<if test="record.status != null">
+>				and `status` = #{record.status}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
 
-        select
-        count(`id`)
-        from `sys_setting`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="openReg != null">
-                > and `open_reg` like concat('%',#{openReg},'%')
-            </if>
-            <if test="regMethod != null">
-                > and `reg_method` like concat('%',#{regMethod},'%')
-            </if>
-            <if test="passwordMin != null">
-                > and `password_min` like concat('%',#{passwordMin},'%')
-            </if>
-            <if test="passwordEncrypt != null">
-                > and `password_encrypt` like concat('%',#{passwordEncrypt},'%')
-            </if>
-            <if test="uploadMethod != null">
-                > and `upload_method` like concat('%',#{uploadMethod},'%')
-            </if>
-            <if test="uploadConfig != null">
-                > and `upload_config` like concat('%',#{uploadConfig},'%')
-            </if>
-            <if test="apiSafe != null">
-                > and `api_safe` like concat('%',#{apiSafe},'%')
-            </if>
-            <if test="apiSecret != null">
-                > and `api_secret` like concat('%',#{apiSecret},'%')
-            </if>
-            <if test="closeOrderMinute != null">
-                > and `close_order_minute` like concat('%',#{closeOrderMinute},'%')
-            </if>
-            <if test="autoReceivedDay != null">
-                > and `auto_received_day` like concat('%',#{autoReceivedDay},'%')
-            </if>
-            <if test="afterSaleDay != null">
-                > and `after_sale_day` like concat('%',#{afterSaleDay},'%')
-            </if>
-            <if test="alipay != null">
-                > and `alipay` like concat('%',#{alipay},'%')
-            </if>
-            <if test="wxpay != null">
-                > and `wxpay` like concat('%',#{wxpay},'%')
-            </if>
-            <if test="ship != null">
-                > and `ship` like concat('%',#{ship},'%')
-            </if>
-            <if test="status != null">
-                > and `status` like concat('%',#{status},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_setting`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="openReg != null">
+>				and `open_reg` like concat('%',#{openReg},'%')
+			</if>
+			<if test="regMethod != null">
+>				and `reg_method` like concat('%',#{regMethod},'%')
+			</if>
+			<if test="passwordMin != null">
+>				and `password_min` like concat('%',#{passwordMin},'%')
+			</if>
+			<if test="passwordEncrypt != null">
+>				and `password_encrypt` like concat('%',#{passwordEncrypt},'%')
+			</if>
+			<if test="uploadMethod != null">
+>				and `upload_method` like concat('%',#{uploadMethod},'%')
+			</if>
+			<if test="uploadConfig != null">
+>				and `upload_config` like concat('%',#{uploadConfig},'%')
+			</if>
+			<if test="apiSafe != null">
+>				and `api_safe` like concat('%',#{apiSafe},'%')
+			</if>
+			<if test="apiSecret != null">
+>				and `api_secret` like concat('%',#{apiSecret},'%')
+			</if>
+			<if test="closeOrderMinute != null">
+>				and `close_order_minute` like concat('%',#{closeOrderMinute},'%')
+			</if>
+			<if test="autoReceivedDay != null">
+>				and `auto_received_day` like concat('%',#{autoReceivedDay},'%')
+			</if>
+			<if test="afterSaleDay != null">
+>				and `after_sale_day` like concat('%',#{afterSaleDay},'%')
+			</if>
+			<if test="alipay != null">
+>				and `alipay` like concat('%',#{alipay},'%')
+			</if>
+			<if test="wxpay != null">
+>				and `wxpay` like concat('%',#{wxpay},'%')
+			</if>
+			<if test="ship != null">
+>				and `ship` like concat('%',#{ship},'%')
+			</if>
+			<if test="status != null">
+>				and `status` like concat('%',#{status},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
 
-        select
-        count(`id`)
-        from `sys_setting`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="openReg != null">
-                > and `open_reg` = #{openReg}
-            </if>
-            <if test="regMethod != null">
-                > and `reg_method` = #{regMethod}
-            </if>
-            <if test="passwordMin != null">
-                > and `password_min` = #{passwordMin}
-            </if>
-            <if test="passwordEncrypt != null">
-                > and `password_encrypt` = #{passwordEncrypt}
-            </if>
-            <if test="uploadMethod != null">
-                > and `upload_method` = #{uploadMethod}
-            </if>
-            <if test="uploadConfig != null">
-                > and `upload_config` = #{uploadConfig}
-            </if>
-            <if test="apiSafe != null">
-                > and `api_safe` = #{apiSafe}
-            </if>
-            <if test="apiSecret != null">
-                > and `api_secret` = #{apiSecret}
-            </if>
-            <if test="closeOrderMinute != null">
-                > and `close_order_minute` = #{closeOrderMinute}
-            </if>
-            <if test="autoReceivedDay != null">
-                > and `auto_received_day` = #{autoReceivedDay}
-            </if>
-            <if test="afterSaleDay != null">
-                > and `after_sale_day` = #{afterSaleDay}
-            </if>
-            <if test="alipay != null">
-                > and `alipay` = #{alipay}
-            </if>
-            <if test="wxpay != null">
-                > and `wxpay` = #{wxpay}
-            </if>
-            <if test="ship != null">
-                > and `ship` = #{ship}
-            </if>
-            <if test="status != null">
-                > and `status` = #{status}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_setting`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="openReg != null">
+>				and `open_reg` = #{openReg}
+			</if>
+			<if test="regMethod != null">
+>				and `reg_method` = #{regMethod}
+			</if>
+			<if test="passwordMin != null">
+>				and `password_min` = #{passwordMin}
+			</if>
+			<if test="passwordEncrypt != null">
+>				and `password_encrypt` = #{passwordEncrypt}
+			</if>
+			<if test="uploadMethod != null">
+>				and `upload_method` = #{uploadMethod}
+			</if>
+			<if test="uploadConfig != null">
+>				and `upload_config` = #{uploadConfig}
+			</if>
+			<if test="apiSafe != null">
+>				and `api_safe` = #{apiSafe}
+			</if>
+			<if test="apiSecret != null">
+>				and `api_secret` = #{apiSecret}
+			</if>
+			<if test="closeOrderMinute != null">
+>				and `close_order_minute` = #{closeOrderMinute}
+			</if>
+			<if test="autoReceivedDay != null">
+>				and `auto_received_day` = #{autoReceivedDay}
+			</if>
+			<if test="afterSaleDay != null">
+>				and `after_sale_day` = #{afterSaleDay}
+			</if>
+			<if test="alipay != null">
+>				and `alipay` = #{alipay}
+			</if>
+			<if test="wxpay != null">
+>				and `wxpay` = #{wxpay}
+			</if>
+			<if test="ship != null">
+>				and `ship` = #{ship}
+			</if>
+			<if test="status != null">
+>				and `status` = #{status}
+			</if>
+		</where>
+	</select>
 
 </mapper>

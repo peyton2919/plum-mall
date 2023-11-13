@@ -1,236 +1,234 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShopCanvasMapper">
-    <resultMap id="ResultShopCanvasMap" type="cn.peyton.plum.mall.pojo.ShopCanvas">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="terminal" property="terminal" jdbcType="TINYINT"/>
-        <result column="json" property="json" jdbcType="LONGVARCHAR"/>
-        <result column="type" property="type" jdbcType="TINYINT"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
-        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
-        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
-    </resultMap>
+	<resultMap id="ResultShopCanvasMap" type="cn.peyton.plum.mall.pojo.ShopCanvas">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="terminal" property="terminal" jdbcType="TINYINT"/>
+		<result column="json" property="json" jdbcType="LONGVARCHAR"/>
+		<result column="type" property="type" jdbcType="TINYINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+	</resultMap>
 
-    <sql id="Column_tb_shop_canvas_List">
-        `id`,`terminal`,`json`,`type`,`name`,`is_del`,`create_time`,`update_time`
-    </sql>
+	<sql id="Column_tb_shop_canvas_List">
+		`id`,`terminal`,`json`,`type`,`name`,`is_del`,`create_time`,`update_time`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `tb_shop_canvas`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="terminal != null">`terminal`,</if>
-            <if test="json != null">`json`,</if>
-            <if test="type != null">`type`,</if>
-            <if test="name != null">`name`,</if>
-            <if test="isDel != null">`is_del`,</if>
-            <if test="createTime != null">`create_time`,</if>
-            <if test="updateTime != null">`update_time`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="terminal != null">#{terminal},</if>
-            <if test="json != null">#{json},</if>
-            <if test="type != null">#{type},</if>
-            <if test="name != null">#{name},</if>
-            <if test="isDel != null">#{isDel},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_canvas`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="terminal != null">`terminal`,</if>
+			<if test="json != null">`json`,</if>
+			<if test="type != null">`type`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="terminal != null">#{terminal},</if>
+			<if test="json != null">#{json},</if>
+			<if test="type != null">#{type},</if>
+			<if test="name != null">#{name},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
-        update `tb_shop_canvas`
-        <set>
-            <if test="terminal != null">`terminal` = #{terminal},</if>
-            <if test="json != null">`json` = #{json},</if>
-            <if test="type != null">`type` = #{type},</if>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="isDel != null">`is_del` = #{isDel},</if>
-            <if test="createTime != null">`create_time` = #{createTime},</if>
-            <if test="updateTime != null">`update_time` = #{updateTime},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
+		update `tb_shop_canvas`
+		<set>
+			<if test="terminal != null">`terminal` = #{terminal},</if>
+			<if test="json != null">`json` = #{json},</if>
+			<if test="type != null">`type` = #{type},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from `tb_shop_canvas`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_canvas`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
 
-        select
-        count(`id`)
-        from `tb_shop_canvas`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="terminal != null">
-                and `terminal` = #{terminal}
-            </if>
-            <if test="json != null">
-                and `json` = #{json}
-            </if>
-            <if test="type != null">
-                and `type` = #{type}
-            </if>
-            <if test="name != null">
-                and `name` = #{name}
-            </if>
-            <if test="isDel != null">
-                and `is_del` = #{isDel}
-            </if>
-            <if test="createTime != null">
-                and `create_time` = #{createTime}
-            </if>
-            <if test="updateTime != null">
-                and `update_time` = #{updateTime}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_canvas`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="terminal != null">
+				and `terminal` = #{terminal}
+			</if>
+			<if test="json != null">
+				and `json` = #{json}
+			</if>
+			<if test="type != null">
+				and `type` = #{type}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				and `update_time` = #{updateTime}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultShopCanvasMap" parameterType="java.lang.Long">
-        select
-        <include refid="Column_tb_shop_canvas_List"/>
-        from `tb_shop_canvas`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultShopCanvasMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_canvas_List"/>
+		from `tb_shop_canvas`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultShopCanvasMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultShopCanvasMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_shop_canvas_List"/>
-        from `tb_shop_canvas`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.terminal != null">
-                and `terminal` like concat('%',#{record.terminal},'%')
-            </if>
-            <if test="record.json != null">
-                and `json` like concat('%',#{record.json},'%')
-            </if>
-            <if test="record.type != null">
-                and `type` like concat('%',#{record.type},'%')
-            </if>
-            <if test="record.name != null">
-                and `name` like concat('%',#{record.name},'%')
-            </if>
-            <if test="record.isDel != null">
-                and `is_del` like concat('%',#{record.isDel},'%')
-            </if>
-            <if test="record.createTime != null">
-                and `create_time` like concat('%',#{record.createTime},'%')
-            </if>
-            <if test="record.updateTime != null">
-                and `update_time` like concat('%',#{record.updateTime},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_shop_canvas_List"/>
+		from `tb_shop_canvas`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.terminal != null">
+				and `terminal` like concat('%',#{record.terminal},'%')
+			</if>
+			<if test="record.json != null">
+				and `json` like concat('%',#{record.json},'%')
+			</if>
+			<if test="record.type != null">
+				and `type` like concat('%',#{record.type},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+			<if test="record.updateTime != null">
+				and `update_time` like concat('%',#{record.updateTime},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultShopCanvasMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultShopCanvasMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_shop_canvas_List"/>
-        from `tb_shop_canvas`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.terminal != null">
-                > and `terminal` = #{record.terminal}
-            </if>
-            <if test="record.json != null">
-                > and `json` = #{record.json}
-            </if>
-            <if test="record.type != null">
-                > and `type` = #{record.type}
-            </if>
-            <if test="record.name != null">
-                > and `name` = #{record.name}
-            </if>
-            <if test="record.isDel != null">
-                > and `is_del` = #{record.isDel}
-            </if>
-            <if test="record.createTime != null">
-                > and `create_time` = #{record.createTime}
-            </if>
-            <if test="record.updateTime != null">
-                > and `update_time` = #{record.updateTime}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_shop_canvas_List"/>
+		from `tb_shop_canvas`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.terminal != null">
+>				and `terminal` = #{record.terminal}
+			</if>
+			<if test="record.json != null">
+>				and `json` = #{record.json}
+			</if>
+			<if test="record.type != null">
+>				and `type` = #{record.type}
+			</if>
+			<if test="record.name != null">
+>				and `name` = #{record.name}
+			</if>
+			<if test="record.isDel != null">
+>				and `is_del` = #{record.isDel}
+			</if>
+			<if test="record.createTime != null">
+>				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.updateTime != null">
+>				and `update_time` = #{record.updateTime}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
 
-        select
-        count(`id`)
-        from `tb_shop_canvas`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="terminal != null">
-                > and `terminal` like concat('%',#{terminal},'%')
-            </if>
-            <if test="json != null">
-                > and `json` like concat('%',#{json},'%')
-            </if>
-            <if test="type != null">
-                > and `type` like concat('%',#{type},'%')
-            </if>
-            <if test="name != null">
-                > and `name` like concat('%',#{name},'%')
-            </if>
-            <if test="isDel != null">
-                > and `is_del` like concat('%',#{isDel},'%')
-            </if>
-            <if test="createTime != null">
-                > and `create_time` like concat('%',#{createTime},'%')
-            </if>
-            <if test="updateTime != null">
-                > and `update_time` like concat('%',#{updateTime},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_canvas`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="terminal != null">
+>				and `terminal` like concat('%',#{terminal},'%')
+			</if>
+			<if test="json != null">
+>				and `json` like concat('%',#{json},'%')
+			</if>
+			<if test="type != null">
+>				and `type` like concat('%',#{type},'%')
+			</if>
+			<if test="name != null">
+>				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="isDel != null">
+>				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+			<if test="createTime != null">
+>				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+			<if test="updateTime != null">
+>				and `update_time` like concat('%',#{updateTime},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
 
-        select
-        count(`id`)
-        from `tb_shop_canvas`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="terminal != null">
-                > and `terminal` = #{terminal}
-            </if>
-            <if test="json != null">
-                > and `json` = #{json}
-            </if>
-            <if test="type != null">
-                > and `type` = #{type}
-            </if>
-            <if test="name != null">
-                > and `name` = #{name}
-            </if>
-            <if test="isDel != null">
-                > and `is_del` = #{isDel}
-            </if>
-            <if test="createTime != null">
-                > and `create_time` = #{createTime}
-            </if>
-            <if test="updateTime != null">
-                > and `update_time` = #{updateTime}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_canvas`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="terminal != null">
+>				and `terminal` = #{terminal}
+			</if>
+			<if test="json != null">
+>				and `json` = #{json}
+			</if>
+			<if test="type != null">
+>				and `type` = #{type}
+			</if>
+			<if test="name != null">
+>				and `name` = #{name}
+			</if>
+			<if test="isDel != null">
+>				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+>				and `create_time` = #{createTime}
+			</if>
+			<if test="updateTime != null">
+>				and `update_time` = #{updateTime}
+			</if>
+		</where>
+	</select>
 
 </mapper>

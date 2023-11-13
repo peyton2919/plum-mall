@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.service;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.mall.param.RolesDeptsParam;
-import cn.peyton.plum.mall.pojo.RolesDepts;
+import cn.peyton.plum.mall.param.RoleDeptParam;
+import cn.peyton.plum.mall.pojo.RoleDept;
 
 /**
  * <h3> 角色部门关联 Service 接口</h3>
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.RolesDepts;
  * @version 1.0.0
  * </pre>
  */
-public interface RolesDeptsService extends IBaseService<Long, RolesDepts, RolesDeptsParam> {
+public interface RoleDeptService extends IBaseService<Long, RoleDept, RoleDeptParam> {
 
 }

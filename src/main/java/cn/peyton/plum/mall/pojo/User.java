@@ -28,7 +28,7 @@ public class User implements Serializable {
     /**
      * 状态：1启用、0禁用
      */
-    private Integer enabled;
+    private Integer status;
     /**
      * 密码
      */
@@ -61,6 +61,10 @@ public class User implements Serializable {
      * 性别：默认 0{0 保密 1 男 2 女}
      */
     private Integer sex;
+    /** 最后登录IP  */
+    private String lastIp;
+    /** 最后登录时间  */
+    private Integer lastLoginTime;
     /**
      * 是否删除: 默认1(1：可用;0已删除)
      */
@@ -116,17 +120,17 @@ public class User implements Serializable {
     }
 
     /**
-     * @param enabled 状态：1启用、0禁用
+     * @param status 状态：1启用、0禁用
      */
-    public void setEnabled(Integer enabled) {
-        this.enabled = enabled;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     /**
      * @return 状态：1启用、0禁用
      */
-    public Integer getEnabled() {
-        return enabled;
+    public Integer getStatus() {
+        return status;
     }
 
     /**
@@ -239,6 +243,33 @@ public class User implements Serializable {
      */
     public Integer getSex() {
         return sex;
+    }
+    /**
+     * @param lastIp 最后登录IP
+     */
+    public void setLastIp(String lastIp){
+        this.lastIp = lastIp;
+    }
+
+    /**
+     * @return 最后登录IP
+     */
+    public String getLastIp(){
+        return lastIp;
+    }
+
+    /**
+     * @param lastLoginTime 最后登录时间
+     */
+    public void setLastLoginTime(Integer lastLoginTime){
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * @return 最后登录时间
+     */
+    public Integer getLastLoginTime(){
+        return lastLoginTime;
     }
 
     /**

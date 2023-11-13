@@ -1,141 +1,139 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.AreaMapper">
-    <resultMap id="ResultAreaMap" type="cn.peyton.plum.mall.pojo.Area">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="seq" property="seq" jdbcType="SMALLINT"/>
-    </resultMap>
+	<resultMap id="ResultAreaMap" type="cn.peyton.plum.mall.pojo.Area">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+	</resultMap>
 
-    <sql id="Column_sys_area_List">
-        `id`,`name`,`seq`
-    </sql>
+	<sql id="Column_sys_area_List">
+		`id`,`name`,`seq`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Area" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `sys_area`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">`name`,</if>
-            <if test="seq != null">`seq`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="name != null">#{name},</if>
-            <if test="seq != null">#{seq},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Area" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_area`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Area">
-        update `sys_area`
-        <set>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="seq != null">`seq` = #{seq},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Area">
+		update `sys_area`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from `sys_area`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_area`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
 
-        select
-        count(`id`)
-        from `sys_area`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="name != null">
-                and `name` = #{name}
-            </if>
-            <if test="seq != null">
-                and `seq` = #{seq}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_area`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultAreaMap" parameterType="java.lang.Long">
-        select
-        <include refid="Column_sys_area_List"/>
-        from `sys_area`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultAreaMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_area_List"/>
+		from `sys_area`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultAreaMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultAreaMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_area_List"/>
-        from `sys_area`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.name != null">
-                and `name` like concat('%',#{record.name},'%')
-            </if>
-            <if test="record.seq != null">
-                and `seq` like concat('%',#{record.seq},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_area_List"/>
+		from `sys_area`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultAreaMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultAreaMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_area_List"/>
-        from `sys_area`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.name != null">
-                > and `name` = #{record.name}
-            </if>
-            <if test="record.seq != null">
-                > and `seq` = #{record.seq}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_area_List"/>
+		from `sys_area`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.name != null">
+>				and `name` = #{record.name}
+			</if>
+			<if test="record.seq != null">
+>				and `seq` = #{record.seq}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
 
-        select
-        count(`id`)
-        from `sys_area`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="name != null">
-                > and `name` like concat('%',#{name},'%')
-            </if>
-            <if test="seq != null">
-                > and `seq` like concat('%',#{seq},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_area`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="name != null">
+>				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="seq != null">
+>				and `seq` like concat('%',#{seq},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
 
-        select
-        count(`id`)
-        from `sys_area`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="name != null">
-                > and `name` = #{name}
-            </if>
-            <if test="seq != null">
-                > and `seq` = #{seq}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_area`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="name != null">
+>				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+>				and `seq` = #{seq}
+			</if>
+		</where>
+	</select>
 
 </mapper>

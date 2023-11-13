@@ -1,179 +1,177 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.DictDetailMapper">
-    <resultMap id="ResultDictDetailMap" type="cn.peyton.plum.mall.pojo.DictDetail">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="dict_id" property="dictId" jdbcType="BIGINT"/>
-        <result column="label" property="label" jdbcType="VARCHAR"/>
-        <result column="dict_value" property="dictValue" jdbcType="VARCHAR"/>
-        <result column="seq" property="seq" jdbcType="SMALLINT"/>
-    </resultMap>
+	<resultMap id="ResultDictDetailMap" type="cn.peyton.plum.mall.pojo.DictDetail">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="dict_id" property="dictId" jdbcType="BIGINT"/>
+		<result column="label" property="label" jdbcType="VARCHAR"/>
+		<result column="dict_value" property="dictValue" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+	</resultMap>
 
-    <sql id="Column_sys_dict_detail_List">
-        `id`,`dict_id`,`label`,`dict_value`,`seq`
-    </sql>
+	<sql id="Column_sys_dict_detail_List">
+		`id`,`dict_id`,`label`,`dict_value`,`seq`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.DictDetail" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `sys_dict_detail`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="dictId != null">`dict_id`,</if>
-            <if test="label != null">`label`,</if>
-            <if test="dictValue != null">`dict_value`,</if>
-            <if test="seq != null">`seq`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="dictId != null">#{dictId},</if>
-            <if test="label != null">#{label},</if>
-            <if test="dictValue != null">#{dictValue},</if>
-            <if test="seq != null">#{seq},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.DictDetail" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_dict_detail`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dictId != null">`dict_id`,</if>
+			<if test="label != null">`label`,</if>
+			<if test="dictValue != null">`dict_value`,</if>
+			<if test="seq != null">`seq`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dictId != null">#{dictId},</if>
+			<if test="label != null">#{label},</if>
+			<if test="dictValue != null">#{dictValue},</if>
+			<if test="seq != null">#{seq},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
-        update `sys_dict_detail`
-        <set>
-            <if test="dictId != null">`dict_id` = #{dictId},</if>
-            <if test="label != null">`label` = #{label},</if>
-            <if test="dictValue != null">`dict_value` = #{dictValue},</if>
-            <if test="seq != null">`seq` = #{seq},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+		update `sys_dict_detail`
+		<set>
+			<if test="dictId != null">`dict_id` = #{dictId},</if>
+			<if test="label != null">`label` = #{label},</if>
+			<if test="dictValue != null">`dict_value` = #{dictValue},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from `sys_dict_detail`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_dict_detail`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
 
-        select
-        count(`id`)
-        from `sys_dict_detail`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="dictId != null">
-                and `dict_id` = #{dictId}
-            </if>
-            <if test="label != null">
-                and `label` = #{label}
-            </if>
-            <if test="dictValue != null">
-                and `dict_value` = #{dictValue}
-            </if>
-            <if test="seq != null">
-                and `seq` = #{seq}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_dict_detail`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="dictId != null">
+				and `dict_id` = #{dictId}
+			</if>
+			<if test="label != null">
+				and `label` = #{label}
+			</if>
+			<if test="dictValue != null">
+				and `dict_value` = #{dictValue}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultDictDetailMap" parameterType="java.lang.Long">
-        select
-        <include refid="Column_sys_dict_detail_List"/>
-        from `sys_dict_detail`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultDictDetailMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_dict_detail_List"/>
+		from `sys_dict_detail`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultDictDetailMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultDictDetailMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_dict_detail_List"/>
-        from `sys_dict_detail`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.dictId != null">
-                and `dict_id` like concat('%',#{record.dictId},'%')
-            </if>
-            <if test="record.label != null">
-                and `label` like concat('%',#{record.label},'%')
-            </if>
-            <if test="record.dictValue != null">
-                and `dict_value` like concat('%',#{record.dictValue},'%')
-            </if>
-            <if test="record.seq != null">
-                and `seq` like concat('%',#{record.seq},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_dict_detail_List"/>
+		from `sys_dict_detail`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.dictId != null">
+				and `dict_id` like concat('%',#{record.dictId},'%')
+			</if>
+			<if test="record.label != null">
+				and `label` like concat('%',#{record.label},'%')
+			</if>
+			<if test="record.dictValue != null">
+				and `dict_value` like concat('%',#{record.dictValue},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultDictDetailMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultDictDetailMap"  parameterType="map">
 
-        select
-        <include refid="Column_sys_dict_detail_List"/>
-        from `sys_dict_detail`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.dictId != null">
-                > and `dict_id` = #{record.dictId}
-            </if>
-            <if test="record.label != null">
-                > and `label` = #{record.label}
-            </if>
-            <if test="record.dictValue != null">
-                > and `dict_value` = #{record.dictValue}
-            </if>
-            <if test="record.seq != null">
-                > and `seq` = #{record.seq}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_sys_dict_detail_List"/>
+		from `sys_dict_detail`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.dictId != null">
+>				and `dict_id` = #{record.dictId}
+			</if>
+			<if test="record.label != null">
+>				and `label` = #{record.label}
+			</if>
+			<if test="record.dictValue != null">
+>				and `dict_value` = #{record.dictValue}
+			</if>
+			<if test="record.seq != null">
+>				and `seq` = #{record.seq}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
 
-        select
-        count(`id`)
-        from `sys_dict_detail`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="dictId != null">
-                > and `dict_id` like concat('%',#{dictId},'%')
-            </if>
-            <if test="label != null">
-                > and `label` like concat('%',#{label},'%')
-            </if>
-            <if test="dictValue != null">
-                > and `dict_value` like concat('%',#{dictValue},'%')
-            </if>
-            <if test="seq != null">
-                > and `seq` like concat('%',#{seq},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_dict_detail`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="dictId != null">
+>				and `dict_id` like concat('%',#{dictId},'%')
+			</if>
+			<if test="label != null">
+>				and `label` like concat('%',#{label},'%')
+			</if>
+			<if test="dictValue != null">
+>				and `dict_value` like concat('%',#{dictValue},'%')
+			</if>
+			<if test="seq != null">
+>				and `seq` like concat('%',#{seq},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
 
-        select
-        count(`id`)
-        from `sys_dict_detail`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="dictId != null">
-                > and `dict_id` = #{dictId}
-            </if>
-            <if test="label != null">
-                > and `label` = #{label}
-            </if>
-            <if test="dictValue != null">
-                > and `dict_value` = #{dictValue}
-            </if>
-            <if test="seq != null">
-                > and `seq` = #{seq}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `sys_dict_detail`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="dictId != null">
+>				and `dict_id` = #{dictId}
+			</if>
+			<if test="label != null">
+>				and `label` = #{label}
+			</if>
+			<if test="dictValue != null">
+>				and `dict_value` = #{dictValue}
+			</if>
+			<if test="seq != null">
+>				and `seq` = #{seq}
+			</if>
+		</where>
+	</select>
 
 </mapper>

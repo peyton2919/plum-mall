@@ -1,274 +1,272 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.AdvertMapper">
-    <resultMap id="ResultAdvertMap" type="cn.peyton.plum.mall.pojo.Advert">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="title" property="title" jdbcType="VARCHAR"/>
-        <result column="src" property="src" jdbcType="VARCHAR"/>
-        <result column="url" property="url" jdbcType="VARCHAR"/>
-        <result column="img_type" property="imgType" jdbcType="TINYINT"/>
-        <result column="location" property="location" jdbcType="TINYINT"/>
-        <result column="hot" property="hot" jdbcType="INTEGER"/>
-        <result column="click_count" property="clickCount" jdbcType="INTEGER"/>
-        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
-        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
-    </resultMap>
+	<resultMap id="ResultAdvertMap" type="cn.peyton.plum.mall.pojo.Advert">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="src" property="src" jdbcType="VARCHAR"/>
+		<result column="url" property="url" jdbcType="VARCHAR"/>
+		<result column="img_type" property="imgType" jdbcType="TINYINT"/>
+		<result column="location" property="location" jdbcType="TINYINT"/>
+		<result column="hot" property="hot" jdbcType="INTEGER"/>
+		<result column="click_count" property="clickCount" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
 
-    <sql id="Column_tb_advert_List">
-        `id`,`title`,`src`,`url`,`img_type`,`location`,`hot`,`click_count`,`is_del`,`create_time`
-    </sql>
+	<sql id="Column_tb_advert_List">
+		`id`,`title`,`src`,`url`,`img_type`,`location`,`hot`,`click_count`,`is_del`,`create_time`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Advert" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `tb_advert`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="title != null">`title`,</if>
-            <if test="src != null">`src`,</if>
-            <if test="url != null">`url`,</if>
-            <if test="imgType != null">`img_type`,</if>
-            <if test="location != null">`location`,</if>
-            <if test="hot != null">`hot`,</if>
-            <if test="clickCount != null">`click_count`,</if>
-            <if test="isDel != null">`is_del`,</if>
-            <if test="createTime != null">`create_time`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="title != null">#{title},</if>
-            <if test="src != null">#{src},</if>
-            <if test="url != null">#{url},</if>
-            <if test="imgType != null">#{imgType},</if>
-            <if test="location != null">#{location},</if>
-            <if test="hot != null">#{hot},</if>
-            <if test="clickCount != null">#{clickCount},</if>
-            <if test="isDel != null">#{isDel},</if>
-            <if test="createTime != null">#{createTime},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Advert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_advert`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="title != null">`title`,</if>
+			<if test="src != null">`src`,</if>
+			<if test="url != null">`url`,</if>
+			<if test="imgType != null">`img_type`,</if>
+			<if test="location != null">`location`,</if>
+			<if test="hot != null">`hot`,</if>
+			<if test="clickCount != null">`click_count`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="title != null">#{title},</if>
+			<if test="src != null">#{src},</if>
+			<if test="url != null">#{url},</if>
+			<if test="imgType != null">#{imgType},</if>
+			<if test="location != null">#{location},</if>
+			<if test="hot != null">#{hot},</if>
+			<if test="clickCount != null">#{clickCount},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Advert">
-        update `tb_advert`
-        <set>
-            <if test="title != null">`title` = #{title},</if>
-            <if test="src != null">`src` = #{src},</if>
-            <if test="url != null">`url` = #{url},</if>
-            <if test="imgType != null">`img_type` = #{imgType},</if>
-            <if test="location != null">`location` = #{location},</if>
-            <if test="hot != null">`hot` = #{hot},</if>
-            <if test="clickCount != null">`click_count` = #{clickCount},</if>
-            <if test="isDel != null">`is_del` = #{isDel},</if>
-            <if test="createTime != null">`create_time` = #{createTime},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Advert">
+		update `tb_advert`
+		<set>
+			<if test="title != null">`title` = #{title},</if>
+			<if test="src != null">`src` = #{src},</if>
+			<if test="url != null">`url` = #{url},</if>
+			<if test="imgType != null">`img_type` = #{imgType},</if>
+			<if test="location != null">`location` = #{location},</if>
+			<if test="hot != null">`hot` = #{hot},</if>
+			<if test="clickCount != null">`click_count` = #{clickCount},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from `tb_advert`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_advert`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Advert">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Advert">
 
-        select
-        count(`id`)
-        from `tb_advert`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="title != null">
-                and `title` = #{title}
-            </if>
-            <if test="src != null">
-                and `src` = #{src}
-            </if>
-            <if test="url != null">
-                and `url` = #{url}
-            </if>
-            <if test="imgType != null">
-                and `img_type` = #{imgType}
-            </if>
-            <if test="location != null">
-                and `location` = #{location}
-            </if>
-            <if test="hot != null">
-                and `hot` = #{hot}
-            </if>
-            <if test="clickCount != null">
-                and `click_count` = #{clickCount}
-            </if>
-            <if test="isDel != null">
-                and `is_del` = #{isDel}
-            </if>
-            <if test="createTime != null">
-                and `create_time` = #{createTime}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_advert`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="title != null">
+				and `title` = #{title}
+			</if>
+			<if test="src != null">
+				and `src` = #{src}
+			</if>
+			<if test="url != null">
+				and `url` = #{url}
+			</if>
+			<if test="imgType != null">
+				and `img_type` = #{imgType}
+			</if>
+			<if test="location != null">
+				and `location` = #{location}
+			</if>
+			<if test="hot != null">
+				and `hot` = #{hot}
+			</if>
+			<if test="clickCount != null">
+				and `click_count` = #{clickCount}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultAdvertMap" parameterType="java.lang.Long">
-        select
-        <include refid="Column_tb_advert_List"/>
-        from `tb_advert`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultAdvertMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_advert_List"/>
+		from `tb_advert`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultAdvertMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultAdvertMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_advert_List"/>
-        from `tb_advert`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.title != null">
-                and `title` like concat('%',#{record.title},'%')
-            </if>
-            <if test="record.src != null">
-                and `src` like concat('%',#{record.src},'%')
-            </if>
-            <if test="record.url != null">
-                and `url` like concat('%',#{record.url},'%')
-            </if>
-            <if test="record.imgType != null">
-                and `img_type` like concat('%',#{record.imgType},'%')
-            </if>
-            <if test="record.location != null">
-                and `location` like concat('%',#{record.location},'%')
-            </if>
-            <if test="record.hot != null">
-                and `hot` like concat('%',#{record.hot},'%')
-            </if>
-            <if test="record.clickCount != null">
-                and `click_count` like concat('%',#{record.clickCount},'%')
-            </if>
-            <if test="record.isDel != null">
-                and `is_del` like concat('%',#{record.isDel},'%')
-            </if>
-            <if test="record.createTime != null">
-                and `create_time` like concat('%',#{record.createTime},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_advert_List"/>
+		from `tb_advert`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.title != null">
+				and `title` like concat('%',#{record.title},'%')
+			</if>
+			<if test="record.src != null">
+				and `src` like concat('%',#{record.src},'%')
+			</if>
+			<if test="record.url != null">
+				and `url` like concat('%',#{record.url},'%')
+			</if>
+			<if test="record.imgType != null">
+				and `img_type` like concat('%',#{record.imgType},'%')
+			</if>
+			<if test="record.location != null">
+				and `location` like concat('%',#{record.location},'%')
+			</if>
+			<if test="record.hot != null">
+				and `hot` like concat('%',#{record.hot},'%')
+			</if>
+			<if test="record.clickCount != null">
+				and `click_count` like concat('%',#{record.clickCount},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultAdvertMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultAdvertMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_advert_List"/>
-        from `tb_advert`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.title != null">
-                > and `title` = #{record.title}
-            </if>
-            <if test="record.src != null">
-                > and `src` = #{record.src}
-            </if>
-            <if test="record.url != null">
-                > and `url` = #{record.url}
-            </if>
-            <if test="record.imgType != null">
-                > and `img_type` = #{record.imgType}
-            </if>
-            <if test="record.location != null">
-                > and `location` = #{record.location}
-            </if>
-            <if test="record.hot != null">
-                > and `hot` = #{record.hot}
-            </if>
-            <if test="record.clickCount != null">
-                > and `click_count` = #{record.clickCount}
-            </if>
-            <if test="record.isDel != null">
-                > and `is_del` = #{record.isDel}
-            </if>
-            <if test="record.createTime != null">
-                > and `create_time` = #{record.createTime}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_advert_List"/>
+		from `tb_advert`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.title != null">
+>				and `title` = #{record.title}
+			</if>
+			<if test="record.src != null">
+>				and `src` = #{record.src}
+			</if>
+			<if test="record.url != null">
+>				and `url` = #{record.url}
+			</if>
+			<if test="record.imgType != null">
+>				and `img_type` = #{record.imgType}
+			</if>
+			<if test="record.location != null">
+>				and `location` = #{record.location}
+			</if>
+			<if test="record.hot != null">
+>				and `hot` = #{record.hot}
+			</if>
+			<if test="record.clickCount != null">
+>				and `click_count` = #{record.clickCount}
+			</if>
+			<if test="record.isDel != null">
+>				and `is_del` = #{record.isDel}
+			</if>
+			<if test="record.createTime != null">
+>				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Advert">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Advert">
 
-        select
-        count(`id`)
-        from `tb_advert`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="title != null">
-                > and `title` like concat('%',#{title},'%')
-            </if>
-            <if test="src != null">
-                > and `src` like concat('%',#{src},'%')
-            </if>
-            <if test="url != null">
-                > and `url` like concat('%',#{url},'%')
-            </if>
-            <if test="imgType != null">
-                > and `img_type` like concat('%',#{imgType},'%')
-            </if>
-            <if test="location != null">
-                > and `location` like concat('%',#{location},'%')
-            </if>
-            <if test="hot != null">
-                > and `hot` like concat('%',#{hot},'%')
-            </if>
-            <if test="clickCount != null">
-                > and `click_count` like concat('%',#{clickCount},'%')
-            </if>
-            <if test="isDel != null">
-                > and `is_del` like concat('%',#{isDel},'%')
-            </if>
-            <if test="createTime != null">
-                > and `create_time` like concat('%',#{createTime},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_advert`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="title != null">
+>				and `title` like concat('%',#{title},'%')
+			</if>
+			<if test="src != null">
+>				and `src` like concat('%',#{src},'%')
+			</if>
+			<if test="url != null">
+>				and `url` like concat('%',#{url},'%')
+			</if>
+			<if test="imgType != null">
+>				and `img_type` like concat('%',#{imgType},'%')
+			</if>
+			<if test="location != null">
+>				and `location` like concat('%',#{location},'%')
+			</if>
+			<if test="hot != null">
+>				and `hot` like concat('%',#{hot},'%')
+			</if>
+			<if test="clickCount != null">
+>				and `click_count` like concat('%',#{clickCount},'%')
+			</if>
+			<if test="isDel != null">
+>				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+			<if test="createTime != null">
+>				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Advert">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Advert">
 
-        select
-        count(`id`)
-        from `tb_advert`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="title != null">
-                > and `title` = #{title}
-            </if>
-            <if test="src != null">
-                > and `src` = #{src}
-            </if>
-            <if test="url != null">
-                > and `url` = #{url}
-            </if>
-            <if test="imgType != null">
-                > and `img_type` = #{imgType}
-            </if>
-            <if test="location != null">
-                > and `location` = #{location}
-            </if>
-            <if test="hot != null">
-                > and `hot` = #{hot}
-            </if>
-            <if test="clickCount != null">
-                > and `click_count` = #{clickCount}
-            </if>
-            <if test="isDel != null">
-                > and `is_del` = #{isDel}
-            </if>
-            <if test="createTime != null">
-                > and `create_time` = #{createTime}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_advert`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="title != null">
+>				and `title` = #{title}
+			</if>
+			<if test="src != null">
+>				and `src` = #{src}
+			</if>
+			<if test="url != null">
+>				and `url` = #{url}
+			</if>
+			<if test="imgType != null">
+>				and `img_type` = #{imgType}
+			</if>
+			<if test="location != null">
+>				and `location` = #{location}
+			</if>
+			<if test="hot != null">
+>				and `hot` = #{hot}
+			</if>
+			<if test="clickCount != null">
+>				and `click_count` = #{clickCount}
+			</if>
+			<if test="isDel != null">
+>				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+>				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
 
 </mapper>

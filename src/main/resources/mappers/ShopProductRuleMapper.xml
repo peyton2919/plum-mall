@@ -1,198 +1,196 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShopProductRuleMapper">
-    <resultMap id="ResultShopProductRuleMap" type="cn.peyton.plum.mall.pojo.ShopProductRule">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="rule_name" property="ruleName" jdbcType="VARCHAR"/>
-        <result column="rule_value" property="ruleValue" jdbcType="LONGVARCHAR"/>
-        <result column="hot" property="hot" jdbcType="INTEGER"/>
-        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
-        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
-    </resultMap>
+	<resultMap id="ResultShopProductRuleMap" type="cn.peyton.plum.mall.pojo.ShopProductRule">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="rule_name" property="ruleName" jdbcType="VARCHAR"/>
+		<result column="rule_value" property="ruleValue" jdbcType="LONGVARCHAR"/>
+		<result column="hot" property="hot" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
 
-    <sql id="Column_tb_shop_product_rule_List">
-        `id`,`rule_name`,`rule_value`,`hot`,`is_del`,`create_time`
-    </sql>
+	<sql id="Column_tb_shop_product_rule_List">
+		`id`,`rule_name`,`rule_value`,`hot`,`is_del`,`create_time`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule" keyColumn="id"
-            keyProperty="id" useGeneratedKeys="true">
-        insert into `tb_shop_product_rule`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="ruleName != null">`rule_name`,</if>
-            <if test="ruleValue != null">`rule_value`,</if>
-            <if test="hot != null">`hot`,</if>
-            <if test="isDel != null">`is_del`,</if>
-            <if test="createTime != null">`create_time`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="ruleName != null">#{ruleName},</if>
-            <if test="ruleValue != null">#{ruleValue},</if>
-            <if test="hot != null">#{hot},</if>
-            <if test="isDel != null">#{isDel},</if>
-            <if test="createTime != null">#{createTime},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_rule`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ruleName != null">`rule_name`,</if>
+			<if test="ruleValue != null">`rule_value`,</if>
+			<if test="hot != null">`hot`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ruleName != null">#{ruleName},</if>
+			<if test="ruleValue != null">#{ruleValue},</if>
+			<if test="hot != null">#{hot},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
-        update `tb_shop_product_rule`
-        <set>
-            <if test="ruleName != null">`rule_name` = #{ruleName},</if>
-            <if test="ruleValue != null">`rule_value` = #{ruleValue},</if>
-            <if test="hot != null">`hot` = #{hot},</if>
-            <if test="isDel != null">`is_del` = #{isDel},</if>
-            <if test="createTime != null">`create_time` = #{createTime},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
+		update `tb_shop_product_rule`
+		<set>
+			<if test="ruleName != null">`rule_name` = #{ruleName},</if>
+			<if test="ruleValue != null">`rule_value` = #{ruleValue},</if>
+			<if test="hot != null">`hot` = #{hot},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete
-        from `tb_shop_product_rule`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_shop_product_rule`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
 
-        select
-        count(`id`)
-        from `tb_shop_product_rule`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="ruleName != null">
-                and `rule_name` = #{ruleName}
-            </if>
-            <if test="ruleValue != null">
-                and `rule_value` = #{ruleValue}
-            </if>
-            <if test="hot != null">
-                and `hot` = #{hot}
-            </if>
-            <if test="isDel != null">
-                and `is_del` = #{isDel}
-            </if>
-            <if test="createTime != null">
-                and `create_time` = #{createTime}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_product_rule`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="ruleName != null">
+				and `rule_name` = #{ruleName}
+			</if>
+			<if test="ruleValue != null">
+				and `rule_value` = #{ruleValue}
+			</if>
+			<if test="hot != null">
+				and `hot` = #{hot}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultShopProductRuleMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Column_tb_shop_product_rule_List"/>
-        from `tb_shop_product_rule`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductRuleMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_shop_product_rule_List"/>
+		from `tb_shop_product_rule`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultShopProductRuleMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultShopProductRuleMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_shop_product_rule_List"/>
-        from `tb_shop_product_rule`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.ruleName != null">
-                and `rule_name` like concat('%',#{record.ruleName},'%')
-            </if>
-            <if test="record.ruleValue != null">
-                and `rule_value` like concat('%',#{record.ruleValue},'%')
-            </if>
-            <if test="record.hot != null">
-                and `hot` like concat('%',#{record.hot},'%')
-            </if>
-            <if test="record.isDel != null">
-                and `is_del` like concat('%',#{record.isDel},'%')
-            </if>
-            <if test="record.createTime != null">
-                and `create_time` like concat('%',#{record.createTime},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_shop_product_rule_List"/>
+		from `tb_shop_product_rule`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.ruleName != null">
+				and `rule_name` like concat('%',#{record.ruleName},'%')
+			</if>
+			<if test="record.ruleValue != null">
+				and `rule_value` like concat('%',#{record.ruleValue},'%')
+			</if>
+			<if test="record.hot != null">
+				and `hot` like concat('%',#{record.hot},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultShopProductRuleMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultShopProductRuleMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_shop_product_rule_List"/>
-        from `tb_shop_product_rule`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.ruleName != null">
-                > and `rule_name` = #{record.ruleName}
-            </if>
-            <if test="record.ruleValue != null">
-                > and `rule_value` = #{record.ruleValue}
-            </if>
-            <if test="record.hot != null">
-                > and `hot` = #{record.hot}
-            </if>
-            <if test="record.isDel != null">
-                > and `is_del` = #{record.isDel}
-            </if>
-            <if test="record.createTime != null">
-                > and `create_time` = #{record.createTime}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_shop_product_rule_List"/>
+		from `tb_shop_product_rule`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.ruleName != null">
+>				and `rule_name` = #{record.ruleName}
+			</if>
+			<if test="record.ruleValue != null">
+>				and `rule_value` = #{record.ruleValue}
+			</if>
+			<if test="record.hot != null">
+>				and `hot` = #{record.hot}
+			</if>
+			<if test="record.isDel != null">
+>				and `is_del` = #{record.isDel}
+			</if>
+			<if test="record.createTime != null">
+>				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
 
-        select
-        count(`id`)
-        from `tb_shop_product_rule`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="ruleName != null">
-                > and `rule_name` like concat('%',#{ruleName},'%')
-            </if>
-            <if test="ruleValue != null">
-                > and `rule_value` like concat('%',#{ruleValue},'%')
-            </if>
-            <if test="hot != null">
-                > and `hot` like concat('%',#{hot},'%')
-            </if>
-            <if test="isDel != null">
-                > and `is_del` like concat('%',#{isDel},'%')
-            </if>
-            <if test="createTime != null">
-                > and `create_time` like concat('%',#{createTime},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_product_rule`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="ruleName != null">
+>				and `rule_name` like concat('%',#{ruleName},'%')
+			</if>
+			<if test="ruleValue != null">
+>				and `rule_value` like concat('%',#{ruleValue},'%')
+			</if>
+			<if test="hot != null">
+>				and `hot` like concat('%',#{hot},'%')
+			</if>
+			<if test="isDel != null">
+>				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+			<if test="createTime != null">
+>				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRule">
 
-        select
-        count(`id`)
-        from `tb_shop_product_rule`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="ruleName != null">
-                > and `rule_name` = #{ruleName}
-            </if>
-            <if test="ruleValue != null">
-                > and `rule_value` = #{ruleValue}
-            </if>
-            <if test="hot != null">
-                > and `hot` = #{hot}
-            </if>
-            <if test="isDel != null">
-                > and `is_del` = #{isDel}
-            </if>
-            <if test="createTime != null">
-                > and `create_time` = #{createTime}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_product_rule`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="ruleName != null">
+>				and `rule_name` = #{ruleName}
+			</if>
+			<if test="ruleValue != null">
+>				and `rule_value` = #{ruleValue}
+			</if>
+			<if test="hot != null">
+>				and `hot` = #{hot}
+			</if>
+			<if test="isDel != null">
+>				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+>				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
 
 </mapper>

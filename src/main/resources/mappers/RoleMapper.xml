@@ -1,255 +1,258 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.RoleMapper">
-    <resultMap id="ResultRoleMap" type="cn.peyton.plum.mall.pojo.Role">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="data_scope" property="dataScope" jdbcType="VARCHAR"/>
-        <result column="level" property="level" jdbcType="INTEGER"/>
-        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
-        <result column="permission" property="permission" jdbcType="VARCHAR"/>
-        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
-        <result column="is_del" property="isDel" jdbcType="TINYINT"/>
-    </resultMap>
+	<resultMap id="ResultRoleMap" type="cn.peyton.plum.mall.pojo.Role">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="data_scope" property="dataScope" jdbcType="VARCHAR"/>
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="permission" property="permission" jdbcType="VARCHAR"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+	</resultMap>
 
-    <sql id="Column_sys_role_List">
-        `id`,`name`,`remark`,`data_scope`,`level`,`create_time`,`permission`,`update_time`,`is_del`
-    </sql>
+	<sql id="Column_sys_role_List">
+		`id`,`name`,`remark`,`data_scope`,`level`,`create_time`,`permission`,`update_time`,`is_del`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Role" keyColumn="id" keyProperty="id"
-            useGeneratedKeys="true">
-        insert into `sys_role`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">`name`,</if>
-            <if test="remark != null">`remark`,</if>
-            <if test="dataScope != null">`data_scope`,</if>
-            <if test="level != null">`level`,</if>
-            <if test="createTime != null">`create_time`,</if>
-            <if test="permission != null">`permission`,</if>
-            <if test="updateTime != null">`update_time`,</if>
-            <if test="isDel != null">`is_del`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="name != null">#{name},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="dataScope != null">#{dataScope},</if>
-            <if test="level != null">#{level},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="permission != null">#{permission},</if>
-            <if test="updateTime != null">#{updateTime},</if>
-            <if test="isDel != null">#{isDel},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.Role" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_role`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="remark != null">`remark`,</if>
+			<if test="dataScope != null">`data_scope`,</if>
+			<if test="level != null">`level`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="permission != null">`permission`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+			<if test="isDel != null">`is_del`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="dataScope != null">#{dataScope},</if>
+			<if test="level != null">#{level},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="permission != null">#{permission},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="isDel != null">#{isDel},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Role">
-        update `sys_role`
-        <set>
-            <if test="name != null">`name` = #{name},</if>
-            <if test="remark != null">`remark` = #{remark},</if>
-            <if test="dataScope != null">`data_scope` = #{dataScope},</if>
-            <if test="level != null">`level` = #{level},</if>
-            <if test="createTime != null">`create_time` = #{createTime},</if>
-            <if test="permission != null">`permission` = #{permission},</if>
-            <if test="updateTime != null">`update_time` = #{updateTime},</if>
-            <if test="isDel != null">`is_del` = #{isDel},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.Role">
+		update `sys_role`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="dataScope != null">`data_scope` = #{dataScope},</if>
+			<if test="level != null">`level` = #{level},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="permission != null">`permission` = #{permission},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from `sys_role`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_role`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
+		select
+		count(`id`)
+		from `sys_role`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="remark != null">
+				and `remark` = #{remark}
+			</if>
+			<if test="dataScope != null">
+				and `data_scope` = #{dataScope}
+			</if>
+			<if test="level != null">
+				and `level` = #{level}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="permission != null">
+				and `permission` = #{permission}
+			</if>
+			<if test="updateTime != null">
+				and `update_time` = #{updateTime}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+		</where>
+	</select>
 
-        select
-        count(`id`)
-        from `sys_role`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="name != null">
-                and `name` = #{name}
-            </if>
-            <if test="remark != null">
-                and `remark` = #{remark}
-            </if>
-            <if test="dataScope != null">
-                and `data_scope` = #{dataScope}
-            </if>
-            <if test="level != null">
-                and `level` = #{level}
-            </if>
-            <if test="createTime != null">
-                and `create_time` = #{createTime}
-            </if>
-            <if test="permission != null">
-                and `permission` = #{permission}
-            </if>
-            <if test="updateTime != null">
-                and `update_time` = #{updateTime}
-            </if>
-            <if test="isDel != null">
-                and `is_del` = #{isDel}
-            </if>
-        </where>
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultRoleMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_role_List"/>
+		from `sys_role`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultRoleMap" parameterType="java.lang.Long">
-        select
-        <include refid="Column_sys_role_List"/>
-        from `sys_role`
-        where `id` = #{id}
-    </select>
+	<select id="selectByLiekAndObj" resultMap="ResultRoleMap"  parameterType="map">
 
-    <select id="selectByLiekAndObj" resultMap="ResultRoleMap" parameterType="map">
+		select
+		<include refid="Column_sys_role_List"/>
+		from `sys_role`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.remark != null">
+				and `remark` like concat('%',#{record.remark},'%')
+			</if>
+			<if test="record.dataScope != null">
+				and `data_scope` like concat('%',#{record.dataScope},'%')
+			</if>
+			<if test="record.level != null">
+				and `level` like concat('%',#{record.level},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+			<if test="record.permission != null">
+				and `permission` like concat('%',#{record.permission},'%')
+			</if>
+			<if test="record.updateTime != null">
+				and `update_time` like concat('%',#{record.updateTime},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-        select
-        <include refid="Column_sys_role_List"/>
-        from `sys_role`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.name != null">
-                and `name` like concat('%',#{record.name},'%')
-            </if>
-            <if test="record.remark != null">
-                and `remark` like concat('%',#{record.remark},'%')
-            </if>
-            <if test="record.dataScope != null">
-                and `data_scope` like concat('%',#{record.dataScope},'%')
-            </if>
-            <if test="record.level != null">
-                and `level` like concat('%',#{record.level},'%')
-            </if>
-            <if test="record.createTime != null">
-                and `create_time` like concat('%',#{record.createTime},'%')
-            </if>
-            <if test="record.permission != null">
-                and `permission` like concat('%',#{record.permission},'%')
-            </if>
-            <if test="record.updateTime != null">
-                and `update_time` like concat('%',#{record.updateTime},'%')
-            </if>
-            <if test="record.isDel != null">
-                and `is_del` like concat('%',#{record.isDel},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+	<select id="selectByObj" resultMap="ResultRoleMap"  parameterType="map">
+		select
+		<include refid="Column_sys_role_List"/>
+		from `sys_role`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.name != null">
+>				and `name` = #{record.name}
+			</if>
+			<if test="record.remark != null">
+>				and `remark` = #{record.remark}
+			</if>
+			<if test="record.dataScope != null">
+>				and `data_scope` = #{record.dataScope}
+			</if>
+			<if test="record.level != null">
+>				and `level` = #{record.level}
+			</if>
+			<if test="record.createTime != null">
+>				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.permission != null">
+>				and `permission` = #{record.permission}
+			</if>
+			<if test="record.updateTime != null">
+>				and `update_time` = #{record.updateTime}
+			</if>
+			<if test="record.isDel != null">
+>				and `is_del` = #{record.isDel}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultRoleMap" parameterType="map">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
+		select
+		count(`id`)
+		from `sys_role`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="name != null">
+>				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="remark != null">
+>				and `remark` like concat('%',#{remark},'%')
+			</if>
+			<if test="dataScope != null">
+>				and `data_scope` like concat('%',#{dataScope},'%')
+			</if>
+			<if test="level != null">
+>				and `level` like concat('%',#{level},'%')
+			</if>
+			<if test="createTime != null">
+>				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+			<if test="permission != null">
+>				and `permission` like concat('%',#{permission},'%')
+			</if>
+			<if test="updateTime != null">
+>				and `update_time` like concat('%',#{updateTime},'%')
+			</if>
+			<if test="isDel != null">
+>				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+		</where>
+	</select>
 
-        select
-        <include refid="Column_sys_role_List"/>
-        from `sys_role`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.name != null">
-                > and `name` = #{record.name}
-            </if>
-            <if test="record.remark != null">
-                > and `remark` = #{record.remark}
-            </if>
-            <if test="record.dataScope != null">
-                > and `data_scope` = #{record.dataScope}
-            </if>
-            <if test="record.level != null">
-                > and `level` = #{record.level}
-            </if>
-            <if test="record.createTime != null">
-                > and `create_time` = #{record.createTime}
-            </if>
-            <if test="record.permission != null">
-                > and `permission` = #{record.permission}
-            </if>
-            <if test="record.updateTime != null">
-                > and `update_time` = #{record.updateTime}
-            </if>
-            <if test="record.isDel != null">
-                > and `is_del` = #{record.isDel}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
+		select
+		count(`id`)
+		from `sys_role`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="name != null">
+>				and `name` = #{name}
+			</if>
+			<if test="remark != null">
+>				and `remark` = #{remark}
+			</if>
+			<if test="dataScope != null">
+>				and `data_scope` = #{dataScope}
+			</if>
+			<if test="level != null">
+>				and `level` = #{level}
+			</if>
+			<if test="createTime != null">
+>				and `create_time` = #{createTime}
+			</if>
+			<if test="permission != null">
+>				and `permission` = #{permission}
+			</if>
+			<if test="updateTime != null">
+>				and `update_time` = #{updateTime}
+			</if>
+			<if test="isDel != null">
+>				and `is_del` = #{isDel}
+			</if>
+		</where>
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
-
-        select
-        count(`id`)
-        from `sys_role`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="name != null">
-                > and `name` like concat('%',#{name},'%')
-            </if>
-            <if test="remark != null">
-                > and `remark` like concat('%',#{remark},'%')
-            </if>
-            <if test="dataScope != null">
-                > and `data_scope` like concat('%',#{dataScope},'%')
-            </if>
-            <if test="level != null">
-                > and `level` like concat('%',#{level},'%')
-            </if>
-            <if test="createTime != null">
-                > and `create_time` like concat('%',#{createTime},'%')
-            </if>
-            <if test="permission != null">
-                > and `permission` like concat('%',#{permission},'%')
-            </if>
-            <if test="updateTime != null">
-                > and `update_time` like concat('%',#{updateTime},'%')
-            </if>
-            <if test="isDel != null">
-                > and `is_del` like concat('%',#{isDel},'%')
-            </if>
-        </where>
-    </select>
-
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Role">
-
-        select
-        count(`id`)
-        from `sys_role`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="name != null">
-                > and `name` = #{name}
-            </if>
-            <if test="remark != null">
-                > and `remark` = #{remark}
-            </if>
-            <if test="dataScope != null">
-                > and `data_scope` = #{dataScope}
-            </if>
-            <if test="level != null">
-                > and `level` = #{level}
-            </if>
-            <if test="createTime != null">
-                > and `create_time` = #{createTime}
-            </if>
-            <if test="permission != null">
-                > and `permission` = #{permission}
-            </if>
-            <if test="updateTime != null">
-                > and `update_time` = #{updateTime}
-            </if>
-            <if test="isDel != null">
-                > and `is_del` = #{isDel}
-            </if>
-        </where>
-    </select>
-
+	<select id="selectByIdList" parameterType="map" resultMap="ResultRoleMap">
+		SELECT
+		<include refid="Column_sys_role_List"/>
+		FROM sys_role
+		WHERE id IN
+		<foreach collection="idList" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
 </mapper>

@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.service;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.mall.param.UsersRolesParam;
-import cn.peyton.plum.mall.pojo.UsersRoles;
+import cn.peyton.plum.mall.param.UserRoleParam;
+import cn.peyton.plum.mall.pojo.UserRole;
 
 /**
  * <h3> 用户角色关联 Service 接口</h3>
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.UsersRoles;
  * @version 1.0.0
  * </pre>
  */
-public interface UsersRolesService extends IBaseService<Long, UsersRoles, UsersRolesParam> {
+public interface UserRoleService extends IBaseService<Long, UserRole, UserRoleParam> {
 
 }

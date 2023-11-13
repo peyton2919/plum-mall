@@ -11,6 +11,9 @@ import cn.peyton.plum.mall.service.MenuService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <h3> 菜单 Service 实现类</h3>
  * <pre>
@@ -35,4 +38,33 @@ public class MenuServiceImpl extends AbstractAppRealizeService<Long, Menu, MenuP
         return menuMapper;
     }
 
+    @Override
+    public List<MenuParam> findMenuListByShareIdAndType(Long shareId, Integer shareType) {
+        List<Menu> menus = menuMapper.selectMenuListByShareIdAndType(shareId,shareType);
+
+        return initBo().adapter(getChildren(menus));
+    }
+
+    private List<Menu> getChildren(List<Menu> menus) {
+        List<Menu> result = new ArrayList<>();
+        for (Menu menu : menus) {
+            // 获取根节点
+            if (menu.getPid() == 0) {
+                result.add(getChildrens(menu, menus));
+            }
+        }
+        return result;
+    }
+
+    private Menu getChildrens(Menu menu, List<Menu> menus) {
+        List<Menu> childNodes = new ArrayList<>();
+        for (Menu node : menus) {
+
+            if((node.getPid()+"").equals(menu.getId()+"")){
+                childNodes.add(getChildrens(node, menus));
+            }
+        }
+        menu.setChildren(childNodes);
+        return menu;
+    }
 }

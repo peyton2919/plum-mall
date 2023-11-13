@@ -1,5 +1,6 @@
 package cn.peyton.plum.core.cors;
 
+
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -25,11 +26,11 @@ public class GlobalCorsConfig {
     //    // 是否发送 Cookie
     //    config.setAllowCredentials(true);
     //    // 放行哪些请求方式
-    //    //config.setAllowedMethods();
+    //    //config.setAllowedMethods("*");
     //    // 放行哪些原始请求头信息
-    //    //config.setAllowedHeaders();
+    //    //config.setAllowedHeaders("*");
     //    // 暴露哪些头部信息
-    //    //config.addExposedHeader();
+    //    //config.addExposedHeader("*");
     //    // 2. 添加映射路径
     //    UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
     //    corsConfigurationSource.registerCorsConfiguration("/**",config);

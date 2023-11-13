@@ -1,161 +1,158 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.peyton.plum.mall.mapper.ShopProductReplyImgMapper">
-    <resultMap id="ResultShopProductReplyImgMap" type="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="product_id" property="productId" jdbcType="BIGINT"/>
-        <result column="src" property="src" jdbcType="VARCHAR"/>
-        <result column="is_show" property="isShow" jdbcType="TINYINT"/>
-    </resultMap>
+	<resultMap id="ResultShopProductReplyImgMap" type="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="src" property="src" jdbcType="VARCHAR"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+	</resultMap>
 
-    <sql id="Column_tb_shop_product_reply_img_List">
-        `id`,`product_id`,`src`,`is_show`
-    </sql>
+	<sql id="Column_tb_shop_product_reply_img_List">
+		`id`,`product_id`,`src`,`is_show`
+	</sql>
 
-    <insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg" keyColumn="id"
-            keyProperty="id" useGeneratedKeys="true">
-        insert into `tb_shop_product_reply_img`
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="productId != null">`product_id`,</if>
-            <if test="src != null">`src`,</if>
-            <if test="isShow != null">`is_show`,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="productId != null">#{productId},</if>
-            <if test="src != null">#{src},</if>
-            <if test="isShow != null">#{isShow},</if>
-        </trim>
-    </insert>
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_reply_img`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">`product_id`,</if>
+			<if test="src != null">`src`,</if>
+			<if test="isShow != null">`is_show`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">#{productId},</if>
+			<if test="src != null">#{src},</if>
+			<if test="isShow != null">#{isShow},</if>
+		</trim>
+	</insert>
 
-    <update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
-        update `tb_shop_product_reply_img`
-        <set>
-            <if test="productId != null">`product_id` = #{productId},</if>
-            <if test="src != null">`src` = #{src},</if>
-            <if test="isShow != null">`is_show` = #{isShow},</if>
-        </set>
-        where id = #{id}
-    </update>
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
+		update `tb_shop_product_reply_img`
+		<set>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="src != null">`src` = #{src},</if>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+		</set>
+		where id = #{id}
+	</update>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete
-        from `tb_shop_product_reply_img`
-        where `id` = #{id}
-    </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product_reply_img`
+		where `id` = #{id}
+	</delete>
 
-    <select id="isRename" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
+	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
 
-        select
-        count(`id`)
-        from `tb_shop_product_reply_img`
-        <where>
-            <if test="id != null">
-                and `id` = #{id}
-            </if>
-            <if test="productId != null">
-                and `product_id` = #{productId}
-            </if>
-            <if test="src != null">
-                and `src` = #{src}
-            </if>
-            <if test="isShow != null">
-                and `is_show` = #{isShow}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_product_reply_img`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="src != null">
+				and `src` = #{src}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+		</where>
+	</select>
 
-    <select id="selectByPrimaryKey" resultMap="ResultShopProductReplyImgMap" parameterType="java.lang.Long">
-        select
-        <include refid="Column_tb_shop_product_reply_img_List"/>
-        from `tb_shop_product_reply_img`
-        where `id` = #{id}
-    </select>
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductReplyImgMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_reply_img_List"/>
+		from `tb_shop_product_reply_img`
+		where `id` = #{id}
+	</select>
 
-    <select id="selectByLiekAndObj" resultMap="ResultShopProductReplyImgMap" parameterType="map">
+	<select id="selectByLiekAndObj" resultMap="ResultShopProductReplyImgMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_shop_product_reply_img_List"/>
-        from `tb_shop_product_reply_img`
-        <where>
-            <if test="record.id != null">
-                and `id` like concat('%',#{record.id},'%')
-            </if>
-            <if test="record.productId != null">
-                and `product_id` like concat('%',#{record.productId},'%')
-            </if>
-            <if test="record.src != null">
-                and `src` like concat('%',#{record.src},'%')
-            </if>
-            <if test="record.isShow != null">
-                and `is_show` like concat('%',#{record.isShow},'%')
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_shop_product_reply_img_List"/>
+		from `tb_shop_product_reply_img`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.productId != null">
+				and `product_id` like concat('%',#{record.productId},'%')
+			</if>
+			<if test="record.src != null">
+				and `src` like concat('%',#{record.src},'%')
+			</if>
+			<if test="record.isShow != null">
+				and `is_show` like concat('%',#{record.isShow},'%')
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="selectByObj" resultMap="ResultShopProductReplyImgMap" parameterType="map">
+	<select id="selectByObj" resultMap="ResultShopProductReplyImgMap"  parameterType="map">
 
-        select
-        <include refid="Column_tb_shop_product_reply_img_List"/>
-        from `tb_shop_product_reply_img`
-        <where>
-            <if test="record.id != null">
-                > and `id` = #{record.id}
-            </if>
-            <if test="record.productId != null">
-                > and `product_id` = #{record.productId}
-            </if>
-            <if test="record.src != null">
-                > and `src` = #{record.src}
-            </if>
-            <if test="record.isShow != null">
-                > and `is_show` = #{record.isShow}
-            </if>
-        </where>
-        limit #{page.offset},#{page.pageSize}
-    </select>
+		select
+		<include refid="Column_tb_shop_product_reply_img_List"/>
+		from `tb_shop_product_reply_img`
+		<where>
+			<if test="record.id != null">
+>				and `id` = #{record.id}
+			</if>
+			<if test="record.productId != null">
+>				and `product_id` = #{record.productId}
+			</if>
+			<if test="record.src != null">
+>				and `src` = #{record.src}
+			</if>
+			<if test="record.isShow != null">
+>				and `is_show` = #{record.isShow}
+			</if>
+		</where>
+		limit #{page.offset},#{page.pageSize}
+	</select>
 
-    <select id="countByLike" resultType="java.lang.Integer"
-            parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
 
-        select
-        count(`id`)
-        from `tb_shop_product_reply_img`
-        <where>
-            <if test="id != null">
-                > and `id` like concat('%',#{id},'%')
-            </if>
-            <if test="productId != null">
-                > and `product_id` like concat('%',#{productId},'%')
-            </if>
-            <if test="src != null">
-                > and `src` like concat('%',#{src},'%')
-            </if>
-            <if test="isShow != null">
-                > and `is_show` like concat('%',#{isShow},'%')
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_product_reply_img`
+		<where>
+			<if test="id != null">
+>				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="productId != null">
+>				and `product_id` like concat('%',#{productId},'%')
+			</if>
+			<if test="src != null">
+>				and `src` like concat('%',#{src},'%')
+			</if>
+			<if test="isShow != null">
+>				and `is_show` like concat('%',#{isShow},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="count" resultType="java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReplyImg">
 
-        select
-        count(`id`)
-        from `tb_shop_product_reply_img`
-        <where>
-            <if test="id != null">
-                > and `id` = #{id}
-            </if>
-            <if test="productId != null">
-                > and `product_id` = #{productId}
-            </if>
-            <if test="src != null">
-                > and `src` = #{src}
-            </if>
-            <if test="isShow != null">
-                > and `is_show` = #{isShow}
-            </if>
-        </where>
-    </select>
+		select
+		count(`id`)
+		from `tb_shop_product_reply_img`
+		<where>
+			<if test="id != null">
+>				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+>				and `product_id` = #{productId}
+			</if>
+			<if test="src != null">
+>				and `src` = #{src}
+			</if>
+			<if test="isShow != null">
+>				and `is_show` = #{isShow}
+			</if>
+		</where>
+	</select>
 
 </mapper>

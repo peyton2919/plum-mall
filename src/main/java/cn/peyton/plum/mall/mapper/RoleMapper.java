@@ -3,6 +3,8 @@ package cn.peyton.plum.mall.mapper;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.Role;
 
+import java.util.List;
+
 /**
  * <h3> 角色 Mapper 接口</h3>
  * <pre>
@@ -13,6 +15,15 @@ import cn.peyton.plum.mall.pojo.Role;
  * </pre>
  */
 public interface RoleMapper extends IBaseMapper<Long, Role> {
+
+    /**
+     * <h4>根据角色ID集合 获取 角色对象集合</h4>
+     * @param idList
+     * @return
+     */
+    List<Role> selectByIdList(List<Long> idList);
+
+
 
     // ==================================== new create method ==================================== //
 

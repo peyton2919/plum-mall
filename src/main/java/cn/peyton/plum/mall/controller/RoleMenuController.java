@@ -1,11 +1,11 @@
 package cn.peyton.plum.mall.controller;
 
-import cn.peyton.plum.mall.service.UsersRolesService;
+import cn.peyton.plum.mall.service.RoleMenuService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <h3> 用户角色关联 Controller 类</h3>
+ * <h3> 角色菜单关联 Controller 类</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-public class UsersRolesController {
+public class RoleMenuController {
 
     @Resource
-    private UsersRolesService usersRolesService;
+    private RoleMenuService roleMenuService;
 
 }

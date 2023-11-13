@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.service;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.mall.param.RolesMenusParam;
-import cn.peyton.plum.mall.pojo.RolesMenus;
+import cn.peyton.plum.mall.param.RoleMenuParam;
+import cn.peyton.plum.mall.pojo.RoleMenu;
 
 /**
  * <h3> 角色菜单关联 Service 接口</h3>
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.RolesMenus;
  * @version 1.0.0
  * </pre>
  */
-public interface RolesMenusService extends IBaseService<Long, RolesMenus, RolesMenusParam> {
+public interface RoleMenuService extends IBaseService<Long, RoleMenu, RoleMenuParam> {
 
 }

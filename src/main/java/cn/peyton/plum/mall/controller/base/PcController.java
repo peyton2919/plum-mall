@@ -2,9 +2,10 @@ package cn.peyton.plum.mall.controller.base;
 
 import cn.peyton.plum.core.utils.HttpServletRequestUtils;
 import cn.peyton.plum.core.utils.TokenUtils;
+import org.springframework.stereotype.Controller;
 
 /**
- * <h4></h4>
+ * <h4>manager</h4>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -13,6 +14,7 @@ import cn.peyton.plum.core.utils.TokenUtils;
  * @version 1.0.0
  * </pre>
  */
+@Controller
 public class PcController<P> implements IBaseController{
     /** Token 过期时间 1 天 */
     protected long expireTime = 24 * 60 * 60 * 1000L;
