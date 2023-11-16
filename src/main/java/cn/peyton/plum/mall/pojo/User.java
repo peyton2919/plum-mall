@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.pojo;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <h3> 系统用户 实体类</h3>
@@ -69,6 +70,10 @@ public class User implements Serializable {
      * 是否删除: 默认1(1：可用;0已删除)
      */
     private Integer isDel;
+    /** 角色对象 */
+    private Role role;
+    /** 菜单对象集合 */
+    private List<Menu> menuList;
 
     //================================== Constructor =======================================//
 
@@ -286,4 +291,31 @@ public class User implements Serializable {
         return isDel;
     }
 
+    /***
+     * @return 角色对象
+     */
+    public Role getRole() {
+        return role;
+    }
+
+    /**
+     * @param role 角色对象
+     */
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    /**
+     * @return 菜单对象集合
+     */
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    /**
+     * @param menuList 菜单对象集合
+     */
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
 }

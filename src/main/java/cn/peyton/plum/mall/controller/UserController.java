@@ -126,9 +126,14 @@ public class UserController extends PcController<UserParam> {
         return (null != _param)?JSONResult.success(_param):JSONResult.fail("注册失败,请联系管理员。");
     }
 
-    @GetMapping("/get")
-    public JSONResult<?> get(){
-        return JSONResult.success(userService.findById(1L));
+    @PostMapping("/getinfo")
+    @Token
+    public JSONResult<?> findJoinById(){
+        UserParam userParam = handleToken(new UserParam());
+        if(null != userParam){
+            return JSONResult.success(userService.findJoinById(userParam.getId(),2));
+        }
+        return JSONResult.fail("获取用户信息失败!!!");
     }
 
 
@@ -173,10 +178,10 @@ public class UserController extends PcController<UserParam> {
     }
 
     // 用户退出
-    @PostMapping("/user/logout")
+    @PostMapping("/logout")
     public JSONResult<UserParam> logout() {
         if(verifyToken()){
-            JSONResult.success("退出成功");
+            return JSONResult.success("退出成功");
         }
         return JSONResult.fail("非法 Token");
     }
@@ -190,7 +195,7 @@ public class UserController extends PcController<UserParam> {
         return JSONResult.success(userService.findByLikeAndObj(_param, new PageQuery(pageNo)));
     }
     // 编辑用户头像
-    @PostMapping("/user/edituseravatar")
+    @PostMapping("/edituseravatar")
     @Token
     public JSONResult<?> editAvatar(MultipartFile file, HttpServletRequest request) {
         UserParam _param = handleToken(new UserParam());
@@ -226,7 +231,7 @@ public class UserController extends PcController<UserParam> {
     // 编辑用户资料
     @Token
     @Valid
-    @PostMapping("/user/edituser")
+    @PostMapping("/edituser")
     public JSONResult<?> editUser(UserParam param) {
         // 从 token 获取 对象
         UserParam userParam = handleToken(param);
@@ -256,21 +261,21 @@ public class UserController extends PcController<UserParam> {
     // 修改用户密码
     @Valid
     @Token
-    @PostMapping("/user/repassword")
+    @PostMapping("/uppassword")
     public JSONResult<UserParam> editPassword(
           @NotBlank(message = "旧密码不能为空！")
-          @Length(min = 6,max = 20,message = "密码长度为6~20的字符!")
+          @Length(min = 6,max = 30,message = "密码长度为6~30的字符!")
           String oldPassword,
           @NotBlank(message = "新密码不能为空！")
-          @Length(min = 6,max = 20,message = "密码长度为6~20的字符!")
+          @Length(min = 6,max = 30,message = "密码长度为6~30的字符!")
           String newPassword,
           @NotBlank(message = "确认密码不能为空！")String confirmPassword) {
         // 从 token 获取 对象
         UserParam _userParam = handleToken(new UserParam());
         UserParam _tmpParam = new UserParam();
         _tmpParam.setId(_userParam.getId());
-        _userParam.setPassword(BaseCipher.encoderMD5(oldPassword,KEY_PASSWORD_ENCODER));
-        String _opTmp = _userParam.getPassword();
+        _tmpParam.setPassword(BaseCipher.encoderMD5(oldPassword,KEY_PASSWORD_ENCODER));
+        String _opTmp = _tmpParam.getPassword();
 
         // todo
         if(!userService.isRename(_tmpParam)){

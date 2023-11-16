@@ -5,9 +5,13 @@ import cn.peyton.plum.core.users.BaseUser;
 import cn.peyton.plum.core.users.IUser;
 import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.constraints.*;
+import cn.peyton.plum.mall.bo.MenuBo;
+import cn.peyton.plum.mall.bo.RoleBo;
 import cn.peyton.plum.mall.pojo.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 系统用户 参数 传递类[用来展示数据]类</h3>
@@ -87,8 +91,24 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
      * 是否删除: 默认1(1：可用;0已删除)
      */
     private Integer isDel;
-
+    /** 角色 */
+    private RoleParam roleParam;
+    /** 菜单集合 */
+    private List<MenuParam> menuParamList;
+    /** 菜单 （condition）名称数组 */
+    private List<String> menuNames;
     //================================== Constructor =======================================//
+    public UserParam(){
+        if (null == roleParam) {
+            roleParam = new RoleParam();
+        }
+        if (null == menuParamList) {
+            menuParamList = new ArrayList<>();
+        }
+        if (null == menuNames) {
+            menuNames = new ArrayList<>();
+        }
+    }
 
     //================================== Method =======================================//
 
@@ -319,6 +339,48 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
     }
 
     /**
+     * @return 角色对象
+     */
+    public RoleParam getRoleParam() {
+        return roleParam;
+    }
+
+    /**
+     * @param roleParam 角色对象
+     */
+    public void setRoleParam(RoleParam roleParam) {
+        this.roleParam = roleParam;
+    }
+
+    /**
+     * @return 菜单对象集合
+     */
+    public List<MenuParam> getMenuParamList() {
+        return menuParamList;
+    }
+
+    /**
+     * @param menuParamList 菜单对象集合
+     */
+    public void setMenuParamList(List<MenuParam> menuParamList) {
+        this.menuParamList = menuParamList;
+    }
+
+    /**
+     * @return 菜单 （condition）名称数组
+     */
+    public List<String> getMenuNames() {
+        return menuNames;
+    }
+
+    /**
+     * @param menuNames 菜单 （condition）名称数组
+     */
+    public void setMenuNames(List<String> menuNames) {
+        this.menuNames = menuNames;
+    }
+
+    /**
      * <h4>对象转成User对象<h4>
      * <pre>
      * 	 转换字段如下:
@@ -342,6 +404,8 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         user.setLastIp(lastIp);
         user.setLastLoginTime(DateUtils.dateToTimestamp(lastLoginTime));
         user.setIsDel(isDel);
+        user.setRole(roleParam.convert());
+        user.setMenuList(new MenuBo().reverse(menuParamList));
         return user;
     }
 
@@ -371,6 +435,8 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         this.setLastIp(user.getLastIp());
         this.setLastLoginTime(DateUtils.timestampToStrDate(user.getLastLoginTime()));
         this.setIsDel(user.getIsDel());
+        this.setRoleParam(new RoleBo().compat(user.getRole()));
+        this.setMenuParamList(new MenuBo().adapter(user.getMenuList()));
         return this;
     }
 

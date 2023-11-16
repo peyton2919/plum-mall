@@ -34,9 +34,9 @@ public class LocalCache<K, T> implements Cache<K, T> {
      */
     protected boolean initFlag = false;//
     /**
-     * 默认存活时间 '5' 分钟
+     * 默认存活时间 '12' 小时
      */
-    protected final long defaultLifeTime = 5 * 60 * 1000;// 5分钟
+    protected long defaultLifeTime = 12 * 60 * 60 * 1000;// 12小时
     /**
      * 警告比较时间 , 默认为 'false'
      */
@@ -46,9 +46,9 @@ public class LocalCache<K, T> implements Cache<K, T> {
      */
     protected final int DEFAULT_INITIAL_CAPACITY = 100;
     /**
-     * 默认最大容量为 '100000'{约10MB}
+     * 默认最大容量为 '300000'{约30MB}
      */
-    protected final int DEFAULT_MAX_CAPACITY = 100000;
+    protected int DEFAULT_MAX_CAPACITY = 300000;
     /**
      * 初始化缓存容量
      */

@@ -41,4 +41,13 @@ public interface UserService extends IBaseService<Long, User, UserParam> {
      */
     UserParam login(String keyword, String password, String loginType);
 
+    /**
+     * <h4>联合查找</h4>
+     * @param shareId 用户Id
+     * @param shareType 用户类型
+     * @return
+     */
+    UserParam findJoinById(Long shareId, Integer shareType);
+
+
 }

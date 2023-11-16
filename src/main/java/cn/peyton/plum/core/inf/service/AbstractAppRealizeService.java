@@ -1,11 +1,13 @@
 package cn.peyton.plum.core.inf.service;
 
 import cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp;
+import cn.peyton.plum.core.cache.LocalCache;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.page.PageQuery;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -24,6 +26,9 @@ import java.util.List;
  *        7). findByAllOrKeyword 根据 关键字 分页查找对象集合 =>{对象集合}
  *        8). findByObj     根据 对象 分页查找对象集合 =>{集合}
  *        9). count 根据关键字查找相应总条数 =>{总条数}
+ *     4. 如需要开启缓存,在子类的空构造要初始化 enabledCache 和 keyProfix; 推荐以下二行写法
+ *        enabledCache = true;
+ *        keyProfix = this.getClass().getName();
  * </pre>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
@@ -35,8 +40,18 @@ import java.util.List;
  */
 @Service
 public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService<K, T, P> {
+    protected LocalCache cache = null;
 
+    /** 是否激活缓存 默认为 false */
+    protected  boolean enabledCache = false;
+    /** 缓存 key 前缀 推荐用 类的全名 */
+    protected String keyProfix = "";
 
+    public AbstractAppRealizeService() {
+        if (null == cache) {
+            cache = LocalCache.getInstance();
+        }
+    }
     /**
      * <h4>初始化对象的 BO 类</h4>
      *
@@ -66,6 +81,10 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
         T recoed = initBo().convert(param);
         int result = initMapper().insertSelective(recoed);
         if (result > 0) {
+            if (enabledCache){
+                System.out.println("添加对象操作,清空缓存");
+                removeCache();
+            }
             return initBo().compat(recoed);
         }
         return null;
@@ -77,9 +96,17 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @param param 对象
      * @return true 表示 成功, 否则 取 false
      */
+    @AutoWriteTimestamp("updateTime")
     public Boolean update(P param) {
-
-        return initMapper().updateSelective(initBo().convert(param)) > 0;
+        int result = initMapper().updateSelective(initBo().convert(param));
+        if (result>0){
+            if (enabledCache){
+                System.out.println("更新对象操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -89,8 +116,15 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @return true 表示 成功, 否则 取 false
      */
     public Boolean delete(K id) {
-
-        return initMapper().deleteByPrimaryKey(id) > 0;
+        int result = initMapper().deleteByPrimaryKey(id);
+        if (result > 0) {
+            if(enabledCache){
+                System.out.println("删除对象操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -111,7 +145,20 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @return 对象
      */
     public P findById(K id) {
-        return initBo().compat(initMapper().selectByPrimaryKey(id));
+        String key = keyProfix + id;
+        if(enabledCache){
+            Object obj = cache.get(key);
+            if(null != obj){
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (P) obj;
+            }
+        }
+        P param = initBo().compat(initMapper().selectByPrimaryKey(id));
+        if (null != param && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key,param);
+        }
+        return param;
     }
 
     /**
@@ -122,8 +169,20 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @return 对象集合
      */
     public List<P> findByLikeAndObj(P param, PageQuery page) {
-
-        return initBo().adapter(initMapper().selectByLiekAndObj(initBo().convert(param), page));
+        String key = keyProfix + page.getPageNo() + getKeySuffix(param) + "like";
+        if (enabledCache){
+            Object list = cache.get(key);
+            if (null != list) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (List<P>)list;
+            }
+        }
+        List<P> pList = initBo().adapter(initMapper().selectByLiekAndObj(initBo().convert(param), page));
+        if (null != pList && pList.size() > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key,pList);
+        }
+        return pList;
     }
 
     /**
@@ -134,11 +193,21 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @return 对象集合
      */
     public List<P> findByObj(P param, PageQuery page) {
-        T convert = initBo().convert(param);
+        String key = keyProfix + page.getPageNo() + getKeySuffix(param);
+        if (enabledCache){
+            Object list = cache.get(key);
+            if (null != list) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (List<P>)list;
+            }
+        }
+        List<P> pList = initBo().adapter(initMapper().selectByObj(initBo().convert(param), page));
 
-        List<T> ts = initMapper().selectByObj(convert, page);
-        List<P> adapter = initBo().adapter(ts);
-        return adapter;
+        if (null != pList && pList.size() > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key,pList);
+        }
+        return pList;
     }
 
     /**
@@ -148,7 +217,20 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @return 总条数
      */
     public Integer countByLike(P param) {
-        return initMapper().countByLike(initBo().convert(param));
+        String key = keyProfix + getKeySuffix(param) + "like";
+        if (enabledCache){
+            Object obj = cache.get(key);
+            if (null != obj) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (Integer) obj;
+            }
+        }
+        Integer result = initMapper().countByLike(initBo().convert(param));
+        if (result > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key, result);
+        }
+        return result;
     }
 
     /**
@@ -158,8 +240,50 @@ public abstract class AbstractAppRealizeService<K, T, P> implements IBaseService
      * @return 总条数
      */
     public Integer count(P param) {
-        return initMapper().count(initBo().convert(param));
+        String key = keyProfix + getKeySuffix(param);
+        if (enabledCache){
+            Object obj = cache.get(key);
+            if (null != obj) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (Integer) obj;
+            }
+        }
+        Integer result = initMapper().count(initBo().convert(param));
+        if (result > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key, result);
+        }
+        return result;
     }
 
+    /**
+     * <h4>移除全部缓存</h4>
+     */
+    protected void removeCache() {
+        if (null != cache){
+            cache.removeAll();
+        }
+    }
+
+    /**
+     * <h4>获取 key 的后缀</h4>
+     * @param param 对象
+     * @return
+     */
+    protected StringBuffer getKeySuffix(P param){
+        Field[] fields = param.getClass().getDeclaredFields();
+        StringBuffer sb = new StringBuffer();
+        for (Field field : fields) {
+            try {
+                Object obj = field.get(param);
+                if(null != obj && !"".equals(obj)){
+                    sb.append(obj);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return sb;
+    }
 
 }

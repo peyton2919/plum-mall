@@ -1,9 +1,12 @@
 package cn.peyton.plum.mall.controller;
 
 import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.mall.controller.base.PcController;
+import cn.peyton.plum.mall.param.MenuParam;
 import cn.peyton.plum.mall.service.MenuService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-public class MenuController {
+@RequestMapping("/pc/manager")
+public class MenuController extends PcController<MenuParam> {
 
     @Resource
     private MenuService menuService;

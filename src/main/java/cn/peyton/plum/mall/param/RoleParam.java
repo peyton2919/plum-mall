@@ -194,6 +194,9 @@ public class RoleParam implements Serializable {
      */
     public Role convert() {
         Role role = new Role();
+        if(null == this){
+            return null;
+        }
         role.setId(id);
         role.setName(name);
         role.setRemark(remark);

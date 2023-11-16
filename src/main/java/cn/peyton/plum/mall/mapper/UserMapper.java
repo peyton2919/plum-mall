@@ -33,6 +33,15 @@ public interface UserMapper extends IBaseMapper<Long, User> {
      * @return 用户对象
      */
     User login(String keyword, String password, String loginType);
+
+
+    /**
+     * <h4>联合查找</h4>
+     * @param shareId 用户Id
+     * @param shareType 用户类型
+     * @return
+     */
+    //User selectJoinById(Long shareId, Integer shareType);
     // ==================================== new create method ==================================== //
 
 

@@ -17,6 +17,7 @@
 		<result column="last_login_time" property="lastLoginTime" jdbcType="INTEGER"/>
 		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+
 	</resultMap>
 
 	<sql id="Column_sys_user_List">
@@ -86,7 +87,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.User">
-
 		select
 		count(`id`)
 		from `sys_user`
@@ -400,6 +400,15 @@
 			and password=#{password}
 			and status=1
 		</where>
+	</select>
+
+	<select id="selectJoinById" resultMap="ResultUserMap" parameterType="map">
+		select
+		<include refid="Column_sys_user_List"/>
+		from `sys_user`
+		where `id` = #{shareId} and is_del= 1
+
+
 	</select>
 
 </mapper>

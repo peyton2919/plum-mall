@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.mapper;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.Role;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
 
@@ -22,6 +23,14 @@ public interface RoleMapper extends IBaseMapper<Long, Role> {
      * @return
      */
     List<Role> selectByIdList(List<Long> idList);
+
+    /**
+     * <h4>根据用户Id和类型,查找角色对象</h4>
+     * @param shareId
+     * @param shareType
+     * @return
+     */
+    Role selectByShareIdAndType(@Param("shareId") Long shareId, @Param("shareType") Integer shareType);
 
 
 

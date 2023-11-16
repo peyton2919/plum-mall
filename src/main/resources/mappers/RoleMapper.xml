@@ -246,6 +246,7 @@
 		</where>
 	</select>
 
+
 	<select id="selectByIdList" parameterType="map" resultMap="ResultRoleMap">
 		SELECT
 		<include refid="Column_sys_role_List"/>
@@ -254,5 +255,12 @@
 		<foreach collection="idList" item="id" open="(" close=")" separator=",">
 			#{id}
 		</foreach>
+	</select>
+
+		<!-- SELECT * from sys_role where is_del = 1 and id in(
+				select role_id from sys_user_role WHERE share_id=1 and share_type=2) -->
+	<select id="selectByShareIdAndType" parameterType="map" resultMap="ResultRoleMap">
+		SELECT * from sys_role where is_del = 1 and id in(
+			select role_id from sys_user_role WHERE share_id=#{shareId} and share_type=#{shareType})
 	</select>
 </mapper>
