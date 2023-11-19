@@ -74,7 +74,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCart">
-
 		select
 		count(`id`)
 		from `tb_shop_cart`
@@ -126,7 +125,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopCartMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_cart_List"/>
 		from `tb_shop_cart`
@@ -172,137 +170,134 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopCartMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_cart_List"/>
 		from `tb_shop_cart`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.shareId != null">
->				and `share_id` = #{record.shareId}
+				and `share_id` = #{record.shareId}
 			</if>
 			<if test="record.shareType != null">
->				and `share_type` = #{record.shareType}
+				and `share_type` = #{record.shareType}
 			</if>
 			<if test="record.num != null">
->				and `num` = #{record.num}
+				and `num` = #{record.num}
 			</if>
 			<if test="record.isPay != null">
->				and `is_pay` = #{record.isPay}
+				and `is_pay` = #{record.isPay}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.isNew != null">
->				and `is_new` = #{record.isNew}
+				and `is_new` = #{record.isNew}
 			</if>
 			<if test="record.pinkId != null">
->				and `pink_id` = #{record.pinkId}
+				and `pink_id` = #{record.pinkId}
 			</if>
 			<if test="record.seckillId != null">
->				and `seckill_id` = #{record.seckillId}
+				and `seckill_id` = #{record.seckillId}
 			</if>
 			<if test="record.bargainId != null">
->				and `bargain_id` = #{record.bargainId}
+				and `bargain_id` = #{record.bargainId}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCart">
-
 		select
 		count(`id`)
 		from `tb_shop_cart`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="shareId != null">
->				and `share_id` like concat('%',#{shareId},'%')
+				and `share_id` like concat('%',#{shareId},'%')
 			</if>
 			<if test="shareType != null">
->				and `share_type` like concat('%',#{shareType},'%')
+				and `share_type` like concat('%',#{shareType},'%')
 			</if>
 			<if test="num != null">
->				and `num` like concat('%',#{num},'%')
+				and `num` like concat('%',#{num},'%')
 			</if>
 			<if test="isPay != null">
->				and `is_pay` like concat('%',#{isPay},'%')
+				and `is_pay` like concat('%',#{isPay},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="isNew != null">
->				and `is_new` like concat('%',#{isNew},'%')
+				and `is_new` like concat('%',#{isNew},'%')
 			</if>
 			<if test="pinkId != null">
->				and `pink_id` like concat('%',#{pinkId},'%')
+				and `pink_id` like concat('%',#{pinkId},'%')
 			</if>
 			<if test="seckillId != null">
->				and `seckill_id` like concat('%',#{seckillId},'%')
+				and `seckill_id` like concat('%',#{seckillId},'%')
 			</if>
 			<if test="bargainId != null">
->				and `bargain_id` like concat('%',#{bargainId},'%')
+				and `bargain_id` like concat('%',#{bargainId},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCart">
-
 		select
 		count(`id`)
 		from `tb_shop_cart`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="shareId != null">
->				and `share_id` = #{shareId}
+				and `share_id` = #{shareId}
 			</if>
 			<if test="shareType != null">
->				and `share_type` = #{shareType}
+				and `share_type` = #{shareType}
 			</if>
 			<if test="num != null">
->				and `num` = #{num}
+				and `num` = #{num}
 			</if>
 			<if test="isPay != null">
->				and `is_pay` = #{isPay}
+				and `is_pay` = #{isPay}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="isNew != null">
->				and `is_new` = #{isNew}
+				and `is_new` = #{isNew}
 			</if>
 			<if test="pinkId != null">
->				and `pink_id` = #{pinkId}
+				and `pink_id` = #{pinkId}
 			</if>
 			<if test="seckillId != null">
->				and `seckill_id` = #{seckillId}
+				and `seckill_id` = #{seckillId}
 			</if>
 			<if test="bargainId != null">
->				and `bargain_id` = #{bargainId}
+				and `bargain_id` = #{bargainId}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

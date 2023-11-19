@@ -190,7 +190,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrder">
-
 		select
 		count(`id`)
 		from `tb_shop_order`
@@ -329,7 +328,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopOrderMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_order_List"/>
 		from `tb_shop_order`
@@ -462,398 +460,395 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopOrderMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_order_List"/>
 		from `tb_shop_order`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.orderNo != null">
->				and `order_no` = #{record.orderNo}
+				and `order_no` = #{record.orderNo}
 			</if>
 			<if test="record.extendOrderNo != null">
->				and `extend_order_no` = #{record.extendOrderNo}
+				and `extend_order_no` = #{record.extendOrderNo}
 			</if>
 			<if test="record.shareId != null">
->				and `share_id` = #{record.shareId}
+				and `share_id` = #{record.shareId}
 			</if>
 			<if test="record.shareType != null">
->				and `share_type` = #{record.shareType}
+				and `share_type` = #{record.shareType}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.closed != null">
->				and `closed` = #{record.closed}
+				and `closed` = #{record.closed}
 			</if>
 			<if test="record.cartId != null">
->				and `cart_id` = #{record.cartId}
+				and `cart_id` = #{record.cartId}
 			</if>
 			<if test="record.freightPrice != null">
->				and `freight_price` = #{record.freightPrice}
+				and `freight_price` = #{record.freightPrice}
 			</if>
 			<if test="record.totalNum != null">
->				and `total_num` = #{record.totalNum}
+				and `total_num` = #{record.totalNum}
 			</if>
 			<if test="record.totalPrice != null">
->				and `total_price` = #{record.totalPrice}
+				and `total_price` = #{record.totalPrice}
 			</if>
 			<if test="record.totalPostage != null">
->				and `total_postage` = #{record.totalPostage}
+				and `total_postage` = #{record.totalPostage}
 			</if>
 			<if test="record.payPrice != null">
->				and `pay_price` = #{record.payPrice}
+				and `pay_price` = #{record.payPrice}
 			</if>
 			<if test="record.payPostage != null">
->				and `pay_postage` = #{record.payPostage}
+				and `pay_postage` = #{record.payPostage}
 			</if>
 			<if test="record.deductionPrice != null">
->				and `deduction_price` = #{record.deductionPrice}
+				and `deduction_price` = #{record.deductionPrice}
 			</if>
 			<if test="record.couponId != null">
->				and `coupon_id` = #{record.couponId}
+				and `coupon_id` = #{record.couponId}
 			</if>
 			<if test="record.couponPrice != null">
->				and `coupon_price` = #{record.couponPrice}
+				and `coupon_price` = #{record.couponPrice}
 			</if>
 			<if test="record.paid != null">
->				and `paid` = #{record.paid}
+				and `paid` = #{record.paid}
 			</if>
 			<if test="record.payTime != null">
->				and `pay_time` = #{record.payTime}
+				and `pay_time` = #{record.payTime}
 			</if>
 			<if test="record.payType != null">
->				and `pay_type` = #{record.payType}
+				and `pay_type` = #{record.payType}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 			<if test="record.refundStatus != null">
->				and `refund_status` = #{record.refundStatus}
+				and `refund_status` = #{record.refundStatus}
 			</if>
 			<if test="record.refundId != null">
->				and `refund_id` = #{record.refundId}
+				and `refund_id` = #{record.refundId}
 			</if>
 			<if test="record.gainIntegral != null">
->				and `gain_integral` = #{record.gainIntegral}
+				and `gain_integral` = #{record.gainIntegral}
 			</if>
 			<if test="record.useIntegral != null">
->				and `use_integral` = #{record.useIntegral}
+				and `use_integral` = #{record.useIntegral}
 			</if>
 			<if test="record.payIntegral != null">
->				and `pay_integral` = #{record.payIntegral}
+				and `pay_integral` = #{record.payIntegral}
 			</if>
 			<if test="record.backIntegral != null">
->				and `back_integral` = #{record.backIntegral}
+				and `back_integral` = #{record.backIntegral}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.adminRemark != null">
->				and `admin_remark` = #{record.adminRemark}
+				and `admin_remark` = #{record.adminRemark}
 			</if>
 			<if test="record.pinkId != null">
->				and `pink_id` = #{record.pinkId}
+				and `pink_id` = #{record.pinkId}
 			</if>
 			<if test="record.seckillId != null">
->				and `seckill_id` = #{record.seckillId}
+				and `seckill_id` = #{record.seckillId}
 			</if>
 			<if test="record.bargainId != null">
->				and `bargain_id` = #{record.bargainId}
+				and `bargain_id` = #{record.bargainId}
 			</if>
 			<if test="record.verifyCode != null">
->				and `verify_code` = #{record.verifyCode}
+				and `verify_code` = #{record.verifyCode}
 			</if>
 			<if test="record.shopId != null">
->				and `shop_id` = #{record.shopId}
+				and `shop_id` = #{record.shopId}
 			</if>
 			<if test="record.shippingType != null">
->				and `shipping_type` = #{record.shippingType}
+				and `shipping_type` = #{record.shippingType}
 			</if>
 			<if test="record.deliverySn != null">
->				and `delivery_sn` = #{record.deliverySn}
+				and `delivery_sn` = #{record.deliverySn}
 			</if>
 			<if test="record.deliveryName != null">
->				and `delivery_name` = #{record.deliveryName}
+				and `delivery_name` = #{record.deliveryName}
 			</if>
 			<if test="record.deliveryType != null">
->				and `delivery_type` = #{record.deliveryType}
+				and `delivery_type` = #{record.deliveryType}
 			</if>
 			<if test="record.deliveryId != null">
->				and `delivery_id` = #{record.deliveryId}
+				and `delivery_id` = #{record.deliveryId}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrder">
-
 		select
 		count(`id`)
 		from `tb_shop_order`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="orderNo != null">
->				and `order_no` like concat('%',#{orderNo},'%')
+				and `order_no` like concat('%',#{orderNo},'%')
 			</if>
 			<if test="extendOrderNo != null">
->				and `extend_order_no` like concat('%',#{extendOrderNo},'%')
+				and `extend_order_no` like concat('%',#{extendOrderNo},'%')
 			</if>
 			<if test="shareId != null">
->				and `share_id` like concat('%',#{shareId},'%')
+				and `share_id` like concat('%',#{shareId},'%')
 			</if>
 			<if test="shareType != null">
->				and `share_type` like concat('%',#{shareType},'%')
+				and `share_type` like concat('%',#{shareType},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="closed != null">
->				and `closed` like concat('%',#{closed},'%')
+				and `closed` like concat('%',#{closed},'%')
 			</if>
 			<if test="cartId != null">
->				and `cart_id` like concat('%',#{cartId},'%')
+				and `cart_id` like concat('%',#{cartId},'%')
 			</if>
 			<if test="freightPrice != null">
->				and `freight_price` like concat('%',#{freightPrice},'%')
+				and `freight_price` like concat('%',#{freightPrice},'%')
 			</if>
 			<if test="totalNum != null">
->				and `total_num` like concat('%',#{totalNum},'%')
+				and `total_num` like concat('%',#{totalNum},'%')
 			</if>
 			<if test="totalPrice != null">
->				and `total_price` like concat('%',#{totalPrice},'%')
+				and `total_price` like concat('%',#{totalPrice},'%')
 			</if>
 			<if test="totalPostage != null">
->				and `total_postage` like concat('%',#{totalPostage},'%')
+				and `total_postage` like concat('%',#{totalPostage},'%')
 			</if>
 			<if test="payPrice != null">
->				and `pay_price` like concat('%',#{payPrice},'%')
+				and `pay_price` like concat('%',#{payPrice},'%')
 			</if>
 			<if test="payPostage != null">
->				and `pay_postage` like concat('%',#{payPostage},'%')
+				and `pay_postage` like concat('%',#{payPostage},'%')
 			</if>
 			<if test="deductionPrice != null">
->				and `deduction_price` like concat('%',#{deductionPrice},'%')
+				and `deduction_price` like concat('%',#{deductionPrice},'%')
 			</if>
 			<if test="couponId != null">
->				and `coupon_id` like concat('%',#{couponId},'%')
+				and `coupon_id` like concat('%',#{couponId},'%')
 			</if>
 			<if test="couponPrice != null">
->				and `coupon_price` like concat('%',#{couponPrice},'%')
+				and `coupon_price` like concat('%',#{couponPrice},'%')
 			</if>
 			<if test="paid != null">
->				and `paid` like concat('%',#{paid},'%')
+				and `paid` like concat('%',#{paid},'%')
 			</if>
 			<if test="payTime != null">
->				and `pay_time` like concat('%',#{payTime},'%')
+				and `pay_time` like concat('%',#{payTime},'%')
 			</if>
 			<if test="payType != null">
->				and `pay_type` like concat('%',#{payType},'%')
+				and `pay_type` like concat('%',#{payType},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 			<if test="refundStatus != null">
->				and `refund_status` like concat('%',#{refundStatus},'%')
+				and `refund_status` like concat('%',#{refundStatus},'%')
 			</if>
 			<if test="refundId != null">
->				and `refund_id` like concat('%',#{refundId},'%')
+				and `refund_id` like concat('%',#{refundId},'%')
 			</if>
 			<if test="gainIntegral != null">
->				and `gain_integral` like concat('%',#{gainIntegral},'%')
+				and `gain_integral` like concat('%',#{gainIntegral},'%')
 			</if>
 			<if test="useIntegral != null">
->				and `use_integral` like concat('%',#{useIntegral},'%')
+				and `use_integral` like concat('%',#{useIntegral},'%')
 			</if>
 			<if test="payIntegral != null">
->				and `pay_integral` like concat('%',#{payIntegral},'%')
+				and `pay_integral` like concat('%',#{payIntegral},'%')
 			</if>
 			<if test="backIntegral != null">
->				and `back_integral` like concat('%',#{backIntegral},'%')
+				and `back_integral` like concat('%',#{backIntegral},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="adminRemark != null">
->				and `admin_remark` like concat('%',#{adminRemark},'%')
+				and `admin_remark` like concat('%',#{adminRemark},'%')
 			</if>
 			<if test="pinkId != null">
->				and `pink_id` like concat('%',#{pinkId},'%')
+				and `pink_id` like concat('%',#{pinkId},'%')
 			</if>
 			<if test="seckillId != null">
->				and `seckill_id` like concat('%',#{seckillId},'%')
+				and `seckill_id` like concat('%',#{seckillId},'%')
 			</if>
 			<if test="bargainId != null">
->				and `bargain_id` like concat('%',#{bargainId},'%')
+				and `bargain_id` like concat('%',#{bargainId},'%')
 			</if>
 			<if test="verifyCode != null">
->				and `verify_code` like concat('%',#{verifyCode},'%')
+				and `verify_code` like concat('%',#{verifyCode},'%')
 			</if>
 			<if test="shopId != null">
->				and `shop_id` like concat('%',#{shopId},'%')
+				and `shop_id` like concat('%',#{shopId},'%')
 			</if>
 			<if test="shippingType != null">
->				and `shipping_type` like concat('%',#{shippingType},'%')
+				and `shipping_type` like concat('%',#{shippingType},'%')
 			</if>
 			<if test="deliverySn != null">
->				and `delivery_sn` like concat('%',#{deliverySn},'%')
+				and `delivery_sn` like concat('%',#{deliverySn},'%')
 			</if>
 			<if test="deliveryName != null">
->				and `delivery_name` like concat('%',#{deliveryName},'%')
+				and `delivery_name` like concat('%',#{deliveryName},'%')
 			</if>
 			<if test="deliveryType != null">
->				and `delivery_type` like concat('%',#{deliveryType},'%')
+				and `delivery_type` like concat('%',#{deliveryType},'%')
 			</if>
 			<if test="deliveryId != null">
->				and `delivery_id` like concat('%',#{deliveryId},'%')
+				and `delivery_id` like concat('%',#{deliveryId},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrder">
-
 		select
 		count(`id`)
 		from `tb_shop_order`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="orderNo != null">
->				and `order_no` = #{orderNo}
+				and `order_no` = #{orderNo}
 			</if>
 			<if test="extendOrderNo != null">
->				and `extend_order_no` = #{extendOrderNo}
+				and `extend_order_no` = #{extendOrderNo}
 			</if>
 			<if test="shareId != null">
->				and `share_id` = #{shareId}
+				and `share_id` = #{shareId}
 			</if>
 			<if test="shareType != null">
->				and `share_type` = #{shareType}
+				and `share_type` = #{shareType}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="closed != null">
->				and `closed` = #{closed}
+				and `closed` = #{closed}
 			</if>
 			<if test="cartId != null">
->				and `cart_id` = #{cartId}
+				and `cart_id` = #{cartId}
 			</if>
 			<if test="freightPrice != null">
->				and `freight_price` = #{freightPrice}
+				and `freight_price` = #{freightPrice}
 			</if>
 			<if test="totalNum != null">
->				and `total_num` = #{totalNum}
+				and `total_num` = #{totalNum}
 			</if>
 			<if test="totalPrice != null">
->				and `total_price` = #{totalPrice}
+				and `total_price` = #{totalPrice}
 			</if>
 			<if test="totalPostage != null">
->				and `total_postage` = #{totalPostage}
+				and `total_postage` = #{totalPostage}
 			</if>
 			<if test="payPrice != null">
->				and `pay_price` = #{payPrice}
+				and `pay_price` = #{payPrice}
 			</if>
 			<if test="payPostage != null">
->				and `pay_postage` = #{payPostage}
+				and `pay_postage` = #{payPostage}
 			</if>
 			<if test="deductionPrice != null">
->				and `deduction_price` = #{deductionPrice}
+				and `deduction_price` = #{deductionPrice}
 			</if>
 			<if test="couponId != null">
->				and `coupon_id` = #{couponId}
+				and `coupon_id` = #{couponId}
 			</if>
 			<if test="couponPrice != null">
->				and `coupon_price` = #{couponPrice}
+				and `coupon_price` = #{couponPrice}
 			</if>
 			<if test="paid != null">
->				and `paid` = #{paid}
+				and `paid` = #{paid}
 			</if>
 			<if test="payTime != null">
->				and `pay_time` = #{payTime}
+				and `pay_time` = #{payTime}
 			</if>
 			<if test="payType != null">
->				and `pay_type` = #{payType}
+				and `pay_type` = #{payType}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 			<if test="refundStatus != null">
->				and `refund_status` = #{refundStatus}
+				and `refund_status` = #{refundStatus}
 			</if>
 			<if test="refundId != null">
->				and `refund_id` = #{refundId}
+				and `refund_id` = #{refundId}
 			</if>
 			<if test="gainIntegral != null">
->				and `gain_integral` = #{gainIntegral}
+				and `gain_integral` = #{gainIntegral}
 			</if>
 			<if test="useIntegral != null">
->				and `use_integral` = #{useIntegral}
+				and `use_integral` = #{useIntegral}
 			</if>
 			<if test="payIntegral != null">
->				and `pay_integral` = #{payIntegral}
+				and `pay_integral` = #{payIntegral}
 			</if>
 			<if test="backIntegral != null">
->				and `back_integral` = #{backIntegral}
+				and `back_integral` = #{backIntegral}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="adminRemark != null">
->				and `admin_remark` = #{adminRemark}
+				and `admin_remark` = #{adminRemark}
 			</if>
 			<if test="pinkId != null">
->				and `pink_id` = #{pinkId}
+				and `pink_id` = #{pinkId}
 			</if>
 			<if test="seckillId != null">
->				and `seckill_id` = #{seckillId}
+				and `seckill_id` = #{seckillId}
 			</if>
 			<if test="bargainId != null">
->				and `bargain_id` = #{bargainId}
+				and `bargain_id` = #{bargainId}
 			</if>
 			<if test="verifyCode != null">
->				and `verify_code` = #{verifyCode}
+				and `verify_code` = #{verifyCode}
 			</if>
 			<if test="shopId != null">
->				and `shop_id` = #{shopId}
+				and `shop_id` = #{shopId}
 			</if>
 			<if test="shippingType != null">
->				and `shipping_type` = #{shippingType}
+				and `shipping_type` = #{shippingType}
 			</if>
 			<if test="deliverySn != null">
->				and `delivery_sn` = #{deliverySn}
+				and `delivery_sn` = #{deliverySn}
 			</if>
 			<if test="deliveryName != null">
->				and `delivery_name` = #{deliveryName}
+				and `delivery_name` = #{deliveryName}
 			</if>
 			<if test="deliveryType != null">
->				and `delivery_type` = #{deliveryType}
+				and `delivery_type` = #{deliveryType}
 			</if>
 			<if test="deliveryId != null">
->				and `delivery_id` = #{deliveryId}
+				and `delivery_id` = #{deliveryId}
 			</if>
 		</where>
 	</select>

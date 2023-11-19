@@ -38,7 +38,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ArticleCategory">
-
 		select
 		count(`id`)
 		from `tb_article_category`
@@ -63,7 +62,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultArticleCategoryMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_article_category_List"/>
 		from `tb_article_category`
@@ -82,19 +80,18 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultArticleCategoryMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_article_category_List"/>
 		from `tb_article_category`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
@@ -107,13 +104,13 @@
 		from `tb_article_category`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 		</where>
 	</select>
@@ -125,13 +122,13 @@
 		from `tb_article_category`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 		</where>
 	</select>

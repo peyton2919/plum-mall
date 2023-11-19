@@ -174,7 +174,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultMenuMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_menu_List"/>
 		from `sys_menu`
@@ -241,200 +240,197 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultMenuMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_menu_List"/>
 		from `sys_menu`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.pid != null">
->				and `pid` = #{record.pid}
+				and `pid` = #{record.pid}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.isMenu != null">
->				and `is_menu` = #{record.isMenu}
+				and `is_menu` = #{record.isMenu}
 			</if>
 			<if test="record.condition != null">
->				and `condition` = #{record.condition}
+				and `condition` = #{record.condition}
 			</if>
 			<if test="record.frontPath != null">
->				and `front_path` = #{record.frontPath}
+				and `front_path` = #{record.frontPath}
 			</if>
 			<if test="record.routerMethod != null">
->				and `router_method` = #{record.routerMethod}
+				and `router_method` = #{record.routerMethod}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.icon != null">
->				and `icon` = #{record.icon}
+				and `icon` = #{record.icon}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 			<if test="record.iFrame != null">
->				and `i_frame` = #{record.iFrame}
+				and `i_frame` = #{record.iFrame}
 			</if>
 			<if test="record.menuType != null">
->				and `menu_type` = #{record.menuType}
+				and `menu_type` = #{record.menuType}
 			</if>
 			<if test="record.path != null">
->				and `path` = #{record.path}
+				and `path` = #{record.path}
 			</if>
 			<if test="record.permission != null">
->				and `permission` = #{record.permission}
+				and `permission` = #{record.permission}
 			</if>
 			<if test="record.cache != null">
->				and `cache` = #{record.cache}
+				and `cache` = #{record.cache}
 			</if>
 			<if test="record.hidden != null">
->				and `hidden` = #{record.hidden}
+				and `hidden` = #{record.hidden}
 			</if>
 			<if test="record.component != null">
->				and `component` = #{record.component}
+				and `component` = #{record.component}
 			</if>
 			<if test="record.componentName != null">
->				and `component_name` = #{record.componentName}
+				and `component_name` = #{record.componentName}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
-
 		select
 		count(`id`)
 		from `sys_menu`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="pid != null">
->				and `pid` like concat('%',#{pid},'%')
+				and `pid` like concat('%',#{pid},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="isMenu != null">
->				and `is_menu` like concat('%',#{isMenu},'%')
+				and `is_menu` like concat('%',#{isMenu},'%')
 			</if>
 			<if test="condition != null">
->				and `condition` like concat('%',#{condition},'%')
+				and `condition` like concat('%',#{condition},'%')
 			</if>
 			<if test="frontPath != null">
->				and `front_path` like concat('%',#{frontPath},'%')
+				and `front_path` like concat('%',#{frontPath},'%')
 			</if>
 			<if test="routerMethod != null">
->				and `router_method` like concat('%',#{routerMethod},'%')
+				and `router_method` like concat('%',#{routerMethod},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="icon != null">
->				and `icon` like concat('%',#{icon},'%')
+				and `icon` like concat('%',#{icon},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 			<if test="iFrame != null">
->				and `i_frame` like concat('%',#{iFrame},'%')
+				and `i_frame` like concat('%',#{iFrame},'%')
 			</if>
 			<if test="menuType != null">
->				and `menu_type` like concat('%',#{menuType},'%')
+				and `menu_type` like concat('%',#{menuType},'%')
 			</if>
 			<if test="path != null">
->				and `path` like concat('%',#{path},'%')
+				and `path` like concat('%',#{path},'%')
 			</if>
 			<if test="permission != null">
->				and `permission` like concat('%',#{permission},'%')
+				and `permission` like concat('%',#{permission},'%')
 			</if>
 			<if test="cache != null">
->				and `cache` like concat('%',#{cache},'%')
+				and `cache` like concat('%',#{cache},'%')
 			</if>
 			<if test="hidden != null">
->				and `hidden` like concat('%',#{hidden},'%')
+				and `hidden` like concat('%',#{hidden},'%')
 			</if>
 			<if test="component != null">
->				and `component` like concat('%',#{component},'%')
+				and `component` like concat('%',#{component},'%')
 			</if>
 			<if test="componentName != null">
->				and `component_name` like concat('%',#{componentName},'%')
+				and `component_name` like concat('%',#{componentName},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Menu">
-
 		select
 		count(`id`)
 		from `sys_menu`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="pid != null">
->				and `pid` = #{pid}
+				and `pid` = #{pid}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="isMenu != null">
->				and `is_menu` = #{isMenu}
+				and `is_menu` = #{isMenu}
 			</if>
 			<if test="condition != null">
->				and `condition` = #{condition}
+				and `condition` = #{condition}
 			</if>
 			<if test="frontPath != null">
->				and `front_path` = #{frontPath}
+				and `front_path` = #{frontPath}
 			</if>
 			<if test="routerMethod != null">
->				and `router_method` = #{routerMethod}
+				and `router_method` = #{routerMethod}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="icon != null">
->				and `icon` = #{icon}
+				and `icon` = #{icon}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 			<if test="iFrame != null">
->				and `i_frame` = #{iFrame}
+				and `i_frame` = #{iFrame}
 			</if>
 			<if test="menuType != null">
->				and `menu_type` = #{menuType}
+				and `menu_type` = #{menuType}
 			</if>
 			<if test="path != null">
->				and `path` = #{path}
+				and `path` = #{path}
 			</if>
 			<if test="permission != null">
->				and `permission` = #{permission}
+				and `permission` = #{permission}
 			</if>
 			<if test="cache != null">
->				and `cache` = #{cache}
+				and `cache` = #{cache}
 			</if>
 			<if test="hidden != null">
->				and `hidden` = #{hidden}
+				and `hidden` = #{hidden}
 			</if>
 			<if test="component != null">
->				and `component` = #{component}
+				and `component` = #{component}
 			</if>
 			<if test="componentName != null">
->				and `component_name` = #{componentName}
+				and `component_name` = #{componentName}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

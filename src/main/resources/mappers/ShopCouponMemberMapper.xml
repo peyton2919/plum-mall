@@ -54,7 +54,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember">
-
 		select
 		count(`id`)
 		from `tb_shop_coupon_member`
@@ -91,7 +90,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopCouponMemberMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_coupon_member_List"/>
 		from `tb_shop_coupon_member`
@@ -122,92 +120,89 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopCouponMemberMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_coupon_member_List"/>
 		from `tb_shop_coupon_member`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.couponId != null">
->				and `coupon_id` = #{record.couponId}
+				and `coupon_id` = #{record.couponId}
 			</if>
 			<if test="record.shareId != null">
->				and `share_id` = #{record.shareId}
+				and `share_id` = #{record.shareId}
 			</if>
 			<if test="record.shareType != null">
->				and `share_type` = #{record.shareType}
+				and `share_type` = #{record.shareType}
 			</if>
 			<if test="record.used != null">
->				and `used` = #{record.used}
+				and `used` = #{record.used}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember">
-
 		select
 		count(`id`)
 		from `tb_shop_coupon_member`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="couponId != null">
->				and `coupon_id` like concat('%',#{couponId},'%')
+				and `coupon_id` like concat('%',#{couponId},'%')
 			</if>
 			<if test="shareId != null">
->				and `share_id` like concat('%',#{shareId},'%')
+				and `share_id` like concat('%',#{shareId},'%')
 			</if>
 			<if test="shareType != null">
->				and `share_type` like concat('%',#{shareType},'%')
+				and `share_type` like concat('%',#{shareType},'%')
 			</if>
 			<if test="used != null">
->				and `used` like concat('%',#{used},'%')
+				and `used` like concat('%',#{used},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCouponMember">
-
 		select
 		count(`id`)
 		from `tb_shop_coupon_member`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="couponId != null">
->				and `coupon_id` = #{couponId}
+				and `coupon_id` = #{couponId}
 			</if>
 			<if test="shareId != null">
->				and `share_id` = #{shareId}
+				and `share_id` = #{shareId}
 			</if>
 			<if test="shareType != null">
->				and `share_type` = #{shareType}
+				and `share_type` = #{shareType}
 			</if>
 			<if test="used != null">
->				and `used` = #{used}
+				and `used` = #{used}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

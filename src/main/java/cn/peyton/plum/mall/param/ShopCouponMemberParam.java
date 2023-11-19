@@ -28,7 +28,7 @@ public class ShopCouponMemberParam implements Serializable {
      */
     private Long shareId;
     /**
-     * 用户类型 ,默认 0 会员、1 供应商、2 员工
+     * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     private Integer shareType;
     /**
@@ -94,14 +94,14 @@ public class ShopCouponMemberParam implements Serializable {
     }
 
     /**
-     * @param shareType 用户类型 ,默认 0 会员、1 供应商、2 员工
+     * @param shareType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public void setShareType(Integer shareType) {
         this.shareType = shareType;
     }
 
     /**
-     * @return 用户类型 ,默认 0 会员、1 供应商、2 员工
+     * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public Integer getShareType() {
         return shareType;

@@ -90,7 +90,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Member">
-
 		select
 		count(`id`)
 		from `tb_member`
@@ -154,7 +153,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultMemberMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_member_List"/>
 		from `tb_member`
@@ -212,58 +210,57 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultMemberMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_member_List"/>
 		from `tb_member`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.levelId != null">
->				and `level_id` = #{record.levelId}
+				and `level_id` = #{record.levelId}
 			</if>
 			<if test="record.username != null">
->				and `username` = #{record.username}
+				and `username` = #{record.username}
 			</if>
 			<if test="record.pwd != null">
->				and `pwd` = #{record.pwd}
+				and `pwd` = #{record.pwd}
 			</if>
 			<if test="record.avatar != null">
->				and `avatar` = #{record.avatar}
+				and `avatar` = #{record.avatar}
 			</if>
 			<if test="record.nickname != null">
->				and `nickname` = #{record.nickname}
+				and `nickname` = #{record.nickname}
 			</if>
 			<if test="record.phone != null">
->				and `phone` = #{record.phone}
+				and `phone` = #{record.phone}
 			</if>
 			<if test="record.email != null">
->				and `email` = #{record.email}
+				and `email` = #{record.email}
 			</if>
 			<if test="record.lastIp != null">
->				and `last_ip` = #{record.lastIp}
+				and `last_ip` = #{record.lastIp}
 			</if>
 			<if test="record.loc != null">
->				and `loc` = #{record.loc}
+				and `loc` = #{record.loc}
 			</if>
 			<if test="record.lastLoginTime != null">
->				and `last_login_time` = #{record.lastLoginTime}
+				and `last_login_time` = #{record.lastLoginTime}
 			</if>
 			<if test="record.sex != null">
->				and `sex` = #{record.sex}
+				and `sex` = #{record.sex}
 			</if>
 			<if test="record.birthday != null">
->				and `birthday` = #{record.birthday}
+				and `birthday` = #{record.birthday}
 			</if>
 			<if test="record.encrypted != null">
->				and `encrypted` = #{record.encrypted}
+				and `encrypted` = #{record.encrypted}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
@@ -276,109 +273,108 @@
 		from `tb_member`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="levelId != null">
->				and `level_id` like concat('%',#{levelId},'%')
+				and `level_id` like concat('%',#{levelId},'%')
 			</if>
 			<if test="username != null">
->				and `username` like concat('%',#{username},'%')
+				and `username` like concat('%',#{username},'%')
 			</if>
 			<if test="pwd != null">
->				and `pwd` like concat('%',#{pwd},'%')
+				and `pwd` like concat('%',#{pwd},'%')
 			</if>
 			<if test="avatar != null">
->				and `avatar` like concat('%',#{avatar},'%')
+				and `avatar` like concat('%',#{avatar},'%')
 			</if>
 			<if test="nickname != null">
->				and `nickname` like concat('%',#{nickname},'%')
+				and `nickname` like concat('%',#{nickname},'%')
 			</if>
 			<if test="phone != null">
->				and `phone` like concat('%',#{phone},'%')
+				and `phone` like concat('%',#{phone},'%')
 			</if>
 			<if test="email != null">
->				and `email` like concat('%',#{email},'%')
+				and `email` like concat('%',#{email},'%')
 			</if>
 			<if test="lastIp != null">
->				and `last_ip` like concat('%',#{lastIp},'%')
+				and `last_ip` like concat('%',#{lastIp},'%')
 			</if>
 			<if test="loc != null">
->				and `loc` like concat('%',#{loc},'%')
+				and `loc` like concat('%',#{loc},'%')
 			</if>
 			<if test="lastLoginTime != null">
->				and `last_login_time` like concat('%',#{lastLoginTime},'%')
+				and `last_login_time` like concat('%',#{lastLoginTime},'%')
 			</if>
 			<if test="sex != null">
->				and `sex` like concat('%',#{sex},'%')
+				and `sex` like concat('%',#{sex},'%')
 			</if>
 			<if test="birthday != null">
->				and `birthday` like concat('%',#{birthday},'%')
+				and `birthday` like concat('%',#{birthday},'%')
 			</if>
 			<if test="encrypted != null">
->				and `encrypted` like concat('%',#{encrypted},'%')
+				and `encrypted` like concat('%',#{encrypted},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Member">
-
 		select
 		count(`id`)
 		from `tb_member`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="levelId != null">
->				and `level_id` = #{levelId}
+				and `level_id` = #{levelId}
 			</if>
 			<if test="username != null">
->				and `username` = #{username}
+				and `username` = #{username}
 			</if>
 			<if test="pwd != null">
->				and `pwd` = #{pwd}
+				and `pwd` = #{pwd}
 			</if>
 			<if test="avatar != null">
->				and `avatar` = #{avatar}
+				and `avatar` = #{avatar}
 			</if>
 			<if test="nickname != null">
->				and `nickname` = #{nickname}
+				and `nickname` = #{nickname}
 			</if>
 			<if test="phone != null">
->				and `phone` = #{phone}
+				and `phone` = #{phone}
 			</if>
 			<if test="email != null">
->				and `email` = #{email}
+				and `email` = #{email}
 			</if>
 			<if test="lastIp != null">
->				and `last_ip` = #{lastIp}
+				and `last_ip` = #{lastIp}
 			</if>
 			<if test="loc != null">
->				and `loc` = #{loc}
+				and `loc` = #{loc}
 			</if>
 			<if test="lastLoginTime != null">
->				and `last_login_time` = #{lastLoginTime}
+				and `last_login_time` = #{lastLoginTime}
 			</if>
 			<if test="sex != null">
->				and `sex` = #{sex}
+				and `sex` = #{sex}
 			</if>
 			<if test="birthday != null">
->				and `birthday` = #{birthday}
+				and `birthday` = #{birthday}
 			</if>
 			<if test="encrypted != null">
->				and `encrypted` = #{encrypted}
+				and `encrypted` = #{encrypted}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

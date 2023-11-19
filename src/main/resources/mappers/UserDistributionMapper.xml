@@ -42,7 +42,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
-
 		select
 		count(`id`)
 		from `tb_user_distribution`
@@ -70,7 +69,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultUserDistributionMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_user_distribution_List"/>
 		from `tb_user_distribution`
@@ -92,65 +90,62 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultUserDistributionMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_user_distribution_List"/>
 		from `tb_user_distribution`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.distId != null">
->				and `dist_id` = #{record.distId}
+				and `dist_id` = #{record.distId}
 			</if>
 			<if test="record.shaerId != null">
->				and `shaer_id` = #{record.shaerId}
+				and `shaer_id` = #{record.shaerId}
 			</if>
 			<if test="record.shaerType != null">
->				and `shaer_type` = #{record.shaerType}
+				and `shaer_type` = #{record.shaerType}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
-
 		select
 		count(`id`)
 		from `tb_user_distribution`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="distId != null">
->				and `dist_id` like concat('%',#{distId},'%')
+				and `dist_id` like concat('%',#{distId},'%')
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` like concat('%',#{shaerId},'%')
+				and `shaer_id` like concat('%',#{shaerId},'%')
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` like concat('%',#{shaerType},'%')
+				and `shaer_type` like concat('%',#{shaerType},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserDistribution">
-
 		select
 		count(`id`)
 		from `tb_user_distribution`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="distId != null">
->				and `dist_id` = #{distId}
+				and `dist_id` = #{distId}
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` = #{shaerId}
+				and `shaer_id` = #{shaerId}
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` = #{shaerType}
+				and `shaer_type` = #{shaerType}
 			</if>
 		</where>
 	</select>

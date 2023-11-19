@@ -19,8 +19,6 @@ public class PcController<P> implements IBaseController{
     /** Token 过期时间 1 天 */
     protected long expireTime = 24 * 60 * 60 * 1000L;
 
-
-
     /**
      * <h4>保存 Token</h4>
      * @param record 要保存的对象

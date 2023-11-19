@@ -58,7 +58,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
-
 		select
 		count(`id`)
 		from `tb_shop_canvas`
@@ -98,7 +97,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopCanvasMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_canvas_List"/>
 		from `tb_shop_canvas`
@@ -132,101 +130,98 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopCanvasMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_canvas_List"/>
 		from `tb_shop_canvas`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.terminal != null">
->				and `terminal` = #{record.terminal}
+				and `terminal` = #{record.terminal}
 			</if>
 			<if test="record.json != null">
->				and `json` = #{record.json}
+				and `json` = #{record.json}
 			</if>
 			<if test="record.type != null">
->				and `type` = #{record.type}
+				and `type` = #{record.type}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
-
 		select
 		count(`id`)
 		from `tb_shop_canvas`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="terminal != null">
->				and `terminal` like concat('%',#{terminal},'%')
+				and `terminal` like concat('%',#{terminal},'%')
 			</if>
 			<if test="json != null">
->				and `json` like concat('%',#{json},'%')
+				and `json` like concat('%',#{json},'%')
 			</if>
 			<if test="type != null">
->				and `type` like concat('%',#{type},'%')
+				and `type` like concat('%',#{type},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopCanvas">
-
 		select
 		count(`id`)
 		from `tb_shop_canvas`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="terminal != null">
->				and `terminal` = #{terminal}
+				and `terminal` = #{terminal}
 			</if>
 			<if test="json != null">
->				and `json` = #{json}
+				and `json` = #{json}
 			</if>
 			<if test="type != null">
->				and `type` = #{type}
+				and `type` = #{type}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

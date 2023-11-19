@@ -42,7 +42,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
-
 		select
 		count(`id`)
 		from `tb_shop_sku_value`
@@ -70,7 +69,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopSkuValueMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_sku_value_List"/>
 		from `tb_shop_sku_value`
@@ -92,65 +90,62 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopSkuValueMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_sku_value_List"/>
 		from `tb_shop_sku_value`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.skuId != null">
->				and `sku_id` = #{record.skuId}
+				and `sku_id` = #{record.skuId}
 			</if>
 			<if test="record.skuValue != null">
->				and `sku_value` = #{record.skuValue}
+				and `sku_value` = #{record.skuValue}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
-
 		select
 		count(`id`)
 		from `tb_shop_sku_value`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="skuId != null">
->				and `sku_id` like concat('%',#{skuId},'%')
+				and `sku_id` like concat('%',#{skuId},'%')
 			</if>
 			<if test="skuValue != null">
->				and `sku_value` like concat('%',#{skuValue},'%')
+				and `sku_value` like concat('%',#{skuValue},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopSkuValue">
-
 		select
 		count(`id`)
 		from `tb_shop_sku_value`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="skuId != null">
->				and `sku_id` = #{skuId}
+				and `sku_id` = #{skuId}
 			</if>
 			<if test="skuValue != null">
->				and `sku_value` = #{skuValue}
+				and `sku_value` = #{skuValue}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 		</where>
 	</select>

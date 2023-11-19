@@ -126,7 +126,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
-
 		select
 		count(`id`)
 		from `tb_shop_product_sku_detail`
@@ -217,7 +216,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductSkuDetailMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_sku_detail_List"/>
 		from `tb_shop_product_sku_detail`
@@ -302,254 +300,251 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopProductSkuDetailMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_sku_detail_List"/>
 		from `tb_shop_product_sku_detail`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.productId != null">
->				and `product_id` = #{record.productId}
+				and `product_id` = #{record.productId}
 			</if>
 			<if test="record.skus != null">
->				and `skus` = #{record.skus}
+				and `skus` = #{record.skus}
 			</if>
 			<if test="record.stock != null">
->				and `stock` = #{record.stock}
+				and `stock` = #{record.stock}
 			</if>
 			<if test="record.sales != null">
->				and `sales` = #{record.sales}
+				and `sales` = #{record.sales}
 			</if>
 			<if test="record.cover != null">
->				and `cover` = #{record.cover}
+				and `cover` = #{record.cover}
 			</if>
 			<if test="record.uniqueCode != null">
->				and `unique_code` = #{record.uniqueCode}
+				and `unique_code` = #{record.uniqueCode}
 			</if>
 			<if test="record.barCode != null">
->				and `bar_code` = #{record.barCode}
+				and `bar_code` = #{record.barCode}
 			</if>
 			<if test="record.integral != null">
->				and `integral` = #{record.integral}
+				and `integral` = #{record.integral}
 			</if>
 			<if test="record.price != null">
->				and `price` = #{record.price}
+				and `price` = #{record.price}
 			</if>
 			<if test="record.vipPrice != null">
->				and `vip_price` = #{record.vipPrice}
+				and `vip_price` = #{record.vipPrice}
 			</if>
 			<if test="record.otPrice != null">
->				and `ot_price` = #{record.otPrice}
+				and `ot_price` = #{record.otPrice}
 			</if>
 			<if test="record.costPrice != null">
->				and `cost_price` = #{record.costPrice}
+				and `cost_price` = #{record.costPrice}
 			</if>
 			<if test="record.weight != null">
->				and `weight` = #{record.weight}
+				and `weight` = #{record.weight}
 			</if>
 			<if test="record.volume != null">
->				and `volume` = #{record.volume}
+				and `volume` = #{record.volume}
 			</if>
 			<if test="record.brokerage != null">
->				and `brokerage` = #{record.brokerage}
+				and `brokerage` = #{record.brokerage}
 			</if>
 			<if test="record.brokerageTwo != null">
->				and `brokerage_two` = #{record.brokerageTwo}
+				and `brokerage_two` = #{record.brokerageTwo}
 			</if>
 			<if test="record.pinkPrice != null">
->				and `pink_price` = #{record.pinkPrice}
+				and `pink_price` = #{record.pinkPrice}
 			</if>
 			<if test="record.pinkStock != null">
->				and `pink_stock` = #{record.pinkStock}
+				and `pink_stock` = #{record.pinkStock}
 			</if>
 			<if test="record.bargainPrice != null">
->				and `bargain_price` = #{record.bargainPrice}
+				and `bargain_price` = #{record.bargainPrice}
 			</if>
 			<if test="record.bargainStock != null">
->				and `bargain_stock` = #{record.bargainStock}
+				and `bargain_stock` = #{record.bargainStock}
 			</if>
 			<if test="record.seckillPrice != null">
->				and `seckill_price` = #{record.seckillPrice}
+				and `seckill_price` = #{record.seckillPrice}
 			</if>
 			<if test="record.seckillStock != null">
->				and `seckill_stock` = #{record.seckillStock}
+				and `seckill_stock` = #{record.seckillStock}
 			</if>
 			<if test="record.warehouseId != null">
->				and `warehouse_id` = #{record.warehouseId}
+				and `warehouse_id` = #{record.warehouseId}
 			</if>
 			<if test="record.warehouseExplain != null">
->				and `warehouse_explain` = #{record.warehouseExplain}
+				and `warehouse_explain` = #{record.warehouseExplain}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
-
 		select
 		count(`id`)
 		from `tb_shop_product_sku_detail`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="productId != null">
->				and `product_id` like concat('%',#{productId},'%')
+				and `product_id` like concat('%',#{productId},'%')
 			</if>
 			<if test="skus != null">
->				and `skus` like concat('%',#{skus},'%')
+				and `skus` like concat('%',#{skus},'%')
 			</if>
 			<if test="stock != null">
->				and `stock` like concat('%',#{stock},'%')
+				and `stock` like concat('%',#{stock},'%')
 			</if>
 			<if test="sales != null">
->				and `sales` like concat('%',#{sales},'%')
+				and `sales` like concat('%',#{sales},'%')
 			</if>
 			<if test="cover != null">
->				and `cover` like concat('%',#{cover},'%')
+				and `cover` like concat('%',#{cover},'%')
 			</if>
 			<if test="uniqueCode != null">
->				and `unique_code` like concat('%',#{uniqueCode},'%')
+				and `unique_code` like concat('%',#{uniqueCode},'%')
 			</if>
 			<if test="barCode != null">
->				and `bar_code` like concat('%',#{barCode},'%')
+				and `bar_code` like concat('%',#{barCode},'%')
 			</if>
 			<if test="integral != null">
->				and `integral` like concat('%',#{integral},'%')
+				and `integral` like concat('%',#{integral},'%')
 			</if>
 			<if test="price != null">
->				and `price` like concat('%',#{price},'%')
+				and `price` like concat('%',#{price},'%')
 			</if>
 			<if test="vipPrice != null">
->				and `vip_price` like concat('%',#{vipPrice},'%')
+				and `vip_price` like concat('%',#{vipPrice},'%')
 			</if>
 			<if test="otPrice != null">
->				and `ot_price` like concat('%',#{otPrice},'%')
+				and `ot_price` like concat('%',#{otPrice},'%')
 			</if>
 			<if test="costPrice != null">
->				and `cost_price` like concat('%',#{costPrice},'%')
+				and `cost_price` like concat('%',#{costPrice},'%')
 			</if>
 			<if test="weight != null">
->				and `weight` like concat('%',#{weight},'%')
+				and `weight` like concat('%',#{weight},'%')
 			</if>
 			<if test="volume != null">
->				and `volume` like concat('%',#{volume},'%')
+				and `volume` like concat('%',#{volume},'%')
 			</if>
 			<if test="brokerage != null">
->				and `brokerage` like concat('%',#{brokerage},'%')
+				and `brokerage` like concat('%',#{brokerage},'%')
 			</if>
 			<if test="brokerageTwo != null">
->				and `brokerage_two` like concat('%',#{brokerageTwo},'%')
+				and `brokerage_two` like concat('%',#{brokerageTwo},'%')
 			</if>
 			<if test="pinkPrice != null">
->				and `pink_price` like concat('%',#{pinkPrice},'%')
+				and `pink_price` like concat('%',#{pinkPrice},'%')
 			</if>
 			<if test="pinkStock != null">
->				and `pink_stock` like concat('%',#{pinkStock},'%')
+				and `pink_stock` like concat('%',#{pinkStock},'%')
 			</if>
 			<if test="bargainPrice != null">
->				and `bargain_price` like concat('%',#{bargainPrice},'%')
+				and `bargain_price` like concat('%',#{bargainPrice},'%')
 			</if>
 			<if test="bargainStock != null">
->				and `bargain_stock` like concat('%',#{bargainStock},'%')
+				and `bargain_stock` like concat('%',#{bargainStock},'%')
 			</if>
 			<if test="seckillPrice != null">
->				and `seckill_price` like concat('%',#{seckillPrice},'%')
+				and `seckill_price` like concat('%',#{seckillPrice},'%')
 			</if>
 			<if test="seckillStock != null">
->				and `seckill_stock` like concat('%',#{seckillStock},'%')
+				and `seckill_stock` like concat('%',#{seckillStock},'%')
 			</if>
 			<if test="warehouseId != null">
->				and `warehouse_id` like concat('%',#{warehouseId},'%')
+				and `warehouse_id` like concat('%',#{warehouseId},'%')
 			</if>
 			<if test="warehouseExplain != null">
->				and `warehouse_explain` like concat('%',#{warehouseExplain},'%')
+				and `warehouse_explain` like concat('%',#{warehouseExplain},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductSkuDetail">
-
 		select
 		count(`id`)
 		from `tb_shop_product_sku_detail`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="productId != null">
->				and `product_id` = #{productId}
+				and `product_id` = #{productId}
 			</if>
 			<if test="skus != null">
->				and `skus` = #{skus}
+				and `skus` = #{skus}
 			</if>
 			<if test="stock != null">
->				and `stock` = #{stock}
+				and `stock` = #{stock}
 			</if>
 			<if test="sales != null">
->				and `sales` = #{sales}
+				and `sales` = #{sales}
 			</if>
 			<if test="cover != null">
->				and `cover` = #{cover}
+				and `cover` = #{cover}
 			</if>
 			<if test="uniqueCode != null">
->				and `unique_code` = #{uniqueCode}
+				and `unique_code` = #{uniqueCode}
 			</if>
 			<if test="barCode != null">
->				and `bar_code` = #{barCode}
+				and `bar_code` = #{barCode}
 			</if>
 			<if test="integral != null">
->				and `integral` = #{integral}
+				and `integral` = #{integral}
 			</if>
 			<if test="price != null">
->				and `price` = #{price}
+				and `price` = #{price}
 			</if>
 			<if test="vipPrice != null">
->				and `vip_price` = #{vipPrice}
+				and `vip_price` = #{vipPrice}
 			</if>
 			<if test="otPrice != null">
->				and `ot_price` = #{otPrice}
+				and `ot_price` = #{otPrice}
 			</if>
 			<if test="costPrice != null">
->				and `cost_price` = #{costPrice}
+				and `cost_price` = #{costPrice}
 			</if>
 			<if test="weight != null">
->				and `weight` = #{weight}
+				and `weight` = #{weight}
 			</if>
 			<if test="volume != null">
->				and `volume` = #{volume}
+				and `volume` = #{volume}
 			</if>
 			<if test="brokerage != null">
->				and `brokerage` = #{brokerage}
+				and `brokerage` = #{brokerage}
 			</if>
 			<if test="brokerageTwo != null">
->				and `brokerage_two` = #{brokerageTwo}
+				and `brokerage_two` = #{brokerageTwo}
 			</if>
 			<if test="pinkPrice != null">
->				and `pink_price` = #{pinkPrice}
+				and `pink_price` = #{pinkPrice}
 			</if>
 			<if test="pinkStock != null">
->				and `pink_stock` = #{pinkStock}
+				and `pink_stock` = #{pinkStock}
 			</if>
 			<if test="bargainPrice != null">
->				and `bargain_price` = #{bargainPrice}
+				and `bargain_price` = #{bargainPrice}
 			</if>
 			<if test="bargainStock != null">
->				and `bargain_stock` = #{bargainStock}
+				and `bargain_stock` = #{bargainStock}
 			</if>
 			<if test="seckillPrice != null">
->				and `seckill_price` = #{seckillPrice}
+				and `seckill_price` = #{seckillPrice}
 			</if>
 			<if test="seckillStock != null">
->				and `seckill_stock` = #{seckillStock}
+				and `seckill_stock` = #{seckillStock}
 			</if>
 			<if test="warehouseId != null">
->				and `warehouse_id` = #{warehouseId}
+				and `warehouse_id` = #{warehouseId}
 			</if>
 			<if test="warehouseExplain != null">
->				and `warehouse_explain` = #{warehouseExplain}
+				and `warehouse_explain` = #{warehouseExplain}
 			</if>
 		</where>
 	</select>

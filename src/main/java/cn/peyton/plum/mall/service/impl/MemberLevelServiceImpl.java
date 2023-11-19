@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.MemberLevelBo;
 import cn.peyton.plum.mall.mapper.MemberLevelMapper;
 import cn.peyton.plum.mall.param.MemberLevelParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("memberLevelService")
-public class MemberLevelServiceImpl extends AbstractAppRealizeService<Integer, MemberLevel, MemberLevelParam> implements MemberLevelService {
+public class MemberLevelServiceImpl extends AbstractRealizeService<Integer, MemberLevel, MemberLevelParam> implements MemberLevelService {
     @Resource
     private MemberLevelMapper memberLevelMapper;
 

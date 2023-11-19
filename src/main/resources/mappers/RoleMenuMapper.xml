@@ -38,7 +38,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RoleMenu">
-
 		select
 		count(`id`)
 		from `sys_role_menu`
@@ -63,7 +62,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultRoleMenuMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_role_menu_List"/>
 		from `sys_role_menu`
@@ -82,56 +80,53 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultRoleMenuMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_role_menu_List"/>
 		from `sys_role_menu`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.menuId != null">
->				and `menu_id` = #{record.menuId}
+				and `menu_id` = #{record.menuId}
 			</if>
 			<if test="record.roleId != null">
->				and `role_id` = #{record.roleId}
+				and `role_id` = #{record.roleId}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RoleMenu">
-
 		select
 		count(`id`)
 		from `sys_role_menu`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="menuId != null">
->				and `menu_id` like concat('%',#{menuId},'%')
+				and `menu_id` like concat('%',#{menuId},'%')
 			</if>
 			<if test="roleId != null">
->				and `role_id` like concat('%',#{roleId},'%')
+				and `role_id` like concat('%',#{roleId},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.RoleMenu">
-
 		select
 		count(`id`)
 		from `sys_role_menu`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="menuId != null">
->				and `menu_id` = #{menuId}
+				and `menu_id` = #{menuId}
 			</if>
 			<if test="roleId != null">
->				and `role_id` = #{roleId}
+				and `role_id` = #{roleId}
 			</if>
 		</where>
 	</select>

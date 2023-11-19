@@ -54,7 +54,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo">
-
 		select
 		count(`id`)
 		from `tb_warehouse_info`
@@ -91,7 +90,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultWarehouseInfoMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_warehouse_info_List"/>
 		from `tb_warehouse_info`
@@ -122,92 +120,89 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultWarehouseInfoMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_warehouse_info_List"/>
 		from `tb_warehouse_info`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.phone != null">
->				and `phone` = #{record.phone}
+				and `phone` = #{record.phone}
 			</if>
 			<if test="record.address != null">
->				and `address` = #{record.address}
+				and `address` = #{record.address}
 			</if>
 			<if test="record.loaction != null">
->				and `loaction` = #{record.loaction}
+				and `loaction` = #{record.loaction}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo">
-
 		select
 		count(`id`)
 		from `tb_warehouse_info`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="phone != null">
->				and `phone` like concat('%',#{phone},'%')
+				and `phone` like concat('%',#{phone},'%')
 			</if>
 			<if test="address != null">
->				and `address` like concat('%',#{address},'%')
+				and `address` like concat('%',#{address},'%')
 			</if>
 			<if test="loaction != null">
->				and `loaction` like concat('%',#{loaction},'%')
+				and `loaction` like concat('%',#{loaction},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WarehouseInfo">
-
 		select
 		count(`id`)
 		from `tb_warehouse_info`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="phone != null">
->				and `phone` = #{phone}
+				and `phone` = #{phone}
 			</if>
 			<if test="address != null">
->				and `address` = #{address}
+				and `address` = #{address}
 			</if>
 			<if test="loaction != null">
->				and `loaction` = #{loaction}
+				and `loaction` = #{loaction}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

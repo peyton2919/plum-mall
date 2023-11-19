@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShopProductReplyImgBo;
 import cn.peyton.plum.mall.mapper.ShopProductReplyImgMapper;
 import cn.peyton.plum.mall.param.ShopProductReplyImgParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shopProductReplyImgService")
-public class ShopProductReplyImgServiceImpl extends AbstractAppRealizeService<Long, ShopProductReplyImg, ShopProductReplyImgParam> implements ShopProductReplyImgService {
+public class ShopProductReplyImgServiceImpl extends AbstractRealizeService<Long, ShopProductReplyImg, ShopProductReplyImgParam> implements ShopProductReplyImgService {
     @Resource
     private ShopProductReplyImgMapper shopProductReplyImgMapper;
 

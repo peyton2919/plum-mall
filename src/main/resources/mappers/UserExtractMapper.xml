@@ -98,7 +98,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
-
 		select
 		count(`id`)
 		from `tb_user_extract`
@@ -168,7 +167,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultUserExtractMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_user_extract_List"/>
 		from `tb_user_extract`
@@ -232,191 +230,188 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultUserExtractMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_user_extract_List"/>
 		from `tb_user_extract`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.shaerId != null">
->				and `shaer_id` = #{record.shaerId}
+				and `shaer_id` = #{record.shaerId}
 			</if>
 			<if test="record.shaerType != null">
->				and `shaer_type` = #{record.shaerType}
+				and `shaer_type` = #{record.shaerType}
 			</if>
 			<if test="record.realName != null">
->				and `real_name` = #{record.realName}
+				and `real_name` = #{record.realName}
 			</if>
 			<if test="record.extractType != null">
->				and `extract_type` = #{record.extractType}
+				and `extract_type` = #{record.extractType}
 			</if>
 			<if test="record.bankCode != null">
->				and `bank_code` = #{record.bankCode}
+				and `bank_code` = #{record.bankCode}
 			</if>
 			<if test="record.bankAddress != null">
->				and `bank_address` = #{record.bankAddress}
+				and `bank_address` = #{record.bankAddress}
 			</if>
 			<if test="record.alipayCode != null">
->				and `alipay_code` = #{record.alipayCode}
+				and `alipay_code` = #{record.alipayCode}
 			</if>
 			<if test="record.extractPrice != null">
->				and `extract_price` = #{record.extractPrice}
+				and `extract_price` = #{record.extractPrice}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.balance != null">
->				and `balance` = #{record.balance}
+				and `balance` = #{record.balance}
 			</if>
 			<if test="record.failMsg != null">
->				and `fail_msg` = #{record.failMsg}
+				and `fail_msg` = #{record.failMsg}
 			</if>
 			<if test="record.failTime != null">
->				and `fail_time` = #{record.failTime}
+				and `fail_time` = #{record.failTime}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 			<if test="record.wechat != null">
->				and `wechat` = #{record.wechat}
+				and `wechat` = #{record.wechat}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
-
 		select
 		count(`id`)
 		from `tb_user_extract`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` like concat('%',#{shaerId},'%')
+				and `shaer_id` like concat('%',#{shaerId},'%')
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` like concat('%',#{shaerType},'%')
+				and `shaer_type` like concat('%',#{shaerType},'%')
 			</if>
 			<if test="realName != null">
->				and `real_name` like concat('%',#{realName},'%')
+				and `real_name` like concat('%',#{realName},'%')
 			</if>
 			<if test="extractType != null">
->				and `extract_type` like concat('%',#{extractType},'%')
+				and `extract_type` like concat('%',#{extractType},'%')
 			</if>
 			<if test="bankCode != null">
->				and `bank_code` like concat('%',#{bankCode},'%')
+				and `bank_code` like concat('%',#{bankCode},'%')
 			</if>
 			<if test="bankAddress != null">
->				and `bank_address` like concat('%',#{bankAddress},'%')
+				and `bank_address` like concat('%',#{bankAddress},'%')
 			</if>
 			<if test="alipayCode != null">
->				and `alipay_code` like concat('%',#{alipayCode},'%')
+				and `alipay_code` like concat('%',#{alipayCode},'%')
 			</if>
 			<if test="extractPrice != null">
->				and `extract_price` like concat('%',#{extractPrice},'%')
+				and `extract_price` like concat('%',#{extractPrice},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="balance != null">
->				and `balance` like concat('%',#{balance},'%')
+				and `balance` like concat('%',#{balance},'%')
 			</if>
 			<if test="failMsg != null">
->				and `fail_msg` like concat('%',#{failMsg},'%')
+				and `fail_msg` like concat('%',#{failMsg},'%')
 			</if>
 			<if test="failTime != null">
->				and `fail_time` like concat('%',#{failTime},'%')
+				and `fail_time` like concat('%',#{failTime},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 			<if test="wechat != null">
->				and `wechat` like concat('%',#{wechat},'%')
+				and `wechat` like concat('%',#{wechat},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserExtract">
-
 		select
 		count(`id`)
 		from `tb_user_extract`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` = #{shaerId}
+				and `shaer_id` = #{shaerId}
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` = #{shaerType}
+				and `shaer_type` = #{shaerType}
 			</if>
 			<if test="realName != null">
->				and `real_name` = #{realName}
+				and `real_name` = #{realName}
 			</if>
 			<if test="extractType != null">
->				and `extract_type` = #{extractType}
+				and `extract_type` = #{extractType}
 			</if>
 			<if test="bankCode != null">
->				and `bank_code` = #{bankCode}
+				and `bank_code` = #{bankCode}
 			</if>
 			<if test="bankAddress != null">
->				and `bank_address` = #{bankAddress}
+				and `bank_address` = #{bankAddress}
 			</if>
 			<if test="alipayCode != null">
->				and `alipay_code` = #{alipayCode}
+				and `alipay_code` = #{alipayCode}
 			</if>
 			<if test="extractPrice != null">
->				and `extract_price` = #{extractPrice}
+				and `extract_price` = #{extractPrice}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="balance != null">
->				and `balance` = #{balance}
+				and `balance` = #{balance}
 			</if>
 			<if test="failMsg != null">
->				and `fail_msg` = #{failMsg}
+				and `fail_msg` = #{failMsg}
 			</if>
 			<if test="failTime != null">
->				and `fail_time` = #{failTime}
+				and `fail_time` = #{failTime}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 			<if test="wechat != null">
->				and `wechat` = #{wechat}
+				and `wechat` = #{wechat}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

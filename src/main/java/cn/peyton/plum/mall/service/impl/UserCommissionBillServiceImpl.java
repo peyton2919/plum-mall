@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.UserCommissionBillBo;
 import cn.peyton.plum.mall.mapper.UserCommissionBillMapper;
 import cn.peyton.plum.mall.param.UserCommissionBillParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("userCommissionBillService")
-public class UserCommissionBillServiceImpl extends AbstractAppRealizeService<Long, UserCommissionBill, UserCommissionBillParam> implements UserCommissionBillService {
+public class UserCommissionBillServiceImpl extends AbstractRealizeService<Long, UserCommissionBill, UserCommissionBillParam> implements UserCommissionBillService {
     @Resource
     private UserCommissionBillMapper userCommissionBillMapper;
 

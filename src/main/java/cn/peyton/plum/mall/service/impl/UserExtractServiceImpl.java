@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.UserExtractBo;
 import cn.peyton.plum.mall.mapper.UserExtractMapper;
 import cn.peyton.plum.mall.param.UserExtractParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("userExtractService")
-public class UserExtractServiceImpl extends AbstractAppRealizeService<Long, UserExtract, UserExtractParam> implements UserExtractService {
+public class UserExtractServiceImpl extends AbstractRealizeService<Long, UserExtract, UserExtractParam> implements UserExtractService {
     @Resource
     private UserExtractMapper userExtractMapper;
 

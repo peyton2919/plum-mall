@@ -66,7 +66,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplates">
-
 		select
 		count(`id`)
 		from `tb_shipping_templates`
@@ -112,7 +111,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShippingTemplatesMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shipping_templates_List"/>
 		from `tb_shipping_templates`
@@ -152,119 +150,116 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShippingTemplatesMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shipping_templates_List"/>
 		from `tb_shipping_templates`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.calcType != null">
->				and `calc_type` = #{record.calcType}
+				and `calc_type` = #{record.calcType}
 			</if>
 			<if test="record.regionInfo != null">
->				and `region_info` = #{record.regionInfo}
+				and `region_info` = #{record.regionInfo}
 			</if>
 			<if test="record.appoint != null">
->				and `appoint` = #{record.appoint}
+				and `appoint` = #{record.appoint}
 			</if>
 			<if test="record.appointInfo != null">
->				and `appoint_info` = #{record.appointInfo}
+				and `appoint_info` = #{record.appointInfo}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplates">
-
 		select
 		count(`id`)
 		from `tb_shipping_templates`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="calcType != null">
->				and `calc_type` like concat('%',#{calcType},'%')
+				and `calc_type` like concat('%',#{calcType},'%')
 			</if>
 			<if test="regionInfo != null">
->				and `region_info` like concat('%',#{regionInfo},'%')
+				and `region_info` like concat('%',#{regionInfo},'%')
 			</if>
 			<if test="appoint != null">
->				and `appoint` like concat('%',#{appoint},'%')
+				and `appoint` like concat('%',#{appoint},'%')
 			</if>
 			<if test="appointInfo != null">
->				and `appoint_info` like concat('%',#{appointInfo},'%')
+				and `appoint_info` like concat('%',#{appointInfo},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplates">
-
 		select
 		count(`id`)
 		from `tb_shipping_templates`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="calcType != null">
->				and `calc_type` = #{calcType}
+				and `calc_type` = #{calcType}
 			</if>
 			<if test="regionInfo != null">
->				and `region_info` = #{regionInfo}
+				and `region_info` = #{regionInfo}
 			</if>
 			<if test="appoint != null">
->				and `appoint` = #{appoint}
+				and `appoint` = #{appoint}
 			</if>
 			<if test="appointInfo != null">
->				and `appoint_info` = #{appointInfo}
+				and `appoint_info` = #{appointInfo}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

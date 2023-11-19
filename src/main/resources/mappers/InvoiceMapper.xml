@@ -86,7 +86,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Invoice">
-
 		select
 		count(`id`)
 		from `sys_invoice`
@@ -147,7 +146,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultInvoiceMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_invoice_List"/>
 		from `sys_invoice`
@@ -202,164 +200,161 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultInvoiceMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_invoice_List"/>
 		from `sys_invoice`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.orderId != null">
->				and `order_id` = #{record.orderId}
+				and `order_id` = #{record.orderId}
 			</if>
 			<if test="record.shaerId != null">
->				and `shaer_id` = #{record.shaerId}
+				and `shaer_id` = #{record.shaerId}
 			</if>
 			<if test="record.shaerType != null">
->				and `shaer_type` = #{record.shaerType}
+				and `shaer_type` = #{record.shaerType}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.phone != null">
->				and `phone` = #{record.phone}
+				and `phone` = #{record.phone}
 			</if>
 			<if test="record.email != null">
->				and `email` = #{record.email}
+				and `email` = #{record.email}
 			</if>
 			<if test="record.code != null">
->				and `code` = #{record.code}
+				and `code` = #{record.code}
 			</if>
 			<if test="record.path != null">
->				and `path` = #{record.path}
+				and `path` = #{record.path}
 			</if>
 			<if test="record.bankname != null">
->				and `bankname` = #{record.bankname}
+				and `bankname` = #{record.bankname}
 			</if>
 			<if test="record.bankno != null">
->				and `bankno` = #{record.bankno}
+				and `bankno` = #{record.bankno}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 			<if test="record.type != null">
->				and `type` = #{record.type}
+				and `type` = #{record.type}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Invoice">
-
 		select
 		count(`id`)
 		from `sys_invoice`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="orderId != null">
->				and `order_id` like concat('%',#{orderId},'%')
+				and `order_id` like concat('%',#{orderId},'%')
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` like concat('%',#{shaerId},'%')
+				and `shaer_id` like concat('%',#{shaerId},'%')
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` like concat('%',#{shaerType},'%')
+				and `shaer_type` like concat('%',#{shaerType},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="phone != null">
->				and `phone` like concat('%',#{phone},'%')
+				and `phone` like concat('%',#{phone},'%')
 			</if>
 			<if test="email != null">
->				and `email` like concat('%',#{email},'%')
+				and `email` like concat('%',#{email},'%')
 			</if>
 			<if test="code != null">
->				and `code` like concat('%',#{code},'%')
+				and `code` like concat('%',#{code},'%')
 			</if>
 			<if test="path != null">
->				and `path` like concat('%',#{path},'%')
+				and `path` like concat('%',#{path},'%')
 			</if>
 			<if test="bankname != null">
->				and `bankname` like concat('%',#{bankname},'%')
+				and `bankname` like concat('%',#{bankname},'%')
 			</if>
 			<if test="bankno != null">
->				and `bankno` like concat('%',#{bankno},'%')
+				and `bankno` like concat('%',#{bankno},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 			<if test="type != null">
->				and `type` like concat('%',#{type},'%')
+				and `type` like concat('%',#{type},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Invoice">
-
 		select
 		count(`id`)
 		from `sys_invoice`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="orderId != null">
->				and `order_id` = #{orderId}
+				and `order_id` = #{orderId}
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` = #{shaerId}
+				and `shaer_id` = #{shaerId}
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` = #{shaerType}
+				and `shaer_type` = #{shaerType}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="phone != null">
->				and `phone` = #{phone}
+				and `phone` = #{phone}
 			</if>
 			<if test="email != null">
->				and `email` = #{email}
+				and `email` = #{email}
 			</if>
 			<if test="code != null">
->				and `code` = #{code}
+				and `code` = #{code}
 			</if>
 			<if test="path != null">
->				and `path` = #{path}
+				and `path` = #{path}
 			</if>
 			<if test="bankname != null">
->				and `bankname` = #{bankname}
+				and `bankname` = #{bankname}
 			</if>
 			<if test="bankno != null">
->				and `bankno` = #{bankno}
+				and `bankno` = #{bankno}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 			<if test="type != null">
->				and `type` = #{type}
+				and `type` = #{type}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 		</where>
 	</select>

@@ -46,7 +46,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
-
 		select
 		count(`id`)
 		from `sys_dict_detail`
@@ -77,7 +76,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultDictDetailMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_dict_detail_List"/>
 		from `sys_dict_detail`
@@ -102,74 +100,71 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultDictDetailMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_dict_detail_List"/>
 		from `sys_dict_detail`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.dictId != null">
->				and `dict_id` = #{record.dictId}
+				and `dict_id` = #{record.dictId}
 			</if>
 			<if test="record.label != null">
->				and `label` = #{record.label}
+				and `label` = #{record.label}
 			</if>
 			<if test="record.dictValue != null">
->				and `dict_value` = #{record.dictValue}
+				and `dict_value` = #{record.dictValue}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
-
 		select
 		count(`id`)
 		from `sys_dict_detail`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="dictId != null">
->				and `dict_id` like concat('%',#{dictId},'%')
+				and `dict_id` like concat('%',#{dictId},'%')
 			</if>
 			<if test="label != null">
->				and `label` like concat('%',#{label},'%')
+				and `label` like concat('%',#{label},'%')
 			</if>
 			<if test="dictValue != null">
->				and `dict_value` like concat('%',#{dictValue},'%')
+				and `dict_value` like concat('%',#{dictValue},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.DictDetail">
-
 		select
 		count(`id`)
 		from `sys_dict_detail`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="dictId != null">
->				and `dict_id` = #{dictId}
+				and `dict_id` = #{dictId}
 			</if>
 			<if test="label != null">
->				and `label` = #{label}
+				and `label` = #{label}
 			</if>
 			<if test="dictValue != null">
->				and `dict_value` = #{dictValue}
+				and `dict_value` = #{dictValue}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 		</where>
 	</select>

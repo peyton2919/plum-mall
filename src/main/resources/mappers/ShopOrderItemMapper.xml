@@ -62,7 +62,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderItem">
-
 		select
 		count(`id`)
 		from `tb_shop_order_item`
@@ -105,7 +104,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopOrderItemMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_order_item_List"/>
 		from `tb_shop_order_item`
@@ -142,110 +140,107 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopOrderItemMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_order_item_List"/>
 		from `tb_shop_order_item`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.oId != null">
->				and `o_id` = #{record.oId}
+				and `o_id` = #{record.oId}
 			</if>
 			<if test="record.orderNo != null">
->				and `order_no` = #{record.orderNo}
+				and `order_no` = #{record.orderNo}
 			</if>
 			<if test="record.cartId != null">
->				and `cart_id` = #{record.cartId}
+				and `cart_id` = #{record.cartId}
 			</if>
 			<if test="record.psdId != null">
->				and `psd_id` = #{record.psdId}
+				and `psd_id` = #{record.psdId}
 			</if>
 			<if test="record.num != null">
->				and `num` = #{record.num}
+				and `num` = #{record.num}
 			</if>
 			<if test="record.price != null">
->				and `price` = #{record.price}
+				and `price` = #{record.price}
 			</if>
 			<if test="record.isAfterSales != null">
->				and `is_after_sales` = #{record.isAfterSales}
+				and `is_after_sales` = #{record.isAfterSales}
 			</if>
 			<if test="record.isShow != null">
->				and `is_show` = #{record.isShow}
+				and `is_show` = #{record.isShow}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderItem">
-
 		select
 		count(`id`)
 		from `tb_shop_order_item`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="oId != null">
->				and `o_id` like concat('%',#{oId},'%')
+				and `o_id` like concat('%',#{oId},'%')
 			</if>
 			<if test="orderNo != null">
->				and `order_no` like concat('%',#{orderNo},'%')
+				and `order_no` like concat('%',#{orderNo},'%')
 			</if>
 			<if test="cartId != null">
->				and `cart_id` like concat('%',#{cartId},'%')
+				and `cart_id` like concat('%',#{cartId},'%')
 			</if>
 			<if test="psdId != null">
->				and `psd_id` like concat('%',#{psdId},'%')
+				and `psd_id` like concat('%',#{psdId},'%')
 			</if>
 			<if test="num != null">
->				and `num` like concat('%',#{num},'%')
+				and `num` like concat('%',#{num},'%')
 			</if>
 			<if test="price != null">
->				and `price` like concat('%',#{price},'%')
+				and `price` like concat('%',#{price},'%')
 			</if>
 			<if test="isAfterSales != null">
->				and `is_after_sales` like concat('%',#{isAfterSales},'%')
+				and `is_after_sales` like concat('%',#{isAfterSales},'%')
 			</if>
 			<if test="isShow != null">
->				and `is_show` like concat('%',#{isShow},'%')
+				and `is_show` like concat('%',#{isShow},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderItem">
-
 		select
 		count(`id`)
 		from `tb_shop_order_item`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="oId != null">
->				and `o_id` = #{oId}
+				and `o_id` = #{oId}
 			</if>
 			<if test="orderNo != null">
->				and `order_no` = #{orderNo}
+				and `order_no` = #{orderNo}
 			</if>
 			<if test="cartId != null">
->				and `cart_id` = #{cartId}
+				and `cart_id` = #{cartId}
 			</if>
 			<if test="psdId != null">
->				and `psd_id` = #{psdId}
+				and `psd_id` = #{psdId}
 			</if>
 			<if test="num != null">
->				and `num` = #{num}
+				and `num` = #{num}
 			</if>
 			<if test="price != null">
->				and `price` = #{price}
+				and `price` = #{price}
 			</if>
 			<if test="isAfterSales != null">
->				and `is_after_sales` = #{isAfterSales}
+				and `is_after_sales` = #{isAfterSales}
 			</if>
 			<if test="isShow != null">
->				and `is_show` = #{isShow}
+				and `is_show` = #{isShow}
 			</if>
 		</where>
 	</select>

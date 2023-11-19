@@ -5,12 +5,13 @@
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="create_id" property="createId" jdbcType="BIGINT"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
 		<result column="create_type" property="createType" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 	</resultMap>
 
 	<sql id="Column_sys_material_group_List">
-		`id`,`create_id`,`name`,`create_type`,`create_time`
+		`id`,`create_id`,`name`,`seq`,`create_type`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.MaterialGroup" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -18,12 +19,14 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="createId != null">`create_id`,</if>
 			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
 			<if test="createType != null">`create_type`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="createId != null">#{createId},</if>
 			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
 			<if test="createType != null">#{createType},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
@@ -34,6 +37,7 @@
 		<set>
 			<if test="createId != null">`create_id` = #{createId},</if>
 			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
 			<if test="createType != null">`create_type` = #{createType},</if>
 			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
@@ -60,6 +64,9 @@
 			<if test="name != null">
 				and `name` = #{name}
 			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
 			<if test="createType != null">
 				and `create_type` = #{createType}
 			</if>
@@ -77,7 +84,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultMaterialGroupMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_material_group_List"/>
 		from `sys_material_group`
@@ -90,6 +96,9 @@
 			</if>
 			<if test="record.name != null">
 				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
 			</if>
 			<if test="record.createType != null">
 				and `create_type` like concat('%',#{record.createType},'%')
@@ -106,23 +115,28 @@
 		select
 		<include refid="Column_sys_material_group_List"/>
 		from `sys_material_group`
+		<if test="record != null">
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.createId != null">
->				and `create_id` = #{record.createId}
+				and `create_id` = #{record.createId}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
+			</if>
+			<if test="record.seq != null">
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.createType != null">
->				and `create_type` = #{record.createType}
+				and `create_type` = #{record.createType}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
+		</if>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
@@ -133,19 +147,22 @@
 		from `sys_material_group`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="createId != null">
->				and `create_id` like concat('%',#{createId},'%')
+				and `create_id` like concat('%',#{createId},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="seq != null">
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="createType != null">
->				and `create_type` like concat('%',#{createType},'%')
+				and `create_type` like concat('%',#{createType},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
@@ -157,19 +174,22 @@
 		from `sys_material_group`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="createId != null">
->				and `create_id` = #{createId}
+				and `create_id` = #{createId}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
 			</if>
 			<if test="createType != null">
->				and `create_type` = #{createType}
+				and `create_type` = #{createType}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShippingTemplatesValueBo;
 import cn.peyton.plum.mall.mapper.ShippingTemplatesValueMapper;
 import cn.peyton.plum.mall.param.ShippingTemplatesValueParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shippingTemplatesValueService")
-public class ShippingTemplatesValueServiceImpl extends AbstractAppRealizeService<Integer, ShippingTemplatesValue, ShippingTemplatesValueParam> implements ShippingTemplatesValueService {
+public class ShippingTemplatesValueServiceImpl extends AbstractRealizeService<Integer, ShippingTemplatesValue, ShippingTemplatesValueParam> implements ShippingTemplatesValueService {
     @Resource
     private ShippingTemplatesValueMapper shippingTemplatesValueMapper;
 

@@ -35,7 +35,7 @@ import java.util.Date;
  * </pre>
  */
 @RestController
-@RequestMapping("/pc/manager/user")
+@RequestMapping("/pc/user")
 @CrossOrigin(origins = "*")
 public class UserController extends PcController<UserParam> {
     /** 验证码 在缓存中的时间 */
@@ -52,7 +52,7 @@ public class UserController extends PcController<UserParam> {
     private UserService userService;
 
     // 发送验证码
-    @PostMapping("/sendcode")
+    @PostMapping("/manager/sendcode")
     @Valid
     public JSONResult<?> sendCode(
             @NotBlank(message = "手机号码不能为空!")
@@ -126,7 +126,7 @@ public class UserController extends PcController<UserParam> {
         return (null != _param)?JSONResult.success(_param):JSONResult.fail("注册失败,请联系管理员。");
     }
 
-    @PostMapping("/getinfo")
+    @PostMapping("/manager/getinfo")
     @Token
     public JSONResult<?> findJoinById(){
         UserParam userParam = handleToken(new UserParam());
@@ -172,13 +172,14 @@ public class UserController extends PcController<UserParam> {
         if(!userService.update(_uIp)){
             return JSONResult.fail("用户登录异常,请联系管理员。");
         }
+        _param.setUserType(IUser.TYPE_USER);
         _param.setLoginType(_loginType);
         _param.setToken(saveToken(_param));
         return JSONResult.success(_param);
     }
 
     // 用户退出
-    @PostMapping("/logout")
+    @PostMapping("/manager/logout")
     public JSONResult<UserParam> logout() {
         if(verifyToken()){
             return JSONResult.success("退出成功");
@@ -186,7 +187,7 @@ public class UserController extends PcController<UserParam> {
         return JSONResult.fail("非法 Token");
     }
     // 搜索用户
-    @PostMapping("/search")
+    @PostMapping("/manager/search")
     @Valid
     public JSONResult<?> search(@NotBlank(message = "搜索字段不能为空！")String keyword,
                                 @Min(message = "要大于0的数！")Integer pageNo){
@@ -195,7 +196,7 @@ public class UserController extends PcController<UserParam> {
         return JSONResult.success(userService.findByLikeAndObj(_param, new PageQuery(pageNo)));
     }
     // 编辑用户头像
-    @PostMapping("/edituseravatar")
+    @PostMapping("/manager/edituseravatar")
     @Token
     public JSONResult<?> editAvatar(MultipartFile file, HttpServletRequest request) {
         UserParam _param = handleToken(new UserParam());
@@ -231,7 +232,7 @@ public class UserController extends PcController<UserParam> {
     // 编辑用户资料
     @Token
     @Valid
-    @PostMapping("/edituser")
+    @PostMapping("/manager/edituser")
     public JSONResult<?> editUser(UserParam param) {
         // 从 token 获取 对象
         UserParam userParam = handleToken(param);
@@ -261,7 +262,7 @@ public class UserController extends PcController<UserParam> {
     // 修改用户密码
     @Valid
     @Token
-    @PostMapping("/uppassword")
+    @PostMapping("/manager/uppassword")
     public JSONResult<UserParam> editPassword(
           @NotBlank(message = "旧密码不能为空！")
           @Length(min = 6,max = 30,message = "密码长度为6~30的字符!")

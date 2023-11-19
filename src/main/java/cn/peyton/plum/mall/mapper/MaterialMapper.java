@@ -15,6 +15,11 @@ import cn.peyton.plum.mall.pojo.Material;
 public interface MaterialMapper extends IBaseMapper<Long, Material> {
 
     // ==================================== new create method ==================================== //
-
+    /**
+     * <h4>判断有没有关联分组</h4>
+     * @param groupId 分组Id
+     * @return 受影响的行数 有关联 大于 0
+     */
+    int joinGroup(Long groupId);
 
 }

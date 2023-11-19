@@ -147,7 +147,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultUserMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_user_List"/>
 		from `sys_user`
@@ -202,110 +201,108 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultUserMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_user_List"/>
 		from `sys_user`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.avatar != null">
->				and `avatar` = #{record.avatar}
+				and `avatar` = #{record.avatar}
 			</if>
 			<if test="record.email != null">
->				and `email` = #{record.email}
+				and `email` = #{record.email}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 			<if test="record.password != null">
->				and `password` = #{record.password}
+				and `password` = #{record.password}
 			</if>
 			<if test="record.username != null">
->				and `username` = #{record.username}
+				and `username` = #{record.username}
 			</if>
 			<if test="record.deptId != null">
->				and `dept_id` = #{record.deptId}
+				and `dept_id` = #{record.deptId}
 			</if>
 			<if test="record.phone != null">
->				and `phone` = #{record.phone}
+				and `phone` = #{record.phone}
 			</if>
 			<if test="record.jobId != null">
->				and `job_id` = #{record.jobId}
+				and `job_id` = #{record.jobId}
 			</if>
 			<if test="record.nickName != null">
->				and `nick_name` = #{record.nickName}
+				and `nick_name` = #{record.nickName}
 			</if>
 			<if test="record.sex != null">
->				and `sex` = #{record.sex}
+				and `sex` = #{record.sex}
 			</if>
 			<if test="record.lastIp != null">
->				and `last_ip` = #{record.lastIp}
+				and `last_ip` = #{record.lastIp}
 			</if>
 			<if test="record.lastLoginTime != null">
->				and `last_login_time` = #{record.lastLoginTime}
+				and `last_login_time` = #{record.lastLoginTime}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.User">
-
 		select
 		count(`id`)
 		from `sys_user`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="avatar != null">
->				and `avatar` like concat('%',#{avatar},'%')
+				and `avatar` like concat('%',#{avatar},'%')
 			</if>
 			<if test="email != null">
->				and `email` like concat('%',#{email},'%')
+				and `email` like concat('%',#{email},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 			<if test="password != null">
->				and `password` like concat('%',#{password},'%')
+				and `password` like concat('%',#{password},'%')
 			</if>
 			<if test="username != null">
->				and `username` like concat('%',#{username},'%')
+				and `username` like concat('%',#{username},'%')
 			</if>
 			<if test="deptId != null">
->				and `dept_id` like concat('%',#{deptId},'%')
+				and `dept_id` like concat('%',#{deptId},'%')
 			</if>
 			<if test="phone != null">
->				and `phone` like concat('%',#{phone},'%')
+				and `phone` like concat('%',#{phone},'%')
 			</if>
 			<if test="jobId != null">
->				and `job_id` like concat('%',#{jobId},'%')
+				and `job_id` like concat('%',#{jobId},'%')
 			</if>
 			<if test="nickName != null">
->				and `nick_name` like concat('%',#{nickName},'%')
+				and `nick_name` like concat('%',#{nickName},'%')
 			</if>
 			<if test="sex != null">
->				and `sex` like concat('%',#{sex},'%')
+				and `sex` like concat('%',#{sex},'%')
 			</if>
 			<if test="lastIp != null">
->				and `last_ip` like concat('%',#{lastIp},'%')
+				and `last_ip` like concat('%',#{lastIp},'%')
 			</if>
 			<if test="lastLoginTime != null">
->				and `last_login_time` like concat('%',#{lastLoginTime},'%')
+				and `last_login_time` like concat('%',#{lastLoginTime},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
@@ -316,49 +313,49 @@
 		from `sys_user`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="avatar != null">
->				and `avatar` = #{avatar}
+				and `avatar` = #{avatar}
 			</if>
 			<if test="email != null">
->				and `email` = #{email}
+				and `email` = #{email}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 			<if test="password != null">
->				and `password` = #{password}
+				and `password` = #{password}
 			</if>
 			<if test="username != null">
->				and `username` = #{username}
+				and `username` = #{username}
 			</if>
 			<if test="deptId != null">
->				and `dept_id` = #{deptId}
+				and `dept_id` = #{deptId}
 			</if>
 			<if test="phone != null">
->				and `phone` = #{phone}
+				and `phone` = #{phone}
 			</if>
 			<if test="jobId != null">
->				and `job_id` = #{jobId}
+				and `job_id` = #{jobId}
 			</if>
 			<if test="nickName != null">
->				and `nick_name` = #{nickName}
+				and `nick_name` = #{nickName}
 			</if>
 			<if test="sex != null">
->				and `sex` = #{sex}
+				and `sex` = #{sex}
 			</if>
 			<if test="lastIp != null">
->				and `last_ip` = #{lastIp}
+				and `last_ip` = #{lastIp}
 			</if>
 			<if test="lastLoginTime != null">
->				and `last_login_time` = #{lastLoginTime}
+				and `last_login_time` = #{lastLoginTime}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>
@@ -407,8 +404,6 @@
 		<include refid="Column_sys_user_List"/>
 		from `sys_user`
 		where `id` = #{shareId} and is_del= 1
-
-
 	</select>
 
 </mapper>

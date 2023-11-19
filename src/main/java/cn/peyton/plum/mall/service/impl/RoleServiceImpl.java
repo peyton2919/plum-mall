@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.RoleBo;
 import cn.peyton.plum.mall.mapper.RoleMapper;
 import cn.peyton.plum.mall.param.RoleParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("roleService")
-public class RoleServiceImpl extends AbstractAppRealizeService<Long, Role, RoleParam> implements RoleService {
+public class RoleServiceImpl extends AbstractRealizeService<Long, Role, RoleParam> implements RoleService {
     @Resource
     private RoleMapper roleMapper;
 

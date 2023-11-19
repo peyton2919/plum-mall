@@ -112,7 +112,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultAdvertMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_advert_List"/>
 		from `tb_advert`
@@ -152,40 +151,39 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultAdvertMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_advert_List"/>
 		from `tb_advert`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.title != null">
->				and `title` = #{record.title}
+				and `title` = #{record.title}
 			</if>
 			<if test="record.src != null">
->				and `src` = #{record.src}
+				and `src` = #{record.src}
 			</if>
 			<if test="record.url != null">
->				and `url` = #{record.url}
+				and `url` = #{record.url}
 			</if>
 			<if test="record.imgType != null">
->				and `img_type` = #{record.imgType}
+				and `img_type` = #{record.imgType}
 			</if>
 			<if test="record.location != null">
->				and `location` = #{record.location}
+				and `location` = #{record.location}
 			</if>
 			<if test="record.hot != null">
->				and `hot` = #{record.hot}
+				and `hot` = #{record.hot}
 			</if>
 			<if test="record.clickCount != null">
->				and `click_count` = #{record.clickCount}
+				and `click_count` = #{record.clickCount}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
@@ -198,34 +196,34 @@
 		from `tb_advert`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="title != null">
->				and `title` like concat('%',#{title},'%')
+				and `title` like concat('%',#{title},'%')
 			</if>
 			<if test="src != null">
->				and `src` like concat('%',#{src},'%')
+				and `src` like concat('%',#{src},'%')
 			</if>
 			<if test="url != null">
->				and `url` like concat('%',#{url},'%')
+				and `url` like concat('%',#{url},'%')
 			</if>
 			<if test="imgType != null">
->				and `img_type` like concat('%',#{imgType},'%')
+				and `img_type` like concat('%',#{imgType},'%')
 			</if>
 			<if test="location != null">
->				and `location` like concat('%',#{location},'%')
+				and `location` like concat('%',#{location},'%')
 			</if>
 			<if test="hot != null">
->				and `hot` like concat('%',#{hot},'%')
+				and `hot` like concat('%',#{hot},'%')
 			</if>
 			<if test="clickCount != null">
->				and `click_count` like concat('%',#{clickCount},'%')
+				and `click_count` like concat('%',#{clickCount},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
@@ -237,34 +235,34 @@
 		from `tb_advert`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="title != null">
->				and `title` = #{title}
+				and `title` = #{title}
 			</if>
 			<if test="src != null">
->				and `src` = #{src}
+				and `src` = #{src}
 			</if>
 			<if test="url != null">
->				and `url` = #{url}
+				and `url` = #{url}
 			</if>
 			<if test="imgType != null">
->				and `img_type` = #{imgType}
+				and `img_type` = #{imgType}
 			</if>
 			<if test="location != null">
->				and `location` = #{location}
+				and `location` = #{location}
 			</if>
 			<if test="hot != null">
->				and `hot` = #{hot}
+				and `hot` = #{hot}
 			</if>
 			<if test="clickCount != null">
->				and `click_count` = #{clickCount}
+				and `click_count` = #{clickCount}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

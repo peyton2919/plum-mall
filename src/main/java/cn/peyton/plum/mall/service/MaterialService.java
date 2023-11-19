@@ -15,4 +15,11 @@ import cn.peyton.plum.mall.pojo.Material;
  */
 public interface MaterialService extends IBaseService<Long, Material, MaterialParam> {
 
+    /**
+     * <h4>判断有没有关联分组</h4>
+     * @param groupId 分组Id
+     * @return 有关联为 true
+     */
+    Boolean joinGroup(Long groupId);
+
 }

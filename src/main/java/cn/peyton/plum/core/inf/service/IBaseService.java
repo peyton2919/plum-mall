@@ -1,6 +1,7 @@
 package cn.peyton.plum.core.inf.service;
 
 import cn.peyton.plum.core.page.PageQuery;
+import cn.peyton.plum.core.page.PageResult;
 
 import java.util.List;
 
@@ -86,6 +87,14 @@ public interface IBaseService<K, T, P> {
     List<P> findByLikeAndObj(P record, PageQuery page);
 
     /**
+     * <h4>分页查询(全部或关键字模糊查找)</h4>
+     *
+     * @param record 关键字, 当 record = null 时为全部查询
+     * @param page   分页对象
+     * @return 对象集合
+     */
+    PageResult<?> findAllByLike(P record, PageQuery page);
+    /**
      * <h4>根据对象条件查找</h4>
      *
      * @param record 对象
@@ -94,6 +103,14 @@ public interface IBaseService<K, T, P> {
      */
     List<P> findByObj(P record, PageQuery page);
 
+    /**
+     * <h4>分页查询(全部或关键字模糊查找)</h4>
+     *
+     * @param record 关键字, 当 record = null 时为全部查询
+     * @param page   分页对象
+     * @return 对象集合
+     */
+    PageResult<?> findAll(P record, PageQuery page);
     /**
      * <h4>查找全部数量(模糊Like查找)</h4>
      *

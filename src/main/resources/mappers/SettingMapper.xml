@@ -90,7 +90,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
-
 		select
 		count(`id`)
 		from `sys_setting`
@@ -154,7 +153,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultSettingMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_setting_List"/>
 		from `sys_setting`
@@ -212,173 +210,170 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultSettingMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_setting_List"/>
 		from `sys_setting`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.openReg != null">
->				and `open_reg` = #{record.openReg}
+				and `open_reg` = #{record.openReg}
 			</if>
 			<if test="record.regMethod != null">
->				and `reg_method` = #{record.regMethod}
+				and `reg_method` = #{record.regMethod}
 			</if>
 			<if test="record.passwordMin != null">
->				and `password_min` = #{record.passwordMin}
+				and `password_min` = #{record.passwordMin}
 			</if>
 			<if test="record.passwordEncrypt != null">
->				and `password_encrypt` = #{record.passwordEncrypt}
+				and `password_encrypt` = #{record.passwordEncrypt}
 			</if>
 			<if test="record.uploadMethod != null">
->				and `upload_method` = #{record.uploadMethod}
+				and `upload_method` = #{record.uploadMethod}
 			</if>
 			<if test="record.uploadConfig != null">
->				and `upload_config` = #{record.uploadConfig}
+				and `upload_config` = #{record.uploadConfig}
 			</if>
 			<if test="record.apiSafe != null">
->				and `api_safe` = #{record.apiSafe}
+				and `api_safe` = #{record.apiSafe}
 			</if>
 			<if test="record.apiSecret != null">
->				and `api_secret` = #{record.apiSecret}
+				and `api_secret` = #{record.apiSecret}
 			</if>
 			<if test="record.closeOrderMinute != null">
->				and `close_order_minute` = #{record.closeOrderMinute}
+				and `close_order_minute` = #{record.closeOrderMinute}
 			</if>
 			<if test="record.autoReceivedDay != null">
->				and `auto_received_day` = #{record.autoReceivedDay}
+				and `auto_received_day` = #{record.autoReceivedDay}
 			</if>
 			<if test="record.afterSaleDay != null">
->				and `after_sale_day` = #{record.afterSaleDay}
+				and `after_sale_day` = #{record.afterSaleDay}
 			</if>
 			<if test="record.alipay != null">
->				and `alipay` = #{record.alipay}
+				and `alipay` = #{record.alipay}
 			</if>
 			<if test="record.wxpay != null">
->				and `wxpay` = #{record.wxpay}
+				and `wxpay` = #{record.wxpay}
 			</if>
 			<if test="record.ship != null">
->				and `ship` = #{record.ship}
+				and `ship` = #{record.ship}
 			</if>
 			<if test="record.status != null">
->				and `status` = #{record.status}
+				and `status` = #{record.status}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
-
 		select
 		count(`id`)
 		from `sys_setting`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="openReg != null">
->				and `open_reg` like concat('%',#{openReg},'%')
+				and `open_reg` like concat('%',#{openReg},'%')
 			</if>
 			<if test="regMethod != null">
->				and `reg_method` like concat('%',#{regMethod},'%')
+				and `reg_method` like concat('%',#{regMethod},'%')
 			</if>
 			<if test="passwordMin != null">
->				and `password_min` like concat('%',#{passwordMin},'%')
+				and `password_min` like concat('%',#{passwordMin},'%')
 			</if>
 			<if test="passwordEncrypt != null">
->				and `password_encrypt` like concat('%',#{passwordEncrypt},'%')
+				and `password_encrypt` like concat('%',#{passwordEncrypt},'%')
 			</if>
 			<if test="uploadMethod != null">
->				and `upload_method` like concat('%',#{uploadMethod},'%')
+				and `upload_method` like concat('%',#{uploadMethod},'%')
 			</if>
 			<if test="uploadConfig != null">
->				and `upload_config` like concat('%',#{uploadConfig},'%')
+				and `upload_config` like concat('%',#{uploadConfig},'%')
 			</if>
 			<if test="apiSafe != null">
->				and `api_safe` like concat('%',#{apiSafe},'%')
+				and `api_safe` like concat('%',#{apiSafe},'%')
 			</if>
 			<if test="apiSecret != null">
->				and `api_secret` like concat('%',#{apiSecret},'%')
+				and `api_secret` like concat('%',#{apiSecret},'%')
 			</if>
 			<if test="closeOrderMinute != null">
->				and `close_order_minute` like concat('%',#{closeOrderMinute},'%')
+				and `close_order_minute` like concat('%',#{closeOrderMinute},'%')
 			</if>
 			<if test="autoReceivedDay != null">
->				and `auto_received_day` like concat('%',#{autoReceivedDay},'%')
+				and `auto_received_day` like concat('%',#{autoReceivedDay},'%')
 			</if>
 			<if test="afterSaleDay != null">
->				and `after_sale_day` like concat('%',#{afterSaleDay},'%')
+				and `after_sale_day` like concat('%',#{afterSaleDay},'%')
 			</if>
 			<if test="alipay != null">
->				and `alipay` like concat('%',#{alipay},'%')
+				and `alipay` like concat('%',#{alipay},'%')
 			</if>
 			<if test="wxpay != null">
->				and `wxpay` like concat('%',#{wxpay},'%')
+				and `wxpay` like concat('%',#{wxpay},'%')
 			</if>
 			<if test="ship != null">
->				and `ship` like concat('%',#{ship},'%')
+				and `ship` like concat('%',#{ship},'%')
 			</if>
 			<if test="status != null">
->				and `status` like concat('%',#{status},'%')
+				and `status` like concat('%',#{status},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Setting">
-
 		select
 		count(`id`)
 		from `sys_setting`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="openReg != null">
->				and `open_reg` = #{openReg}
+				and `open_reg` = #{openReg}
 			</if>
 			<if test="regMethod != null">
->				and `reg_method` = #{regMethod}
+				and `reg_method` = #{regMethod}
 			</if>
 			<if test="passwordMin != null">
->				and `password_min` = #{passwordMin}
+				and `password_min` = #{passwordMin}
 			</if>
 			<if test="passwordEncrypt != null">
->				and `password_encrypt` = #{passwordEncrypt}
+				and `password_encrypt` = #{passwordEncrypt}
 			</if>
 			<if test="uploadMethod != null">
->				and `upload_method` = #{uploadMethod}
+				and `upload_method` = #{uploadMethod}
 			</if>
 			<if test="uploadConfig != null">
->				and `upload_config` = #{uploadConfig}
+				and `upload_config` = #{uploadConfig}
 			</if>
 			<if test="apiSafe != null">
->				and `api_safe` = #{apiSafe}
+				and `api_safe` = #{apiSafe}
 			</if>
 			<if test="apiSecret != null">
->				and `api_secret` = #{apiSecret}
+				and `api_secret` = #{apiSecret}
 			</if>
 			<if test="closeOrderMinute != null">
->				and `close_order_minute` = #{closeOrderMinute}
+				and `close_order_minute` = #{closeOrderMinute}
 			</if>
 			<if test="autoReceivedDay != null">
->				and `auto_received_day` = #{autoReceivedDay}
+				and `auto_received_day` = #{autoReceivedDay}
 			</if>
 			<if test="afterSaleDay != null">
->				and `after_sale_day` = #{afterSaleDay}
+				and `after_sale_day` = #{afterSaleDay}
 			</if>
 			<if test="alipay != null">
->				and `alipay` = #{alipay}
+				and `alipay` = #{alipay}
 			</if>
 			<if test="wxpay != null">
->				and `wxpay` = #{wxpay}
+				and `wxpay` = #{wxpay}
 			</if>
 			<if test="ship != null">
->				and `ship` = #{ship}
+				and `ship` = #{ship}
 			</if>
 			<if test="status != null">
->				and `status` = #{status}
+				and `status` = #{status}
 			</if>
 		</where>
 	</select>

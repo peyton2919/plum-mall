@@ -58,7 +58,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.MemberLevel">
-
 		select
 		count(`id`)
 		from `tb_member_level`
@@ -98,7 +97,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultMemberLevelMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_member_level_List"/>
 		from `tb_member_level`
@@ -132,101 +130,98 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultMemberLevelMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_member_level_List"/>
 		from `tb_member_level`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.memberType != null">
->				and `member_type` = #{record.memberType}
+				and `member_type` = #{record.memberType}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.discount != null">
->				and `discount` = #{record.discount}
+				and `discount` = #{record.discount}
 			</if>
 			<if test="record.maxPrice != null">
->				and `max_price` = #{record.maxPrice}
+				and `max_price` = #{record.maxPrice}
 			</if>
 			<if test="record.maxTimes != null">
->				and `max_times` = #{record.maxTimes}
+				and `max_times` = #{record.maxTimes}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.MemberLevel">
-
 		select
 		count(`id`)
 		from `tb_member_level`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="memberType != null">
->				and `member_type` like concat('%',#{memberType},'%')
+				and `member_type` like concat('%',#{memberType},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="discount != null">
->				and `discount` like concat('%',#{discount},'%')
+				and `discount` like concat('%',#{discount},'%')
 			</if>
 			<if test="maxPrice != null">
->				and `max_price` like concat('%',#{maxPrice},'%')
+				and `max_price` like concat('%',#{maxPrice},'%')
 			</if>
 			<if test="maxTimes != null">
->				and `max_times` like concat('%',#{maxTimes},'%')
+				and `max_times` like concat('%',#{maxTimes},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.MemberLevel">
-
 		select
 		count(`id`)
 		from `tb_member_level`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="memberType != null">
->				and `member_type` = #{memberType}
+				and `member_type` = #{memberType}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="discount != null">
->				and `discount` = #{discount}
+				and `discount` = #{discount}
 			</if>
 			<if test="maxPrice != null">
->				and `max_price` = #{maxPrice}
+				and `max_price` = #{maxPrice}
 			</if>
 			<if test="maxTimes != null">
->				and `max_times` = #{maxTimes}
+				and `max_times` = #{maxTimes}
 			</if>
 		</where>
 	</select>

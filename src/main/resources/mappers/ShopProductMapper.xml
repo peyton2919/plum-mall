@@ -162,7 +162,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProduct">
-
 		select
 		count(`id`)
 		from `tb_shop_product`
@@ -280,7 +279,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_List"/>
 		from `tb_shop_product`
@@ -392,335 +390,332 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopProductMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_List"/>
 		from `tb_shop_product`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.cover != null">
->				and `cover` = #{record.cover}
+				and `cover` = #{record.cover}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.info != null">
->				and `info` = #{record.info}
+				and `info` = #{record.info}
 			</if>
 			<if test="record.keyword != null">
->				and `keyword` = #{record.keyword}
+				and `keyword` = #{record.keyword}
 			</if>
 			<if test="record.tempId != null">
->				and `temp_id` = #{record.tempId}
+				and `temp_id` = #{record.tempId}
 			</if>
 			<if test="record.price != null">
->				and `price` = #{record.price}
+				and `price` = #{record.price}
 			</if>
 			<if test="record.vipPrice != null">
->				and `vip_price` = #{record.vipPrice}
+				and `vip_price` = #{record.vipPrice}
 			</if>
 			<if test="record.otPrice != null">
->				and `ot_price` = #{record.otPrice}
+				and `ot_price` = #{record.otPrice}
 			</if>
 			<if test="record.costPrice != null">
->				and `cost_price` = #{record.costPrice}
+				and `cost_price` = #{record.costPrice}
 			</if>
 			<if test="record.postage != null">
->				and `postage` = #{record.postage}
+				and `postage` = #{record.postage}
 			</if>
 			<if test="record.unitName != null">
->				and `unit_name` = #{record.unitName}
+				and `unit_name` = #{record.unitName}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.sales != null">
->				and `sales` = #{record.sales}
+				and `sales` = #{record.sales}
 			</if>
 			<if test="record.stock != null">
->				and `stock` = #{record.stock}
+				and `stock` = #{record.stock}
 			</if>
 			<if test="record.browse != null">
->				and `browse` = #{record.browse}
+				and `browse` = #{record.browse}
 			</if>
 			<if test="record.ficti != null">
->				and `ficti` = #{record.ficti}
+				and `ficti` = #{record.ficti}
 			</if>
 			<if test="record.codePath != null">
->				and `code_path` = #{record.codePath}
+				and `code_path` = #{record.codePath}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.specType != null">
->				and `spec_type` = #{record.specType}
+				and `spec_type` = #{record.specType}
 			</if>
 			<if test="record.isShow != null">
->				and `is_show` = #{record.isShow}
+				and `is_show` = #{record.isShow}
 			</if>
 			<if test="record.isHot != null">
->				and `is_hot` = #{record.isHot}
+				and `is_hot` = #{record.isHot}
 			</if>
 			<if test="record.isBenefit != null">
->				and `is_benefit` = #{record.isBenefit}
+				and `is_benefit` = #{record.isBenefit}
 			</if>
 			<if test="record.isBest != null">
->				and `is_best` = #{record.isBest}
+				and `is_best` = #{record.isBest}
 			</if>
 			<if test="record.isNew != null">
->				and `is_new` = #{record.isNew}
+				and `is_new` = #{record.isNew}
 			</if>
 			<if test="record.isPostage != null">
->				and `is_postage` = #{record.isPostage}
+				and `is_postage` = #{record.isPostage}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.isGood != null">
->				and `is_good` = #{record.isGood}
+				and `is_good` = #{record.isGood}
 			</if>
 			<if test="record.isSub != null">
->				and `is_sub` = #{record.isSub}
+				and `is_sub` = #{record.isSub}
 			</if>
 			<if test="record.giveIntegral != null">
->				and `give_integral` = #{record.giveIntegral}
+				and `give_integral` = #{record.giveIntegral}
 			</if>
 			<if test="record.isIntegral != null">
->				and `is_integral` = #{record.isIntegral}
+				and `is_integral` = #{record.isIntegral}
 			</if>
 			<if test="record.integral != null">
->				and `integral` = #{record.integral}
+				and `integral` = #{record.integral}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProduct">
-
 		select
 		count(`id`)
 		from `tb_shop_product`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="cover != null">
->				and `cover` like concat('%',#{cover},'%')
+				and `cover` like concat('%',#{cover},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="info != null">
->				and `info` like concat('%',#{info},'%')
+				and `info` like concat('%',#{info},'%')
 			</if>
 			<if test="keyword != null">
->				and `keyword` like concat('%',#{keyword},'%')
+				and `keyword` like concat('%',#{keyword},'%')
 			</if>
 			<if test="tempId != null">
->				and `temp_id` like concat('%',#{tempId},'%')
+				and `temp_id` like concat('%',#{tempId},'%')
 			</if>
 			<if test="price != null">
->				and `price` like concat('%',#{price},'%')
+				and `price` like concat('%',#{price},'%')
 			</if>
 			<if test="vipPrice != null">
->				and `vip_price` like concat('%',#{vipPrice},'%')
+				and `vip_price` like concat('%',#{vipPrice},'%')
 			</if>
 			<if test="otPrice != null">
->				and `ot_price` like concat('%',#{otPrice},'%')
+				and `ot_price` like concat('%',#{otPrice},'%')
 			</if>
 			<if test="costPrice != null">
->				and `cost_price` like concat('%',#{costPrice},'%')
+				and `cost_price` like concat('%',#{costPrice},'%')
 			</if>
 			<if test="postage != null">
->				and `postage` like concat('%',#{postage},'%')
+				and `postage` like concat('%',#{postage},'%')
 			</if>
 			<if test="unitName != null">
->				and `unit_name` like concat('%',#{unitName},'%')
+				and `unit_name` like concat('%',#{unitName},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="sales != null">
->				and `sales` like concat('%',#{sales},'%')
+				and `sales` like concat('%',#{sales},'%')
 			</if>
 			<if test="stock != null">
->				and `stock` like concat('%',#{stock},'%')
+				and `stock` like concat('%',#{stock},'%')
 			</if>
 			<if test="browse != null">
->				and `browse` like concat('%',#{browse},'%')
+				and `browse` like concat('%',#{browse},'%')
 			</if>
 			<if test="ficti != null">
->				and `ficti` like concat('%',#{ficti},'%')
+				and `ficti` like concat('%',#{ficti},'%')
 			</if>
 			<if test="codePath != null">
->				and `code_path` like concat('%',#{codePath},'%')
+				and `code_path` like concat('%',#{codePath},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="specType != null">
->				and `spec_type` like concat('%',#{specType},'%')
+				and `spec_type` like concat('%',#{specType},'%')
 			</if>
 			<if test="isShow != null">
->				and `is_show` like concat('%',#{isShow},'%')
+				and `is_show` like concat('%',#{isShow},'%')
 			</if>
 			<if test="isHot != null">
->				and `is_hot` like concat('%',#{isHot},'%')
+				and `is_hot` like concat('%',#{isHot},'%')
 			</if>
 			<if test="isBenefit != null">
->				and `is_benefit` like concat('%',#{isBenefit},'%')
+				and `is_benefit` like concat('%',#{isBenefit},'%')
 			</if>
 			<if test="isBest != null">
->				and `is_best` like concat('%',#{isBest},'%')
+				and `is_best` like concat('%',#{isBest},'%')
 			</if>
 			<if test="isNew != null">
->				and `is_new` like concat('%',#{isNew},'%')
+				and `is_new` like concat('%',#{isNew},'%')
 			</if>
 			<if test="isPostage != null">
->				and `is_postage` like concat('%',#{isPostage},'%')
+				and `is_postage` like concat('%',#{isPostage},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="isGood != null">
->				and `is_good` like concat('%',#{isGood},'%')
+				and `is_good` like concat('%',#{isGood},'%')
 			</if>
 			<if test="isSub != null">
->				and `is_sub` like concat('%',#{isSub},'%')
+				and `is_sub` like concat('%',#{isSub},'%')
 			</if>
 			<if test="giveIntegral != null">
->				and `give_integral` like concat('%',#{giveIntegral},'%')
+				and `give_integral` like concat('%',#{giveIntegral},'%')
 			</if>
 			<if test="isIntegral != null">
->				and `is_integral` like concat('%',#{isIntegral},'%')
+				and `is_integral` like concat('%',#{isIntegral},'%')
 			</if>
 			<if test="integral != null">
->				and `integral` like concat('%',#{integral},'%')
+				and `integral` like concat('%',#{integral},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProduct">
-
 		select
 		count(`id`)
 		from `tb_shop_product`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="cover != null">
->				and `cover` = #{cover}
+				and `cover` = #{cover}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="info != null">
->				and `info` = #{info}
+				and `info` = #{info}
 			</if>
 			<if test="keyword != null">
->				and `keyword` = #{keyword}
+				and `keyword` = #{keyword}
 			</if>
 			<if test="tempId != null">
->				and `temp_id` = #{tempId}
+				and `temp_id` = #{tempId}
 			</if>
 			<if test="price != null">
->				and `price` = #{price}
+				and `price` = #{price}
 			</if>
 			<if test="vipPrice != null">
->				and `vip_price` = #{vipPrice}
+				and `vip_price` = #{vipPrice}
 			</if>
 			<if test="otPrice != null">
->				and `ot_price` = #{otPrice}
+				and `ot_price` = #{otPrice}
 			</if>
 			<if test="costPrice != null">
->				and `cost_price` = #{costPrice}
+				and `cost_price` = #{costPrice}
 			</if>
 			<if test="postage != null">
->				and `postage` = #{postage}
+				and `postage` = #{postage}
 			</if>
 			<if test="unitName != null">
->				and `unit_name` = #{unitName}
+				and `unit_name` = #{unitName}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="sales != null">
->				and `sales` = #{sales}
+				and `sales` = #{sales}
 			</if>
 			<if test="stock != null">
->				and `stock` = #{stock}
+				and `stock` = #{stock}
 			</if>
 			<if test="browse != null">
->				and `browse` = #{browse}
+				and `browse` = #{browse}
 			</if>
 			<if test="ficti != null">
->				and `ficti` = #{ficti}
+				and `ficti` = #{ficti}
 			</if>
 			<if test="codePath != null">
->				and `code_path` = #{codePath}
+				and `code_path` = #{codePath}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="specType != null">
->				and `spec_type` = #{specType}
+				and `spec_type` = #{specType}
 			</if>
 			<if test="isShow != null">
->				and `is_show` = #{isShow}
+				and `is_show` = #{isShow}
 			</if>
 			<if test="isHot != null">
->				and `is_hot` = #{isHot}
+				and `is_hot` = #{isHot}
 			</if>
 			<if test="isBenefit != null">
->				and `is_benefit` = #{isBenefit}
+				and `is_benefit` = #{isBenefit}
 			</if>
 			<if test="isBest != null">
->				and `is_best` = #{isBest}
+				and `is_best` = #{isBest}
 			</if>
 			<if test="isNew != null">
->				and `is_new` = #{isNew}
+				and `is_new` = #{isNew}
 			</if>
 			<if test="isPostage != null">
->				and `is_postage` = #{isPostage}
+				and `is_postage` = #{isPostage}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="isGood != null">
->				and `is_good` = #{isGood}
+				and `is_good` = #{isGood}
 			</if>
 			<if test="isSub != null">
->				and `is_sub` = #{isSub}
+				and `is_sub` = #{isSub}
 			</if>
 			<if test="giveIntegral != null">
->				and `give_integral` = #{giveIntegral}
+				and `give_integral` = #{giveIntegral}
 			</if>
 			<if test="isIntegral != null">
->				and `is_integral` = #{isIntegral}
+				and `is_integral` = #{isIntegral}
 			</if>
 			<if test="integral != null">
->				and `integral` = #{integral}
+				and `integral` = #{integral}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

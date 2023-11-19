@@ -58,7 +58,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
-
 		select
 		count(`id`)
 		from `tb_shop_order_refund`
@@ -98,7 +97,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopOrderRefundMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_order_refund_List"/>
 		from `tb_shop_order_refund`
@@ -132,101 +130,98 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopOrderRefundMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_order_refund_List"/>
 		from `tb_shop_order_refund`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.imgs != null">
->				and `imgs` = #{record.imgs}
+				and `imgs` = #{record.imgs}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.reason != null">
->				and `reason` = #{record.reason}
+				and `reason` = #{record.reason}
 			</if>
 			<if test="record.noReason != null">
->				and `no_reason` = #{record.noReason}
+				and `no_reason` = #{record.noReason}
 			</if>
 			<if test="record.refundPrice != null">
->				and `refund_price` = #{record.refundPrice}
+				and `refund_price` = #{record.refundPrice}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
-
 		select
 		count(`id`)
 		from `tb_shop_order_refund`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="imgs != null">
->				and `imgs` like concat('%',#{imgs},'%')
+				and `imgs` like concat('%',#{imgs},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="reason != null">
->				and `reason` like concat('%',#{reason},'%')
+				and `reason` like concat('%',#{reason},'%')
 			</if>
 			<if test="noReason != null">
->				and `no_reason` like concat('%',#{noReason},'%')
+				and `no_reason` like concat('%',#{noReason},'%')
 			</if>
 			<if test="refundPrice != null">
->				and `refund_price` like concat('%',#{refundPrice},'%')
+				and `refund_price` like concat('%',#{refundPrice},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopOrderRefund">
-
 		select
 		count(`id`)
 		from `tb_shop_order_refund`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="imgs != null">
->				and `imgs` = #{imgs}
+				and `imgs` = #{imgs}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="reason != null">
->				and `reason` = #{reason}
+				and `reason` = #{reason}
 			</if>
 			<if test="noReason != null">
->				and `no_reason` = #{noReason}
+				and `no_reason` = #{noReason}
 			</if>
 			<if test="refundPrice != null">
->				and `refund_price` = #{refundPrice}
+				and `refund_price` = #{refundPrice}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

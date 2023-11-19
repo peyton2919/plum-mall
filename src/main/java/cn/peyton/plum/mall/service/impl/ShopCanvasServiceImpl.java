@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShopCanvasBo;
 import cn.peyton.plum.mall.mapper.ShopCanvasMapper;
 import cn.peyton.plum.mall.param.ShopCanvasParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shopCanvasService")
-public class ShopCanvasServiceImpl extends AbstractAppRealizeService<Long, ShopCanvas, ShopCanvasParam> implements ShopCanvasService {
+public class ShopCanvasServiceImpl extends AbstractRealizeService<Long, ShopCanvas, ShopCanvasParam> implements ShopCanvasService {
     @Resource
     private ShopCanvasMapper shopCanvasMapper;
 

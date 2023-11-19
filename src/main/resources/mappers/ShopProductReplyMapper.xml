@@ -82,7 +82,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply">
-
 		select
 		count(`id`)
 		from `tb_shop_product_reply`
@@ -140,7 +139,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductReplyMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_reply_List"/>
 		from `tb_shop_product_reply`
@@ -192,155 +190,152 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopProductReplyMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_reply_List"/>
 		from `tb_shop_product_reply`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.uId != null">
->				and `u_id` = #{record.uId}
+				and `u_id` = #{record.uId}
 			</if>
 			<if test="record.oId != null">
->				and `o_id` = #{record.oId}
+				and `o_id` = #{record.oId}
 			</if>
 			<if test="record.uniqueCode != null">
->				and `unique_code` = #{record.uniqueCode}
+				and `unique_code` = #{record.uniqueCode}
 			</if>
 			<if test="record.productId != null">
->				and `product_id` = #{record.productId}
+				and `product_id` = #{record.productId}
 			</if>
 			<if test="record.replyType != null">
->				and `reply_type` = #{record.replyType}
+				and `reply_type` = #{record.replyType}
 			</if>
 			<if test="record.productScore != null">
->				and `product_score` = #{record.productScore}
+				and `product_score` = #{record.productScore}
 			</if>
 			<if test="record.serviceScore != null">
->				and `service_score` = #{record.serviceScore}
+				and `service_score` = #{record.serviceScore}
 			</if>
 			<if test="record.replyComment != null">
->				and `reply_comment` = #{record.replyComment}
+				and `reply_comment` = #{record.replyComment}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.isReply != null">
->				and `is_reply` = #{record.isReply}
+				and `is_reply` = #{record.isReply}
 			</if>
 			<if test="record.merchantReplyContent != null">
->				and `merchant_reply_content` = #{record.merchantReplyContent}
+				and `merchant_reply_content` = #{record.merchantReplyContent}
 			</if>
 			<if test="record.merchantReplyTime != null">
->				and `merchant_reply_time` = #{record.merchantReplyTime}
+				and `merchant_reply_time` = #{record.merchantReplyTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply">
-
 		select
 		count(`id`)
 		from `tb_shop_product_reply`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="uId != null">
->				and `u_id` like concat('%',#{uId},'%')
+				and `u_id` like concat('%',#{uId},'%')
 			</if>
 			<if test="oId != null">
->				and `o_id` like concat('%',#{oId},'%')
+				and `o_id` like concat('%',#{oId},'%')
 			</if>
 			<if test="uniqueCode != null">
->				and `unique_code` like concat('%',#{uniqueCode},'%')
+				and `unique_code` like concat('%',#{uniqueCode},'%')
 			</if>
 			<if test="productId != null">
->				and `product_id` like concat('%',#{productId},'%')
+				and `product_id` like concat('%',#{productId},'%')
 			</if>
 			<if test="replyType != null">
->				and `reply_type` like concat('%',#{replyType},'%')
+				and `reply_type` like concat('%',#{replyType},'%')
 			</if>
 			<if test="productScore != null">
->				and `product_score` like concat('%',#{productScore},'%')
+				and `product_score` like concat('%',#{productScore},'%')
 			</if>
 			<if test="serviceScore != null">
->				and `service_score` like concat('%',#{serviceScore},'%')
+				and `service_score` like concat('%',#{serviceScore},'%')
 			</if>
 			<if test="replyComment != null">
->				and `reply_comment` like concat('%',#{replyComment},'%')
+				and `reply_comment` like concat('%',#{replyComment},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="isReply != null">
->				and `is_reply` like concat('%',#{isReply},'%')
+				and `is_reply` like concat('%',#{isReply},'%')
 			</if>
 			<if test="merchantReplyContent != null">
->				and `merchant_reply_content` like concat('%',#{merchantReplyContent},'%')
+				and `merchant_reply_content` like concat('%',#{merchantReplyContent},'%')
 			</if>
 			<if test="merchantReplyTime != null">
->				and `merchant_reply_time` like concat('%',#{merchantReplyTime},'%')
+				and `merchant_reply_time` like concat('%',#{merchantReplyTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductReply">
-
 		select
 		count(`id`)
 		from `tb_shop_product_reply`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="uId != null">
->				and `u_id` = #{uId}
+				and `u_id` = #{uId}
 			</if>
 			<if test="oId != null">
->				and `o_id` = #{oId}
+				and `o_id` = #{oId}
 			</if>
 			<if test="uniqueCode != null">
->				and `unique_code` = #{uniqueCode}
+				and `unique_code` = #{uniqueCode}
 			</if>
 			<if test="productId != null">
->				and `product_id` = #{productId}
+				and `product_id` = #{productId}
 			</if>
 			<if test="replyType != null">
->				and `reply_type` = #{replyType}
+				and `reply_type` = #{replyType}
 			</if>
 			<if test="productScore != null">
->				and `product_score` = #{productScore}
+				and `product_score` = #{productScore}
 			</if>
 			<if test="serviceScore != null">
->				and `service_score` = #{serviceScore}
+				and `service_score` = #{serviceScore}
 			</if>
 			<if test="replyComment != null">
->				and `reply_comment` = #{replyComment}
+				and `reply_comment` = #{replyComment}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="isReply != null">
->				and `is_reply` = #{isReply}
+				and `is_reply` = #{isReply}
 			</if>
 			<if test="merchantReplyContent != null">
->				and `merchant_reply_content` = #{merchantReplyContent}
+				and `merchant_reply_content` = #{merchantReplyContent}
 			</if>
 			<if test="merchantReplyTime != null">
->				and `merchant_reply_time` = #{merchantReplyTime}
+				and `merchant_reply_time` = #{merchantReplyTime}
 			</if>
 		</where>
 	</select>

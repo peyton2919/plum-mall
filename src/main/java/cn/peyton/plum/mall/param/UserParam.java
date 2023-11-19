@@ -94,19 +94,19 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
     /** 角色 */
     private RoleParam roleParam;
     /** 菜单集合 */
-    private List<MenuParam> menuParamList;
+    private List<MenuParam> menus;
     /** 菜单 （condition）名称数组 */
-    private List<String> menuNames;
+    private List<String> ruleNames;
     //================================== Constructor =======================================//
     public UserParam(){
         if (null == roleParam) {
             roleParam = new RoleParam();
         }
-        if (null == menuParamList) {
-            menuParamList = new ArrayList<>();
+        if (null == menus) {
+            menus = new ArrayList<>();
         }
-        if (null == menuNames) {
-            menuNames = new ArrayList<>();
+        if (null == ruleNames) {
+            ruleNames = new ArrayList<>();
         }
     }
 
@@ -355,29 +355,29 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
     /**
      * @return 菜单对象集合
      */
-    public List<MenuParam> getMenuParamList() {
-        return menuParamList;
+    public List<MenuParam> getMenus() {
+        return menus;
     }
 
     /**
-     * @param menuParamList 菜单对象集合
+     * @param menus 菜单对象集合
      */
-    public void setMenuParamList(List<MenuParam> menuParamList) {
-        this.menuParamList = menuParamList;
+    public void setMenus(List<MenuParam> menus) {
+        this.menus = menus;
     }
 
     /**
      * @return 菜单 （condition）名称数组
      */
-    public List<String> getMenuNames() {
-        return menuNames;
+    public List<String> getRuleNames() {
+        return ruleNames;
     }
 
     /**
-     * @param menuNames 菜单 （condition）名称数组
+     * @param ruleNames 菜单 （condition）名称数组
      */
-    public void setMenuNames(List<String> menuNames) {
-        this.menuNames = menuNames;
+    public void setRuleNames(List<String> ruleNames) {
+        this.ruleNames = ruleNames;
     }
 
     /**
@@ -405,7 +405,7 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         user.setLastLoginTime(DateUtils.dateToTimestamp(lastLoginTime));
         user.setIsDel(isDel);
         user.setRole(roleParam.convert());
-        user.setMenuList(new MenuBo().reverse(menuParamList));
+        user.setMenuList(new MenuBo().reverse(menus));
         return user;
     }
 
@@ -436,7 +436,7 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         this.setLastLoginTime(DateUtils.timestampToStrDate(user.getLastLoginTime()));
         this.setIsDel(user.getIsDel());
         this.setRoleParam(new RoleBo().compat(user.getRole()));
-        this.setMenuParamList(new MenuBo().adapter(user.getMenuList()));
+        this.setMenus(new MenuBo().adapter(user.getMenuList()));
         return this;
     }
 

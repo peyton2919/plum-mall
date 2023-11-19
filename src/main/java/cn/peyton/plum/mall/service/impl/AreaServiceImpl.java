@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.AreaBo;
 import cn.peyton.plum.mall.mapper.AreaMapper;
 import cn.peyton.plum.mall.param.AreaParam;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("areaService")
-public class AreaServiceImpl extends AbstractAppRealizeService<Long, Area, AreaParam>
+public class AreaServiceImpl extends AbstractRealizeService<Long, Area, AreaParam>
         implements AreaService {
     @Resource
     private AreaMapper areaMapper;

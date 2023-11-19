@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.MaterialBo;
 import cn.peyton.plum.mall.mapper.MaterialMapper;
 import cn.peyton.plum.mall.param.MaterialParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("materialService")
-public class MaterialServiceImpl extends AbstractAppRealizeService<Long, Material, MaterialParam> implements MaterialService {
+public class MaterialServiceImpl extends AbstractRealizeService<Long, Material, MaterialParam> implements MaterialService {
     @Resource
     private MaterialMapper materialMapper;
 
@@ -35,4 +35,8 @@ public class MaterialServiceImpl extends AbstractAppRealizeService<Long, Materia
         return materialMapper;
     }
 
+    @Override
+    public Boolean joinGroup(Long groupId) {
+        return materialMapper.joinGroup(groupId) > 0;
+    }
 }

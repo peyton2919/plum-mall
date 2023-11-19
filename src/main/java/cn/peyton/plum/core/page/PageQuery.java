@@ -32,6 +32,10 @@ public final class PageQuery implements Serializable {
      * 偏移量 {当前页 * 每页大小}
      */
     private int offset;
+    /** 排序列字段名称(数据库的字段) */
+    private String orderByColumuName;
+    /** 排序方式 [ASC|DESC] */
+    private String orderByMode="ASC";
 
     /**
      * 无参构造函数
@@ -50,13 +54,51 @@ public final class PageQuery implements Serializable {
 
     /**
      * 构造函数
-     *
      * @param pageNo   当前页数
      * @param pageSize 每页大小
      */
     public PageQuery(int pageNo, int pageSize) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
+    }
+
+    /**
+     * 构造函数
+     * @param pageNo   当前页数
+     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     */
+    public PageQuery(int pageNo, String orderByColumuName) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.orderByColumuName = orderByColumuName;
+        this.orderByMode = orderByMode;
+    }
+
+    /**
+     * 构造函数
+     * @param pageNo   当前页数
+     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     * @param orderByMode 排序方式 [ASC|DESC]
+     */
+    public PageQuery(int pageNo,String orderByColumuName,String orderByMode) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.orderByColumuName = orderByColumuName;
+        this.orderByMode = orderByMode;
+    }
+
+    /**
+     * 构造函数
+     * @param pageNo   当前页数
+     * @param pageSize 每页大小
+     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     * @param orderByMode 排序方式 [ASC|DESC]
+     */
+    public PageQuery(int pageNo, int pageSize,String orderByColumuName,String orderByMode) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.orderByColumuName = orderByColumuName;
+        this.orderByMode = orderByMode;
     }
 
 
@@ -101,4 +143,42 @@ public final class PageQuery implements Serializable {
     public void setOffset(int offset) {
         this.offset = offset;
     }
+
+    /**
+     * @return 排序列字段名称(数据库的字段)
+     */
+    public String getOrderByColumuName() {
+        return orderByColumuName;
+    }
+
+    /**
+     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     */
+    public void setOrderByColumuName(String orderByColumuName) {
+        this.orderByColumuName = orderByColumuName;
+    }
+
+    /**
+     * @return 排序方式 [ASC|DESC]
+     */
+    public String getOrderByMode() {
+        return orderByMode;
+    }
+
+    /**
+     * @param orderByMode 排序方式 [ASC|DESC]
+     */
+    public void setOrderByMode(String orderByMode) {
+        this.orderByMode = orderByMode;
+    }
+
+    public interface PROS{
+        /** 升序 */
+        String ASC = "ASC";
+        /** 降序 */
+        String DESC = "DESC";
+
+    }
 }
+
+

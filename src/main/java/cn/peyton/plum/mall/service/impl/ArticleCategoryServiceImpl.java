@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ArticleCategoryBo;
 import cn.peyton.plum.mall.param.ArticleCategoryParam;
 import cn.peyton.plum.mall.pojo.ArticleCategory;
@@ -21,7 +21,7 @@ import jakarta.annotation.Resource;
  * </pre>
  */
 @Service("articleCategoryService")
-public class ArticleCategoryServiceImpl extends AbstractAppRealizeService<Integer, ArticleCategory, ArticleCategoryParam>
+public class ArticleCategoryServiceImpl extends AbstractRealizeService<Integer, ArticleCategory, ArticleCategoryParam>
         implements ArticleCategoryService {
     @Resource
     private ArticleCategoryMapper articleCategoryMapper;

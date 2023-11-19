@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ProvinceBo;
 import cn.peyton.plum.mall.mapper.ProvinceMapper;
 import cn.peyton.plum.mall.param.ProvinceParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("provinceService")
-public class ProvinceServiceImpl extends AbstractAppRealizeService<Integer, Province, ProvinceParam> implements ProvinceService {
+public class ProvinceServiceImpl extends AbstractRealizeService<Integer, Province, ProvinceParam> implements ProvinceService {
     @Resource
     private ProvinceMapper provinceMapper;
 

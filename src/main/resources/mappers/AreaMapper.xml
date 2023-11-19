@@ -38,7 +38,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
-
 		select
 		count(`id`)
 		from `sys_area`
@@ -63,7 +62,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultAreaMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_area_List"/>
 		from `sys_area`
@@ -82,56 +80,53 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultAreaMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_area_List"/>
 		from `sys_area`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
-
 		select
 		count(`id`)
 		from `sys_area`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Area">
-
 		select
 		count(`id`)
 		from `sys_area`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 		</where>
 	</select>

@@ -70,7 +70,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Supplier">
-
 		select
 		count(`id`)
 		from `tb_supplier`
@@ -119,7 +118,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultSupplierMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_supplier_List"/>
 		from `tb_supplier`
@@ -162,128 +160,125 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultSupplierMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_supplier_List"/>
 		from `tb_supplier`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.loginName != null">
->				and `login_name` = #{record.loginName}
+				and `login_name` = #{record.loginName}
 			</if>
 			<if test="record.avatar != null">
->				and `avatar` = #{record.avatar}
+				and `avatar` = #{record.avatar}
 			</if>
 			<if test="record.pwd != null">
->				and `pwd` = #{record.pwd}
+				and `pwd` = #{record.pwd}
 			</if>
 			<if test="record.phone != null">
->				and `phone` = #{record.phone}
+				and `phone` = #{record.phone}
 			</if>
 			<if test="record.loc != null">
->				and `loc` = #{record.loc}
+				and `loc` = #{record.loc}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.encrypted != null">
->				and `encrypted` = #{record.encrypted}
+				and `encrypted` = #{record.encrypted}
 			</if>
 			<if test="record.lastIp != null">
->				and `last_ip` = #{record.lastIp}
+				and `last_ip` = #{record.lastIp}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Supplier">
-
 		select
 		count(`id`)
 		from `tb_supplier`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="loginName != null">
->				and `login_name` like concat('%',#{loginName},'%')
+				and `login_name` like concat('%',#{loginName},'%')
 			</if>
 			<if test="avatar != null">
->				and `avatar` like concat('%',#{avatar},'%')
+				and `avatar` like concat('%',#{avatar},'%')
 			</if>
 			<if test="pwd != null">
->				and `pwd` like concat('%',#{pwd},'%')
+				and `pwd` like concat('%',#{pwd},'%')
 			</if>
 			<if test="phone != null">
->				and `phone` like concat('%',#{phone},'%')
+				and `phone` like concat('%',#{phone},'%')
 			</if>
 			<if test="loc != null">
->				and `loc` like concat('%',#{loc},'%')
+				and `loc` like concat('%',#{loc},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="encrypted != null">
->				and `encrypted` like concat('%',#{encrypted},'%')
+				and `encrypted` like concat('%',#{encrypted},'%')
 			</if>
 			<if test="lastIp != null">
->				and `last_ip` like concat('%',#{lastIp},'%')
+				and `last_ip` like concat('%',#{lastIp},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Supplier">
-
 		select
 		count(`id`)
 		from `tb_supplier`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="loginName != null">
->				and `login_name` = #{loginName}
+				and `login_name` = #{loginName}
 			</if>
 			<if test="avatar != null">
->				and `avatar` = #{avatar}
+				and `avatar` = #{avatar}
 			</if>
 			<if test="pwd != null">
->				and `pwd` = #{pwd}
+				and `pwd` = #{pwd}
 			</if>
 			<if test="phone != null">
->				and `phone` = #{phone}
+				and `phone` = #{phone}
 			</if>
 			<if test="loc != null">
->				and `loc` = #{loc}
+				and `loc` = #{loc}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="encrypted != null">
->				and `encrypted` = #{encrypted}
+				and `encrypted` = #{encrypted}
 			</if>
 			<if test="lastIp != null">
->				and `last_ip` = #{lastIp}
+				and `last_ip` = #{lastIp}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

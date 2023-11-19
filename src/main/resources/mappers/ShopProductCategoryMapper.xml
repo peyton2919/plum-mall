@@ -38,7 +38,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductCategory">
-
 		select
 		count(`id`)
 		from `tb_shop_product_category`
@@ -63,7 +62,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductCategoryMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_category_List"/>
 		from `tb_shop_product_category`
@@ -82,56 +80,53 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopProductCategoryMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_category_List"/>
 		from `tb_shop_product_category`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.categoryId != null">
->				and `category_id` = #{record.categoryId}
+				and `category_id` = #{record.categoryId}
 			</if>
 			<if test="record.productId != null">
->				and `product_id` = #{record.productId}
+				and `product_id` = #{record.productId}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductCategory">
-
 		select
 		count(`id`)
 		from `tb_shop_product_category`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="categoryId != null">
->				and `category_id` like concat('%',#{categoryId},'%')
+				and `category_id` like concat('%',#{categoryId},'%')
 			</if>
 			<if test="productId != null">
->				and `product_id` like concat('%',#{productId},'%')
+				and `product_id` like concat('%',#{productId},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductCategory">
-
 		select
 		count(`id`)
 		from `tb_shop_product_category`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="categoryId != null">
->				and `category_id` = #{categoryId}
+				and `category_id` = #{categoryId}
 			</if>
 			<if test="productId != null">
->				and `product_id` = #{productId}
+				and `product_id` = #{productId}
 			</if>
 		</where>
 	</select>

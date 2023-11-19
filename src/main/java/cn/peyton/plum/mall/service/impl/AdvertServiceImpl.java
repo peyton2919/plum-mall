@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.AdvertBo;
 import cn.peyton.plum.mall.param.AdvertParam;
 import cn.peyton.plum.mall.pojo.Advert;
@@ -21,7 +21,7 @@ import jakarta.annotation.Resource;
  * </pre>
  */
 @Service("advertService")
-public class AdvertServiceImpl extends AbstractAppRealizeService<Long, Advert, AdvertParam>
+public class AdvertServiceImpl extends AbstractRealizeService<Long, Advert, AdvertParam>
         implements AdvertService {
     @Resource
     private AdvertMapper advertMapper;

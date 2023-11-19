@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ArticleBo;
 import cn.peyton.plum.mall.mapper.ArticleMapper;
 import cn.peyton.plum.mall.param.ArticleParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("articleService")
-public class ArticleServiceImpl extends AbstractAppRealizeService<Long, Article, ArticleParam>
+public class ArticleServiceImpl extends AbstractRealizeService<Long, Article, ArticleParam>
         implements ArticleService {
     @Resource
     private ArticleMapper articleMapper;

@@ -15,4 +15,5 @@ import cn.peyton.plum.mall.pojo.MaterialGroup;
  */
 public interface MaterialGroupService extends IBaseService<Long, MaterialGroup, MaterialGroupParam> {
 
+
 }

@@ -24,6 +24,9 @@ public final class MenuUtils implements Serializable {
      * @return param对象集合
      */
     public static List<Menu> reorganize(List<Menu> menuList) {
+        if(null == menuList && menuList.size() == 0){
+            return menuList;
+        }
         return new MenuUtils().getChildren(menuList);
     }
 

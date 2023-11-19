@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.SettingBo;
 import cn.peyton.plum.mall.mapper.SettingMapper;
 import cn.peyton.plum.mall.param.SettingParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("settingService")
-public class SettingServiceImpl extends AbstractAppRealizeService<Integer, Setting, SettingParam> implements SettingService {
+public class SettingServiceImpl extends AbstractRealizeService<Integer, Setting, SettingParam> implements SettingService {
     @Resource
     private SettingMapper settingMapper;
 

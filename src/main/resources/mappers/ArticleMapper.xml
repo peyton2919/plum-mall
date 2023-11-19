@@ -90,7 +90,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Article">
-
 		select
 		count(`id`)
 		from `tb_article`
@@ -154,7 +153,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultArticleMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_article_List"/>
 		from `tb_article`
@@ -212,173 +210,170 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultArticleMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_article_List"/>
 		from `tb_article`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.categoryId != null">
->				and `category_id` = #{record.categoryId}
+				and `category_id` = #{record.categoryId}
 			</if>
 			<if test="record.title != null">
->				and `title` = #{record.title}
+				and `title` = #{record.title}
 			</if>
 			<if test="record.author != null">
->				and `author` = #{record.author}
+				and `author` = #{record.author}
 			</if>
 			<if test="record.image != null">
->				and `image` = #{record.image}
+				and `image` = #{record.image}
 			</if>
 			<if test="record.synopsis != null">
->				and `synopsis` = #{record.synopsis}
+				and `synopsis` = #{record.synopsis}
 			</if>
 			<if test="record.content != null">
->				and `content` = #{record.content}
+				and `content` = #{record.content}
 			</if>
 			<if test="record.visit != null">
->				and `visit` = #{record.visit}
+				and `visit` = #{record.visit}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.url != null">
->				and `url` = #{record.url}
+				and `url` = #{record.url}
 			</if>
 			<if test="record.productId != null">
->				and `product_id` = #{record.productId}
+				and `product_id` = #{record.productId}
 			</if>
 			<if test="record.mediaId != null">
->				and `media_id` = #{record.mediaId}
+				and `media_id` = #{record.mediaId}
 			</if>
 			<if test="record.isPub != null">
->				and `is_pub` = #{record.isPub}
+				and `is_pub` = #{record.isPub}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 			<if test="record.updateTime != null">
->				and `update_time` = #{record.updateTime}
+				and `update_time` = #{record.updateTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Article">
-
 		select
 		count(`id`)
 		from `tb_article`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="categoryId != null">
->				and `category_id` like concat('%',#{categoryId},'%')
+				and `category_id` like concat('%',#{categoryId},'%')
 			</if>
 			<if test="title != null">
->				and `title` like concat('%',#{title},'%')
+				and `title` like concat('%',#{title},'%')
 			</if>
 			<if test="author != null">
->				and `author` like concat('%',#{author},'%')
+				and `author` like concat('%',#{author},'%')
 			</if>
 			<if test="image != null">
->				and `image` like concat('%',#{image},'%')
+				and `image` like concat('%',#{image},'%')
 			</if>
 			<if test="synopsis != null">
->				and `synopsis` like concat('%',#{synopsis},'%')
+				and `synopsis` like concat('%',#{synopsis},'%')
 			</if>
 			<if test="content != null">
->				and `content` like concat('%',#{content},'%')
+				and `content` like concat('%',#{content},'%')
 			</if>
 			<if test="visit != null">
->				and `visit` like concat('%',#{visit},'%')
+				and `visit` like concat('%',#{visit},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="url != null">
->				and `url` like concat('%',#{url},'%')
+				and `url` like concat('%',#{url},'%')
 			</if>
 			<if test="productId != null">
->				and `product_id` like concat('%',#{productId},'%')
+				and `product_id` like concat('%',#{productId},'%')
 			</if>
 			<if test="mediaId != null">
->				and `media_id` like concat('%',#{mediaId},'%')
+				and `media_id` like concat('%',#{mediaId},'%')
 			</if>
 			<if test="isPub != null">
->				and `is_pub` like concat('%',#{isPub},'%')
+				and `is_pub` like concat('%',#{isPub},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 			<if test="updateTime != null">
->				and `update_time` like concat('%',#{updateTime},'%')
+				and `update_time` like concat('%',#{updateTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Article">
-
 		select
 		count(`id`)
 		from `tb_article`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="categoryId != null">
->				and `category_id` = #{categoryId}
+				and `category_id` = #{categoryId}
 			</if>
 			<if test="title != null">
->				and `title` = #{title}
+				and `title` = #{title}
 			</if>
 			<if test="author != null">
->				and `author` = #{author}
+				and `author` = #{author}
 			</if>
 			<if test="image != null">
->				and `image` = #{image}
+				and `image` = #{image}
 			</if>
 			<if test="synopsis != null">
->				and `synopsis` = #{synopsis}
+				and `synopsis` = #{synopsis}
 			</if>
 			<if test="content != null">
->				and `content` = #{content}
+				and `content` = #{content}
 			</if>
 			<if test="visit != null">
->				and `visit` = #{visit}
+				and `visit` = #{visit}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="url != null">
->				and `url` = #{url}
+				and `url` = #{url}
 			</if>
 			<if test="productId != null">
->				and `product_id` = #{productId}
+				and `product_id` = #{productId}
 			</if>
 			<if test="mediaId != null">
->				and `media_id` = #{mediaId}
+				and `media_id` = #{mediaId}
 			</if>
 			<if test="isPub != null">
->				and `is_pub` = #{isPub}
+				and `is_pub` = #{isPub}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 			<if test="updateTime != null">
->				and `update_time` = #{updateTime}
+				and `update_time` = #{updateTime}
 			</if>
 		</where>
 	</select>

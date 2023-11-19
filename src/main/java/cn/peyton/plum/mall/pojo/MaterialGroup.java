@@ -25,6 +25,8 @@ public class MaterialGroup implements Serializable {
      * 分组名
      */
     private String name;
+    /** 排序取值范围0~9999，默认为0; 按大到小排序  */
+    private Short seq;
     /**
      * 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
      */
@@ -82,7 +84,19 @@ public class MaterialGroup implements Serializable {
     public String getName() {
         return name;
     }
+    /**
+     * @param seq 排序取值范围0~9999，默认为0; 按大到小排序
+     */
+    public void setSeq(Short seq){
+        this.seq = seq;
+    }
 
+    /**
+     * @return 排序取值范围0~9999，默认为0; 按大到小排序
+     */
+    public Short getSeq(){
+        return seq;
+    }
     /**
      * @param createType 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
      */

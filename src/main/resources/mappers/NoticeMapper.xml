@@ -62,7 +62,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Notice">
-
 		select
 		count(`id`)
 		from `tb_notice`
@@ -105,7 +104,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultNoticeMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_notice_List"/>
 		from `tb_notice`
@@ -142,110 +140,107 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultNoticeMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_notice_List"/>
 		from `tb_notice`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.categoryId != null">
->				and `category_id` = #{record.categoryId}
+				and `category_id` = #{record.categoryId}
 			</if>
 			<if test="record.createId != null">
->				and `create_id` = #{record.createId}
+				and `create_id` = #{record.createId}
 			</if>
 			<if test="record.createType != null">
->				and `create_type` = #{record.createType}
+				and `create_type` = #{record.createType}
 			</if>
 			<if test="record.title != null">
->				and `title` = #{record.title}
+				and `title` = #{record.title}
 			</if>
 			<if test="record.content != null">
->				and `content` = #{record.content}
+				and `content` = #{record.content}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Notice">
-
 		select
 		count(`id`)
 		from `tb_notice`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="categoryId != null">
->				and `category_id` like concat('%',#{categoryId},'%')
+				and `category_id` like concat('%',#{categoryId},'%')
 			</if>
 			<if test="createId != null">
->				and `create_id` like concat('%',#{createId},'%')
+				and `create_id` like concat('%',#{createId},'%')
 			</if>
 			<if test="createType != null">
->				and `create_type` like concat('%',#{createType},'%')
+				and `create_type` like concat('%',#{createType},'%')
 			</if>
 			<if test="title != null">
->				and `title` like concat('%',#{title},'%')
+				and `title` like concat('%',#{title},'%')
 			</if>
 			<if test="content != null">
->				and `content` like concat('%',#{content},'%')
+				and `content` like concat('%',#{content},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Notice">
-
 		select
 		count(`id`)
 		from `tb_notice`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="categoryId != null">
->				and `category_id` = #{categoryId}
+				and `category_id` = #{categoryId}
 			</if>
 			<if test="createId != null">
->				and `create_id` = #{createId}
+				and `create_id` = #{createId}
 			</if>
 			<if test="createType != null">
->				and `create_type` = #{createType}
+				and `create_type` = #{createType}
 			</if>
 			<if test="title != null">
->				and `title` = #{title}
+				and `title` = #{title}
 			</if>
 			<if test="content != null">
->				and `content` = #{content}
+				and `content` = #{content}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

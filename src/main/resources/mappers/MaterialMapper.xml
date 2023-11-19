@@ -58,7 +58,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
-
 		select
 		count(`id`)
 		from `sys_material`
@@ -98,7 +97,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultMaterialMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_material_List"/>
 		from `sys_material`
@@ -132,103 +130,109 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultMaterialMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_material_List"/>
 		from `sys_material`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.createId != null">
->				and `create_id` = #{record.createId}
+				and `create_id` = #{record.createId}
 			</if>
 			<if test="record.type != null">
->				and `type` = #{record.type}
+				and `type` = #{record.type}
 			</if>
 			<if test="record.groupId != null">
->				and `group_id` = #{record.groupId}
+				and `group_id` = #{record.groupId}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.url != null">
->				and `url` = #{record.url}
+				and `url` = #{record.url}
 			</if>
 			<if test="record.createType != null">
->				and `create_type` = #{record.createType}
+				and `create_type` = #{record.createType}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
-
 		select
 		count(`id`)
 		from `sys_material`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="createId != null">
->				and `create_id` like concat('%',#{createId},'%')
+				and `create_id` like concat('%',#{createId},'%')
 			</if>
 			<if test="type != null">
->				and `type` like concat('%',#{type},'%')
+				and `type` like concat('%',#{type},'%')
 			</if>
 			<if test="groupId != null">
->				and `group_id` like concat('%',#{groupId},'%')
+				and `group_id` like concat('%',#{groupId},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="url != null">
->				and `url` like concat('%',#{url},'%')
+				and `url` like concat('%',#{url},'%')
 			</if>
 			<if test="createType != null">
->				and `create_type` like concat('%',#{createType},'%')
+				and `create_type` like concat('%',#{createType},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Material">
-
 		select
 		count(`id`)
 		from `sys_material`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="createId != null">
->				and `create_id` = #{createId}
+				and `create_id` = #{createId}
 			</if>
 			<if test="type != null">
->				and `type` = #{type}
+				and `type` = #{type}
 			</if>
 			<if test="groupId != null">
->				and `group_id` = #{groupId}
+				and `group_id` = #{groupId}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="url != null">
->				and `url` = #{url}
+				and `url` = #{url}
 			</if>
 			<if test="createType != null">
->				and `create_type` = #{createType}
+				and `create_type` = #{createType}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
+	</select>
+
+
+	<select id="joinGroup" resultType = "int" parameterType="long">
+
+	select
+	count(`id`)
+	from `sys_material`
+	where group_id = #{groupId}
 	</select>
 
 </mapper>

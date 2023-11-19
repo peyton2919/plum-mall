@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.DistributionSettingBo;
 import cn.peyton.plum.mall.mapper.DistributionSettingMapper;
 import cn.peyton.plum.mall.param.DistributionSettingParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("distributionSettingService")
-public class DistributionSettingServiceImpl extends AbstractAppRealizeService<Long, DistributionSetting, DistributionSettingParam> implements DistributionSettingService {
+public class DistributionSettingServiceImpl extends AbstractRealizeService<Long, DistributionSetting, DistributionSettingParam> implements DistributionSettingService {
     @Resource
     private DistributionSettingMapper distributionSettingMapper;
 

@@ -3,18 +3,23 @@ package cn.peyton.plum.mall.service.impl;
 import cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.core.utils.LogUtils;
 import cn.peyton.plum.mall.bo.UserBo;
 import cn.peyton.plum.mall.mapper.MenuMapper;
 import cn.peyton.plum.mall.mapper.RoleMapper;
 import cn.peyton.plum.mall.mapper.UserMapper;
 import cn.peyton.plum.mall.param.UserParam;
+import cn.peyton.plum.mall.pojo.Menu;
 import cn.peyton.plum.mall.pojo.User;
 import cn.peyton.plum.mall.service.UserService;
+import cn.peyton.plum.mall.utils.MenuUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 系统用户 Service 实现类</h3>
@@ -26,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  * </pre>
  */
 @Service("userService")
-public class UserServiceImpl extends AbstractAppRealizeService<Long, User, UserParam> implements UserService {
+public class UserServiceImpl extends AbstractRealizeService<Long, User, UserParam> implements UserService {
 
     private final String CACHE_KEY = "USERSERVICEIMPL-ALL";
 
@@ -50,8 +55,8 @@ public class UserServiceImpl extends AbstractAppRealizeService<Long, User, UserP
 
     public UserServiceImpl(){
         enabledCache = true;
-        keyProfix = this.getClass().getName();
-        LogUtils.info(keyProfix);
+        keyPrefix = this.getClass().getName();
+        LogUtils.info(keyPrefix);
     }
 
 
@@ -92,8 +97,20 @@ public class UserServiceImpl extends AbstractAppRealizeService<Long, User, UserP
         // todo 后期 需要配置缓存
         if (null != user) {
             user.setRole(roleMapper.selectByShareIdAndType(shareId,shareType));
-            user.setMenuList(menuMapper.selectMenuListByShareIdAndType(shareId,shareType));
+            //
+            List<Menu> menus = menuMapper.selectMenuListByShareIdAndType(shareId, shareType);
+            user.setMenuList(MenuUtils.reorganize(menus));
             UserParam _param = new UserParam().compat(user);
+            // 转换规则
+            List<String> rules = new ArrayList<>();
+            if (null != menus && menus.size() > 0) {
+                for (Menu menu : menus) {
+                    if(null != menu.getCondition() && !"".equals(menu.getCondition())){
+                        rules.add(menu.getCondition() + "," + menu.getRouterMethod());
+                    }
+                }
+                _param.setRuleNames(rules);
+            }
             cache.put(CACHE_KEY + shareType + shareId, _param);
             return _param;
         }

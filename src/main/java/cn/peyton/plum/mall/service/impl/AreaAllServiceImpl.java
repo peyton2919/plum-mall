@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.AreaAllBo;
 import cn.peyton.plum.mall.param.AreaAllParam;
 import cn.peyton.plum.mall.pojo.AreaAll;
@@ -21,7 +21,7 @@ import jakarta.annotation.Resource;
  * </pre>
  */
 @Service("areaAllService")
-public class AreaAllServiceImpl extends AbstractAppRealizeService<Integer, AreaAll, AreaAllParam>
+public class AreaAllServiceImpl extends AbstractRealizeService<Integer, AreaAll, AreaAllParam>
         implements AreaAllService {
     @Resource
     private AreaAllMapper areaAllMapper;

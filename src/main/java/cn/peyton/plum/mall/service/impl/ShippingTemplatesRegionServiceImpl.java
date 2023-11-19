@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShippingTemplatesRegionBo;
 import cn.peyton.plum.mall.mapper.ShippingTemplatesRegionMapper;
 import cn.peyton.plum.mall.param.ShippingTemplatesRegionParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shippingTemplatesRegionService")
-public class ShippingTemplatesRegionServiceImpl extends AbstractAppRealizeService<Integer, ShippingTemplatesRegion, ShippingTemplatesRegionParam> implements ShippingTemplatesRegionService {
+public class ShippingTemplatesRegionServiceImpl extends AbstractRealizeService<Integer, ShippingTemplatesRegion, ShippingTemplatesRegionParam> implements ShippingTemplatesRegionService {
     @Resource
     private ShippingTemplatesRegionMapper shippingTemplatesRegionMapper;
 

@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.param;
 
 
+import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.mall.pojo.MaterialGroup;
 
 import java.io.Serializable;
@@ -26,7 +27,10 @@ public class MaterialGroupParam implements Serializable {
     /**
      * 分组名
      */
+    @NotBlank(message = "素材分组不能为空")
     private String name;
+    /** 排序取值范围0~9999，默认为0; 按大到小排序  */
+    private Short seq;
     /**
      * 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
      */
@@ -84,7 +88,19 @@ public class MaterialGroupParam implements Serializable {
     public String getName() {
         return name;
     }
+    /**
+     * @param seq 排序取值范围0~9999，默认为0; 按大到小排序
+     */
+    public void setSeq(Short seq){
+        this.seq = seq;
+    }
 
+    /**
+     * @return 排序取值范围0~9999，默认为0; 按大到小排序
+     */
+    public Short getSeq(){
+        return seq;
+    }
     /**
      * @param createType 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
      */
@@ -125,6 +141,7 @@ public class MaterialGroupParam implements Serializable {
         materialGroup.setId(id);
         materialGroup.setCreateId(createId);
         materialGroup.setName(name);
+        materialGroup.setSeq(seq);
         materialGroup.setCreateType(createType);
         materialGroup.setCreateTime(createTime);
         return materialGroup;
@@ -144,6 +161,7 @@ public class MaterialGroupParam implements Serializable {
         this.setId(materialGroup.getId());
         this.setCreateId(materialGroup.getCreateId());
         this.setName(materialGroup.getName());
+        this.setSeq(materialGroup.getSeq());
         this.setCreateType(materialGroup.getCreateType());
         this.setCreateTime(materialGroup.getCreateTime());
         return this;

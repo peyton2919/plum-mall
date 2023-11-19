@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.InvoiceBo;
 import cn.peyton.plum.mall.mapper.InvoiceMapper;
 import cn.peyton.plum.mall.param.InvoiceParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("invoiceService")
-public class InvoiceServiceImpl extends AbstractAppRealizeService<Long, Invoice, InvoiceParam> implements InvoiceService {
+public class InvoiceServiceImpl extends AbstractRealizeService<Long, Invoice, InvoiceParam> implements InvoiceService {
     @Resource
     private InvoiceMapper invoiceMapper;
 

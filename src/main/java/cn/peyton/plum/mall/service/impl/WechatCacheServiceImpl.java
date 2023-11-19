@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.WechatCacheBo;
 import cn.peyton.plum.mall.mapper.WechatCacheMapper;
 import cn.peyton.plum.mall.param.WechatCacheParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("wechatCacheService")
-public class WechatCacheServiceImpl extends AbstractAppRealizeService<String, WechatCache, WechatCacheParam> implements WechatCacheService {
+public class WechatCacheServiceImpl extends AbstractRealizeService<String, WechatCache, WechatCacheParam> implements WechatCacheService {
     @Resource
     private WechatCacheMapper wechatCacheMapper;
 

@@ -74,7 +74,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
-
 		select
 		count(`id`)
 		from `tb_supplier_info`
@@ -126,7 +125,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultSupplierInfoMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_supplier_info_List"/>
 		from `tb_supplier_info`
@@ -172,137 +170,134 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultSupplierInfoMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_supplier_info_List"/>
 		from `tb_supplier_info`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.supId != null">
->				and `sup_id` = #{record.supId}
+				and `sup_id` = #{record.supId}
 			</if>
 			<if test="record.address != null">
->				and `address` = #{record.address}
+				and `address` = #{record.address}
 			</if>
 			<if test="record.email != null">
->				and `email` = #{record.email}
+				and `email` = #{record.email}
 			</if>
 			<if test="record.tel != null">
->				and `tel` = #{record.tel}
+				and `tel` = #{record.tel}
 			</if>
 			<if test="record.qq != null">
->				and `qq` = #{record.qq}
+				and `qq` = #{record.qq}
 			</if>
 			<if test="record.fax != null">
->				and `fax` = #{record.fax}
+				and `fax` = #{record.fax}
 			</if>
 			<if test="record.sex != null">
->				and `sex` = #{record.sex}
+				and `sex` = #{record.sex}
 			</if>
 			<if test="record.birthday != null">
->				and `birthday` = #{record.birthday}
+				and `birthday` = #{record.birthday}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.webSite != null">
->				and `web_site` = #{record.webSite}
+				and `web_site` = #{record.webSite}
 			</if>
 			<if test="record.webCode != null">
->				and `web_code` = #{record.webCode}
+				and `web_code` = #{record.webCode}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
-
 		select
 		count(`id`)
 		from `tb_supplier_info`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="supId != null">
->				and `sup_id` like concat('%',#{supId},'%')
+				and `sup_id` like concat('%',#{supId},'%')
 			</if>
 			<if test="address != null">
->				and `address` like concat('%',#{address},'%')
+				and `address` like concat('%',#{address},'%')
 			</if>
 			<if test="email != null">
->				and `email` like concat('%',#{email},'%')
+				and `email` like concat('%',#{email},'%')
 			</if>
 			<if test="tel != null">
->				and `tel` like concat('%',#{tel},'%')
+				and `tel` like concat('%',#{tel},'%')
 			</if>
 			<if test="qq != null">
->				and `qq` like concat('%',#{qq},'%')
+				and `qq` like concat('%',#{qq},'%')
 			</if>
 			<if test="fax != null">
->				and `fax` like concat('%',#{fax},'%')
+				and `fax` like concat('%',#{fax},'%')
 			</if>
 			<if test="sex != null">
->				and `sex` like concat('%',#{sex},'%')
+				and `sex` like concat('%',#{sex},'%')
 			</if>
 			<if test="birthday != null">
->				and `birthday` like concat('%',#{birthday},'%')
+				and `birthday` like concat('%',#{birthday},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="webSite != null">
->				and `web_site` like concat('%',#{webSite},'%')
+				and `web_site` like concat('%',#{webSite},'%')
 			</if>
 			<if test="webCode != null">
->				and `web_code` like concat('%',#{webCode},'%')
+				and `web_code` like concat('%',#{webCode},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.SupplierInfo">
-
 		select
 		count(`id`)
 		from `tb_supplier_info`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="supId != null">
->				and `sup_id` = #{supId}
+				and `sup_id` = #{supId}
 			</if>
 			<if test="address != null">
->				and `address` = #{address}
+				and `address` = #{address}
 			</if>
 			<if test="email != null">
->				and `email` = #{email}
+				and `email` = #{email}
 			</if>
 			<if test="tel != null">
->				and `tel` = #{tel}
+				and `tel` = #{tel}
 			</if>
 			<if test="qq != null">
->				and `qq` = #{qq}
+				and `qq` = #{qq}
 			</if>
 			<if test="fax != null">
->				and `fax` = #{fax}
+				and `fax` = #{fax}
 			</if>
 			<if test="sex != null">
->				and `sex` = #{sex}
+				and `sex` = #{sex}
 			</if>
 			<if test="birthday != null">
->				and `birthday` = #{birthday}
+				and `birthday` = #{birthday}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="webSite != null">
->				and `web_site` = #{webSite}
+				and `web_site` = #{webSite}
 			</if>
 			<if test="webCode != null">
->				and `web_code` = #{webCode}
+				and `web_code` = #{webCode}
 			</if>
 		</where>
 	</select>

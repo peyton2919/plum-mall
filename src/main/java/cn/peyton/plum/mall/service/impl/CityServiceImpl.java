@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.CityBo;
 import cn.peyton.plum.mall.param.CityParam;
 import cn.peyton.plum.mall.pojo.City;
@@ -21,7 +21,7 @@ import jakarta.annotation.Resource;
  * </pre>
  */
 @Service("cityService")
-public class CityServiceImpl extends AbstractAppRealizeService<Integer, City, CityParam>
+public class CityServiceImpl extends AbstractRealizeService<Integer, City, CityParam>
         implements CityService {
     @Resource
     private CityMapper cityMapper;

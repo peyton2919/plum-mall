@@ -41,6 +41,13 @@ public abstract class BaseUser<K, T> implements IUser, Serializable {
     }
 
     /**
+     * @param userType 用户类型
+     */
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    /**
      * <h4>设置用户登录类型</h4>
      *
      * @param loginType

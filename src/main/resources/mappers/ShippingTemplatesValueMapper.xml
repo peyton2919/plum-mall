@@ -58,7 +58,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesValue">
-
 		select
 		count(`id`)
 		from `tb_shipping_templates_value`
@@ -98,7 +97,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShippingTemplatesValueMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shipping_templates_value_List"/>
 		from `tb_shipping_templates_value`
@@ -132,101 +130,98 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShippingTemplatesValueMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shipping_templates_value_List"/>
 		from `tb_shipping_templates_value`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.provinceId != null">
->				and `province_id` = #{record.provinceId}
+				and `province_id` = #{record.provinceId}
 			</if>
 			<if test="record.tempId != null">
->				and `temp_id` = #{record.tempId}
+				and `temp_id` = #{record.tempId}
 			</if>
 			<if test="record.cityId != null">
->				and `city_id` = #{record.cityId}
+				and `city_id` = #{record.cityId}
 			</if>
 			<if test="record.num != null">
->				and `num` = #{record.num}
+				and `num` = #{record.num}
 			</if>
 			<if test="record.price != null">
->				and `price` = #{record.price}
+				and `price` = #{record.price}
 			</if>
 			<if test="record.calcType != null">
->				and `calc_type` = #{record.calcType}
+				and `calc_type` = #{record.calcType}
 			</if>
 			<if test="record.uniqid != null">
->				and `uniqid` = #{record.uniqid}
+				and `uniqid` = #{record.uniqid}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesValue">
-
 		select
 		count(`id`)
 		from `tb_shipping_templates_value`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="provinceId != null">
->				and `province_id` like concat('%',#{provinceId},'%')
+				and `province_id` like concat('%',#{provinceId},'%')
 			</if>
 			<if test="tempId != null">
->				and `temp_id` like concat('%',#{tempId},'%')
+				and `temp_id` like concat('%',#{tempId},'%')
 			</if>
 			<if test="cityId != null">
->				and `city_id` like concat('%',#{cityId},'%')
+				and `city_id` like concat('%',#{cityId},'%')
 			</if>
 			<if test="num != null">
->				and `num` like concat('%',#{num},'%')
+				and `num` like concat('%',#{num},'%')
 			</if>
 			<if test="price != null">
->				and `price` like concat('%',#{price},'%')
+				and `price` like concat('%',#{price},'%')
 			</if>
 			<if test="calcType != null">
->				and `calc_type` like concat('%',#{calcType},'%')
+				and `calc_type` like concat('%',#{calcType},'%')
 			</if>
 			<if test="uniqid != null">
->				and `uniqid` like concat('%',#{uniqid},'%')
+				and `uniqid` like concat('%',#{uniqid},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShippingTemplatesValue">
-
 		select
 		count(`id`)
 		from `tb_shipping_templates_value`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="provinceId != null">
->				and `province_id` = #{provinceId}
+				and `province_id` = #{provinceId}
 			</if>
 			<if test="tempId != null">
->				and `temp_id` = #{tempId}
+				and `temp_id` = #{tempId}
 			</if>
 			<if test="cityId != null">
->				and `city_id` = #{cityId}
+				and `city_id` = #{cityId}
 			</if>
 			<if test="num != null">
->				and `num` = #{num}
+				and `num` = #{num}
 			</if>
 			<if test="price != null">
->				and `price` = #{price}
+				and `price` = #{price}
 			</if>
 			<if test="calcType != null">
->				and `calc_type` = #{calcType}
+				and `calc_type` = #{calcType}
 			</if>
 			<if test="uniqid != null">
->				and `uniqid` = #{uniqid}
+				and `uniqid` = #{uniqid}
 			</if>
 		</where>
 	</select>

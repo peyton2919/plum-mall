@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShopOrderItemBo;
 import cn.peyton.plum.mall.mapper.ShopOrderItemMapper;
 import cn.peyton.plum.mall.param.ShopOrderItemParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shopOrderItemService")
-public class ShopOrderItemServiceImpl extends AbstractAppRealizeService<Long, ShopOrderItem, ShopOrderItemParam> implements ShopOrderItemService {
+public class ShopOrderItemServiceImpl extends AbstractRealizeService<Long, ShopOrderItem, ShopOrderItemParam> implements ShopOrderItemService {
     @Resource
     private ShopOrderItemMapper shopOrderItemMapper;
 

@@ -13,25 +13,25 @@ public interface IUser {
     /**
      * 超级管理员 类型 数值
      */
-    Integer TYPE_ADMIN = 999;
+    Integer TYPE_ADMIN = 5;
     /*** 员工 类型 数值 */
-    Integer TYPE_EMPLOYEE = 998;
+    Integer TYPE_EMPLOYEE = 4;
     /**
      * 供应商 类型 数值
      */
-    Integer TYPE_SUPPLIER = 988;
+    Integer TYPE_SUPPLIER = 2;
     /**
-     * 顾客 类型 数值
+     * 顾客  类型 数值
      */
-    Integer TYPE_CUSTOMER = 987;
+    Integer TYPE_CUSTOMER = 1;
     /**
      * 会员 类型 数值
      */
-    Integer TYPE_MEMBER = 986;
+    Integer TYPE_MEMBER = 0;
     /**
      * 用户 类型 数值
      */
-    Integer TYPE_USER = 985;
+    Integer TYPE_USER = 3;
 
     /**
      * 账号 登录 类型 数值

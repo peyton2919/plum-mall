@@ -74,7 +74,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserAddress">
-
 		select
 		count(`id`)
 		from `tb_user_address`
@@ -126,7 +125,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultUserAddressMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_user_address_List"/>
 		from `tb_user_address`
@@ -172,137 +170,134 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultUserAddressMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_user_address_List"/>
 		from `tb_user_address`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.shaerId != null">
->				and `shaer_id` = #{record.shaerId}
+				and `shaer_id` = #{record.shaerId}
 			</if>
 			<if test="record.shaerType != null">
->				and `shaer_type` = #{record.shaerType}
+				and `shaer_type` = #{record.shaerType}
 			</if>
 			<if test="record.province != null">
->				and `province` = #{record.province}
+				and `province` = #{record.province}
 			</if>
 			<if test="record.city != null">
->				and `city` = #{record.city}
+				and `city` = #{record.city}
 			</if>
 			<if test="record.district != null">
->				and `district` = #{record.district}
+				and `district` = #{record.district}
 			</if>
 			<if test="record.address != null">
->				and `address` = #{record.address}
+				and `address` = #{record.address}
 			</if>
 			<if test="record.zip != null">
->				and `zip` = #{record.zip}
+				and `zip` = #{record.zip}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.phone != null">
->				and `phone` = #{record.phone}
+				and `phone` = #{record.phone}
 			</if>
 			<if test="record.lastUsedTime != null">
->				and `last_used_time` = #{record.lastUsedTime}
+				and `last_used_time` = #{record.lastUsedTime}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserAddress">
-
 		select
 		count(`id`)
 		from `tb_user_address`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` like concat('%',#{shaerId},'%')
+				and `shaer_id` like concat('%',#{shaerId},'%')
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` like concat('%',#{shaerType},'%')
+				and `shaer_type` like concat('%',#{shaerType},'%')
 			</if>
 			<if test="province != null">
->				and `province` like concat('%',#{province},'%')
+				and `province` like concat('%',#{province},'%')
 			</if>
 			<if test="city != null">
->				and `city` like concat('%',#{city},'%')
+				and `city` like concat('%',#{city},'%')
 			</if>
 			<if test="district != null">
->				and `district` like concat('%',#{district},'%')
+				and `district` like concat('%',#{district},'%')
 			</if>
 			<if test="address != null">
->				and `address` like concat('%',#{address},'%')
+				and `address` like concat('%',#{address},'%')
 			</if>
 			<if test="zip != null">
->				and `zip` like concat('%',#{zip},'%')
+				and `zip` like concat('%',#{zip},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="phone != null">
->				and `phone` like concat('%',#{phone},'%')
+				and `phone` like concat('%',#{phone},'%')
 			</if>
 			<if test="lastUsedTime != null">
->				and `last_used_time` like concat('%',#{lastUsedTime},'%')
+				and `last_used_time` like concat('%',#{lastUsedTime},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.UserAddress">
-
 		select
 		count(`id`)
 		from `tb_user_address`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="shaerId != null">
->				and `shaer_id` = #{shaerId}
+				and `shaer_id` = #{shaerId}
 			</if>
 			<if test="shaerType != null">
->				and `shaer_type` = #{shaerType}
+				and `shaer_type` = #{shaerType}
 			</if>
 			<if test="province != null">
->				and `province` = #{province}
+				and `province` = #{province}
 			</if>
 			<if test="city != null">
->				and `city` = #{city}
+				and `city` = #{city}
 			</if>
 			<if test="district != null">
->				and `district` = #{district}
+				and `district` = #{district}
 			</if>
 			<if test="address != null">
->				and `address` = #{address}
+				and `address` = #{address}
 			</if>
 			<if test="zip != null">
->				and `zip` = #{zip}
+				and `zip` = #{zip}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="phone != null">
->				and `phone` = #{phone}
+				and `phone` = #{phone}
 			</if>
 			<if test="lastUsedTime != null">
->				and `last_used_time` = #{lastUsedTime}
+				and `last_used_time` = #{lastUsedTime}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

@@ -66,7 +66,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.AreaAll">
-
 		select
 		count(`id`)
 		from `sys_area_all`
@@ -112,7 +111,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultAreaAllMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_area_all_List"/>
 		from `sys_area_all`
@@ -152,40 +150,39 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultAreaAllMap"  parameterType="map">
-
 		select
 		<include refid="Column_sys_area_all_List"/>
 		from `sys_area_all`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.cityId != null">
->				and `city_id` = #{record.cityId}
+				and `city_id` = #{record.cityId}
 			</if>
 			<if test="record.level != null">
->				and `level` = #{record.level}
+				and `level` = #{record.level}
 			</if>
 			<if test="record.parentId != null">
->				and `parent_id` = #{record.parentId}
+				and `parent_id` = #{record.parentId}
 			</if>
 			<if test="record.areaCode != null">
->				and `area_code` = #{record.areaCode}
+				and `area_code` = #{record.areaCode}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.mergerName != null">
->				and `merger_name` = #{record.mergerName}
+				and `merger_name` = #{record.mergerName}
 			</if>
 			<if test="record.lng != null">
->				and `lng` = #{record.lng}
+				and `lng` = #{record.lng}
 			</if>
 			<if test="record.lat != null">
->				and `lat` = #{record.lat}
+				and `lat` = #{record.lat}
 			</if>
 			<if test="record.isShow != null">
->				and `is_show` = #{record.isShow}
+				and `is_show` = #{record.isShow}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
@@ -198,34 +195,34 @@
 		from `sys_area_all`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="cityId != null">
->				and `city_id` like concat('%',#{cityId},'%')
+				and `city_id` like concat('%',#{cityId},'%')
 			</if>
 			<if test="level != null">
->				and `level` like concat('%',#{level},'%')
+				and `level` like concat('%',#{level},'%')
 			</if>
 			<if test="parentId != null">
->				and `parent_id` like concat('%',#{parentId},'%')
+				and `parent_id` like concat('%',#{parentId},'%')
 			</if>
 			<if test="areaCode != null">
->				and `area_code` like concat('%',#{areaCode},'%')
+				and `area_code` like concat('%',#{areaCode},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="mergerName != null">
->				and `merger_name` like concat('%',#{mergerName},'%')
+				and `merger_name` like concat('%',#{mergerName},'%')
 			</if>
 			<if test="lng != null">
->				and `lng` like concat('%',#{lng},'%')
+				and `lng` like concat('%',#{lng},'%')
 			</if>
 			<if test="lat != null">
->				and `lat` like concat('%',#{lat},'%')
+				and `lat` like concat('%',#{lat},'%')
 			</if>
 			<if test="isShow != null">
->				and `is_show` like concat('%',#{isShow},'%')
+				and `is_show` like concat('%',#{isShow},'%')
 			</if>
 		</where>
 	</select>
@@ -237,34 +234,34 @@
 		from `sys_area_all`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="cityId != null">
->				and `city_id` = #{cityId}
+				and `city_id` = #{cityId}
 			</if>
 			<if test="level != null">
->				and `level` = #{level}
+				and `level` = #{level}
 			</if>
 			<if test="parentId != null">
->				and `parent_id` = #{parentId}
+				and `parent_id` = #{parentId}
 			</if>
 			<if test="areaCode != null">
->				and `area_code` = #{areaCode}
+				and `area_code` = #{areaCode}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="mergerName != null">
->				and `merger_name` = #{mergerName}
+				and `merger_name` = #{mergerName}
 			</if>
 			<if test="lng != null">
->				and `lng` = #{lng}
+				and `lng` = #{lng}
 			</if>
 			<if test="lat != null">
->				and `lat` = #{lat}
+				and `lat` = #{lat}
 			</if>
 			<if test="isShow != null">
->				and `is_show` = #{isShow}
+				and `is_show` = #{isShow}
 			</if>
 		</where>
 	</select>

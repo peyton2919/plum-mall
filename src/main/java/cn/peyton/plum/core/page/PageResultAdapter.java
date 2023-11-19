@@ -1,5 +1,7 @@
 package cn.peyton.plum.core.page;
 
+import cn.peyton.plum.core.inf.BaseConvertBo;
+import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.utils.base.Lists;
 
 import java.io.Serializable;
@@ -16,17 +18,18 @@ import java.util.List;
  * @version: 1.0.0
  * </pre>
  */
-public final class PageResultAdapter<T> implements Serializable {
+public final class PageResultAdapter<K,T,P> implements Serializable {
 
     public PageResultAdapter() {
     }
 
     /**
      * <h4>查找 全部 对象集合的适配器</h4>
-     * @param mapper 查找 全部对象Mapper接口
-     * @param page 分页对象
+     *
+     * @param mapper        查找 全部对象Mapper接口
+     * @param page          分页对象
      * @param baseConvertBo 实现基础BO对象
-     * @param <T> 需要操作对象
+     * @param <T>           需要操作对象
      * @return PageResult对象
      */
     //public static <T> PageResult<T> adapt(IBaseMapper mapper, PageQuery page, String keyword, BaseConvertBo baseConvertBo) {
@@ -38,6 +41,49 @@ public final class PageResultAdapter<T> implements Serializable {
     //    }
     //    return result;
     //}
+
+    /**
+     * <h4>根据对象条件查找</h4>
+     * @param mapper 查找 全部对象Mapper接口 {IBaseMapper}
+     * @param page 分页对象
+     * @param record 需要操作对象
+     * @param baseConvertBo 实现基础BO对象
+     * @return PageResultc对象
+     * @param <K> 主键类型
+     * @param <T> POJO对象
+     * @param <P> Param对象
+     */
+    public static <K, T, P> PageResult<?> adapt(IBaseMapper<K, T> mapper, PageQuery page,
+                                                T record, BaseConvertBo<T, P> baseConvertBo) {
+        List<T> tList = mapper.selectByObj(record, page);
+        PageResult<?> result = null;
+        if (null != tList && tList.size() > 0) {
+            int count = mapper.count(record);
+            return new PageResult<>(baseConvertBo.adapter(tList),count,page.getPageNo(),page.getPageSize());
+        }
+        return new PageResult<>(false);
+    }
+    /**
+     * <h4>根据对象条件查找</h4>
+     * @param mapper 查找 全部对象Mapper接口 {IBaseMapper}
+     * @param page 分页对象
+     * @param record 需要操作对象
+     * @param baseConvertBo 实现基础BO对象
+     * @return PageResultc对象
+     * @param <K> 主键类型
+     * @param <T> POJO对象
+     * @param <P> Param对象
+     */
+    public static <K, T, P> PageResult<?> adaptByLike(IBaseMapper<K, T> mapper, PageQuery page,
+                                                T record, BaseConvertBo<T, P> baseConvertBo) {
+        List<T> tList = mapper.selectByLiekAndObj(record, page);
+        PageResult<?> result = null;
+        if (null != tList && tList.size() > 0) {
+            int count = mapper.countByLike(record);
+            return new PageResult<>(baseConvertBo.adapter(tList),count,page.getPageNo(),page.getPageSize());
+        }
+        return new PageResult<>(false);
+    }
 
 
     /**
@@ -52,14 +98,13 @@ public final class PageResultAdapter<T> implements Serializable {
         PageResult<T> result = new PageResult<T>();
         if (Lists.isNotEmptyList(data)) {
             result.setData(data);
-            result.setTotal(count);
+            result.setTotalRows(count);
         }
         return result;
     }
 
     /**
      * <h4>返回一个空的PageResult</h4>s
-     *
      * @param <T> 需要操作对象
      * @return
      */

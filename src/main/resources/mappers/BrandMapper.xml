@@ -62,7 +62,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Brand">
-
 		select
 		count(`id`)
 		from `tb_brand`
@@ -105,7 +104,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultBrandMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_brand_List"/>
 		from `tb_brand`
@@ -142,110 +140,107 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultBrandMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_brand_List"/>
 		from `tb_brand`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.supId != null">
->				and `sup_id` = #{record.supId}
+				and `sup_id` = #{record.supId}
 			</if>
 			<if test="record.logo != null">
->				and `logo` = #{record.logo}
+				and `logo` = #{record.logo}
 			</if>
 			<if test="record.name != null">
->				and `name` = #{record.name}
+				and `name` = #{record.name}
 			</if>
 			<if test="record.area != null">
->				and `area` = #{record.area}
+				and `area` = #{record.area}
 			</if>
 			<if test="record.seq != null">
->				and `seq` = #{record.seq}
+				and `seq` = #{record.seq}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.explain != null">
->				and `explain` = #{record.explain}
+				and `explain` = #{record.explain}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Brand">
-
 		select
 		count(`id`)
 		from `tb_brand`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="supId != null">
->				and `sup_id` like concat('%',#{supId},'%')
+				and `sup_id` like concat('%',#{supId},'%')
 			</if>
 			<if test="logo != null">
->				and `logo` like concat('%',#{logo},'%')
+				and `logo` like concat('%',#{logo},'%')
 			</if>
 			<if test="name != null">
->				and `name` like concat('%',#{name},'%')
+				and `name` like concat('%',#{name},'%')
 			</if>
 			<if test="area != null">
->				and `area` like concat('%',#{area},'%')
+				and `area` like concat('%',#{area},'%')
 			</if>
 			<if test="seq != null">
->				and `seq` like concat('%',#{seq},'%')
+				and `seq` like concat('%',#{seq},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="explain != null">
->				and `explain` like concat('%',#{explain},'%')
+				and `explain` like concat('%',#{explain},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.Brand">
-
 		select
 		count(`id`)
 		from `tb_brand`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="supId != null">
->				and `sup_id` = #{supId}
+				and `sup_id` = #{supId}
 			</if>
 			<if test="logo != null">
->				and `logo` = #{logo}
+				and `logo` = #{logo}
 			</if>
 			<if test="name != null">
->				and `name` = #{name}
+				and `name` = #{name}
 			</if>
 			<if test="area != null">
->				and `area` = #{area}
+				and `area` = #{area}
 			</if>
 			<if test="seq != null">
->				and `seq` = #{seq}
+				and `seq` = #{seq}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="explain != null">
->				and `explain` = #{explain}
+				and `explain` = #{explain}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

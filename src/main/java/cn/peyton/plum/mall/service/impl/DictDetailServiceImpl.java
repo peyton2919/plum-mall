@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractAppRealizeService;
+import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.DictDetailBo;
 import cn.peyton.plum.mall.mapper.DictDetailMapper;
 import cn.peyton.plum.mall.param.DictDetailParam;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("dictDetailService")
-public class DictDetailServiceImpl extends AbstractAppRealizeService<Long, DictDetail, DictDetailParam> implements DictDetailService {
+public class DictDetailServiceImpl extends AbstractRealizeService<Long, DictDetail, DictDetailParam> implements DictDetailService {
     @Resource
     private DictDetailMapper dictDetailMapper;
 

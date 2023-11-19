@@ -18,7 +18,7 @@ public class UserRoleParam implements Serializable {
 	private Long id;
 	/** 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)  */
 	private Long shareId;
-	/** 用户类型 ,默认 2 员工、 0 会员、1 供应商  */
+	/** 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员  */
 	private Integer shareType;
 	/** 角色ID  */
 	private Long roleId;
@@ -59,14 +59,14 @@ public class UserRoleParam implements Serializable {
 	}
 
 	/** 
-	 * @param shareType 用户类型 ,默认 2 员工、 0 会员、1 供应商 
+	 * @param shareType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
 	 */ 
 	public void setShareType(Integer shareType){
 		this.shareType = shareType;
 	}
 
 	/** 
-	 * @return 用户类型 ,默认 2 员工、 0 会员、1 供应商 
+	 * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
 	 */ 
 	public Integer getShareType(){
 		return shareType;

@@ -58,7 +58,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRelation">
-
 		select
 		count(`id`)
 		from `tb_shop_product_relation`
@@ -98,7 +97,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductRelationMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_relation_List"/>
 		from `tb_shop_product_relation`
@@ -132,101 +130,98 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultShopProductRelationMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_shop_product_relation_List"/>
 		from `tb_shop_product_relation`
 		<where>
 			<if test="record.id != null">
->				and `id` = #{record.id}
+				and `id` = #{record.id}
 			</if>
 			<if test="record.shareId != null">
->				and `share_id` = #{record.shareId}
+				and `share_id` = #{record.shareId}
 			</if>
 			<if test="record.productId != null">
->				and `product_id` = #{record.productId}
+				and `product_id` = #{record.productId}
 			</if>
 			<if test="record.shareType != null">
->				and `share_type` = #{record.shareType}
+				and `share_type` = #{record.shareType}
 			</if>
 			<if test="record.relationType != null">
->				and `relation_type` = #{record.relationType}
+				and `relation_type` = #{record.relationType}
 			</if>
 			<if test="record.category != null">
->				and `category` = #{record.category}
+				and `category` = #{record.category}
 			</if>
 			<if test="record.isDel != null">
->				and `is_del` = #{record.isDel}
+				and `is_del` = #{record.isDel}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRelation">
-
 		select
 		count(`id`)
 		from `tb_shop_product_relation`
 		<where>
 			<if test="id != null">
->				and `id` like concat('%',#{id},'%')
+				and `id` like concat('%',#{id},'%')
 			</if>
 			<if test="shareId != null">
->				and `share_id` like concat('%',#{shareId},'%')
+				and `share_id` like concat('%',#{shareId},'%')
 			</if>
 			<if test="productId != null">
->				and `product_id` like concat('%',#{productId},'%')
+				and `product_id` like concat('%',#{productId},'%')
 			</if>
 			<if test="shareType != null">
->				and `share_type` like concat('%',#{shareType},'%')
+				and `share_type` like concat('%',#{shareType},'%')
 			</if>
 			<if test="relationType != null">
->				and `relation_type` like concat('%',#{relationType},'%')
+				and `relation_type` like concat('%',#{relationType},'%')
 			</if>
 			<if test="category != null">
->				and `category` like concat('%',#{category},'%')
+				and `category` like concat('%',#{category},'%')
 			</if>
 			<if test="isDel != null">
->				and `is_del` like concat('%',#{isDel},'%')
+				and `is_del` like concat('%',#{isDel},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.ShopProductRelation">
-
 		select
 		count(`id`)
 		from `tb_shop_product_relation`
 		<where>
 			<if test="id != null">
->				and `id` = #{id}
+				and `id` = #{id}
 			</if>
 			<if test="shareId != null">
->				and `share_id` = #{shareId}
+				and `share_id` = #{shareId}
 			</if>
 			<if test="productId != null">
->				and `product_id` = #{productId}
+				and `product_id` = #{productId}
 			</if>
 			<if test="shareType != null">
->				and `share_type` = #{shareType}
+				and `share_type` = #{shareType}
 			</if>
 			<if test="relationType != null">
->				and `relation_type` = #{relationType}
+				and `relation_type` = #{relationType}
 			</if>
 			<if test="category != null">
->				and `category` = #{category}
+				and `category` = #{category}
 			</if>
 			<if test="isDel != null">
->				and `is_del` = #{isDel}
+				and `is_del` = #{isDel}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

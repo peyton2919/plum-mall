@@ -24,7 +24,7 @@ public class UserBillParam implements Serializable {
      */
     private Long shaerId;
     /**
-     * 用户类型 默认: 0 会员、1 供应商、2 员工
+     * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     private Integer shaerType;
     /**
@@ -112,14 +112,14 @@ public class UserBillParam implements Serializable {
     }
 
     /**
-     * @param shaerType 用户类型 默认: 0 会员、1 供应商、2 员工
+     * @param shaerType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public void setShaerType(Integer shaerType) {
         this.shaerType = shaerType;
     }
 
     /**
-     * @return 用户类型 默认: 0 会员、1 供应商、2 员工
+     * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public Integer getShaerType() {
         return shaerType;

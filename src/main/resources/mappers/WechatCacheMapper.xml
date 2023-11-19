@@ -38,7 +38,6 @@
 	</delete>
 
 	<select id="isRename" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WechatCache">
-
 		select
 		count(`key`)
 		from `tb_wechat_cache`
@@ -63,7 +62,6 @@
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultWechatCacheMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_wechat_cache_List"/>
 		from `tb_wechat_cache`
@@ -82,56 +80,53 @@
 	</select>
 
 	<select id="selectByObj" resultMap="ResultWechatCacheMap"  parameterType="map">
-
 		select
 		<include refid="Column_tb_wechat_cache_List"/>
 		from `tb_wechat_cache`
 		<where>
 			<if test="record.key != null">
->				and `key` = #{record.key}
+				and `key` = #{record.key}
 			</if>
 			<if test="record.result != null">
->				and `result` = #{record.result}
+				and `result` = #{record.result}
 			</if>
 			<if test="record.createTime != null">
->				and `create_time` = #{record.createTime}
+				and `create_time` = #{record.createTime}
 			</if>
 		</where>
 		limit #{page.offset},#{page.pageSize}
 	</select>
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WechatCache">
-
 		select
 		count(`key`)
 		from `tb_wechat_cache`
 		<where>
 			<if test="key != null">
->				and `key` like concat('%',#{key},'%')
+				and `key` like concat('%',#{key},'%')
 			</if>
 			<if test="result != null">
->				and `result` like concat('%',#{result},'%')
+				and `result` like concat('%',#{result},'%')
 			</if>
 			<if test="createTime != null">
->				and `create_time` like concat('%',#{createTime},'%')
+				and `create_time` like concat('%',#{createTime},'%')
 			</if>
 		</where>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.WechatCache">
-
 		select
 		count(`key`)
 		from `tb_wechat_cache`
 		<where>
 			<if test="key != null">
->				and `key` = #{key}
+				and `key` = #{key}
 			</if>
 			<if test="result != null">
->				and `result` = #{result}
+				and `result` = #{result}
 			</if>
 			<if test="createTime != null">
->				and `create_time` = #{createTime}
+				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>
