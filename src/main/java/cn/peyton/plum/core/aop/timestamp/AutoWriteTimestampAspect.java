@@ -84,7 +84,7 @@ public class AutoWriteTimestampAspect {
                         multi(_obj, fieldNames);
                     }
 
-                } else if (_className != null && _className.contains("cn.peyton")) {
+                } else if (_className != null && (_className.contains("cn.peyton")||_className.contains("Object"))) {
                     multi(_args[i], fieldNames);
                 }
             }

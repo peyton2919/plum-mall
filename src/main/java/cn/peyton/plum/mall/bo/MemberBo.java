@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.MemberParam;
-import cn.peyton.plum.mall.pojo.Member;
+import cn.peyton.plum.mall.param.party.MemberParam;
+import cn.peyton.plum.mall.pojo.party.Member;
 
 /**
  * <h3> 会员 数据转换 类</h3>

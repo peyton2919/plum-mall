@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.InvoiceParam;
-import cn.peyton.plum.mall.pojo.Invoice;
+import cn.peyton.plum.mall.param.join.InvoiceParam;
+import cn.peyton.plum.mall.pojo.join.Invoice;
 
 /**
  * <h3> 发票 数据转换 类</h3>

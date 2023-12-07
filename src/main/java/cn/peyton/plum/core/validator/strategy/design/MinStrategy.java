@@ -21,7 +21,7 @@ public class MinStrategy extends AbstractValidator {
 
     @Override
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
-        if (existInt(type)) {
+        if (existLong(type)) {
             map.put(name, "数据类型不正确");
             return;
         }
@@ -30,8 +30,8 @@ public class MinStrategy extends AbstractValidator {
         Long num = min.value();
         if (StrUtils.isEmpty(value)) {
             try {
-                Integer va = Integer.valueOf(value.toString());
-                Integer temp = num.intValue();
+                Long va = Long.valueOf(value.toString());
+                Long temp = num.longValue();
                 if (va < temp) {
                     map.put(name, message);
                 }

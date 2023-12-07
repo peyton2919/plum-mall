@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.BrandParam;
-import cn.peyton.plum.mall.pojo.Brand;
+import cn.peyton.plum.mall.param.join.BrandParam;
+import cn.peyton.plum.mall.pojo.join.Brand;
 
 /**
  * <h4>品牌 数据转换类</h4>

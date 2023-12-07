@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.sys.MemberLogMapper">
+	<resultMap id="ResultMemberLogMap" type="cn.peyton.plum.mall.pojo.sys.MemberLog">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="old_value" property="oldValue" jdbcType="LONGVARCHAR"/>
+		<result column="new_value" property="newValue" jdbcType="LONGVARCHAR"/>
+		<result column="operate_ip" property="operateIp" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_member_log_List">
+		`id`,`member_id`,`old_value`,`new_value`,`operate_ip`,`create_time`,`status`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.MemberLog" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_member_log`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="memberId != null">`member_id`,</if>
+			<if test="oldValue != null">`old_value`,</if>
+			<if test="newValue != null">`new_value`,</if>
+			<if test="operateIp != null">`operate_ip`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="status != null">`status`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="memberId != null">#{memberId},</if>
+			<if test="oldValue != null">#{oldValue},</if>
+			<if test="newValue != null">#{newValue},</if>
+			<if test="operateIp != null">#{operateIp},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="status != null">#{status},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.sys.MemberLog">
+		update `sys_member_log`
+		<set>
+			<if test="memberId != null">`member_id` = #{memberId},</if>
+			<if test="oldValue != null">`old_value` = #{oldValue},</if>
+			<if test="newValue != null">`new_value` = #{newValue},</if>
+			<if test="operateIp != null">`operate_ip` = #{operateIp},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="status != null">`status` = #{status},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_member_log`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.MemberLog">
+		select
+		count(`id`)
+		from `sys_member_log`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="memberId != null">
+				and `member_id` = #{memberId}
+			</if>
+			<if test="oldValue != null">
+				and `old_value` = #{oldValue}
+			</if>
+			<if test="newValue != null">
+				and `new_value` = #{newValue}
+			</if>
+			<if test="operateIp != null">
+				and `operate_ip` = #{operateIp}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMemberLogMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_member_log_List"/>
+		from `sys_member_log`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultMemberLogMap"  parameterType="map">
+		select
+		<include refid="Column_sys_member_log_List"/>
+		from `sys_member_log`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.memberId != null">
+				and `member_id` like concat('%',#{record.memberId},'%')
+			</if>
+			<if test="record.oldValue != null">
+				and `old_value` like concat('%',#{record.oldValue},'%')
+			</if>
+			<if test="record.newValue != null">
+				and `new_value` like concat('%',#{record.newValue},'%')
+			</if>
+			<if test="record.operateIp != null">
+				and `operate_ip` like concat('%',#{record.operateIp},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` like concat('%',#{record.status},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultMemberLogMap"  parameterType="map">
+		select
+		<include refid="Column_sys_member_log_List"/>
+		from `sys_member_log`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.memberId != null">
+				and `member_id` = #{record.memberId}
+			</if>
+			<if test="record.oldValue != null">
+				and `old_value` = #{record.oldValue}
+			</if>
+			<if test="record.newValue != null">
+				and `new_value` = #{record.newValue}
+			</if>
+			<if test="record.operateIp != null">
+				and `operate_ip` = #{record.operateIp}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.MemberLog">
+		select
+		count(`id`)
+		from `sys_member_log`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="memberId != null">
+				and `member_id` like concat('%',#{memberId},'%')
+			</if>
+			<if test="oldValue != null">
+				and `old_value` like concat('%',#{oldValue},'%')
+			</if>
+			<if test="newValue != null">
+				and `new_value` like concat('%',#{newValue},'%')
+			</if>
+			<if test="operateIp != null">
+				and `operate_ip` like concat('%',#{operateIp},'%')
+			</if>
+			<if test="createTime != null">
+				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+			<if test="status != null">
+				and `status` like concat('%',#{status},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.MemberLog">
+		select
+		count(`id`)
+		from `sys_member_log`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="memberId != null">
+				and `member_id` = #{memberId}
+			</if>
+			<if test="oldValue != null">
+				and `old_value` = #{oldValue}
+			</if>
+			<if test="newValue != null">
+				and `new_value` = #{newValue}
+			</if>
+			<if test="operateIp != null">
+				and `operate_ip` = #{operateIp}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+		</where>
+	</select>
+
+</mapper>

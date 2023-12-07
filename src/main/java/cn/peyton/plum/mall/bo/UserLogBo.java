@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.UserLogParam;
-import cn.peyton.plum.mall.pojo.UserLog;
+import cn.peyton.plum.mall.param.sys.UserLogParam;
+import cn.peyton.plum.mall.pojo.sys.UserLog;
 
 /**
  * <h3> 用户日志 数据转换 类</h3>

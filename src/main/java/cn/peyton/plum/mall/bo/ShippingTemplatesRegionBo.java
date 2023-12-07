@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShippingTemplatesRegionParam;
-import cn.peyton.plum.mall.pojo.ShippingTemplatesRegion;
+import cn.peyton.plum.mall.param.join.ShippingTemplatesRegionParam;
+import cn.peyton.plum.mall.pojo.join.ShippingTemplatesRegion;
 
 /**
  * <h3> 运费地区模板 数据转换 类</h3>

@@ -21,6 +21,10 @@ public final class PageResult<P> implements Serializable {
      */
     private List<P> data = new ArrayList<P>();
     /**
+     * 扩展数据
+     */
+    private Object expand;
+    /**
      * 总条数
      */
     private int totalRows = 0;
@@ -223,4 +227,17 @@ public final class PageResult<P> implements Serializable {
         this.paramValues = paramValues;
     }
 
+    /**
+     * @return 扩展数据
+     */
+    public Object getExpand() {
+        return expand;
+    }
+
+    /**
+     * @param expand 扩展数据
+     */
+    public void setExpand(Object expand) {
+        this.expand = expand;
+    }
 }

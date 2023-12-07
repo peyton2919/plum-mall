@@ -11,12 +11,19 @@ package cn.peyton.plum.core.handler;
  * </pre>
  */
 
-import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.err.GlobalException;
+import cn.peyton.plum.core.err.ParamException;
 import cn.peyton.plum.core.err.ValidationException;
-import cn.peyton.plum.core.page.ResponseStatus;
-import jakarta.servlet.http.HttpServletResponse;
+import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.utils.LogUtils;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
+
+import javax.xml.transform.TransformerException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -26,8 +33,28 @@ public class GlobalExceptionHandler {
     //    return JSONResult.fail(HttpStatusCode.FAIL, e.getMessage());
     //}
 
-    @ExceptionHandler(ValidationException.class)
-    public JSONResult exceptionHandle(ValidationException e, HttpServletResponse response) {
-        return JSONResult.fail(ResponseStatus.FAIL.getMsg());
+    @ExceptionHandler({ValidationException.class, GlobalException.class, TransformerException.class, ParamException.class})
+    public JSONResult exceptionHandle(Exception e) {
+        return JSONResult.error(JSONResult.Props.ERROR,e.getMessage());
+    }
+
+    /**
+     * <h4>捕获文件上传异常</h4>
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(MultipartException.class)
+    public JSONResult<?> handleBusinessException(MaxUploadSizeExceededException ex){
+        String msg;
+        if(ex.getCause().getCause() instanceof FileSizeLimitExceededException){
+            LogUtils.error(ex.getMessage());
+            msg = "单文件大小不得超过3MB";
+        } else if (ex.getCause().getCause() instanceof SizeLimitExceededException) {
+            LogUtils.error(ex.getMessage());
+            msg = "总上传文件大小不得超过20M";
+        }else {
+            msg = "请检查文件类型及大小是否符合规范";
+        }
+        return JSONResult.error(msg);
     }
 }

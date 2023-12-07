@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopCanvasParam;
-import cn.peyton.plum.mall.pojo.ShopCanvas;
+import cn.peyton.plum.mall.param.pub.ShopCanvasParam;
+import cn.peyton.plum.mall.pojo.pub.ShopCanvas;
 
 /**
  * <h3> 画布信息 数据转换 类</h3>

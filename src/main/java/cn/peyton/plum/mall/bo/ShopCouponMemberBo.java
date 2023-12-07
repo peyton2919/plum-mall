@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopCouponMemberParam;
-import cn.peyton.plum.mall.pojo.ShopCouponMember;
+import cn.peyton.plum.mall.param.product.ShopCouponMemberParam;
+import cn.peyton.plum.mall.pojo.product.ShopCouponMember;
 
 /**
  * <h3> 优惠券会员(关联优惠券与会员) 数据转换 类</h3>

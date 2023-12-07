@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopOrderItemMapper">
+	<resultMap id="ResultShopOrderItemMap" type="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="o_id" property="oId" jdbcType="BIGINT"/>
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+		<result column="cart_id" property="cartId" jdbcType="BIGINT"/>
+		<result column="psd_id" property="psdId" jdbcType="BIGINT"/>
+		<result column="num" property="num" jdbcType="INTEGER"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="is_after_sales" property="isAfterSales" jdbcType="TINYINT"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_order_item_List">
+		`id`,`o_id`,`order_no`,`cart_id`,`psd_id`,`num`,`price`,`is_after_sales`,`is_show`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_order_item`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="oId != null">`o_id`,</if>
+			<if test="orderNo != null">`order_no`,</if>
+			<if test="cartId != null">`cart_id`,</if>
+			<if test="psdId != null">`psd_id`,</if>
+			<if test="num != null">`num`,</if>
+			<if test="price != null">`price`,</if>
+			<if test="isAfterSales != null">`is_after_sales`,</if>
+			<if test="isShow != null">`is_show`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="oId != null">#{oId},</if>
+			<if test="orderNo != null">#{orderNo},</if>
+			<if test="cartId != null">#{cartId},</if>
+			<if test="psdId != null">#{psdId},</if>
+			<if test="num != null">#{num},</if>
+			<if test="price != null">#{price},</if>
+			<if test="isAfterSales != null">#{isAfterSales},</if>
+			<if test="isShow != null">#{isShow},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
+		update `tb_shop_order_item`
+		<set>
+			<if test="oId != null">`o_id` = #{oId},</if>
+			<if test="orderNo != null">`order_no` = #{orderNo},</if>
+			<if test="cartId != null">`cart_id` = #{cartId},</if>
+			<if test="psdId != null">`psd_id` = #{psdId},</if>
+			<if test="num != null">`num` = #{num},</if>
+			<if test="price != null">`price` = #{price},</if>
+			<if test="isAfterSales != null">`is_after_sales` = #{isAfterSales},</if>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_order_item`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
+		select
+		count(`id`)
+		from `tb_shop_order_item`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="oId != null">
+				and `o_id` = #{oId}
+			</if>
+			<if test="orderNo != null">
+				and `order_no` = #{orderNo}
+			</if>
+			<if test="cartId != null">
+				and `cart_id` = #{cartId}
+			</if>
+			<if test="psdId != null">
+				and `psd_id` = #{psdId}
+			</if>
+			<if test="num != null">
+				and `num` = #{num}
+			</if>
+			<if test="price != null">
+				and `price` = #{price}
+			</if>
+			<if test="isAfterSales != null">
+				and `is_after_sales` = #{isAfterSales}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopOrderItemMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_order_item_List"/>
+		from `tb_shop_order_item`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopOrderItemMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_order_item_List"/>
+		from `tb_shop_order_item`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.oId != null">
+				and `o_id` like concat('%',#{record.oId},'%')
+			</if>
+			<if test="record.orderNo != null">
+				and `order_no` like concat('%',#{record.orderNo},'%')
+			</if>
+			<if test="record.cartId != null">
+				and `cart_id` like concat('%',#{record.cartId},'%')
+			</if>
+			<if test="record.psdId != null">
+				and `psd_id` like concat('%',#{record.psdId},'%')
+			</if>
+			<if test="record.num != null">
+				and `num` like concat('%',#{record.num},'%')
+			</if>
+			<if test="record.price != null">
+				and `price` like concat('%',#{record.price},'%')
+			</if>
+			<if test="record.isAfterSales != null">
+				and `is_after_sales` like concat('%',#{record.isAfterSales},'%')
+			</if>
+			<if test="record.isShow != null">
+				and `is_show` like concat('%',#{record.isShow},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopOrderItemMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_order_item_List"/>
+		from `tb_shop_order_item`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.oId != null">
+				and `o_id` = #{record.oId}
+			</if>
+			<if test="record.orderNo != null">
+				and `order_no` = #{record.orderNo}
+			</if>
+			<if test="record.cartId != null">
+				and `cart_id` = #{record.cartId}
+			</if>
+			<if test="record.psdId != null">
+				and `psd_id` = #{record.psdId}
+			</if>
+			<if test="record.num != null">
+				and `num` = #{record.num}
+			</if>
+			<if test="record.price != null">
+				and `price` = #{record.price}
+			</if>
+			<if test="record.isAfterSales != null">
+				and `is_after_sales` = #{record.isAfterSales}
+			</if>
+			<if test="record.isShow != null">
+				and `is_show` = #{record.isShow}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
+		select
+		count(`id`)
+		from `tb_shop_order_item`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="oId != null">
+				and `o_id` like concat('%',#{oId},'%')
+			</if>
+			<if test="orderNo != null">
+				and `order_no` like concat('%',#{orderNo},'%')
+			</if>
+			<if test="cartId != null">
+				and `cart_id` like concat('%',#{cartId},'%')
+			</if>
+			<if test="psdId != null">
+				and `psd_id` like concat('%',#{psdId},'%')
+			</if>
+			<if test="num != null">
+				and `num` like concat('%',#{num},'%')
+			</if>
+			<if test="price != null">
+				and `price` like concat('%',#{price},'%')
+			</if>
+			<if test="isAfterSales != null">
+				and `is_after_sales` like concat('%',#{isAfterSales},'%')
+			</if>
+			<if test="isShow != null">
+				and `is_show` like concat('%',#{isShow},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
+		select
+		count(`id`)
+		from `tb_shop_order_item`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="oId != null">
+				and `o_id` = #{oId}
+			</if>
+			<if test="orderNo != null">
+				and `order_no` = #{orderNo}
+			</if>
+			<if test="cartId != null">
+				and `cart_id` = #{cartId}
+			</if>
+			<if test="psdId != null">
+				and `psd_id` = #{psdId}
+			</if>
+			<if test="num != null">
+				and `num` = #{num}
+			</if>
+			<if test="price != null">
+				and `price` = #{price}
+			</if>
+			<if test="isAfterSales != null">
+				and `is_after_sales` = #{isAfterSales}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+		</where>
+	</select>
+
+</mapper>

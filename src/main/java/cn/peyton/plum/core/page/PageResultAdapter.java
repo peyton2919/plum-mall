@@ -56,7 +56,6 @@ public final class PageResultAdapter<K,T,P> implements Serializable {
     public static <K, T, P> PageResult<?> adapt(IBaseMapper<K, T> mapper, PageQuery page,
                                                 T record, BaseConvertBo<T, P> baseConvertBo) {
         List<T> tList = mapper.selectByObj(record, page);
-        PageResult<?> result = null;
         if (null != tList && tList.size() > 0) {
             int count = mapper.count(record);
             return new PageResult<>(baseConvertBo.adapter(tList),count,page.getPageNo(),page.getPageSize());
@@ -77,14 +76,12 @@ public final class PageResultAdapter<K,T,P> implements Serializable {
     public static <K, T, P> PageResult<?> adaptByLike(IBaseMapper<K, T> mapper, PageQuery page,
                                                 T record, BaseConvertBo<T, P> baseConvertBo) {
         List<T> tList = mapper.selectByLiekAndObj(record, page);
-        PageResult<?> result = null;
         if (null != tList && tList.size() > 0) {
             int count = mapper.countByLike(record);
             return new PageResult<>(baseConvertBo.adapter(tList),count,page.getPageNo(),page.getPageSize());
         }
         return new PageResult<>(false);
     }
-
 
     /**
      * <h4>封装数据</h4>

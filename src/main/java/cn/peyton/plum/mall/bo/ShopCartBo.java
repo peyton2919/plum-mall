@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopCartParam;
-import cn.peyton.plum.mall.pojo.ShopCart;
+import cn.peyton.plum.mall.param.product.ShopCartParam;
+import cn.peyton.plum.mall.pojo.product.ShopCart;
 
 /**
  * <h3> 购物车 数据转换 类</h3>

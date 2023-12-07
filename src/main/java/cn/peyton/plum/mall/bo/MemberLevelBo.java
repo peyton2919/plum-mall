@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.MemberLevelParam;
-import cn.peyton.plum.mall.pojo.MemberLevel;
+import cn.peyton.plum.mall.param.party.MemberLevelParam;
+import cn.peyton.plum.mall.pojo.party.MemberLevel;
 
 /**
  * <h3> 会员等级 数据转换 类</h3>

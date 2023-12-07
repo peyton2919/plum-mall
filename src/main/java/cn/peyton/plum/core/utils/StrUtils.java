@@ -124,6 +124,26 @@ public final class StrUtils implements Serializable {
     }
 
     /**
+     * <h4>字符连接</h4>
+     * @param arrs 集合
+     * @param delimiter 分隔符 默认 `_`
+     * @return
+     */
+    public static String join(List<?> arrs,String delimiter){
+        if(null != arrs){
+            StringBuffer sb = new StringBuffer();
+            if (null == delimiter) {
+                delimiter = "_";
+            }
+            for (int i = 0; i < arrs.size(); i++) {
+                sb.append(delimiter + arrs.get(i));
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    /**
      * 字符连接
      *
      * @param array

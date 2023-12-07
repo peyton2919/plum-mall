@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.DistributionSettingParam;
-import cn.peyton.plum.mall.pojo.DistributionSetting;
+import cn.peyton.plum.mall.param.party.DistributionSettingParam;
+import cn.peyton.plum.mall.pojo.party.DistributionSetting;
 
 /**
  * <h4></h4>

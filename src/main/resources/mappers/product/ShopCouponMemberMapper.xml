@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopCouponMemberMapper">
+	<resultMap id="ResultShopCouponMemberMap" type="cn.peyton.plum.mall.pojo.product.ShopCouponMember">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="coupon_id" property="couponId" jdbcType="BIGINT"/>
+		<result column="share_id" property="shareId" jdbcType="BIGINT"/>
+		<result column="share_type" property="shareType" jdbcType="TINYINT"/>
+		<result column="used" property="used" jdbcType="TINYINT"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_coupon_member_List">
+		`id`,`coupon_id`,`share_id`,`share_type`,`used`,`status`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopCouponMember" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_coupon_member`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="couponId != null">`coupon_id`,</if>
+			<if test="shareId != null">`share_id`,</if>
+			<if test="shareType != null">`share_type`,</if>
+			<if test="used != null">`used`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="couponId != null">#{couponId},</if>
+			<if test="shareId != null">#{shareId},</if>
+			<if test="shareType != null">#{shareType},</if>
+			<if test="used != null">#{used},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopCouponMember">
+		update `tb_shop_coupon_member`
+		<set>
+			<if test="couponId != null">`coupon_id` = #{couponId},</if>
+			<if test="shareId != null">`share_id` = #{shareId},</if>
+			<if test="shareType != null">`share_type` = #{shareType},</if>
+			<if test="used != null">`used` = #{used},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_coupon_member`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCouponMember">
+		select
+		count(`id`)
+		from `tb_shop_coupon_member`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="couponId != null">
+				and `coupon_id` = #{couponId}
+			</if>
+			<if test="shareId != null">
+				and `share_id` = #{shareId}
+			</if>
+			<if test="shareType != null">
+				and `share_type` = #{shareType}
+			</if>
+			<if test="used != null">
+				and `used` = #{used}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopCouponMemberMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_coupon_member_List"/>
+		from `tb_shop_coupon_member`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_coupon_member_List"/>
+		from `tb_shop_coupon_member`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.couponId != null">
+				and `coupon_id` like concat('%',#{record.couponId},'%')
+			</if>
+			<if test="record.shareId != null">
+				and `share_id` like concat('%',#{record.shareId},'%')
+			</if>
+			<if test="record.shareType != null">
+				and `share_type` like concat('%',#{record.shareType},'%')
+			</if>
+			<if test="record.used != null">
+				and `used` like concat('%',#{record.used},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` like concat('%',#{record.status},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_coupon_member_List"/>
+		from `tb_shop_coupon_member`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.couponId != null">
+				and `coupon_id` = #{record.couponId}
+			</if>
+			<if test="record.shareId != null">
+				and `share_id` = #{record.shareId}
+			</if>
+			<if test="record.shareType != null">
+				and `share_type` = #{record.shareType}
+			</if>
+			<if test="record.used != null">
+				and `used` = #{record.used}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCouponMember">
+		select
+		count(`id`)
+		from `tb_shop_coupon_member`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="couponId != null">
+				and `coupon_id` like concat('%',#{couponId},'%')
+			</if>
+			<if test="shareId != null">
+				and `share_id` like concat('%',#{shareId},'%')
+			</if>
+			<if test="shareType != null">
+				and `share_type` like concat('%',#{shareType},'%')
+			</if>
+			<if test="used != null">
+				and `used` like concat('%',#{used},'%')
+			</if>
+			<if test="status != null">
+				and `status` like concat('%',#{status},'%')
+			</if>
+			<if test="createTime != null">
+				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCouponMember">
+		select
+		count(`id`)
+		from `tb_shop_coupon_member`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="couponId != null">
+				and `coupon_id` = #{couponId}
+			</if>
+			<if test="shareId != null">
+				and `share_id` = #{shareId}
+			</if>
+			<if test="shareType != null">
+				and `share_type` = #{shareType}
+			</if>
+			<if test="used != null">
+				and `used` = #{used}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

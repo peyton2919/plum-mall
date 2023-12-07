@@ -2,12 +2,16 @@ package cn.peyton.plum.core.inf.service;
 
 import cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp;
 import cn.peyton.plum.core.cache.LocalCache;
+import cn.peyton.plum.core.err.GlobalException;
+import cn.peyton.plum.core.err.ValidationException;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.page.PageResultAdapter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -31,6 +35,15 @@ import java.util.List;
  *     4. 如需要开启缓存,在子类的空构造要初始化 enabledCache 和 keyPrefix; 推荐以下二行写法
  *        enabledCache = true;
  *        keyPrefix = this.getClass().getName();
+ *
+ *     5. 事务 默认: Propagation.REQUIRED
+ *      Propagation.REQUIRED 支持当前事务,假设当前没有事务,就新建一个事务;
+ *      Propagation.SUPPORTS 支持当前事务,假设当前没有事务,就以非事务方式运行;
+ *      Propagation.MANDATORY 支持当前事务,假设当前没有事务,就抛出异常;
+ *      Propagation.REQUIRES_NEW 新建事务,假设当前存在事务,把当前事务挂起;
+ *      Propagation.NOT_SUPPORTED 以非事务方式运行操作,假设当前存在事务,就把当前事务挂起;
+ *      Propagation.NEVER 以非事务方式运行,假设当前存在事务,则抛出异常;
+ *      Propagation.NESTED 如果当前存在事务,则在嵌套事务内执行;则执行与REQUIRED类似的操作;
  * </pre>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
@@ -41,33 +54,9 @@ import java.util.List;
  * </pre>
  */
 @Service
+@Transactional(rollbackFor = {ValidationException.class, GlobalException.class, RuntimeException.class, Exception.class},
+    propagation = Propagation.REQUIRED)
 public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K, T, P> {
-    protected LocalCache cache = null;
-
-    /** 是否激活缓存 默认为 false */
-    protected  boolean enabledCache = false;
-    /** 缓存 key 前缀 推荐用 类的全名 */
-    protected String keyPrefix = "";
-
-    /**
-     * 构造函数
-     */
-    public AbstractRealizeService() {
-        if (null == cache) {
-            cache = LocalCache.getInstance();
-        }
-    }
-    /**
-     * <h4>初始化对象的 BO 类</h4>
-     * @return 对象BO类
-     */
-    public abstract BaseConvertBo<T, P> initBo();
-
-    /**
-     * <h4>初始化对象的 BO 类</h4>
-     * @return 对象BO类
-     */
-    public abstract IBaseMapper<K, T> initMapper();
 
     /**
      * <h4>添加对象</h4>
@@ -83,7 +72,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
         T record = initBo().convert(param);
         int result = initMapper().insertSelective(record);
         if (result > 0) {
-            if (enabledCache){
+            if (enabledCache) {
                 System.out.println("添加对象操作,清空缓存");
                 removeCache();
             }
@@ -94,14 +83,15 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
 
     /**
      * <h4>更新 对象[根据属性是否有值 更新]</h4>
+     *
      * @param param 对象
      * @return true 表示 成功, 否则 取 false
      */
     @AutoWriteTimestamp("updateTime")
     public Boolean update(P param) {
         int result = initMapper().updateSelective(initBo().convert(param));
-        if (result>0){
-            if (enabledCache){
+        if (result > 0) {
+            if (enabledCache) {
                 System.out.println("更新对象操作,清空缓存");
                 removeCache();
             }
@@ -112,10 +102,10 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
 
     /**
      * <h4>根据 ID 删除 T对象</h4>
-     *
      * @param id 对象ID
      * @return true 表示 成功, 否则 取 false
      */
+    @Transactional(rollbackFor={RuntimeException.class,Exception.class})
     public Boolean delete(K id) {
         int result = initMapper().deleteByPrimaryKey(id);
         if (result > 0) {
@@ -133,14 +123,12 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @param param 对象
      * @return true 表示 重名, 否则 取 false
      */
-    public Boolean isRename(P param) {
-
-        return initMapper().isRename(initBo().convert(param)) > 0;
+    public Boolean repeat(P param) {
+        return initMapper().repeat(initBo().convert(param)) > 0;
     }
 
     /**
      * <h4>根据 ID 查找 T对象</h4>
-     *
      * @param id 对象ID
      * @return 对象
      */
@@ -168,7 +156,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 对象集合
      */
     public List<P> findByLikeAndObj(P param, PageQuery page) {
-        String key = keyPrefix + "-list-" + page.getPageNo() + getKeySuffix(param) + "like";
+        String key = createKey(param,page,true);
         if (enabledCache){
             Object list = cache.get(key);
             if (null != list) {
@@ -183,6 +171,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
         }
         return pList;
     }
+
     /**
      * <h4>分页查询(模糊查找)</h4>
      * @param param 关键字, 当 param = null 时为全部查询
@@ -190,9 +179,9 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 对象集合
      */
     public PageResult<?> findAllByLike(P param, PageQuery page) {
-        String key = keyPrefix + "-list-" + page.getPageNo() + getKeySuffix(param) + "like";
-        return getPageResult(param, page, true, key);
+        return getPageResult(param, page, true, createKey(param,page,true));
     }
+
     /**
      * <h4>根据对象条件查找</h4>
      * @param param 对象
@@ -200,8 +189,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 对象集合
      */
     public PageResult<?> findAll(P param, PageQuery page) {
-        String key = keyPrefix + "-list-" + page.getPageNo() + getKeySuffix(param);
-        return getPageResult(param, page, false, key);
+        return getPageResult(param, page, false, createKey(param,page,false));
     }
 
     /**
@@ -211,7 +199,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 对象集合
      */
     public List<P> findByObj(P param, PageQuery page) {
-        String key = keyPrefix + "-list-" + page.getPageNo() + getKeySuffix(param);
+        String key = createKey(param,page,false);
         if (enabledCache){
             Object list = cache.get(key);
             if (null != list) {
@@ -234,7 +222,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 总条数
      */
     public Integer countByLike(P param) {
-        String key = keyPrefix + "-list-" + getKeySuffix(param) + "like";
+        String key = createKey(param,null,true);
         if (enabledCache){
             Object obj = cache.get(key);
             if (null != obj) {
@@ -256,7 +244,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 总条数
      */
     public Integer count(P param) {
-        String key = keyPrefix + "-list-" + getKeySuffix(param);
+        String key = createKey(param,null,false);
         if (enabledCache){
             Object obj = cache.get(key);
             if (null != obj) {
@@ -272,6 +260,37 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
         return result;
     }
 
+    // -----------------------------------------   构造与抽象方法 开始   ----------------------------------------- //
+    /**
+     * 构造函数
+     */
+    public AbstractRealizeService() {
+        if (null == cache) {
+            cache = LocalCache.getInstance();
+        }
+    }
+
+    /**
+     * <h4>初始化对象的 BO 类</h4>
+     * @return 对象BO类
+     */
+    public abstract BaseConvertBo<T, P> initBo();
+
+    /**
+     * <h4>初始化对象的 BO 类</h4>
+     * @return 对象BO类
+     */
+    public abstract IBaseMapper<K, T> initMapper();
+
+    // -----------------------------------------   构造与抽象方法 结束   ----------------------------------------- //
+    
+    // -----------------------------------------   protected 方法 开始   ----------------------------------------- //
+    protected LocalCache cache = null;
+    /** 是否激活缓存 默认为 false */
+    protected  boolean enabledCache = false;
+    /** 缓存 key 前缀 推荐用 类的全名 */
+    protected String keyPrefix = "";
+
     /**
      * <h4>移除全部缓存</h4>
      */
@@ -282,27 +301,33 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
     }
 
     /**
-     * <h4>获取 key 的后缀</h4>
+     * <h4>创建 缓存 key 值</h4>
      * @param param 对象
-     * @return key的后缀字段
+     * @param page 分页对象
+     * @param isLike true like 查找
+     * @return 字符串
      */
-    protected StringBuffer getKeySuffix(P param){
-        Field[] fields = param.getClass().getDeclaredFields();
-        StringBuffer sb = new StringBuffer();
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                Object obj = field.get(param);
-                if(null != obj && !"".equals(obj)){
-                    sb.append(obj);
-                }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+    private String createKey(P param,PageQuery page,Boolean isLike){
+        StringBuffer sb = new StringBuffer(keyPrefix);
+        sb.append("_list_");
+        if(null != param){
+            sb.append(page.getPageNo());
+            sb.append("_");
+            sb.append(page.getPageSize());
+            sb.append("_");
+            sb.append(page.getOrderByColumuName());
+            sb.append("_");
+            sb.append(page.getOrderByMode());
         }
-        return sb;
+        if(isLike){
+            sb.append("_like_");
+        }
+        sb.append(getKeySuffix(param));
+        return sb.toString();
     }
+    // -----------------------------------------   protected 方法 结束   ----------------------------------------- //
 
+    // -----------------------------------------   private 方法 开始   ----------------------------------------- //
     /**
      * <h4>根据对象条件查找</h4>
      * @param param 对象
@@ -319,7 +344,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
                 return (PageResult<?>)list;
             }
         }
-        PageResult<?> result = isLike?PageResultAdapter.adapt(initMapper(), page, initBo().convert(param), initBo()):
+        PageResult<?> result = isLike?PageResultAdapter.adaptByLike(initMapper(), page, initBo().convert(param), initBo()):
                 PageResultAdapter.adapt(initMapper(), page, initBo().convert(param), initBo());
         if (null != result && result.isSuccess && enabledCache) {
             System.out.printf("添加对象到缓存: key= %s;\n",key);
@@ -328,4 +353,26 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
         return result;
     }
 
+    /**
+     * <h4>获取 key 的后缀</h4>
+     * @param param 对象
+     * @return key的后缀字段
+     */
+    public StringBuffer getKeySuffix(P param){
+        Field[] fields = param.getClass().getDeclaredFields();
+        StringBuffer sb = new StringBuffer();
+        for (Field field : fields) {
+            try {
+                field.setAccessible(true);
+                Object obj = field.get(param);
+                if(null != obj && !"".equals(obj)){
+                    sb.append(obj);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return sb;
+    }
+    // -----------------------------------------   private 方法 结束   ----------------------------------------- //
 }

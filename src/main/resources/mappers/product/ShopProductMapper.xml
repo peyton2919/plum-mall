@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopProductMapper">
+	<resultMap id="ResultShopProductMap" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="cover" property="cover" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="info" property="info" jdbcType="VARCHAR"/>
+		<result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+		<result column="temp_id" property="tempId" jdbcType="INTEGER"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="vip_price" property="vipPrice" jdbcType="DECIMAL"/>
+		<result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+		<result column="ot_price" property="otPrice" jdbcType="DECIMAL"/>
+		<result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+		<result column="weight" property="weight" jdbcType="DECIMAL"/>
+		<result column="volume" property="volume" jdbcType="DECIMAL"/>
+		<result column="stock_display" property="stockDisplay" jdbcType="TINYINT"/>
+		<result column="postage" property="postage" jdbcType="DECIMAL"/>
+		<result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="sales" property="sales" jdbcType="INTEGER"/>
+		<result column="stock" property="stock" jdbcType="INTEGER"/>
+		<result column="min_stock" property="minStock" jdbcType="INTEGER"/>
+		<result column="browse" property="browse" jdbcType="INTEGER"/>
+		<result column="ficti" property="ficti" jdbcType="INTEGER"/>
+		<result column="code_path" property="codePath" jdbcType="VARCHAR"/>
+		<result column="explain" property="explain" jdbcType="LONGVARCHAR"/>
+		<result column="spec_type" property="specType" jdbcType="TINYINT"/>
+		<result column="skus" property="skus" jdbcType="VARCHAR"/>
+		<result column="is_check" property="isCheck" jdbcType="TINYINT"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="is_hot" property="isHot" jdbcType="TINYINT"/>
+		<result column="is_benefit" property="isBenefit" jdbcType="TINYINT"/>
+		<result column="is_best" property="isBest" jdbcType="TINYINT"/>
+		<result column="is_new" property="isNew" jdbcType="TINYINT"/>
+		<result column="is_postage" property="isPostage" jdbcType="TINYINT"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="is_good" property="isGood" jdbcType="TINYINT"/>
+		<result column="is_sub" property="isSub" jdbcType="TINYINT"/>
+		<result column="give_integral" property="giveIntegral" jdbcType="INTEGER"/>
+		<result column="is_integral" property="isIntegral" jdbcType="TINYINT"/>
+		<result column="integral" property="integral" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>
+		<collection property="slideshows" ofType="cn.peyton.plum.mall.pojo.product.ShopSlideshow"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopSlideshowMapper.selectByProductId"/>
+		<collection property="productSkus" ofType="cn.peyton.plum.mall.pojo.product.ShopProductSkuDetail"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopProductSkuDetailMapper.selectByProductId"/>
+		<!--<collection property="shopSkus" ofType="cn.peyton.plum.mall.pojo.product.ShopSku"-->
+		<!--			column="id" select="cn.peyton.plum.mall.mapper.product.ShopSkuMapper.selectByProductId"/>-->
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_List">
+		`id`,`cover`,`name`,`info`,`keyword`,`temp_id`,`price`,`vip_price`,`min_price`,`ot_price`,`cost_price`,`postage`,`unit_name`,
+		    `seq`,`sales`,`stock`,`min_stock`,`browse`,`ficti`,`code_path`,`explain`,`spec_type`,`skus`,`is_check`,`is_show`,`is_hot`,
+		    `is_benefit`,`is_best`,`is_new`,`is_postage`,`is_del`,`is_good`,`is_sub`,`give_integral`,
+		    `is_integral`,`integral`,`create_time`,`update_time`,`weight`,`volume`,`stock_display`
+	</sql>
+
+	<!-- 详情  -->
+	<resultMap id="reslut_product_explain" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="explain" property="explain" jdbcType="LONGVARCHAR"/>
+	</resultMap>
+	<sql id="column_product_explain">
+		`id`,`explain`
+	</sql>
+	<!-- 轮播图  -->
+	<resultMap id="reslut_product_slideshow" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<collection property="slideshows" ofType="cn.peyton.plum.mall.pojo.product.ShopSlideshow"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopSlideshowMapper.selectByProductId"/>
+	</resultMap>
+	<sql id="column_product_slideshow">
+	`id`
+	</sql>
+
+	<resultMap id="reslut_product_list" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="cover" property="cover" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="info" property="info" jdbcType="VARCHAR"/>
+		<result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+		<result column="stock" property="stock" jdbcType="INTEGER"/>
+		<result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="vip_price" property="vipPrice" jdbcType="DECIMAL"/>
+		<result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+		<result column="ot_price" property="otPrice" jdbcType="DECIMAL"/>
+		<result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>
+	</resultMap>
+	<sql id="column_product_list">
+		`id`,`cover`,`name`,`info`,`keyword`,`stock`,`unit_name`,`price`,`vip_price`,`min_price`,`ot_price`,`cost_price`,`is_show`,`is_check`
+	</sql>
+
+	<!-- id,cover,min_price,ot_price ,category,create_time,sales,stock,is_show,is_check,-->
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cover != null">`cover`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="info != null">`info`,</if>
+			<if test="keyword != null">`keyword`,</if>
+			<if test="tempId != null">`temp_id`,</if>
+			<if test="price != null">`price`,</if>
+			<if test="vipPrice != null">`vip_price`,</if>
+			<if test="minPrice != null">`min_price`,</if>
+			<if test="otPrice != null">`ot_price`,</if>
+			<if test="costPrice != null">`cost_price`,</if>
+			<if test="postage != null">`postage`,</if>
+			<if test="unitName != null">`unit_name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="sales != null">`sales`,</if>
+			<if test="stock != null">`stock`,</if>
+			<if test="minStock != null">`min_stock`,</if>
+			<if test="browse != null">`browse`,</if>
+			<if test="ficti != null">`ficti`,</if>
+			<if test="codePath != null">`code_path`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="specType != null">`spec_type`,</if>
+			<if test="skus != null">`skus`,</if>
+			<if test="isCheck != null">`is_check`,</if>
+			<if test="isShow != null">`is_show`,</if>
+			<if test="isHot != null">`is_hot`,</if>
+			<if test="isBenefit != null">`is_benefit`,</if>
+			<if test="isBest != null">`is_best`,</if>
+			<if test="isNew != null">`is_new`,</if>
+			<if test="isPostage != null">`is_postage`,</if>
+			<if test="isGood != null">`is_good`,</if>
+			<if test="isSub != null">`is_sub`,</if>
+			<if test="giveIntegral != null">`give_integral`,</if>
+			<if test="isIntegral != null">`is_integral`,</if>
+			<if test="integral != null">`integral`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="updateTime != null">`update_time`,</if>
+			<if test="weight != null">`weight`,</if>
+			<if test="volume != null">`volume`,</if>
+			<if test="stockDisplay != null">`stock_display`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cover != null">#{cover},</if>
+			<if test="name != null">#{name},</if>
+			<if test="info != null">#{info},</if>
+			<if test="keyword != null">#{keyword},</if>
+			<if test="tempId != null">#{tempId},</if>
+			<if test="price != null">#{price},</if>
+			<if test="vipPrice != null">#{vipPrice},</if>
+			<if test="minPrice != null">#{minPrice},</if>
+			<if test="otPrice != null">#{otPrice},</if>
+			<if test="costPrice != null">#{costPrice},</if>
+			<if test="postage != null">#{postage},</if>
+			<if test="unitName != null">#{unitName},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="sales != null">#{sales},</if>
+			<if test="stock != null">#{stock},</if>
+			<if test="minStock != null">#{minStock},</if>
+			<if test="browse != null">#{browse},</if>
+			<if test="ficti != null">#{ficti},</if>
+			<if test="codePath != null">#{codePath},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="specType != null">#{specType},</if>
+			<if test="skus != null">#{skus},</if>
+			<if test="isCheck != null">#{isCheck},</if>
+			<if test="isShow != null">#{isShow},</if>
+			<if test="isHot != null">#{isHot},</if>
+			<if test="isBenefit != null">#{isBenefit},</if>
+			<if test="isBest != null">#{isBest},</if>
+			<if test="isNew != null">#{isNew},</if>
+			<if test="isPostage != null">#{isPostage},</if>
+			<if test="isGood != null">#{isGood},</if>
+			<if test="isSub != null">#{isSub},</if>
+			<if test="giveIntegral != null">#{giveIntegral},</if>
+			<if test="isIntegral != null">#{isIntegral},</if>
+			<if test="integral != null">#{integral},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="weight != null">#{weight},</if>
+			<if test="volume != null">#{volume},</if>
+			<if test="stockDisplay != null">#{stockDisplay},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		update `tb_shop_product`
+		<set>
+			<if test="cover != null">`cover` = #{cover},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="info != null">`info` = #{info},</if>
+			<if test="keyword != null">`keyword` = #{keyword},</if>
+			<if test="tempId != null">`temp_id` = #{tempId},</if>
+			<if test="price != null">`price` = #{price},</if>
+			<if test="vipPrice != null">`vip_price` = #{vipPrice},</if>
+			<if test="minPrice != null">`min_price` = #{minPrice},</if>
+			<if test="otPrice != null">`ot_price` = #{otPrice},</if>
+			<if test="costPrice != null">`cost_price` = #{costPrice},</if>
+			<if test="postage != null">`postage` = #{postage},</if>
+			<if test="unitName != null">`unit_name` = #{unitName},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="sales != null">`sales` = #{sales},</if>
+			<if test="stock != null">`stock` = #{stock},</if>
+			<if test="minStock != null">`min_stock` = #{minStock},</if>
+			<if test="browse != null">`browse` = #{browse},</if>
+			<if test="ficti != null">`ficti` = #{ficti},</if>
+			<if test="codePath != null">`code_path` = #{codePath},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="specType != null">`spec_type` = #{specType},</if>
+			<if test="skus != null">`skus` = #{skus},</if>
+			<if test="isCheck != null">`is_check` = #{isCheck},</if>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+			<if test="isHot != null">`is_hot` = #{isHot},</if>
+			<if test="isBenefit != null">`is_benefit` = #{isBenefit},</if>
+			<if test="isBest != null">`is_best` = #{isBest},</if>
+			<if test="isNew != null">`is_new` = #{isNew},</if>
+			<if test="isPostage != null">`is_postage` = #{isPostage},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="isGood != null">`is_good` = #{isGood},</if>
+			<if test="isSub != null">`is_sub` = #{isSub},</if>
+			<if test="giveIntegral != null">`give_integral` = #{giveIntegral},</if>
+			<if test="isIntegral != null">`is_integral` = #{isIntegral},</if>
+			<if test="integral != null">`integral` = #{integral},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+			<if test="weight != null">`weight` = #{weight},</if>
+			<if test="volume != null">`volume` = #{volume},</if>
+			<if test="stockDisplay != null">`stock_display` = #{stockDisplay},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<update id="updateSpecType" parameterType="map">
+		update `tb_shop_product`
+		set `spec_type` = #{specType},`skus`=#{skus}
+		where `id`= #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product`
+		where `id` = #{id}
+	</delete>
+
+	<update id="batchDelete" parameterType="list">
+		update `tb_shop_product` set `is_del` = 0
+		where id in
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="batchRestore" parameterType="list">
+		update `tb_shop_product` set `is_del` = 1
+		where id in
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="batchIsShow" parameterType="map">
+		update `tb_shop_product` set `is_show` = #{isShow}
+		where id in
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		select
+		count(`id`)
+		from `tb_shop_product`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="cover != null">
+				and `cover` = #{cover}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="info != null">
+				and `info` = #{info}
+			</if>
+			<if test="keyword != null">
+				and `keyword` = #{keyword}
+			</if>
+			<if test="tempId != null">
+				and `temp_id` = #{tempId}
+			</if>
+			<if test="price != null">
+				and `price` = #{price}
+			</if>
+			<if test="vipPrice != null">
+				and `vip_price` = #{vipPrice}
+			</if>
+			<if test="minPrice != null">
+				and `min_price` = #{minPrice}
+			</if>
+			<if test="otPrice != null">
+				and `ot_price` = #{otPrice}
+			</if>
+			<if test="costPrice != null">
+				and `cost_price` = #{costPrice}
+			</if>
+			<if test="postage != null">
+				and `postage` = #{postage}
+			</if>
+			<if test="unitName != null">
+				and `unit_name` = #{unitName}
+			</if>
+
+			<if test="sales != null">
+				and `sales` = #{sales}
+			</if>
+			<if test="stock != null">
+				and `stock` = #{stock}
+			</if>
+			<if test="browse != null">
+				and `browse` = #{browse}
+			</if>
+			<if test="ficti != null">
+				and `ficti` = #{ficti}
+			</if>
+			<if test="codePath != null">
+				and `code_path` = #{codePath}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="specType != null">
+				and `spec_type` = #{specType}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+			<if test="isHot != null">
+				and `is_hot` = #{isHot}
+			</if>
+			<if test="isBenefit != null">
+				and `is_benefit` = #{isBenefit}
+			</if>
+			<if test="isBest != null">
+				and `is_best` = #{isBest}
+			</if>
+			<if test="isNew != null">
+				and `is_new` = #{isNew}
+			</if>
+			<if test="isPostage != null">
+				and `is_postage` = #{isPostage}
+			</if>
+
+			<if test="isGood != null">
+				and `is_good` = #{isGood}
+			</if>
+			<if test="isSub != null">
+				and `is_sub` = #{isSub}
+			</if>
+			<if test="giveIntegral != null">
+				and `give_integral` = #{giveIntegral}
+			</if>
+			<if test="isIntegral != null">
+				and `is_integral` = #{isIntegral}
+			</if>
+			<if test="integral != null">
+				and `integral` = #{integral}
+			</if>
+
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_List"/>
+		from `tb_shop_product`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="reslut_product_list"  parameterType="map">
+		select
+		<include refid="column_product_list"/>
+		from `tb_shop_product`
+		<where>
+			<if test="record.cover != null">
+				and `cover` like concat('%',#{record.cover},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.info != null">
+				and `info` like concat('%',#{record.info},'%')
+			</if>
+			<if test="record.keyword != null">
+				and `keyword` like concat('%',#{record.keyword},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` = #{record.isDel}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_List"/>
+		from `tb_shop_product`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.cover != null">
+				and `cover` = #{record.cover}
+			</if>
+			<if test="record.name != null">
+				and `name` = #{record.name}
+			</if>
+			<if test="record.info != null">
+				and `info` = #{record.info}
+			</if>
+			<if test="record.keyword != null">
+				and `keyword` = #{record.keyword}
+			</if>
+			<if test="record.tempId != null">
+				and `temp_id` = #{record.tempId}
+			</if>
+			<if test="record.price != null">
+				and `price` = #{record.price}
+			</if>
+			<if test="record.vipPrice != null">
+				and `vip_price` = #{record.vipPrice}
+			</if>
+			<if test="record.minPrice != null">
+				and `min_price` = #{record.minPrice}
+			</if>
+			<if test="record.isCheck != null">
+				and `is_check` = #{record.isCheck}
+			</if>
+			<if test="record.minStock != null">
+				and `min_stock` = #{record.minStock}
+			</if>
+			<if test="record.otPrice != null">
+				and `ot_price` = #{record.otPrice}
+			</if>
+			<if test="record.costPrice != null">
+				and `cost_price` = #{record.costPrice}
+			</if>
+			<if test="record.postage != null">
+				and `postage` = #{record.postage}
+			</if>
+			<if test="record.unitName != null">
+				and `unit_name` = #{record.unitName}
+			</if>
+			<if test="record.seq != null">
+				and `seq` = #{record.seq}
+			</if>
+			<if test="record.sales != null">
+				and `sales` = #{record.sales}
+			</if>
+			<if test="record.stock != null">
+				and `stock` = #{record.stock}
+			</if>
+			<if test="record.browse != null">
+				and `browse` = #{record.browse}
+			</if>
+			<if test="record.ficti != null">
+				and `ficti` = #{record.ficti}
+			</if>
+			<if test="record.codePath != null">
+				and `code_path` = #{record.codePath}
+			</if>
+			<if test="record.explain != null">
+				and `explain` = #{record.explain}
+			</if>
+			<if test="record.specType != null">
+				and `spec_type` = #{record.specType}
+			</if>
+			<if test="record.isShow != null">
+				and `is_show` = #{record.isShow}
+			</if>
+			<if test="record.isHot != null">
+				and `is_hot` = #{record.isHot}
+			</if>
+			<if test="record.isBenefit != null">
+				and `is_benefit` = #{record.isBenefit}
+			</if>
+			<if test="record.isBest != null">
+				and `is_best` = #{record.isBest}
+			</if>
+			<if test="record.isNew != null">
+				and `is_new` = #{record.isNew}
+			</if>
+			<if test="record.isPostage != null">
+				and `is_postage` = #{record.isPostage}
+			</if>
+			<if test="record.isGood != null">
+				and `is_good` = #{record.isGood}
+			</if>
+			<if test="record.isSub != null">
+				and `is_sub` = #{record.isSub}
+			</if>
+			<if test="record.giveIntegral != null">
+				and `give_integral` = #{record.giveIntegral}
+			</if>
+			<if test="record.isIntegral != null">
+				and `is_integral` = #{record.isIntegral}
+			</if>
+			<if test="record.integral != null">
+				and `integral` = #{record.integral}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.updateTime != null">
+				and `update_time` = #{record.updateTime}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		select
+		count(`id`)
+		from `tb_shop_product`
+		<where>
+			<if test="cover != null">
+				and `cover` like concat('%',#{cover},'%')
+			</if>
+			<if test="name != null">
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="info != null">
+				and `info` like concat('%',#{info},'%')
+			</if>
+			<if test="keyword != null">
+				and `keyword` like concat('%',#{keyword},'%')
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		select
+		count(`id`)
+		from `tb_shop_product`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="cover != null">
+				and `cover` = #{cover}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="info != null">
+				and `info` = #{info}
+			</if>
+			<if test="keyword != null">
+				and `keyword` = #{keyword}
+			</if>
+			<if test="tempId != null">
+				and `temp_id` = #{tempId}
+			</if>
+			<if test="price != null">
+				and `price` = #{price}
+			</if>
+			<if test="vipPrice != null">
+				and `vip_price` = #{vipPrice}
+			</if>
+			<if test="minPrice != null">
+				and `min_price` = #{minPrice}
+			</if>
+			<if test="otPrice != null">
+				and `ot_price` = #{otPrice}
+			</if>
+			<if test="costPrice != null">
+				and `cost_price` = #{costPrice}
+			</if>
+			<if test="postage != null">
+				and `postage` = #{postage}
+			</if>
+			<if test="unitName != null">
+				and `unit_name` = #{unitName}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="sales != null">
+				and `sales` = #{sales}
+			</if>
+			<if test="stock != null">
+				and `stock` = #{stock}
+			</if>
+			<if test="minStock != null">
+				and `min_stock` = #{minStock}
+			</if>
+			<if test="browse != null">
+				and `browse` = #{browse}
+			</if>
+			<if test="ficti != null">
+				and `ficti` = #{ficti}
+			</if>
+			<if test="codePath != null">
+				and `code_path` = #{codePath}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="specType != null">
+				and `spec_type` = #{specType}
+			</if>
+			<if test="isCheck != null">
+				and `is_check` = #{isCheck}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+			<if test="isHot != null">
+				and `is_hot` = #{isHot}
+			</if>
+			<if test="isBenefit != null">
+				and `is_benefit` = #{isBenefit}
+			</if>
+			<if test="isBest != null">
+				and `is_best` = #{isBest}
+			</if>
+			<if test="isNew != null">
+				and `is_new` = #{isNew}
+			</if>
+			<if test="isPostage != null">
+				and `is_postage` = #{isPostage}
+			</if>
+			<if test="isGood != null">
+				and `is_good` = #{isGood}
+			</if>
+			<if test="isSub != null">
+				and `is_sub` = #{isSub}
+			</if>
+			<if test="giveIntegral != null">
+				and `give_integral` = #{giveIntegral}
+			</if>
+			<if test="isIntegral != null">
+				and `is_integral` = #{isIntegral}
+			</if>
+			<if test="integral != null">
+				and `integral` = #{integral}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				and `update_time` = #{updateTime}
+			</if>
+		</where>
+	</select>
+
+<!--	-->
+	<select id="selectBySlideshow" resultMap="reslut_product_slideshow"  parameterType="java.lang.Long">
+		select
+		<include refid="column_product_slideshow"/>
+		from `tb_shop_product`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByExplain" resultMap="reslut_product_explain"  parameterType="java.lang.Long">
+		select
+		<include refid="column_product_explain"/>
+		from `tb_shop_product`
+		where `id` = #{id}
+	</select>
+
+	<select id="isProduct" resultType="int"  parameterType="java.lang.Long">
+		select
+			count(id)
+		from `tb_shop_product`
+		where `id` = #{id}
+	</select>
+</mapper>

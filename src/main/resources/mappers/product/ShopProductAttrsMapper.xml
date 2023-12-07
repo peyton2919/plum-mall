@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopProductAttrsMapper">
+	<resultMap id="ResultShopProductAttrsMap" type="cn.peyton.plum.mall.pojo.product.ShopProductAttrs">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="attr_id" property="attrId" jdbcType="BIGINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_attrs_List">
+		`id`,`product_id`,`attr_id`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductAttrs" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_attrs`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">`product_id`,</if>
+			<if test="attrId != null">`attr_id`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">#{productId},</if>
+			<if test="attrId != null">#{attrId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductAttrs">
+		update `tb_shop_product_attrs`
+		<set>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="attrId != null">`attr_id` = #{attrId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product_attrs`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductAttrs">
+		select
+		count(`id`)
+		from `tb_shop_product_attrs`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="attrId != null">
+				and `attr_id` = #{attrId}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductAttrsMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_attrs_List"/>
+		from `tb_shop_product_attrs`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopProductAttrsMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_attrs_List"/>
+		from `tb_shop_product_attrs`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.productId != null">
+				and `product_id` like concat('%',#{record.productId},'%')
+			</if>
+			<if test="record.attrId != null">
+				and `attr_id` like concat('%',#{record.attrId},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductAttrsMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_attrs_List"/>
+		from `tb_shop_product_attrs`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.productId != null">
+				and `product_id` = #{record.productId}
+			</if>
+			<if test="record.attrId != null">
+				and `attr_id` = #{record.attrId}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductAttrs">
+		select
+		count(`id`)
+		from `tb_shop_product_attrs`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="productId != null">
+				and `product_id` like concat('%',#{productId},'%')
+			</if>
+			<if test="attrId != null">
+				and `attr_id` like concat('%',#{attrId},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductAttrs">
+		select
+		count(`id`)
+		from `tb_shop_product_attrs`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="attrId != null">
+				and `attr_id` = #{attrId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

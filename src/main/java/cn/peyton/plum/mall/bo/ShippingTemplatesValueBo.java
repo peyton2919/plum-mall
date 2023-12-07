@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShippingTemplatesValueParam;
-import cn.peyton.plum.mall.pojo.ShippingTemplatesValue;
+import cn.peyton.plum.mall.param.join.ShippingTemplatesValueParam;
+import cn.peyton.plum.mall.pojo.join.ShippingTemplatesValue;
 
 /**
  * <h3> 运费 数据转换 类</h3>

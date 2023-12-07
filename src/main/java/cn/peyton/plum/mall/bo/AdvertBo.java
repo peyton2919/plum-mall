@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.AdvertParam;
-import cn.peyton.plum.mall.pojo.Advert;
+import cn.peyton.plum.mall.param.pub.AdvertParam;
+import cn.peyton.plum.mall.pojo.pub.Advert;
 
 /**
  * <h4>广告信息 数据转换类</h4>

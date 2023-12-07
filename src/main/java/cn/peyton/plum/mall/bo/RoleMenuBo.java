@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.RoleMenuParam;
-import cn.peyton.plum.mall.pojo.RoleMenu;
+import cn.peyton.plum.mall.param.sys.RoleMenuParam;
+import cn.peyton.plum.mall.pojo.sys.RoleMenu;
 
 /**
  * <h3> 角色菜单关联 数据转换 类</h3>

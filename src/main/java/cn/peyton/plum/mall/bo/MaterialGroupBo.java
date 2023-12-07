@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.MaterialGroupParam;
-import cn.peyton.plum.mall.pojo.MaterialGroup;
+import cn.peyton.plum.mall.param.sys.MaterialGroupParam;
+import cn.peyton.plum.mall.pojo.sys.MaterialGroup;
 
 /**
  * <h3> 素材分组 数据转换 类</h3>

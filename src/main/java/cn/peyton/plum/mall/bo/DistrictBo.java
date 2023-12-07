@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.DistrictParam;
-import cn.peyton.plum.mall.pojo.District;
+import cn.peyton.plum.mall.param.sys.DistrictParam;
+import cn.peyton.plum.mall.pojo.sys.District;
 
 /**
  * <h3> 行政区 数据转换 类</h3>

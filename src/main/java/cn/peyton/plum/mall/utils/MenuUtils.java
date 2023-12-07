@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.utils;
 
-import cn.peyton.plum.mall.pojo.Menu;
+import cn.peyton.plum.mall.pojo.sys.Menu;
 
 import java.io.Serializable;
 import java.util.ArrayList;

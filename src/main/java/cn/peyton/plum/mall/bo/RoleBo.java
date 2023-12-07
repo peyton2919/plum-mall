@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.RoleParam;
-import cn.peyton.plum.mall.pojo.Role;
+import cn.peyton.plum.mall.param.sys.RoleParam;
+import cn.peyton.plum.mall.pojo.sys.Role;
 
 /**
  * <h3> 角色 数据转换 类</h3>

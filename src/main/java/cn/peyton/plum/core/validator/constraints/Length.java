@@ -33,5 +33,5 @@ public @interface Length {
     /**
      * @return 值元素长度必须小于或等于
      */
-    long max();
+    long max() default -1;
 }

@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.DeptParam;
-import cn.peyton.plum.mall.pojo.Dept;
+import cn.peyton.plum.mall.param.sys.DeptParam;
+import cn.peyton.plum.mall.pojo.sys.Dept;
 
 /**
  * <h4></h4>

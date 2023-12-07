@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.NoticeCategoryParam;
-import cn.peyton.plum.mall.pojo.NoticeCategory;
+import cn.peyton.plum.mall.param.pub.NoticeCategoryParam;
+import cn.peyton.plum.mall.pojo.pub.NoticeCategory;
 
 /**
  * <h3> 公告类型 数据转换 类</h3>

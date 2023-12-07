@@ -93,7 +93,7 @@ public final class ValidatorFactory implements Serializable {
         } else if (annotation instanceof Alike) {
             comparer = new AlikeStrategy();
         }
-        if (null != comparer) {
+        if (null != comparer && AbstractValidator.is(annotation)) {
             comparer.compare(annotation, name, type, value, map);
             comparer.message = "";
         }

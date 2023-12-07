@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopOrderRefundParam;
-import cn.peyton.plum.mall.pojo.ShopOrderRefund;
+import cn.peyton.plum.mall.param.product.ShopOrderRefundParam;
+import cn.peyton.plum.mall.pojo.product.ShopOrderRefund;
 
 /**
  * <h3> 订单退款 数据转换 类</h3>

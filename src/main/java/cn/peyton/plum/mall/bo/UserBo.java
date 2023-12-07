@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.UserParam;
-import cn.peyton.plum.mall.pojo.User;
+import cn.peyton.plum.mall.param.sys.UserParam;
+import cn.peyton.plum.mall.pojo.sys.User;
 
 /**
  * <h3> 系统用户 数据转换 类</h3>

@@ -2,6 +2,7 @@ package cn.peyton.plum.core.handler;
 
 import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.utils.HttpServletRequestUtils;
 import cn.peyton.plum.core.utils.LogUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,26 +73,48 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
             Object _object = jsonResult.getData();
             if (_object instanceof List<?>) {
                 List<?> _objects = (List<?>) _object;
-                if (null != _objects && _objects.size() > 0) {
-                    for (Object _obj : _objects) {
-                        try {
-                            int count = 0;
-                            recurrence(_obj, count);
-                        } catch (IllegalAccessException e) {
-                            LogUtils.error(e.getMessage());
-                        }
-                    }
-                }
-            } else if (_object instanceof Class<?>) {
+                // 赋值
+                assignment(_objects);
+            }else if (_object instanceof PageResult<?>){
+                List<?> _objects = ((PageResult<?>) _object).getData();
+                // 赋值
+                assignment(_objects);
+            }else if (_object instanceof Class<?>) {
                 try {
                     int count = 0;
                     recurrence(_object, count);
                 } catch (IllegalAccessException e) {
                     LogUtils.error(e.getMessage());
                 }
+            } else if ((null != _object) && _object.getClass().getName().contains("cn.peyton")) {
+                int count = 0;
+                try {
+                    recurrence(_object, count);
+                } catch (IllegalAccessException e) {
+                    LogUtils.error(e.getMessage());
+                }
+            }
+
+        }
+
+        return body;
+    }
+
+    /**
+     * <h4>赋值</h4>
+     * @param _objects
+     */
+    private void assignment(List<?> _objects){
+        if (null != _objects && _objects.size() > 0) {
+            for (Object _obj : _objects) {
+                try {
+                    int count = 0;
+                    recurrence(_obj, count);
+                } catch (IllegalAccessException e) {
+                    LogUtils.error(e.getMessage());
+                }
             }
         }
-        return body;
     }
 
     /**
@@ -108,21 +131,28 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
         if (count > 10) {
             return;
         }
+        //
+        addImgPathPrefix(obj);
+        if(null == obj) return;
+        // 判断子类是否还有
         Field[] declaredFields = obj.getClass().getDeclaredFields();
         if (declaredFields != null) {
             for (Field field : declaredFields) {
                 Class<?> type = field.getType();
                 String name = type.getName();
+
                 if (name.contains("cn.peyton")) {
                     // 设置
                     field.setAccessible(true);
                     Object fieldObj = field.get(obj);
                     // 调用递归
                     recurrence(fieldObj, count);
+                    // 调用添加前缀方法
                     addImgPathPrefix(obj);
                 } else if (("java.util.List").equals(name)) {
                     field.setAccessible(true);
                     List<Object> listObj = (List<Object>) field.get(obj);
+                    if(null ==listObj) return;
                     for (Object lo : listObj) {
                         int _tmpCount = 0;
                         recurrence(lo, _tmpCount);
@@ -139,6 +169,7 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
      * @param _obj
      */
     private void addImgPathPrefix(Object _obj) {
+        if(null == _obj) return;
         Class<?> clazz = _obj.getClass();
         ImageHostPath annotation = clazz.getAnnotation(ImageHostPath.class);
         if (null != annotation) {
@@ -149,7 +180,7 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
                     Field _field = clazz.getDeclaredField(_str);
                     _field.setAccessible(true);
                     String _tmp = (String) _field.get(_obj);
-                    if (!_tmp.startsWith("http")) {
+                    if ((null != _tmp) && !_tmp.startsWith("http")) {
                         _field.set(_obj, basePath + _tmp);
                     }
                 } catch (NoSuchFieldException e) {

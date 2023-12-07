@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.UserExtractParam;
-import cn.peyton.plum.mall.pojo.UserExtract;
+import cn.peyton.plum.mall.param.party.UserExtractParam;
+import cn.peyton.plum.mall.pojo.party.UserExtract;
 
 /**
  * <h3> 用户提现 数据转换 类</h3>

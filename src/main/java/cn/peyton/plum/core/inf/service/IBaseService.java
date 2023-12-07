@@ -62,12 +62,12 @@ public interface IBaseService<K, T, P> {
     Boolean delete(K id);
 
     /**
-     * <h4>判断是否重名</h4>
+     * <h4>判断是否重复</h4>
      *
      * @param record 对象
-     * @return true 表示 重名, 否则 取 false
+     * @return true 表示 重复, 否则 取 false
      */
-    Boolean isRename(P record);
+    Boolean repeat(P record);
 
     /**
      * <h4>根据 ID 查找 P对象</h4>

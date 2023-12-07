@@ -87,7 +87,7 @@ public final class Validation implements Serializable {
      * @param single      false表示对象全部字段, true表示单个字段[有一个错误信息就返回]
      */
     public static void valid(Map<String, String> errMap, Annotation[] annotations,
-                             String name, String type, String value,
+                             String name, String type, Object value,
                              boolean single) {
         if (single) {
             valid(errMap, annotations, name, type, value);
@@ -110,7 +110,7 @@ public final class Validation implements Serializable {
      * @param value       值
      */
     public static void valid(Map<String, String> errMap, Annotation[] annotations,
-                             String name, String type, String value) {
+                             String name, String type, Object value) {
         validator.validate(errMap, annotations, name, type, value, true);
     }
 

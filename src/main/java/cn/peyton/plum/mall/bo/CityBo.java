@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.CityParam;
-import cn.peyton.plum.mall.pojo.City;
+import cn.peyton.plum.mall.param.sys.CityParam;
+import cn.peyton.plum.mall.pojo.sys.City;
 
 /**
  * <h4></h4>

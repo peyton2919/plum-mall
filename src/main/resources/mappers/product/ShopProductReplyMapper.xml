@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopProductReplyMapper">
+	<resultMap id="ResultShopProductReplyMap" type="cn.peyton.plum.mall.pojo.product.ShopProductReply">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="u_id" property="uId" jdbcType="BIGINT"/>
+		<result column="o_id" property="oId" jdbcType="BIGINT"/>
+		<result column="unique_code" property="uniqueCode" jdbcType="VARCHAR"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="reply_type" property="replyType" jdbcType="TINYINT"/>
+		<result column="product_score" property="productScore" jdbcType="TINYINT"/>
+		<result column="service_score" property="serviceScore" jdbcType="TINYINT"/>
+		<result column="reply_comment" property="replyComment" jdbcType="VARCHAR"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="is_reply" property="isReply" jdbcType="TINYINT"/>
+		<result column="merchant_reply_content" property="merchantReplyContent" jdbcType="VARCHAR"/>
+		<result column="merchant_reply_time" property="merchantReplyTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_reply_List">
+		`id`,`u_id`,`o_id`,`unique_code`,`product_id`,`reply_type`,`product_score`,`service_score`,`reply_comment`,`is_del`,`create_time`,`is_reply`,`merchant_reply_content`,`merchant_reply_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_reply`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uId != null">`u_id`,</if>
+			<if test="oId != null">`o_id`,</if>
+			<if test="uniqueCode != null">`unique_code`,</if>
+			<if test="productId != null">`product_id`,</if>
+			<if test="replyType != null">`reply_type`,</if>
+			<if test="productScore != null">`product_score`,</if>
+			<if test="serviceScore != null">`service_score`,</if>
+			<if test="replyComment != null">`reply_comment`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="isReply != null">`is_reply`,</if>
+			<if test="merchantReplyContent != null">`merchant_reply_content`,</if>
+			<if test="merchantReplyTime != null">`merchant_reply_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uId != null">#{uId},</if>
+			<if test="oId != null">#{oId},</if>
+			<if test="uniqueCode != null">#{uniqueCode},</if>
+			<if test="productId != null">#{productId},</if>
+			<if test="replyType != null">#{replyType},</if>
+			<if test="productScore != null">#{productScore},</if>
+			<if test="serviceScore != null">#{serviceScore},</if>
+			<if test="replyComment != null">#{replyComment},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="isReply != null">#{isReply},</if>
+			<if test="merchantReplyContent != null">#{merchantReplyContent},</if>
+			<if test="merchantReplyTime != null">#{merchantReplyTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply">
+		update `tb_shop_product_reply`
+		<set>
+			<if test="uId != null">`u_id` = #{uId},</if>
+			<if test="oId != null">`o_id` = #{oId},</if>
+			<if test="uniqueCode != null">`unique_code` = #{uniqueCode},</if>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="replyType != null">`reply_type` = #{replyType},</if>
+			<if test="productScore != null">`product_score` = #{productScore},</if>
+			<if test="serviceScore != null">`service_score` = #{serviceScore},</if>
+			<if test="replyComment != null">`reply_comment` = #{replyComment},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="isReply != null">`is_reply` = #{isReply},</if>
+			<if test="merchantReplyContent != null">`merchant_reply_content` = #{merchantReplyContent},</if>
+			<if test="merchantReplyTime != null">`merchant_reply_time` = #{merchantReplyTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product_reply`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply">
+		select
+		count(`id`)
+		from `tb_shop_product_reply`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="uId != null">
+				and `u_id` = #{uId}
+			</if>
+			<if test="oId != null">
+				and `o_id` = #{oId}
+			</if>
+			<if test="uniqueCode != null">
+				and `unique_code` = #{uniqueCode}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="replyType != null">
+				and `reply_type` = #{replyType}
+			</if>
+			<if test="productScore != null">
+				and `product_score` = #{productScore}
+			</if>
+			<if test="serviceScore != null">
+				and `service_score` = #{serviceScore}
+			</if>
+			<if test="replyComment != null">
+				and `reply_comment` = #{replyComment}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="isReply != null">
+				and `is_reply` = #{isReply}
+			</if>
+			<if test="merchantReplyContent != null">
+				and `merchant_reply_content` = #{merchantReplyContent}
+			</if>
+			<if test="merchantReplyTime != null">
+				and `merchant_reply_time` = #{merchantReplyTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductReplyMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_reply_List"/>
+		from `tb_shop_product_reply`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopProductReplyMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_reply_List"/>
+		from `tb_shop_product_reply`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.uId != null">
+				and `u_id` like concat('%',#{record.uId},'%')
+			</if>
+			<if test="record.oId != null">
+				and `o_id` like concat('%',#{record.oId},'%')
+			</if>
+			<if test="record.uniqueCode != null">
+				and `unique_code` like concat('%',#{record.uniqueCode},'%')
+			</if>
+			<if test="record.productId != null">
+				and `product_id` like concat('%',#{record.productId},'%')
+			</if>
+			<if test="record.replyType != null">
+				and `reply_type` like concat('%',#{record.replyType},'%')
+			</if>
+			<if test="record.productScore != null">
+				and `product_score` like concat('%',#{record.productScore},'%')
+			</if>
+			<if test="record.serviceScore != null">
+				and `service_score` like concat('%',#{record.serviceScore},'%')
+			</if>
+			<if test="record.replyComment != null">
+				and `reply_comment` like concat('%',#{record.replyComment},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+			<if test="record.isReply != null">
+				and `is_reply` like concat('%',#{record.isReply},'%')
+			</if>
+			<if test="record.merchantReplyContent != null">
+				and `merchant_reply_content` like concat('%',#{record.merchantReplyContent},'%')
+			</if>
+			<if test="record.merchantReplyTime != null">
+				and `merchant_reply_time` like concat('%',#{record.merchantReplyTime},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductReplyMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_reply_List"/>
+		from `tb_shop_product_reply`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.uId != null">
+				and `u_id` = #{record.uId}
+			</if>
+			<if test="record.oId != null">
+				and `o_id` = #{record.oId}
+			</if>
+			<if test="record.uniqueCode != null">
+				and `unique_code` = #{record.uniqueCode}
+			</if>
+			<if test="record.productId != null">
+				and `product_id` = #{record.productId}
+			</if>
+			<if test="record.replyType != null">
+				and `reply_type` = #{record.replyType}
+			</if>
+			<if test="record.productScore != null">
+				and `product_score` = #{record.productScore}
+			</if>
+			<if test="record.serviceScore != null">
+				and `service_score` = #{record.serviceScore}
+			</if>
+			<if test="record.replyComment != null">
+				and `reply_comment` = #{record.replyComment}
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` = #{record.isDel}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.isReply != null">
+				and `is_reply` = #{record.isReply}
+			</if>
+			<if test="record.merchantReplyContent != null">
+				and `merchant_reply_content` = #{record.merchantReplyContent}
+			</if>
+			<if test="record.merchantReplyTime != null">
+				and `merchant_reply_time` = #{record.merchantReplyTime}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply">
+		select
+		count(`id`)
+		from `tb_shop_product_reply`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="uId != null">
+				and `u_id` like concat('%',#{uId},'%')
+			</if>
+			<if test="oId != null">
+				and `o_id` like concat('%',#{oId},'%')
+			</if>
+			<if test="uniqueCode != null">
+				and `unique_code` like concat('%',#{uniqueCode},'%')
+			</if>
+			<if test="productId != null">
+				and `product_id` like concat('%',#{productId},'%')
+			</if>
+			<if test="replyType != null">
+				and `reply_type` like concat('%',#{replyType},'%')
+			</if>
+			<if test="productScore != null">
+				and `product_score` like concat('%',#{productScore},'%')
+			</if>
+			<if test="serviceScore != null">
+				and `service_score` like concat('%',#{serviceScore},'%')
+			</if>
+			<if test="replyComment != null">
+				and `reply_comment` like concat('%',#{replyComment},'%')
+			</if>
+			<if test="isDel != null">
+				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+			<if test="createTime != null">
+				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+			<if test="isReply != null">
+				and `is_reply` like concat('%',#{isReply},'%')
+			</if>
+			<if test="merchantReplyContent != null">
+				and `merchant_reply_content` like concat('%',#{merchantReplyContent},'%')
+			</if>
+			<if test="merchantReplyTime != null">
+				and `merchant_reply_time` like concat('%',#{merchantReplyTime},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply">
+		select
+		count(`id`)
+		from `tb_shop_product_reply`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="uId != null">
+				and `u_id` = #{uId}
+			</if>
+			<if test="oId != null">
+				and `o_id` = #{oId}
+			</if>
+			<if test="uniqueCode != null">
+				and `unique_code` = #{uniqueCode}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="replyType != null">
+				and `reply_type` = #{replyType}
+			</if>
+			<if test="productScore != null">
+				and `product_score` = #{productScore}
+			</if>
+			<if test="serviceScore != null">
+				and `service_score` = #{serviceScore}
+			</if>
+			<if test="replyComment != null">
+				and `reply_comment` = #{replyComment}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="isReply != null">
+				and `is_reply` = #{isReply}
+			</if>
+			<if test="merchantReplyContent != null">
+				and `merchant_reply_content` = #{merchantReplyContent}
+			</if>
+			<if test="merchantReplyTime != null">
+				and `merchant_reply_time` = #{merchantReplyTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -22,20 +22,25 @@ public final class PageQuery implements Serializable {
      * 当前 页码
      */
     @Min(value = 1, message = "当前页码不合法")
-    private int pageNo = 1;
+    private Integer pageNo = 1;
     /**
      * 每页大小
      */
     @Min(value = 1, message = "每页展示数量不合法")
-    private int pageSize = 10;
+    private Integer pageSize = 10;
     /**
      * 偏移量 {当前页 * 每页大小}
      */
-    private int offset;
+    private Integer offset;
     /** 排序列字段名称(数据库的字段) */
     private String orderByColumuName;
     /** 排序方式 [ASC|DESC] */
-    private String orderByMode="ASC";
+    private String orderByMode="DESC";
+    /**
+     * 启用分页默认 true 分页查找; 设 false 查找全部不做分页查找
+     */
+    private Boolean enablePaging = true;
+
 
     /**
      * 无参构造函数
@@ -48,8 +53,12 @@ public final class PageQuery implements Serializable {
      *
      * @param pageNo 当前页数
      */
-    public PageQuery(int pageNo) {
+    public PageQuery(Integer pageNo) {
         this.pageNo = pageNo;
+    }
+
+    public PageQuery(Boolean enablePaging){
+        this.enablePaging = enablePaging;
     }
 
     /**
@@ -57,7 +66,7 @@ public final class PageQuery implements Serializable {
      * @param pageNo   当前页数
      * @param pageSize 每页大小
      */
-    public PageQuery(int pageNo, int pageSize) {
+    public PageQuery(Integer pageNo, Integer pageSize) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
     }
@@ -67,11 +76,21 @@ public final class PageQuery implements Serializable {
      * @param pageNo   当前页数
      * @param orderByColumuName 排序列字段名称(数据库的字段)
      */
-    public PageQuery(int pageNo, String orderByColumuName) {
+    public PageQuery(Integer pageNo, String orderByColumuName) {
         this.pageNo = pageNo;
-        this.pageSize = pageSize;
         this.orderByColumuName = orderByColumuName;
-        this.orderByMode = orderByMode;
+    }
+
+    /**
+     * 构造函数
+     * @param pageNo   当前页数
+     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     * @param enablePaging 启用分页默认 true 分页查找; 设 false 查找全部不做分页查找
+     */
+    public PageQuery(Integer pageNo, String orderByColumuName,Boolean enablePaging) {
+        this.pageNo = pageNo;
+        this.orderByColumuName = orderByColumuName;
+        this.enablePaging = enablePaging;
     }
 
     /**
@@ -80,9 +99,8 @@ public final class PageQuery implements Serializable {
      * @param orderByColumuName 排序列字段名称(数据库的字段)
      * @param orderByMode 排序方式 [ASC|DESC]
      */
-    public PageQuery(int pageNo,String orderByColumuName,String orderByMode) {
+    public PageQuery(Integer pageNo,String orderByColumuName,String orderByMode) {
         this.pageNo = pageNo;
-        this.pageSize = pageSize;
         this.orderByColumuName = orderByColumuName;
         this.orderByMode = orderByMode;
     }
@@ -94,7 +112,7 @@ public final class PageQuery implements Serializable {
      * @param orderByColumuName 排序列字段名称(数据库的字段)
      * @param orderByMode 排序方式 [ASC|DESC]
      */
-    public PageQuery(int pageNo, int pageSize,String orderByColumuName,String orderByMode) {
+    public PageQuery(Integer pageNo, Integer pageSize,String orderByColumuName,String orderByMode) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
         this.orderByColumuName = orderByColumuName;
@@ -105,42 +123,42 @@ public final class PageQuery implements Serializable {
     /**
      * @return 当前 页码
      */
-    public int getPageNo() {
+    public Integer getPageNo() {
         return pageNo;
     }
 
     /**
      * @param pageNo 当前 页码
      */
-    public void setPageNo(int pageNo) {
+    public void setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
     }
 
     /**
      * @return 每页大小
      */
-    public int getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
     /**
      * @param pageSize 每页大小
      */
-    public void setPageSize(int pageSize) {
+    public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
 
     /**
      * @return 偏移量 {当前页 * 每页大小}
      */
-    public int getOffset() {
+    public Integer getOffset() {
         return (pageNo - 1) * pageSize;
     }
 
     /**
      * @param offset 偏移量 {当前页 * 每页大小}
      */
-    public void setOffset(int offset) {
+    public void setOffset(Integer offset) {
         this.offset = offset;
     }
 
@@ -170,6 +188,20 @@ public final class PageQuery implements Serializable {
      */
     public void setOrderByMode(String orderByMode) {
         this.orderByMode = orderByMode;
+    }
+
+    /**
+     * @return 启用分页默认 true 分页查找; 设 false 查找全部不做分页查找
+     */
+    public Boolean getEnablePaging() {
+        return enablePaging;
+    }
+
+    /**
+     * @param enablePaging 启用分页默认 true 分页查找; 设 false 查找全部不做分页查找
+     */
+    public void setEnablePaging(Boolean enablePaging) {
+        this.enablePaging = enablePaging;
     }
 
     public interface PROS{

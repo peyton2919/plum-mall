@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ExpressCompanyParam;
-import cn.peyton.plum.mall.pojo.ExpressCompany;
+import cn.peyton.plum.mall.param.join.ExpressCompanyParam;
+import cn.peyton.plum.mall.pojo.join.ExpressCompany;
 
 /**
  * <h3> 快递公司 数据转换 类</h3>

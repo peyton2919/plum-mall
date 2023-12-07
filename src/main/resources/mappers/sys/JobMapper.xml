@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.sys.JobMapper">
+	<resultMap id="ResultJobMap" type="cn.peyton.plum.mall.pojo.sys.Job">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="dept_id" property="deptId" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_job_List">
+		`id`,`name`,`seq`,`dept_id`,`create_time`,`is_del`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.Job" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_job`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="deptId != null">`dept_id`,</if>
+			<if test="createTime != null">`create_time`,</if>
+			<if test="isDel != null">`is_del`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="deptId != null">#{deptId},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="isDel != null">#{isDel},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.sys.Job">
+		update `sys_job`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="deptId != null">`dept_id` = #{deptId},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `sys_job`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.Job">
+		select
+		count(`id`)
+		from `sys_job`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="deptId != null">
+				and `dept_id` = #{deptId}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultJobMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_sys_job_List"/>
+		from `sys_job`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultJobMap"  parameterType="map">
+		select
+		<include refid="Column_sys_job_List"/>
+		from `sys_job`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
+			</if>
+			<if test="record.deptId != null">
+				and `dept_id` like concat('%',#{record.deptId},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultJobMap"  parameterType="map">
+		select
+		<include refid="Column_sys_job_List"/>
+		from `sys_job`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.name != null">
+				and `name` = #{record.name}
+			</if>
+			<if test="record.seq != null">
+				and `seq` = #{record.seq}
+			</if>
+			<if test="record.deptId != null">
+				and `dept_id` = #{record.deptId}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` = #{record.isDel}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.Job">
+		select
+		count(`id`)
+		from `sys_job`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="name != null">
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="seq != null">
+				and `seq` like concat('%',#{seq},'%')
+			</if>
+			<if test="deptId != null">
+				and `dept_id` like concat('%',#{deptId},'%')
+			</if>
+			<if test="createTime != null">
+				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+			<if test="isDel != null">
+				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.Job">
+
+		select
+		count(`id`)
+		from `sys_job`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="deptId != null">
+				and `dept_id` = #{deptId}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ProvinceParam;
-import cn.peyton.plum.mall.pojo.Province;
+import cn.peyton.plum.mall.param.sys.ProvinceParam;
+import cn.peyton.plum.mall.pojo.sys.Province;
 
 /**
  * <h3> 省份 数据转换 类</h3>

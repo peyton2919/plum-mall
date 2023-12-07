@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.sys.RoleMenuMapper">
+	<resultMap id="ResultRoleMenuMap" type="cn.peyton.plum.mall.pojo.sys.RoleMenu">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="menu_id" property="menuId" jdbcType="BIGINT"/>
+		<result column="role_id" property="roleId" jdbcType="BIGINT"/>
+	</resultMap>
+
+	<sql id="Column_sys_role_menu_List">
+		`id`,`menu_id`,`role_id`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.RoleMenu" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `sys_role_menu`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="menuId != null">`menu_id`,</if>
+			<if test="roleId != null">`role_id`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="menuId != null">#{menuId},</if>
+			<if test="roleId != null">#{roleId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.sys.RoleMenu">
+		update `sys_role_menu`
+		<set>
+			<if test="menuId != null">`menu_id` = #{menuId},</if>
+			<if test="roleId != null">`role_id` = #{roleId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `sys_role_menu`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.RoleMenu">
+		select
+		count(`id`)
+		from `sys_role_menu`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="menuId != null">
+				and `menu_id` = #{menuId}
+			</if>
+			<if test="roleId != null">
+				and `role_id` = #{roleId}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultRoleMenuMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_sys_role_menu_List"/>
+		from `sys_role_menu`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultRoleMenuMap"  parameterType="map">
+		select
+		<include refid="Column_sys_role_menu_List"/>
+		from `sys_role_menu`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.menuId != null">
+				and `menu_id` like concat('%',#{record.menuId},'%')
+			</if>
+			<if test="record.roleId != null">
+				and `role_id` like concat('%',#{record.roleId},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultRoleMenuMap"  parameterType="map">
+		select
+		<include refid="Column_sys_role_menu_List"/>
+		from `sys_role_menu`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.menuId != null">
+				and `menu_id` = #{record.menuId}
+			</if>
+			<if test="record.roleId != null">
+				and `role_id` = #{record.roleId}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.RoleMenu">
+		select
+		count(`id`)
+		from `sys_role_menu`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="menuId != null">
+				and `menu_id` like concat('%',#{menuId},'%')
+			</if>
+			<if test="roleId != null">
+				and `role_id` like concat('%',#{roleId},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.RoleMenu">
+		select
+		count(`id`)
+		from `sys_role_menu`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="menuId != null">
+				and `menu_id` = #{menuId}
+			</if>
+			<if test="roleId != null">
+				and `role_id` = #{roleId}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectMenuIdByRoleIdList" parameterType="map" resultType="long">
+		SELECT
+		`menu_id`
+		FROM `sys_role_menu`
+		WHERE `role_id` IN
+		<foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+			#{roleId}
+		</foreach>
+	</select>
+
+	<delete id="deleteMenuByRoleId" parameterType="long" >
+		DELETE FROM `sys_role_menu`
+		WHERE `role_id` = #{roleId}
+	</delete>
+
+	<insert id="batchAdd" parameterType="map">
+		insert into `sys_role_menu` (`role_id`, `menu_id`)
+		values
+		<foreach collection="roleMenuList" item="roleMenu" separator=",">
+			(#{roleMenu.roleId}, #{roleMenu.menuId})
+		</foreach>
+	</insert>
+
+	<select id="selectRoleIdListByMenuId" parameterType="long" resultType="long">
+		SELECT `role_id`
+		FROM `sys_role_menu`
+		WHERE `menu_id` = #{menuId}
+	</select>
+
+</mapper>

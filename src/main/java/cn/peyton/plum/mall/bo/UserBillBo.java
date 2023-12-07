@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.UserBillParam;
-import cn.peyton.plum.mall.pojo.UserBill;
+import cn.peyton.plum.mall.param.party.UserBillParam;
+import cn.peyton.plum.mall.pojo.party.UserBill;
 
 /**
  * <h3> 会员账单{用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)} 数据转换 类</h3>

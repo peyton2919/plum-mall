@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopCouponParam;
-import cn.peyton.plum.mall.pojo.ShopCoupon;
+import cn.peyton.plum.mall.param.product.ShopCouponParam;
+import cn.peyton.plum.mall.pojo.product.ShopCoupon;
 
 /**
  * <h3> 优惠券 数据转换 类</h3>

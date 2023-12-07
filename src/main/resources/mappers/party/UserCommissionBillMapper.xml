@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.party.UserCommissionBillMapper">
+	<resultMap id="ResultUserCommissionBillMap" type="cn.peyton.plum.mall.pojo.party.UserCommissionBill">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="shaer_id" property="shaerId" jdbcType="BIGINT"/>
+		<result column="shaer_type" property="shaerType" jdbcType="TINYINT"/>
+		<result column="level" property="level" jdbcType="BIT"/>
+		<result column="order_id" property="orderId" jdbcType="INTEGER"/>
+		<result column="commission" property="commission" jdbcType="DECIMAL"/>
+		<result column="status" property="status" jdbcType="BIT"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_user_commission_bill_List">
+		`id`,`shaer_id`,`shaer_type`,`level`,`order_id`,`commission`,`status`,`explain`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.UserCommissionBill" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_user_commission_bill`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shaerId != null">`shaer_id`,</if>
+			<if test="shaerType != null">`shaer_type`,</if>
+			<if test="level != null">`level`,</if>
+			<if test="orderId != null">`order_id`,</if>
+			<if test="commission != null">`commission`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shaerId != null">#{shaerId},</if>
+			<if test="shaerType != null">#{shaerType},</if>
+			<if test="level != null">#{level},</if>
+			<if test="orderId != null">#{orderId},</if>
+			<if test="commission != null">#{commission},</if>
+			<if test="status != null">#{status},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.UserCommissionBill">
+		update `tb_user_commission_bill`
+		<set>
+			<if test="shaerId != null">`shaer_id` = #{shaerId},</if>
+			<if test="shaerType != null">`shaer_type` = #{shaerType},</if>
+			<if test="level != null">`level` = #{level},</if>
+			<if test="orderId != null">`order_id` = #{orderId},</if>
+			<if test="commission != null">`commission` = #{commission},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_user_commission_bill`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.UserCommissionBill">
+		select
+		count(`id`)
+		from `tb_user_commission_bill`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="shaerId != null">
+				and `shaer_id` = #{shaerId}
+			</if>
+			<if test="shaerType != null">
+				and `shaer_type` = #{shaerType}
+			</if>
+			<if test="level != null">
+				and `level` = #{level}
+			</if>
+			<if test="orderId != null">
+				and `order_id` = #{orderId}
+			</if>
+			<if test="commission != null">
+				and `commission` = #{commission}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultUserCommissionBillMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_user_commission_bill_List"/>
+		from `tb_user_commission_bill`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultUserCommissionBillMap"  parameterType="map">
+		select
+		<include refid="Column_tb_user_commission_bill_List"/>
+		from `tb_user_commission_bill`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.shaerId != null">
+				and `shaer_id` like concat('%',#{record.shaerId},'%')
+			</if>
+			<if test="record.shaerType != null">
+				and `shaer_type` like concat('%',#{record.shaerType},'%')
+			</if>
+			<if test="record.level != null">
+				and `level` like concat('%',#{record.level},'%')
+			</if>
+			<if test="record.orderId != null">
+				and `order_id` like concat('%',#{record.orderId},'%')
+			</if>
+			<if test="record.commission != null">
+				and `commission` like concat('%',#{record.commission},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` like concat('%',#{record.status},'%')
+			</if>
+			<if test="record.explain != null">
+				and `explain` like concat('%',#{record.explain},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultUserCommissionBillMap"  parameterType="map">
+		select
+		<include refid="Column_tb_user_commission_bill_List"/>
+		from `tb_user_commission_bill`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.shaerId != null">
+				and `shaer_id` = #{record.shaerId}
+			</if>
+			<if test="record.shaerType != null">
+				and `shaer_type` = #{record.shaerType}
+			</if>
+			<if test="record.level != null">
+				and `level` = #{record.level}
+			</if>
+			<if test="record.orderId != null">
+				and `order_id` = #{record.orderId}
+			</if>
+			<if test="record.commission != null">
+				and `commission` = #{record.commission}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+			<if test="record.explain != null">
+				and `explain` = #{record.explain}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.UserCommissionBill">
+		select
+		count(`id`)
+		from `tb_user_commission_bill`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="shaerId != null">
+				and `shaer_id` like concat('%',#{shaerId},'%')
+			</if>
+			<if test="shaerType != null">
+				and `shaer_type` like concat('%',#{shaerType},'%')
+			</if>
+			<if test="level != null">
+				and `level` like concat('%',#{level},'%')
+			</if>
+			<if test="orderId != null">
+				and `order_id` like concat('%',#{orderId},'%')
+			</if>
+			<if test="commission != null">
+				and `commission` like concat('%',#{commission},'%')
+			</if>
+			<if test="status != null">
+				and `status` like concat('%',#{status},'%')
+			</if>
+			<if test="explain != null">
+				and `explain` like concat('%',#{explain},'%')
+			</if>
+			<if test="createTime != null">
+				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.UserCommissionBill">
+		select
+		count(`id`)
+		from `tb_user_commission_bill`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="shaerId != null">
+				and `shaer_id` = #{shaerId}
+			</if>
+			<if test="shaerType != null">
+				and `shaer_type` = #{shaerType}
+			</if>
+			<if test="level != null">
+				and `level` = #{level}
+			</if>
+			<if test="orderId != null">
+				and `order_id` = #{orderId}
+			</if>
+			<if test="commission != null">
+				and `commission` = #{commission}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

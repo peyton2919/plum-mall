@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.UserDistributionParam;
-import cn.peyton.plum.mall.pojo.UserDistribution;
+import cn.peyton.plum.mall.param.party.UserDistributionParam;
+import cn.peyton.plum.mall.pojo.party.UserDistribution;
 
 /**
  * <h3> 用户分销关联(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用) 数据转换 类</h3>

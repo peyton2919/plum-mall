@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopOrderRecordParam;
-import cn.peyton.plum.mall.pojo.ShopOrderRecord;
+import cn.peyton.plum.mall.param.product.ShopOrderRecordParam;
+import cn.peyton.plum.mall.pojo.product.ShopOrderRecord;
 
 /**
  * <h3> 订单操作记录 数据转换 类</h3>

@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.WechatCacheParam;
-import cn.peyton.plum.mall.pojo.WechatCache;
+import cn.peyton.plum.mall.param.pub.WechatCacheParam;
+import cn.peyton.plum.mall.pojo.pub.WechatCache;
 
 /**
  * <h3> 微信缓存 数据转换 类</h3>

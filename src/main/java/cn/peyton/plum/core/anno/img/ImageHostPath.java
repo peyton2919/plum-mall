@@ -5,6 +5,7 @@ import java.lang.annotation.*;
 /**
  * <h4>添加图片主机地址</h4>
  * <pre>
+ *     设置在实体类上
  *     用于前后端分离, 配合 MyResponseBodyHandler 一起使用;
  * </pre>
  * <pre>
@@ -20,8 +21,12 @@ import java.lang.annotation.*;
 public @interface ImageHostPath {
     /**
      * <h4>属性名称, 多个用 `,` 隔开</h4>
-     *
+     * <pre>
+     *     要返回需要包装 图片地址
+     * </pre>
      * @return
      */
     String name();
+
+    //String value();
 }

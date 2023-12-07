@@ -1,5 +1,8 @@
 package cn.peyton.plum.core.validator.strategy;
 
+import cn.peyton.plum.core.validator.constraints.*;
+
+import java.lang.annotation.Annotation;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +27,7 @@ public abstract class AbstractValidator implements IValidator {
     private final String _FLOAT = "float";
     private final String _DOUBLE = "double";
     private final String INTEGER = "class java.lang.Integer";
+    private final String SHORT = "class java.lang.Short,short";
     private final String INT = "int";
     private final String LONG = "class java.lang.Long,long";
 
@@ -83,9 +87,10 @@ public abstract class AbstractValidator implements IValidator {
      * @param type 数据 类型
      * @return true为不是整型类型
      */
-    protected boolean existInt(String type) {
+    protected boolean existLong(String type) {
         if (INTEGER.contains(type) ||
                 INT.contains(type) ||
+                SHORT.contains(type) ||
                 LONG.contains(type) ||
                 STRING.contains(type)) {
             return false;
@@ -116,4 +121,63 @@ public abstract class AbstractValidator implements IValidator {
         Date date = dateFormat.parse(value);
         return date.getTime();
     }
+
+    /**
+     * <h4>判断该注解是否要难证</h4>
+     * @param annotations
+     * @return true 为要要证
+     */
+    public static Boolean is(Annotation... annotations) {
+        if (null != annotations && annotations.length > 0) {
+            for (Annotation an : annotations) {
+                if(an instanceof Alike){
+                    return true;
+                }else if(an instanceof AssertFalse){
+                    return true;
+                }else if(an instanceof AssertTrue){
+                    return true;
+                }else if(an instanceof Constants){
+                    return true;
+                }else if(an instanceof cn.peyton.plum.core.validator.constraints.Date){
+                    return true;
+                }else if(an instanceof Datetime){
+                    return true;
+                }else if(an instanceof DecimalMax){
+                    return true;
+                }else if(an instanceof DecimalMin){
+                    return true;
+                }else if(an instanceof Email){
+                    return true;
+                }else if(an instanceof Future){
+                    return true;
+                }else if(an instanceof Length){
+                    return true;
+                }else if(an instanceof Max){
+                    return true;
+                }else if(an instanceof Min){
+                    return true;
+                }else if(an instanceof NotBlank){
+                    return true;
+                }else if(an instanceof NotNull){
+                    return true;
+                }else if(an instanceof Null){
+                    return true;
+                }else if(an instanceof Past){
+                    return true;
+                }else if(an instanceof cn.peyton.plum.core.validator.constraints.Pattern){
+                    return true;
+                }else if(an instanceof Phone){
+                    return true;
+                }else if(an instanceof Size){
+                    return true;
+                }else if(an instanceof Time){
+                    return true;
+                }else if(an instanceof Telephone){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

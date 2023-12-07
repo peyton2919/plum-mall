@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,36 +121,69 @@ public final class BaseValidator implements Serializable {
         }
         for (Field field : fields) {
             field.setAccessible(true);
-            String name = field.getName();
-            //获取字段类型
-            String type = field.getGenericType().toString();
             //判断返回全部还是单个 验证
-            if (!map.isEmpty() && single) {
-                break;
-            }
-
-            Object value = null;
+            if (!map.isEmpty() && single) { break; }
             try {
-                value = field.get(obj);
+                String typeName1 = field.getGenericType().getTypeName();
+                String name1 = field.getType().getName();
+
+                String typeName = field.getType().getTypeName();
+                if(field.getType().getTypeName().contains("cn.peyton") ||
+                        field.getType().getTypeName().contains("Object")){
+                    Object childObj = field.get(obj);
+                    if(null == childObj) continue;
+                    objValid(childObj,map,single);
+                }else if (field.getType().getTypeName().contains("List")){
+                    List<?> list = (List<?>) field.get(obj);
+                    if(null == list || list.size()==0) continue;
+                    for (Object childObj : list) {
+                        objValid(childObj,map,single);
+
+                        if(map.size()>0) break;
+                    }
+                }else {
+                    String name = field.getName();
+                    //获取字段类型 field.getType().getName();
+                    String type = field.getGenericType().toString();
+                    Object value = field.get(obj);
+                    isValid(field,obj,value,name,type,map,single);
+                }
             } catch (Exception e) {
                 LogUtils.error(e.getMessage());
             }
-            Annotation[] annotations = field.getDeclaredAnnotations();
-
-            //判断 注解类型
-            for (Annotation annotation : annotations) {
-
-                //调用工厂,返回 map 数据
-                factory.valid(annotation, name, type, (annotation instanceof Alike ? obj : value), map);
-                if (!map.isEmpty() && single) {
-                    break;
-                }
-            }
+            if(map.size()>0 && single){break;}
         }
         if (!map.isEmpty()) {
             ERROR = true;
         }
         return map;
+    }
+
+    private void objValid(Object childObj,Map<String,String> map,Boolean single) throws IllegalAccessException {
+        Class<?> childClazz = childObj.getClass();
+        Field[] childFields = childClazz.getDeclaredFields();
+        for (Field childField : childFields) {
+            childField.setAccessible(true);
+            String _name = childField.getName();
+            String _type = childField.getGenericType().toString();
+            Object _obj = childField.get(childObj);
+            isValid(childField,childObj,_obj,_name,_type,map,single);
+            if (map.size() > 0 && single) {break;}
+        }
+    }
+
+    private void isValid(Field field,Object obj,Object value,String name,String simpleTypeName,
+                         Map<String,String> map,Boolean single){
+        Annotation[] annotations = field.getDeclaredAnnotations();
+        //判断 注解类型
+        for (Annotation annotation : annotations) {
+
+            //调用工厂,返回 map 数据
+            factory.valid(annotation, name, simpleTypeName, (annotation instanceof Alike ? obj : value), map);
+            if (!map.isEmpty() && single) {
+                break;
+            }
+        }
     }
 
     /**

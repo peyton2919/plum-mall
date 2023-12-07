@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.SupplierParam;
-import cn.peyton.plum.mall.pojo.Supplier;
+import cn.peyton.plum.mall.param.party.SupplierParam;
+import cn.peyton.plum.mall.pojo.party.Supplier;
 
 /**
  * <h3> 供应商信息 数据转换 类</h3>

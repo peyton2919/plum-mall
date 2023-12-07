@@ -73,6 +73,9 @@ spring: #多数据源
         #login-password: 111111
   messages:
     basename: i18n.login
+  web:
+    resources:
+      static-locations: classpath:/resources/,classpath:/static/,classpath:/public/  # classpath:/META-INF/resources/,
 mybatis:
-  mapper-locations: classpath:mappers/*Mapper.xml   # 所有 mapper 映射的文件所在目录位置 cn/peyton/children/chatter/
-  type-aliases-package: cn.peyton.children.chatter.pojo
+  mapper-locations: classpath:mappers/*/*Mapper.xml   # 所有 mapper 映射的文件所在目录位置 cn/peyton/children/chatter/
+  type-aliases-package: cn.peyton.plum.mall.pojo

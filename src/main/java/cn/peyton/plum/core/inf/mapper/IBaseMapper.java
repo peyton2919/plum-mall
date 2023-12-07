@@ -65,7 +65,7 @@ public interface IBaseMapper<K, T> {
     int deleteByPrimaryKey(K id);
 
     /**
-     * <h4>判断是否重名,也可以做些其他判断</h4>
+     * <h4>判断是否重复,也可以做些其他判断</h4>
      * <pre>
      *     1. 判断是否重名,输入对象里的属性值其他为空, 返回大于 0 表示重名;
      *     2. 判断状态是否可用, 唯一的关键字(字段不重复的属性)、状态码(禁用的状态码) 返回大于 0 表示 被禁用(不可用);
@@ -75,7 +75,7 @@ public interface IBaseMapper<K, T> {
      * @param record 对象
      * @return 大于0 表示 重名
      */
-    int isRename(T record);
+    int repeat(T record);
 
     /**
      * <h4>根据 ID 查找 T对象</h4>

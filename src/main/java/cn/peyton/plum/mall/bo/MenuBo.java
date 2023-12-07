@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.MenuParam;
-import cn.peyton.plum.mall.pojo.Menu;
+import cn.peyton.plum.mall.param.sys.MenuParam;
+import cn.peyton.plum.mall.pojo.sys.Menu;
 
 /**
  * <h3> 菜单 数据转换 类</h3>

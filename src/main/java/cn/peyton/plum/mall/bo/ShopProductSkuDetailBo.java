@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopProductSkuDetailParam;
-import cn.peyton.plum.mall.pojo.ShopProductSkuDetail;
+import cn.peyton.plum.mall.param.product.ShopProductSkuDetailParam;
+import cn.peyton.plum.mall.pojo.product.ShopProductSkuDetail;
 
 /**
  * <h3> 商品规格详细 数据转换 类</h3>

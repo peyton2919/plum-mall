@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopProductSkuJoinMapper">
+	<resultMap id="ResultShopProductSkuJoinMap" type="cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="sku_id" property="skuId" jdbcType="BIGINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_product_sku_join_List">
+		`id`,`product_id`,`sku_id`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_sku_join`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">`product_id`,</if>
+			<if test="skuId != null">`sku_id`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">#{productId},</if>
+			<if test="skuId != null">#{skuId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin">
+		update `tb_shop_product_sku_join`
+		<set>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="skuId != null">`sku_id` = #{skuId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product_sku_join`
+		where `id` = #{id}
+	</delete>
+
+	<delete id="deleteByProductIdAndSkuId" parameterType="java.lang.Long">
+		delete from `tb_shop_product_sku_join`
+		where `product_id` = #{productId} and `sku_id` = #{skuId}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin">
+		select
+		count(`id`)
+		from `tb_shop_product_sku_join`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="skuId != null">
+				and `sku_id` = #{skuId}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopProductSkuJoinMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_sku_join_List"/>
+		from `tb_shop_product_sku_join`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopProductSkuJoinMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_sku_join_List"/>
+		from `tb_shop_product_sku_join`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.productId != null">
+				and `product_id` like concat('%',#{record.productId},'%')
+			</if>
+			<if test="record.skuId != null">
+				and `sku_id` like concat('%',#{record.skuId},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopProductSkuJoinMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_product_sku_join_List"/>
+		from `tb_shop_product_sku_join`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.productId != null">
+				and `product_id` = #{record.productId}
+			</if>
+			<if test="record.skuId != null">
+				and `sku_id` = #{record.skuId}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin">
+		select
+		count(`id`)
+		from `tb_shop_product_sku_join`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="productId != null">
+				and `product_id` like concat('%',#{productId},'%')
+			</if>
+			<if test="skuId != null">
+				and `sku_id` like concat('%',#{skuId},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin">
+		select
+		count(`id`)
+		from `tb_shop_product_sku_join`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="skuId != null">
+				and `sku_id` = #{skuId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

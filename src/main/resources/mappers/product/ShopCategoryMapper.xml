@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper">
+	<resultMap id="ResultShopCategoryMap" type="cn.peyton.plum.mall.pojo.product.ShopCategory">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="pid" property="pid" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="icon" property="icon" jdbcType="VARCHAR"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_category_List">
+		`id`,`pid`,`name`,`seq`,`icon`,`is_show`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategory" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_category`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pid != null">`pid`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="icon != null">`icon`,</if>
+			<if test="isShow != null">`is_show`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pid != null">#{pid},</if>
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="icon != null">#{icon},</if>
+			<if test="isShow != null">#{isShow},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategory">
+		update `tb_shop_category`
+		<set>
+			<if test="pid != null">`pid` = #{pid},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="icon != null">`icon` = #{icon},</if>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+		</set>
+		where id = #{id} and `is_del` = 1
+	</update>
+
+	<update id="updateShow" parameterType="map">
+		update `tb_shop_category`
+		set `is_show` = #{isShow}
+		where id = #{id} and `is_del` = 1
+	</update>
+
+	<update id="updateDelete" parameterType="map">
+		update `tb_shop_category`
+		set `is_del` = 0
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_sh*op_category`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategory">
+		select
+		count(`id`)
+		from `tb_shop_category`
+		where is_del =1
+		  and `name` = #{name}
+		  and `pid` = #{pid}
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopCategoryMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_shop_category_List"/>
+		from `tb_shop_category`
+		where `id` = #{id} and `is_del`=1
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopCategoryMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_category_List"/>
+		from `tb_shop_category`
+		where `is_del` = 1
+		<if test="record.pid != null">
+			and `pid` like concat('%',#{record.pid},'%')
+		</if>
+		<if test="record.name != null">
+			and `name` like concat('%',#{record.name},'%')
+		</if>
+		<if test="record.seq != null">
+			and `seq` like concat('%',#{record.seq},'%')
+		</if>
+		<if test="record.isShow != null">
+			and `is_show` like concat('%',#{record.isShow},'%')
+		</if>
+		<if test="record.createTime != null">
+			and `create_time` like concat('%',#{record.createTime},'%')
+		</if>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopCategoryMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_category_List"/>
+		from `tb_shop_category`
+		where `is_del` = 1
+		<if test="record.pid != null">
+			and `pid` = #{record.pid}
+		</if>
+		<if test="record.name != null">
+			and `name` = #{record.name}
+		</if>
+		<if test="record.seq != null">
+			and `seq` = #{record.seq}
+		</if>
+		<if test="record.isShow != null">
+			and `is_show` = #{record.isShow}
+		</if>
+		<if test="record.createTime != null">
+			and `create_time` = #{record.createTime}
+		</if>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategory">
+		select
+		count(`id`)
+		from `tb_shop_category`
+		where `is_del` = 1
+		<if test="pid != null">
+			and `pid` like concat('%',#{pid},'%')
+		</if>
+		<if test="name != null">
+			and `name` like concat('%',#{name},'%')
+		</if>
+		<if test="seq != null">
+			and `seq` like concat('%',#{seq},'%')
+		</if>
+		<if test="isShow != null">
+			and `is_show` like concat('%',#{isShow},'%')
+		</if>
+		<if test="createTime != null">
+			and `create_time` like concat('%',#{createTime},'%')
+		</if>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategory">
+		select
+		count(`id`)
+		from `tb_shop_category`
+		where `is_del` = 1
+		<if test="pid != null">
+			and `pid` = #{pid}
+		</if>
+		<if test="name != null">
+			and `name` = #{name}
+		</if>
+		<if test="seq != null">
+			and `seq` = #{seq}
+		</if>
+		<if test="isShow != null">
+			and `is_show` = #{isShow}
+		</if>
+		<if test="createTime != null">
+			and `create_time` = #{createTime}
+		</if>
+	</select>
+
+	<select id="selectByProductId" resultMap="ResultShopCategoryMap"  parameterType="long">
+		select tsc.id,pid,name,seq,icon,is_show,create_time
+		FROM tb_shop_category tsc ,tb_shop_product_category tspc
+		where tsc.id = tspc.category_id and product_id=#{productId}
+		ORDER BY seq desc
+	</select>
+</mapper>

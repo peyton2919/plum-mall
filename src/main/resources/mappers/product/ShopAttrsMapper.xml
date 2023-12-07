@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopAttrsMapper">
+	<resultMap id="ResultShopAttrsMap" type="cn.peyton.plum.mall.pojo.product.ShopAttrs">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="attr_value" property="attrValue" jdbcType="VARCHAR"/>
+		<result column="attr_name" property="attrName" jdbcType="VARCHAR"/>
+		<result column="attr_icon" property="attrIcon" jdbcType="VARCHAR"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="method_type" property="methodType" jdbcType="TINYINT"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_attrs_List">
+		`id`,`product_id`,`seq`,`attr_value`,`attr_name`,`attr_icon`,`explain`,`method_type`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopAttrs" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_attrs`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">`product_id`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="attrValue != null">`attr_value`,</if>
+			<if test="attrName != null">`attr_name`,</if>
+			<if test="attrIcon != null">`attr_icon`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="methodType != null">`method_type`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">#{productId},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="attrValue != null">#{attrValue},</if>
+			<if test="attrName != null">#{attrName},</if>
+			<if test="attrIcon != null">#{attrIcon},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="methodType != null">#{methodType},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopAttrs">
+		update `tb_shop_attrs`
+		<set>
+			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="attrValue != null">`attr_value` = #{attrValue},</if>
+			<if test="attrName != null">`attr_name` = #{attrName},</if>
+			<if test="attrIcon != null">`attr_icon` = #{attrIcon},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="methodType != null">`method_type` = #{methodType},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_attrs`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopAttrs">
+		select
+		count(`id`)
+		from `tb_shop_attrs`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="attrValue != null">
+				and `attr_value` = #{attrValue}
+			</if>
+			<if test="attrName != null">
+				and `attr_name` = #{attrName}
+			</if>
+			<if test="attrIcon != null">
+				and `attr_icon` = #{attrIcon}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="methodType != null">
+				and `method_type` = #{methodType}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopAttrsMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_attrs_List"/>
+		from `tb_shop_attrs`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultShopAttrsMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_attrs_List"/>
+		from `tb_shop_attrs`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.productId != null">
+				and `product_id` like concat('%',#{record.productId},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
+			</if>
+			<if test="record.attrValue != null">
+				and `attr_value` like concat('%',#{record.attrValue},'%')
+			</if>
+			<if test="record.attrName != null">
+				and `attr_name` like concat('%',#{record.attrName},'%')
+			</if>
+			<if test="record.attrIcon != null">
+				and `attr_icon` like concat('%',#{record.attrIcon},'%')
+			</if>
+			<if test="record.explain != null">
+				and `explain` like concat('%',#{record.explain},'%')
+			</if>
+			<if test="record.methodType != null">
+				and `method_type` like concat('%',#{record.methodType},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopAttrsMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_attrs_List"/>
+		from `tb_shop_attrs`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.productId != null">
+				and `product_id` = #{record.productId}
+			</if>
+			<if test="record.seq != null">
+				and `seq` = #{record.seq}
+			</if>
+			<if test="record.attrValue != null">
+				and `attr_value` = #{record.attrValue}
+			</if>
+			<if test="record.attrName != null">
+				and `attr_name` = #{record.attrName}
+			</if>
+			<if test="record.attrIcon != null">
+				and `attr_icon` = #{record.attrIcon}
+			</if>
+			<if test="record.explain != null">
+				and `explain` = #{record.explain}
+			</if>
+			<if test="record.methodType != null">
+				and `method_type` = #{record.methodType}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopAttrs">
+		select
+		count(`id`)
+		from `tb_shop_attrs`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="productId != null">
+				and `product_id` like concat('%',#{productId},'%')
+			</if>
+			<if test="seq != null">
+				and `seq` like concat('%',#{seq},'%')
+			</if>
+			<if test="attrValue != null">
+				and `attr_value` like concat('%',#{attrValue},'%')
+			</if>
+			<if test="attrName != null">
+				and `attr_name` like concat('%',#{attrName},'%')
+			</if>
+			<if test="attrIcon != null">
+				and `attr_icon` like concat('%',#{attrIcon},'%')
+			</if>
+			<if test="explain != null">
+				and `explain` like concat('%',#{explain},'%')
+			</if>
+			<if test="methodType != null">
+				and `method_type` like concat('%',#{methodType},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopAttrs">
+		select
+		count(`id`)
+		from `tb_shop_attrs`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="productId != null">
+				and `product_id` = #{productId}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="attrValue != null">
+				and `attr_value` = #{attrValue}
+			</if>
+			<if test="attrName != null">
+				and `attr_name` = #{attrName}
+			</if>
+			<if test="attrIcon != null">
+				and `attr_icon` = #{attrIcon}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="methodType != null">
+				and `method_type` = #{methodType}
+			</if>
+		</where>
+	</select>
+
+</mapper>

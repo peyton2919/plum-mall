@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.party.UserAddressMapper">
+	<resultMap id="ResultUserAddressMap" type="cn.peyton.plum.mall.pojo.party.UserAddress">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="shaer_id" property="shaerId" jdbcType="BIGINT"/>
+		<result column="shaer_type" property="shaerType" jdbcType="TINYINT"/>
+		<result column="province" property="province" jdbcType="VARCHAR"/>
+		<result column="city" property="city" jdbcType="VARCHAR"/>
+		<result column="district" property="district" jdbcType="VARCHAR"/>
+		<result column="address" property="address" jdbcType="VARCHAR"/>
+		<result column="zip" property="zip" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="last_used_time" property="lastUsedTime" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_user_address_List">
+		`id`,`shaer_id`,`shaer_type`,`province`,`city`,`district`,`address`,`zip`,`name`,`phone`,`last_used_time`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.UserAddress" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_user_address`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shaerId != null">`shaer_id`,</if>
+			<if test="shaerType != null">`shaer_type`,</if>
+			<if test="province != null">`province`,</if>
+			<if test="city != null">`city`,</if>
+			<if test="district != null">`district`,</if>
+			<if test="address != null">`address`,</if>
+			<if test="zip != null">`zip`,</if>
+			<if test="name != null">`name`,</if>
+			<if test="phone != null">`phone`,</if>
+			<if test="lastUsedTime != null">`last_used_time`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shaerId != null">#{shaerId},</if>
+			<if test="shaerType != null">#{shaerType},</if>
+			<if test="province != null">#{province},</if>
+			<if test="city != null">#{city},</if>
+			<if test="district != null">#{district},</if>
+			<if test="address != null">#{address},</if>
+			<if test="zip != null">#{zip},</if>
+			<if test="name != null">#{name},</if>
+			<if test="phone != null">#{phone},</if>
+			<if test="lastUsedTime != null">#{lastUsedTime},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.UserAddress">
+		update `tb_user_address`
+		<set>
+			<if test="shaerId != null">`shaer_id` = #{shaerId},</if>
+			<if test="shaerType != null">`shaer_type` = #{shaerType},</if>
+			<if test="province != null">`province` = #{province},</if>
+			<if test="city != null">`city` = #{city},</if>
+			<if test="district != null">`district` = #{district},</if>
+			<if test="address != null">`address` = #{address},</if>
+			<if test="zip != null">`zip` = #{zip},</if>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="lastUsedTime != null">`last_used_time` = #{lastUsedTime},</if>
+			<if test="createTime != null">`create_time` = #{createTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_user_address`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.UserAddress">
+		select
+		count(`id`)
+		from `tb_user_address`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="shaerId != null">
+				and `shaer_id` = #{shaerId}
+			</if>
+			<if test="shaerType != null">
+				and `shaer_type` = #{shaerType}
+			</if>
+			<if test="province != null">
+				and `province` = #{province}
+			</if>
+			<if test="city != null">
+				and `city` = #{city}
+			</if>
+			<if test="district != null">
+				and `district` = #{district}
+			</if>
+			<if test="address != null">
+				and `address` = #{address}
+			</if>
+			<if test="zip != null">
+				and `zip` = #{zip}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="phone != null">
+				and `phone` = #{phone}
+			</if>
+			<if test="lastUsedTime != null">
+				and `last_used_time` = #{lastUsedTime}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultUserAddressMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_user_address_List"/>
+		from `tb_user_address`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultUserAddressMap"  parameterType="map">
+		select
+		<include refid="Column_tb_user_address_List"/>
+		from `tb_user_address`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.shaerId != null">
+				and `shaer_id` like concat('%',#{record.shaerId},'%')
+			</if>
+			<if test="record.shaerType != null">
+				and `shaer_type` like concat('%',#{record.shaerType},'%')
+			</if>
+			<if test="record.province != null">
+				and `province` like concat('%',#{record.province},'%')
+			</if>
+			<if test="record.city != null">
+				and `city` like concat('%',#{record.city},'%')
+			</if>
+			<if test="record.district != null">
+				and `district` like concat('%',#{record.district},'%')
+			</if>
+			<if test="record.address != null">
+				and `address` like concat('%',#{record.address},'%')
+			</if>
+			<if test="record.zip != null">
+				and `zip` like concat('%',#{record.zip},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.phone != null">
+				and `phone` like concat('%',#{record.phone},'%')
+			</if>
+			<if test="record.lastUsedTime != null">
+				and `last_used_time` like concat('%',#{record.lastUsedTime},'%')
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` like concat('%',#{record.createTime},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultUserAddressMap"  parameterType="map">
+		select
+		<include refid="Column_tb_user_address_List"/>
+		from `tb_user_address`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.shaerId != null">
+				and `shaer_id` = #{record.shaerId}
+			</if>
+			<if test="record.shaerType != null">
+				and `shaer_type` = #{record.shaerType}
+			</if>
+			<if test="record.province != null">
+				and `province` = #{record.province}
+			</if>
+			<if test="record.city != null">
+				and `city` = #{record.city}
+			</if>
+			<if test="record.district != null">
+				and `district` = #{record.district}
+			</if>
+			<if test="record.address != null">
+				and `address` = #{record.address}
+			</if>
+			<if test="record.zip != null">
+				and `zip` = #{record.zip}
+			</if>
+			<if test="record.name != null">
+				and `name` = #{record.name}
+			</if>
+			<if test="record.phone != null">
+				and `phone` = #{record.phone}
+			</if>
+			<if test="record.lastUsedTime != null">
+				and `last_used_time` = #{record.lastUsedTime}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.UserAddress">
+		select
+		count(`id`)
+		from `tb_user_address`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="shaerId != null">
+				and `shaer_id` like concat('%',#{shaerId},'%')
+			</if>
+			<if test="shaerType != null">
+				and `shaer_type` like concat('%',#{shaerType},'%')
+			</if>
+			<if test="province != null">
+				and `province` like concat('%',#{province},'%')
+			</if>
+			<if test="city != null">
+				and `city` like concat('%',#{city},'%')
+			</if>
+			<if test="district != null">
+				and `district` like concat('%',#{district},'%')
+			</if>
+			<if test="address != null">
+				and `address` like concat('%',#{address},'%')
+			</if>
+			<if test="zip != null">
+				and `zip` like concat('%',#{zip},'%')
+			</if>
+			<if test="name != null">
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="phone != null">
+				and `phone` like concat('%',#{phone},'%')
+			</if>
+			<if test="lastUsedTime != null">
+				and `last_used_time` like concat('%',#{lastUsedTime},'%')
+			</if>
+			<if test="createTime != null">
+				and `create_time` like concat('%',#{createTime},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.UserAddress">
+		select
+		count(`id`)
+		from `tb_user_address`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="shaerId != null">
+				and `shaer_id` = #{shaerId}
+			</if>
+			<if test="shaerType != null">
+				and `shaer_type` = #{shaerType}
+			</if>
+			<if test="province != null">
+				and `province` = #{province}
+			</if>
+			<if test="city != null">
+				and `city` = #{city}
+			</if>
+			<if test="district != null">
+				and `district` = #{district}
+			</if>
+			<if test="address != null">
+				and `address` = #{address}
+			</if>
+			<if test="zip != null">
+				and `zip` = #{zip}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="phone != null">
+				and `phone` = #{phone}
+			</if>
+			<if test="lastUsedTime != null">
+				and `last_used_time` = #{lastUsedTime}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

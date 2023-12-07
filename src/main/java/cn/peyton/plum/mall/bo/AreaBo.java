@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.AreaParam;
-import cn.peyton.plum.mall.pojo.Area;
+import cn.peyton.plum.mall.param.sys.AreaParam;
+import cn.peyton.plum.mall.pojo.sys.Area;
 
 /**
  * <h4>区域 数据转换类</h4>

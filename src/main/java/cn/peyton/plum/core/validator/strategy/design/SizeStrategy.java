@@ -23,6 +23,7 @@ public class SizeStrategy extends AbstractValidator {
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         Size size = (Size) annotation;
         message = size.message();
+        String _type = size.type();
         long min = size.min();
         long max = size.max();
         if (min > max) {
@@ -30,19 +31,19 @@ public class SizeStrategy extends AbstractValidator {
             return;
         }
         if (StrUtils.isEmpty(value)) {
-            if (existInt(type)) {
+            if (existLong(type)) {
                 map.put(name, "数据类型不正确");
                 return;
             }
             try {
-                Integer va = Integer.valueOf(value.toString());
+                Long va = Long.valueOf(value.toString());
+
                 if (va < min || va > max) {
                     if ("".equals(message)) {
                         message = "[校验错误: 取值范围为 " + min + " ~ " + max + " 之间]";
                     }
                     map.put(name, message);
                 }
-
             } catch (Exception e) {
                 map.put(name, "数据转换异常了!");
                 LogUtils.error(e.getMessage());

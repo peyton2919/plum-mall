@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ArticleParam;
-import cn.peyton.plum.mall.pojo.Article;
+import cn.peyton.plum.mall.param.pub.ArticleParam;
+import cn.peyton.plum.mall.pojo.pub.Article;
 
 /**
  * <h4>文章 数据转换类</h4>

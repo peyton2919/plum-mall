@@ -32,9 +32,9 @@ import java.util.Map;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public final class JSONResult<T> implements Serializable {
 
-    private final static Integer SUCCESS = 200;
-    private final static Integer FAIL = 600;
-    private final static Integer ERROR = 700;
+    //private final static Integer SUCCESS = 200;
+    //private final static Integer FAIL = 600;
+    //private final static Integer ERROR = 700;
 
     /**
      * <pre>
@@ -46,7 +46,7 @@ public final class JSONResult<T> implements Serializable {
     /**
      * 消息
      */
-    private String msg;
+    private String msg = "数据请求成功;";
     /**
      * 成功时要返回的数据
      */
@@ -74,7 +74,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> success() {
-        return new JSONResult<T>(SUCCESS, null, null, null, null, null);
+        return new JSONResult<T>(Props.SUCCESS, null, null, null, null, null);
     }
 
     /**
@@ -85,7 +85,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> success(String msg) {
-        return new JSONResult<T>(SUCCESS, msg, null, null, null, null);
+        return new JSONResult<T>(Props.SUCCESS, msg, null, null, null, null);
     }
 
     /**
@@ -96,7 +96,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> success(T data) {
-        return new JSONResult<T>(SUCCESS, null, data, null, null, null);
+        return new JSONResult<T>(Props.SUCCESS, null, data, null, null, null);
     }
 
     /**
@@ -108,7 +108,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> success(String msg, T data) {
-        return new JSONResult<T>(SUCCESS, msg, data, null, null, null);
+        return new JSONResult<T>(Props.SUCCESS, msg, data, null, null, null);
     }
 
     /**
@@ -119,7 +119,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> success(String msg, T data, Object expand) {
-        return new JSONResult(SUCCESS, msg, data, expand, null, null);
+        return new JSONResult(Props.SUCCESS, msg, data, expand, null, null);
     }
 
     // -----------------------------------------> fail begin <-----------------------------------------
@@ -133,7 +133,7 @@ public final class JSONResult<T> implements Serializable {
      */
     public static <T> JSONResult<T> fail(String msg) {
         return new JSONResult<T>
-                (FAIL, msg, null, null, null, null);
+                (Props.FAIL, msg, null, null, null, null);
     }
 
     /**
@@ -155,7 +155,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult fail(ResponseStatus rs) {
-        return new JSONResult<T>(FAIL, rs.getMsg(), null, null, rs.getCode(), null);
+        return new JSONResult<T>(Props.FAIL, rs.getMsg(), null, null, rs.getCode(), null);
     }
 
     /**
@@ -166,7 +166,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult fail(ResponseStatus rs, T data) {
-        return new JSONResult<T>(FAIL, rs.getMsg(), data, null, rs.getCode(), null);
+        return new JSONResult<T>(Props.FAIL, rs.getMsg(), data, null, rs.getCode(), null);
     }
 
     /**
@@ -177,7 +177,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult fail(Integer code, T data) {
-        return new JSONResult<T>(FAIL, null, data, null, code, null);
+        return new JSONResult<T>(Props.FAIL, null, data, null, code, null);
     }
 
     /**
@@ -189,7 +189,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult fail(Integer code, String msg, T data) {
-        return new JSONResult<T>(FAIL, msg, data, null, code, null);
+        return new JSONResult<T>(Props.FAIL, msg, data, null, code, null);
     }
 
     /**
@@ -202,7 +202,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult fail(Integer code, String msg, T data, Integer httpStatusCode) {
-        return new JSONResult<T>(FAIL, msg, data, null, code, httpStatusCode);
+        return new JSONResult<T>(Props.FAIL, msg, data, null, code, httpStatusCode);
     }
 
     /**
@@ -217,7 +217,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> fail(String msg, T data, Integer errorCode, Object expand, Integer httpStatusCode) {
-        return new JSONResult<T>(FAIL, msg, data, expand, errorCode, httpStatusCode);
+        return new JSONResult<T>(Props.FAIL, msg, data, expand, errorCode, httpStatusCode);
     }
 
     // -----------------------------------------> fail end <-----------------------------------------
@@ -232,7 +232,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> error(String msg) {
-        return new JSONResult<T>(ERROR, msg, null, null, null, null);
+        return new JSONResult<T>(Props.ERROR, msg, null, null, null, null);
     }
 
     /**
@@ -244,7 +244,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> error(Integer code, String msg) {
-        return new JSONResult<T>(ERROR, msg, null, null, code, null);
+        return new JSONResult<T>(Props.ERROR, msg, null, null, code, null);
     }
 
     /**
@@ -255,7 +255,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult error(ResponseStatus rs, T data) {
-        return new JSONResult<T>(ERROR, rs.getMsg(), data, null, rs.getCode(), null);
+        return new JSONResult<T>(Props.ERROR, rs.getMsg(), data, null, rs.getCode(), null);
     }
 
     /**
@@ -266,7 +266,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult error(Integer code, T data) {
-        return new JSONResult<T>(ERROR, null, data, null, code, null);
+        return new JSONResult<T>(Props.ERROR, null, data, null, code, null);
     }
 
     /**
@@ -278,7 +278,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult error(Integer code, String msg, T data) {
-        return new JSONResult<T>(ERROR, msg, data, null, code, null);
+        return new JSONResult<T>(Props.ERROR, msg, data, null, code, null);
     }
 
     /**
@@ -293,7 +293,7 @@ public final class JSONResult<T> implements Serializable {
      * @return JSONResult对象
      */
     public static <T> JSONResult<T> error(String msg, T data, Integer errorCode, Object expand, Integer httpStatusCode) {
-        return new JSONResult<T>(ERROR, msg, data, expand, errorCode, httpStatusCode);
+        return new JSONResult<T>(Props.ERROR, msg, data, expand, errorCode, httpStatusCode);
     }
     // -----------------------------------------> error end <-----------------------------------------
 
@@ -425,7 +425,7 @@ public final class JSONResult<T> implements Serializable {
      */
     @JsonIgnore //使之不在json序列化结果当中
     public boolean isSuccess() {
-        return this.code == SUCCESS;
+        return this.code == Props.SUCCESS;
     }
 
     /**
@@ -445,4 +445,43 @@ public final class JSONResult<T> implements Serializable {
     }
 
     // ====================================== private constructor end ====================================== //
+    public interface Props{
+        /** 成功码 200 */
+        Integer SUCCESS = 200;
+        /** 通用错误码 600 */
+        Integer FAIL = 600;
+        /** 没找到数据 601 */
+        Integer NO_DATA = 601;
+        /** 参数错误 602 */
+        Integer PARAMETER = 602;
+        /** 验证错误 603 */
+        Integer VALIDATE = 603;
+        /** 拦截器错误 604 */
+        Integer INTERCEPTOR = 604;
+        /** 请求的资源找不到 605 */
+        Integer NOT_FOUND = 605;
+        /** 无权限访问 606  */
+        Integer FORBIDDEN = 606;
+        /** 你已经退出登录 608  */
+        Integer DROP_OUT = 607;
+        /** 需要登录 608  */
+        Integer NEED_LOGIN = 608;
+        /** 请勿重复操作 609  */
+        Integer NOT_REPEAT_OPERATION = 609;
+        /** 绑定类型冲突 610  */
+        Integer BINDING_TYPE_CONFLICT = 610;
+        /** 请求的数据格式不符 611  */
+        Integer BAD_REQUEST = 611;
+
+        /** 异常 900 */
+        Integer ERROR = 900;
+        /** 未知异常 */
+        Integer UNKNOWN = 901;
+
+        /** 非法token 801 */
+        Integer TOKEN_ILLEGAL = 801;
+        /** token 过期 802 */
+        Integer TOKEN_EXPIRE = 802;
+
+    }
 }

@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShareBindParam;
-import cn.peyton.plum.mall.pojo.ShareBind;
+import cn.peyton.plum.mall.param.party.ShareBindParam;
+import cn.peyton.plum.mall.pojo.party.ShareBind;
 
 /**
  * <h3> 第三方用户绑定信息{用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)} 数据转换 类</h3>

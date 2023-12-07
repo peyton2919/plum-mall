@@ -26,7 +26,7 @@ public class LengthStrategy extends AbstractValidator {
 
         long min = length.min() < 1 ? 1 : length.min();
         long max = length.max();
-        if (min > max) {
+        if (min > max && max < 0) {
             map.put(name, "值 设置错误 max 值 要大于 min 值");
             return;
         }
@@ -34,7 +34,7 @@ public class LengthStrategy extends AbstractValidator {
             long le = value.toString().trim().length();
             if (le < min || le > max) {
                 if ("".equals(message)) {
-                    message = "[校验错误: 取值范围为 " + min + " ~ " + max + " 之间]";
+                    message = (max < 0) ? ("[校验错误: 字符串要长度要长于 " + min) :( "[校验错误: 取值范围为 " + min + " ~ " + max + " 之间]");
                 }
                 map.put(name, message);
             }

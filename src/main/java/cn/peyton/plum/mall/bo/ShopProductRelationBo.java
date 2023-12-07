@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.ShopProductRelationParam;
-import cn.peyton.plum.mall.pojo.ShopProductRelation;
+import cn.peyton.plum.mall.param.product.ShopProductRelationParam;
+import cn.peyton.plum.mall.pojo.product.ShopProductRelation;
 
 /**
  * <h3> 商品点赞和收藏 数据转换 类</h3>

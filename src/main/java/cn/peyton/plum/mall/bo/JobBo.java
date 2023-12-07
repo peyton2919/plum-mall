@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.JobParam;
-import cn.peyton.plum.mall.pojo.Job;
+import cn.peyton.plum.mall.param.sys.JobParam;
+import cn.peyton.plum.mall.pojo.sys.Job;
 
 /**
  * <h3> 岗位 数据转换 类</h3>

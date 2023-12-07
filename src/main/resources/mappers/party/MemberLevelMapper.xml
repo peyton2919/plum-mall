@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.party.MemberLevelMapper">
+	<resultMap id="ResultMemberLevelMap" type="cn.peyton.plum.mall.pojo.party.MemberLevel">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="INTEGER"/>
+		<result column="member_type" property="memberType" jdbcType="TINYINT"/>
+		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="discount" property="discount" jdbcType="INTEGER"/>
+		<result column="max_price" property="maxPrice" jdbcType="INTEGER"/>
+		<result column="max_times" property="maxTimes" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_member_level_List">
+		`id`,`name`,`seq`,`member_type`,`is_del`,`discount`,`max_price`,`max_times`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.MemberLevel" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_member_level`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="memberType != null">`member_type`,</if>
+			<if test="isDel != null">`is_del`,</if>
+			<if test="discount != null">`discount`,</if>
+			<if test="maxPrice != null">`max_price`,</if>
+			<if test="maxTimes != null">`max_times`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="memberType != null">#{memberType},</if>
+			<if test="isDel != null">#{isDel},</if>
+			<if test="discount != null">#{discount},</if>
+			<if test="maxPrice != null">#{maxPrice},</if>
+			<if test="maxTimes != null">#{maxTimes},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.MemberLevel">
+		update `tb_member_level`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="memberType != null">`member_type` = #{memberType},</if>
+			<if test="isDel != null">`is_del` = #{isDel},</if>
+			<if test="discount != null">`discount` = #{discount},</if>
+			<if test="maxPrice != null">`max_price` = #{maxPrice},</if>
+			<if test="maxTimes != null">`max_times` = #{maxTimes},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_member_level`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.MemberLevel">
+		select
+		count(`id`)
+		from `tb_member_level`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="memberType != null">
+				and `member_type` = #{memberType}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="discount != null">
+				and `discount` = #{discount}
+			</if>
+			<if test="maxPrice != null">
+				and `max_price` = #{maxPrice}
+			</if>
+			<if test="maxTimes != null">
+				and `max_times` = #{maxTimes}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMemberLevelMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_member_level_List"/>
+		from `tb_member_level`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="ResultMemberLevelMap"  parameterType="map">
+		select
+		<include refid="Column_tb_member_level_List"/>
+		from `tb_member_level`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.seq != null">
+				and `seq` like concat('%',#{record.seq},'%')
+			</if>
+			<if test="record.memberType != null">
+				and `member_type` like concat('%',#{record.memberType},'%')
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` like concat('%',#{record.isDel},'%')
+			</if>
+			<if test="record.discount != null">
+				and `discount` like concat('%',#{record.discount},'%')
+			</if>
+			<if test="record.maxPrice != null">
+				and `max_price` like concat('%',#{record.maxPrice},'%')
+			</if>
+			<if test="record.maxTimes != null">
+				and `max_times` like concat('%',#{record.maxTimes},'%')
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultMemberLevelMap"  parameterType="map">
+		select
+		<include refid="Column_tb_member_level_List"/>
+		from `tb_member_level`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.name != null">
+				and `name` = #{record.name}
+			</if>
+			<if test="record.seq != null">
+				and `seq` = #{record.seq}
+			</if>
+			<if test="record.memberType != null">
+				and `member_type` = #{record.memberType}
+			</if>
+			<if test="record.isDel != null">
+				and `is_del` = #{record.isDel}
+			</if>
+			<if test="record.discount != null">
+				and `discount` = #{record.discount}
+			</if>
+			<if test="record.maxPrice != null">
+				and `max_price` = #{record.maxPrice}
+			</if>
+			<if test="record.maxTimes != null">
+				and `max_times` = #{record.maxTimes}
+			</if>
+		</where>
+		<if test="page.orderByColumuName != null">
+			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		</if>
+		<if test="page.orderByColumuName == null">
+			order by `id` desc
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.MemberLevel">
+		select
+		count(`id`)
+		from `tb_member_level`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="name != null">
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="seq != null">
+				and `seq` like concat('%',#{seq},'%')
+			</if>
+			<if test="memberType != null">
+				and `member_type` like concat('%',#{memberType},'%')
+			</if>
+			<if test="isDel != null">
+				and `is_del` like concat('%',#{isDel},'%')
+			</if>
+			<if test="discount != null">
+				and `discount` like concat('%',#{discount},'%')
+			</if>
+			<if test="maxPrice != null">
+				and `max_price` like concat('%',#{maxPrice},'%')
+			</if>
+			<if test="maxTimes != null">
+				and `max_times` like concat('%',#{maxTimes},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.MemberLevel">
+		select
+		count(`id`)
+		from `tb_member_level`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="memberType != null">
+				and `member_type` = #{memberType}
+			</if>
+			<if test="isDel != null">
+				and `is_del` = #{isDel}
+			</if>
+			<if test="discount != null">
+				and `discount` = #{discount}
+			</if>
+			<if test="maxPrice != null">
+				and `max_price` = #{maxPrice}
+			</if>
+			<if test="maxTimes != null">
+				and `max_times` = #{maxTimes}
+			</if>
+		</where>
+	</select>
+
+</mapper>

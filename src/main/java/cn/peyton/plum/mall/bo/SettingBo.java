@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
-import cn.peyton.plum.mall.param.SettingParam;
-import cn.peyton.plum.mall.pojo.Setting;
+import cn.peyton.plum.mall.param.sys.SettingParam;
+import cn.peyton.plum.mall.pojo.sys.Setting;
 
 /**
  * <h3> 系统设置 数据转换 类</h3>
