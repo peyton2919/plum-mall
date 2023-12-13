@@ -30,9 +30,9 @@ public class MemberLevel implements Serializable {
      */
     private Integer memberType;
     /**
-     * 是否删除: 默认1(1：可用;0已删除)
+     * 是否启用, 默认 1 启用 0 禁用
      */
-    private Integer isDel;
+    private Integer status;
     /**
      * 折扣
      */
@@ -110,17 +110,17 @@ public class MemberLevel implements Serializable {
     }
 
     /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
+     * @param status 是否删除: 默认1(1：可用;0已删除)
      */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     /**
      * @return 是否删除: 默认1(1：可用;0已删除)
      */
-    public Integer getIsDel() {
-        return isDel;
+    public Integer getStatus() {
+        return status;
     }
 
     /**

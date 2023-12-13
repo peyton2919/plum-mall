@@ -60,7 +60,7 @@ public class RoleController extends PcController<RoleParam>
         PageQuery _page = new PageQuery(pageNo);
         RoleParam _param = new RoleParam();
         _param.setName(keyword);
-        return baseFindBykeywordAll(_param, _page, roleService);
+        return baseFindBykeywordAll(_param, _page, roleService,null);
     }
 
     @Token
@@ -70,7 +70,7 @@ public class RoleController extends PcController<RoleParam>
     public JSONResult<?> search(Query query) {
         RoleParam _param = new RoleParam();
         _param.setName(query.getKeyword());
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo()),roleService);
+        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo()),roleService,null);
     }
 
     @Token

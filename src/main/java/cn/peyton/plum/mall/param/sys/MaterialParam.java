@@ -3,6 +3,8 @@ package cn.peyton.plum.mall.param.sys;
 
 import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Length;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.mall.pojo.sys.Material;
 
 import java.io.Serializable;
@@ -37,6 +39,8 @@ public class MaterialParam implements Serializable {
     /**
      * 素材名
      */
+    @NotBlank(message = "名称不能为空")
+    @Length(min = 2,max = 180)
     private String name;
     /**
      * 素材图片路径

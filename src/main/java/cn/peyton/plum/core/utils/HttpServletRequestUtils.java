@@ -8,6 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
@@ -164,10 +165,13 @@ public final class HttpServletRequestUtils implements Serializable {
                         field.set(_bean, (_v == null) ? ' ' : _v.charAt(0));
                     } else if (type.endsWith("boolean") || type.endsWith("Boolean")) {
                         field.set(_bean, Boolean.parseBoolean((_v == null || "".equals(_v)) ? "false" : _v));
+                    } else if (type.endsWith("BigDecimal")) {
+                        field.set(_bean, (_v == null || "".equals(_v) ? null : new BigDecimal(_v)));
                     } else if (type.equals("java.util.Date")) {
                         Date date = DateUtils.conventStr2Date(_v, "yyyy-MM-dd HH:mm:ss");
                         if (null != date) {
                             field.set(_bean, date);
+
                         }
                     } else {
                         field.set(_bean, _v);

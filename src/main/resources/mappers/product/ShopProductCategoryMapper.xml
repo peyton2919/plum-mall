@@ -23,6 +23,15 @@
 		</trim>
 	</insert>
 
+	<insert id="batchInsert" parameterType="list" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_product_category`
+		    (`category_id`,`product_id`)
+		values
+		<foreach collection="list" item="item" separator=",">
+			   (#{item.categoryId},#{item.productId})
+		</foreach>
+	</insert>
+
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductCategory">
 		update `tb_shop_product_category`
 		<set>
@@ -32,9 +41,25 @@
 		where id = #{id}
 	</update>
 
+	<update id="batchUpdate" parameterType="list">
+		<foreach collection="list" item="item" index="index" separator=";">
+		update `tb_shop_product_category`
+			<set>
+				`category_id`= #{item.categoryId},
+				`product_id`= #{item.productId}
+			</set>
+			where id = #{item.id}
+		</foreach>
+	</update>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from `tb_shop_product_category`
 		where `id` = #{id}
+	</delete>
+
+	<delete id="deleteByProductId" parameterType="java.lang.Long">
+		delete from `tb_shop_product_category`
+		where `product_id` = #{productId}
 	</delete>
 
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductCategory">
@@ -59,6 +84,13 @@
 		<include refid="Column_tb_shop_product_category_List"/>
 		from `tb_shop_product_category`
 		where `id` = #{id}
+	</select>
+
+	<select id="selectByProductId" resultMap="ResultShopProductCategoryMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_product_category_List"/>
+		from `tb_shop_product_category`
+		where `product_id` = #{productId}
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductCategoryMap"  parameterType="map">

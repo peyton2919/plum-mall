@@ -38,6 +38,7 @@ public class ShopProductSkuDetailParam implements Serializable {
     @Min(message = "库存数量不能小于0")
     private Integer stock;
     /** 库存预警(默认0 不提示 >0 低于设置值 提示) */
+    @Min(message = "库存预警数量不能小于0")
     private Integer minStock;
 
     /**
@@ -92,12 +93,12 @@ public class ShopProductSkuDetailParam implements Serializable {
     /**
      * 重量
      */
-    @DecimalMin(value = 0,message = "重量数值不能小于0")
+    @DecimalMin(value = 0,message = "重量不能小于0")
     private BigDecimal weight;
     /**
      * 体积
      */
-    @DecimalMin(value = 0,message = "重量数值不能小于0")
+    @DecimalMin(value = 0,message = "体积不能小于0")
     private BigDecimal volume;
     /**
      * 一级返佣

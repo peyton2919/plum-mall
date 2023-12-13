@@ -11,6 +11,8 @@ import cn.peyton.plum.mall.service.party.MemberLevelService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <h3> 会员等级 Service 实现类</h3>
  * <pre>
@@ -38,5 +40,23 @@ public class MemberLevelServiceImpl extends AbstractRealizeService<Integer, Memb
     public MemberLevelServiceImpl() {
         enabledCache = true;
         keyPrefix = this.getClass().getName();
+    }
+
+    @Override
+    public List<MemberLevelParam> select(Integer type) {
+        String key = keyPrefix + "_select_" + type;
+        if(enabledCache){
+            Object list = cache.get(key);
+            if (null != list) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (List<MemberLevelParam>)list;
+            }
+        }
+        List<MemberLevelParam> pList = initBo().adapter(memberLevelMapper.selectBySelect(type));
+        if (null != pList && pList.size() > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key,pList);
+        }
+        return pList;
     }
 }

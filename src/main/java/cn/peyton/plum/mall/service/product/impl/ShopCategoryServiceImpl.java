@@ -3,12 +3,12 @@ package cn.peyton.plum.mall.service.product.impl;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
-import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.bo.ShopCategoryBo;
 import cn.peyton.plum.mall.mapper.product.ShopCategoryMapper;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.pojo.product.ShopCategory;
 import cn.peyton.plum.mall.service.product.ShopCategoryService;
+import cn.peyton.plum.mall.utils.CategoryUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +44,7 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
     }
 
     @Override
-    public List<ShopCategoryParam> select(ShopCategoryParam param, PageQuery page) {
+    public List<ShopCategoryParam> findByOutside() {
         String key = keyPrefix + "select_all_2311282020";
         if(enabledCache){
             Object list = cache.get(key);
@@ -53,7 +53,25 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
                 return (List<ShopCategoryParam>)list;
             }
         }
-        List<ShopCategoryParam> pList = initBo().adapter(shopCategoryMapper.selectByObj(new ShopCategoryBo().convert(param), page));
+        List<ShopCategoryParam> pList = initBo().adapter(CategoryUtils.reorganize(shopCategoryMapper.selectByOutside()));
+        if (null != pList && pList.size() > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key,pList);
+        }
+        return pList;
+    }
+
+    @Override
+    public List<ShopCategoryParam> findByInner() {
+        String key = keyPrefix + "select_all_2312101102";
+        if(enabledCache){
+            Object list = cache.get(key);
+            if (null != list) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (List<ShopCategoryParam>)list;
+            }
+        }
+        List<ShopCategoryParam> pList = initBo().adapter(shopCategoryMapper.selectByInner());
         if (null != pList && pList.size() > 0 && enabledCache) {
             System.out.printf("添加对象到缓存: key= %s;\n",key);
             cache.put(key,pList);
@@ -85,5 +103,24 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ShopCategoryParam> findByTree() {
+        String key = keyPrefix + "find_tree_all_1";
+        if (enabledCache){
+            Object list = cache.get(key);
+            if (null != list) {
+                System.out.printf("从缓存获取到对象: key= %s;\n",key);
+                return (List<ShopCategoryParam>)list;
+            }
+        }
+        List<ShopCategoryParam> pList = initBo().adapter(CategoryUtils.reorganize(shopCategoryMapper.selectByTree()));
+
+        if (null != pList && pList.size() > 0 && enabledCache) {
+            System.out.printf("添加对象到缓存: key= %s;\n",key);
+            cache.put(key,pList);
+        }
+        return pList;
     }
 }

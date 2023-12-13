@@ -15,4 +15,11 @@ import cn.peyton.plum.mall.pojo.product.ShopProductReply;
  */
 public interface ShopProductReplyService extends IBaseService<Long, ShopProductReply, ShopProductReplyParam> {
 
+    /**
+     * <h4>删除 对象 {更新 is_del=0}</h4>
+     * @param id 主键
+     * @return 删除成功 true
+     */
+    Boolean updateIsDel(Long id);
+
 }

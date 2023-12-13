@@ -46,7 +46,7 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
         PageQuery _page = new PageQuery(pageNo,"hot");
         ShopProductRuleParam _param = new ShopProductRuleParam();
         _param.setRuleName(keyword);
-        return baseFindBykeywordAll(_param,_page,shopProductRuleService);
+        return baseFindBykeywordAll(_param,_page,shopProductRuleService,null);
     }
 
     @Token
@@ -57,7 +57,7 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
         PageQuery _page = new PageQuery(query.getPageNo(),"hot");
         ShopProductRuleParam _param = new ShopProductRuleParam();
         _param.setRuleName(query.getKeyword());
-        return baseFindBykeywordAll(_param,_page,shopProductRuleService);
+        return baseFindBykeywordAll(_param,_page,shopProductRuleService,null);
     }
 
     @Token

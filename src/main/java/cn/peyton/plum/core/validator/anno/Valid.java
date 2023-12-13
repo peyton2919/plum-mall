@@ -27,6 +27,8 @@ public @interface Valid {
      */
     boolean single() default true;
 
+    String[] ignore() default {};
+
     //虽然没用到，但是要加上
     Class<?>[] groups() default {};
 

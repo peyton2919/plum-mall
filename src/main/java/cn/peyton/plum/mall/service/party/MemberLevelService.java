@@ -4,6 +4,8 @@ import cn.peyton.plum.core.inf.service.IBaseService;
 import cn.peyton.plum.mall.param.party.MemberLevelParam;
 import cn.peyton.plum.mall.pojo.party.MemberLevel;
 
+import java.util.List;
+
 /**
  * <h3> 会员等级 Service 接口</h3>
  * <pre>
@@ -14,5 +16,10 @@ import cn.peyton.plum.mall.pojo.party.MemberLevel;
  * </pre>
  */
 public interface MemberLevelService extends IBaseService<Integer, MemberLevel, MemberLevelParam> {
-
+    /**
+     * <h4>根据会员类型查找</h4>
+     * @param type 会员类型, 默认 0 零售 1 批发
+     * @return 会员类型集合
+     */
+    List<MemberLevelParam> select(Integer type);
 }

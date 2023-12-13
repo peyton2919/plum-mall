@@ -125,7 +125,6 @@ public class PcController<P> implements IBaseController{
             for (int i = 0; i < tip.length; i++) {
                 _msg.append(tip[i]);
             }
-
         }
         if (null != repeat) {
             if (service.repeat(repeat)) {
@@ -165,13 +164,15 @@ public class PcController<P> implements IBaseController{
      * @param <T> POJO 对象
      * @param <P> Param 对象
      */
-    public <K,T,P> JSONResult<?> baseFindBykeywordAll(P param, PageQuery page, IBaseService<K,T,P> service) {
+    public <K,T,P> JSONResult<?> baseFindBykeywordAll(P param, PageQuery page, IBaseService<K,T,P> service,Object expand) {
         PageResult<?> result = service.findAllByLike(param, page);
         if (result.isSuccess){
-            return JSONResult.success(result);
+            result.setExpand(expand);
+            return JSONResult.success("数据加载成功;",result);
         }
-        return JSONResult.fail(JSONResult.Props.NO_DATA,NO_DATA);
+        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
     }
+
 
     /**
      * <h4>基础查找</h4>
@@ -226,6 +227,32 @@ public class PcController<P> implements IBaseController{
         }
         return JSONResult.fail(JSONResult.Props.NO_DATA,NO_DATA);
     }
+
+    /**
+     * <h4>字符串转数组</h4>
+     * @param operate 字符串
+     * @return
+     */
+    public String[] toArr(String operate) {
+        return operate.split(",");
+    }
+
+    /**
+     * <h4>数组转字符串</h4>
+     * @param opearate 数组
+     * @return
+     */
+    public String toStr(String[] opearate) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < opearate.length; i++) {
+            sb.append(opearate[i]);
+            if ((opearate.length - 1 != i)) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
+    }
+
     /** 没找到数据... */
     protected String NO_DATA = "没找到数据...";
 

@@ -2,6 +2,8 @@ package cn.peyton.plum.mall.pojo.product;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 商品分类 实体类</h3>
@@ -45,9 +47,13 @@ public class ShopCategory implements Serializable {
      * 添加时间
      */
     private Integer createTime;
+    /** 分类子类 */
+    private List<ShopCategory> childrens;
 
     //================================== Constructor =======================================//
-
+    public ShopCategory(){
+        if (null == childrens) { childrens = new ArrayList<>(); }
+    }
     //================================== Method =======================================//
 
 
@@ -165,4 +171,17 @@ public class ShopCategory implements Serializable {
         return createTime;
     }
 
+    /**
+     * @return 分类子类
+     */
+    public List<ShopCategory> getChildrens() {
+        return childrens;
+    }
+
+    /**
+     * @param childrens 分类子类
+     */
+    public void setChildrens(List<ShopCategory> childrens) {
+        this.childrens = childrens;
+    }
 }

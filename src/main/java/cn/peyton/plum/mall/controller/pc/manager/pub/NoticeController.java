@@ -42,7 +42,7 @@ public class NoticeController extends PcController<NoticeParam>
     public JSONResult<?> all(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         NoticeParam _param = new NoticeParam();
         _param.setTitle(keyword);
-        return baseFindBykeywordAll(_param, new PageQuery(pageNo, "seq"), noticeService);
+        return baseFindBykeywordAll(_param, new PageQuery(pageNo, "seq"), noticeService,null);
     }
 
     @Token
@@ -52,7 +52,7 @@ public class NoticeController extends PcController<NoticeParam>
     public JSONResult<?> search(Query query) {
         NoticeParam _param = new NoticeParam();
         _param.setTitle(query.getKeyword());
-        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo()), noticeService);
+        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo()), noticeService,null);
     }
 
     @Token
@@ -122,7 +122,7 @@ public class NoticeController extends PcController<NoticeParam>
                 _param.setContent(keyword);
             }
         }
-        return baseFindBykeywordAll(_param, _page, noticeService);
+        return baseFindBykeywordAll(_param, _page, noticeService,null);
     }
 
 

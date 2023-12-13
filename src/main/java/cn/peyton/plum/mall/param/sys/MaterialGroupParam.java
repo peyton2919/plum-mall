@@ -31,7 +31,7 @@ public class MaterialGroupParam implements Serializable {
      * 分组名
      */
     @NotBlank(message = "素材分组名称不能为空")
-    @Length(min = 4,max=30,message = "素材分组名称长度为6~30个字符！")
+    @Length(min = 2,max=30,message = "素材分组名称长度为2~30个字符！")
     private String name;
     /** 排序取值范围0~9999，默认为0; 按大到小排序  */
     @Size(min = 0,max = 9999)

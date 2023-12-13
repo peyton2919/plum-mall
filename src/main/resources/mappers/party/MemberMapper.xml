@@ -3,13 +3,14 @@
 <mapper namespace="cn.peyton.plum.mall.mapper.party.MemberMapper">
 	<resultMap id="ResultMemberMap" type="cn.peyton.plum.mall.pojo.party.Member">
 		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="level_id" property="levelId" jdbcType="INTEGER"/>
+		<!--<result column="level_id" property="levelId" jdbcType="INTEGER"/>-->
 		<result column="username" property="username" jdbcType="VARCHAR"/>
 		<result column="pwd" property="pwd" jdbcType="VARCHAR"/>
 		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
 		<result column="nickname" property="nickname" jdbcType="VARCHAR"/>
 		<result column="phone" property="phone" jdbcType="VARCHAR"/>
 		<result column="email" property="email" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
 		<result column="last_ip" property="lastIp" jdbcType="VARCHAR"/>
 		<result column="loc" property="loc" jdbcType="INTEGER"/>
 		<result column="last_login_time" property="lastLoginTime" jdbcType="INTEGER"/>
@@ -18,22 +19,47 @@
 		<result column="encrypted" property="encrypted" jdbcType="VARCHAR"/>
 		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="memberLevel" column="level_id" javaType="cn.peyton.plum.mall.pojo.party.MemberLevel"
+					 select="cn.peyton.plum.mall.mapper.party.MemberLevelMapper.selectByPrimaryKey" />
+
 	</resultMap>
 
 	<sql id="Column_tb_member_List">
-		`id`,`level_id`,`username`,`pwd`,`avatar`,`nickname`,`phone`,`email`,`last_ip`,`loc`,`last_login_time`,`sex`,`birthday`,`encrypted`,`is_del`,`create_time`
+		`id`,`level_id`,`username`,`avatar`,`nickname`,`phone`,`email`,`status`,`last_ip`,
+		    `loc`,`last_login_time`,`sex`,`birthday`,`encrypted`,`is_del`,`create_time`
+	</sql>
+
+	<resultMap id="result_simple_member_list" type="cn.peyton.plum.mall.pojo.party.Member">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="username" property="username" jdbcType="VARCHAR"/>
+		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+		<result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="email" property="email" jdbcType="VARCHAR"/>
+		<result column="loc" property="loc" jdbcType="INTEGER"/>
+		<result column="sex" property="sex" jdbcType="TINYINT"/>
+		<result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="memberLevel" column="level_id" javaType="cn.peyton.plum.mall.pojo.party.MemberLevel"
+					 select="cn.peyton.plum.mall.mapper.party.MemberLevelMapper.selectByPrimaryKey" />
+
+	</resultMap>
+
+	<sql id="column_simple_member_list">
+		`id`,`level_id`,`username`,`avatar`,`nickname`,`phone`,`email`,`loc`,`sex`,`birthday`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.Member" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `tb_member`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="levelId != null">`level_id`,</if>
+			<if test=" memberLevel.id!= null">`level_id`,</if>
 			<if test="username != null">`username`,</if>
 			<if test="pwd != null">`pwd`,</if>
 			<if test="avatar != null">`avatar`,</if>
 			<if test="nickname != null">`nickname`,</if>
 			<if test="phone != null">`phone`,</if>
 			<if test="email != null">`email`,</if>
+			<if test="status != null">`status`,</if>
 			<if test="lastIp != null">`last_ip`,</if>
 			<if test="loc != null">`loc`,</if>
 			<if test="lastLoginTime != null">`last_login_time`,</if>
@@ -44,13 +70,14 @@
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="levelId != null">#{levelId},</if>
+			<if test="memberLevel.id != null">#{memberLevel.id},</if>
 			<if test="username != null">#{username},</if>
 			<if test="pwd != null">#{pwd},</if>
 			<if test="avatar != null">#{avatar},</if>
 			<if test="nickname != null">#{nickname},</if>
 			<if test="phone != null">#{phone},</if>
 			<if test="email != null">#{email},</if>
+			<if test="status != null">#{status},</if>
 			<if test="lastIp != null">#{lastIp},</if>
 			<if test="loc != null">#{loc},</if>
 			<if test="lastLoginTime != null">#{lastLoginTime},</if>
@@ -65,13 +92,14 @@
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.Member">
 		update `tb_member`
 		<set>
-			<if test="levelId != null">`level_id` = #{levelId},</if>
+			<if test="memberLevel.id != null">`level_id` = #{memberLevel.id},</if>
 			<if test="username != null">`username` = #{username},</if>
 			<if test="pwd != null">`pwd` = #{pwd},</if>
 			<if test="avatar != null">`avatar` = #{avatar},</if>
 			<if test="nickname != null">`nickname` = #{nickname},</if>
 			<if test="phone != null">`phone` = #{phone},</if>
 			<if test="email != null">`email` = #{email},</if>
+			<if test="status != null">`status` = #{status},</if>
 			<if test="lastIp != null">`last_ip` = #{lastIp},</if>
 			<if test="loc != null">`loc` = #{loc},</if>
 			<if test="lastLoginTime != null">`last_login_time` = #{lastLoginTime},</if>
@@ -84,6 +112,18 @@
 		where id = #{id}
 	</update>
 
+	<update id="updateDelete" parameterType="long">
+		update `tb_member`
+		set `is_del` = 0
+		where id = #{id}
+	</update>
+
+	<update id="updateStatus" parameterType="map">
+		update `tb_member`
+		set `status` = #{status}
+		where id = #{id} and `is_del` = 1
+	</update>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from `tb_member`
 		where `id` = #{id}
@@ -93,119 +133,57 @@
 		select
 		count(`id`)
 		from `tb_member`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="levelId != null">
-				and `level_id` = #{levelId}
-			</if>
-			<if test="username != null">
-				and `username` = #{username}
-			</if>
-			<if test="pwd != null">
-				and `pwd` = #{pwd}
-			</if>
-			<if test="avatar != null">
-				and `avatar` = #{avatar}
-			</if>
-			<if test="nickname != null">
-				and `nickname` = #{nickname}
-			</if>
-			<if test="phone != null">
-				and `phone` = #{phone}
-			</if>
-			<if test="email != null">
-				and `email` = #{email}
-			</if>
-			<if test="lastIp != null">
-				and `last_ip` = #{lastIp}
-			</if>
-			<if test="loc != null">
-				and `loc` = #{loc}
-			</if>
-			<if test="lastLoginTime != null">
-				and `last_login_time` = #{lastLoginTime}
-			</if>
-			<if test="sex != null">
-				and `sex` = #{sex}
-			</if>
-			<if test="birthday != null">
-				and `birthday` = #{birthday}
-			</if>
-			<if test="encrypted != null">
-				and `encrypted` = #{encrypted}
-			</if>
-			<if test="isDel != null">
-				and `is_del` = #{isDel}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
-		</where>
+		where `is_del`=1
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
+		<if test="username != null">
+			and `username` = #{username}
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultMemberMap"  parameterType="java.lang.Long">
 		select
 		<include refid="Column_tb_member_List"/>
 		from `tb_member`
-		where `id` = #{id}
+		where `id` = #{id} and `is_del` =1
+	</select>
+
+	<select id="selectSimpleById" resultMap="result_simple_member_list"  parameterType="java.lang.Long">
+		select
+		<include refid="column_simple_member_list"/>
+		from `tb_member`
+		where `id` = #{id} and `is_del` =1
+	</select>
+
+	<select id="isMemberLevel" resultType="int"  parameterType="int">
+		select
+			count(id)
+		from `tb_member`
+		where `level_id` = #{levelId} and `is_del` =1
 	</select>
 
 	<select id="selectByLiekAndObj" resultMap="ResultMemberMap"  parameterType="map">
 		select
 		<include refid="Column_tb_member_List"/>
 		from `tb_member`
-		<where>
-			<if test="record.id != null">
-				and `id` like concat('%',#{record.id},'%')
-			</if>
-			<if test="record.levelId != null">
-				and `level_id` like concat('%',#{record.levelId},'%')
-			</if>
-			<if test="record.username != null">
-				and `username` like concat('%',#{record.username},'%')
-			</if>
-			<if test="record.pwd != null">
-				and `pwd` like concat('%',#{record.pwd},'%')
-			</if>
-			<if test="record.avatar != null">
-				and `avatar` like concat('%',#{record.avatar},'%')
-			</if>
-			<if test="record.nickname != null">
-				and `nickname` like concat('%',#{record.nickname},'%')
-			</if>
-			<if test="record.phone != null">
-				and `phone` like concat('%',#{record.phone},'%')
-			</if>
-			<if test="record.email != null">
-				and `email` like concat('%',#{record.email},'%')
-			</if>
-			<if test="record.lastIp != null">
-				and `last_ip` like concat('%',#{record.lastIp},'%')
-			</if>
-			<if test="record.loc != null">
-				and `loc` like concat('%',#{record.loc},'%')
-			</if>
-			<if test="record.lastLoginTime != null">
-				and `last_login_time` like concat('%',#{record.lastLoginTime},'%')
-			</if>
-			<if test="record.sex != null">
-				and `sex` like concat('%',#{record.sex},'%')
-			</if>
-			<if test="record.birthday != null">
-				and `birthday` like concat('%',#{record.birthday},'%')
-			</if>
-			<if test="record.encrypted != null">
-				and `encrypted` like concat('%',#{record.encrypted},'%')
-			</if>
-			<if test="record.isDel != null">
-				and `is_del` like concat('%',#{record.isDel},'%')
-			</if>
-			<if test="record.createTime != null">
-				and `create_time` like concat('%',#{record.createTime},'%')
-			</if>
-		</where>
+		where `is_del` = 1
+		<if test="record.username != null">
+			and `username` like concat('%',#{record.username},'%')
+		</if>
+		<if test="record.memberLevel.id != null">
+			and `level_id` = #{record.memberLevel.id}
+		</if>
+
+		<if test="record.nickname != null">
+			and `nickname` like concat('%',#{record.nickname},'%')
+		</if>
+		<if test="record.phone != null">
+			and `phone` like concat('%',#{record.phone},'%')
+		</if>
+		<if test="record.email != null">
+			and `email` like concat('%',#{record.email},'%')
+		</if>
 		<if test="page.orderByColumuName != null">
 			order by `${page.orderByColumuName}`  ${page.orderByMode}
 		</if>
@@ -225,8 +203,8 @@
 			<if test="record.id != null">
 				and `id` = #{record.id}
 			</if>
-			<if test="record.levelId != null">
-				and `level_id` = #{record.levelId}
+			<if test="record.memberLevel.id != null">
+				and `level_id` = #{record.memberLevel.id}
 			</if>
 			<if test="record.username != null">
 				and `username` = #{record.username}
@@ -245,6 +223,9 @@
 			</if>
 			<if test="record.email != null">
 				and `email` = #{record.email}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
 			</if>
 			<if test="record.lastIp != null">
 				and `last_ip` = #{record.lastIp}
@@ -286,56 +267,22 @@
 		select
 		count(`id`)
 		from `tb_member`
-		<where>
-			<if test="id != null">
-				and `id` like concat('%',#{id},'%')
-			</if>
-			<if test="levelId != null">
-				and `level_id` like concat('%',#{levelId},'%')
-			</if>
-			<if test="username != null">
-				and `username` like concat('%',#{username},'%')
-			</if>
-			<if test="pwd != null">
-				and `pwd` like concat('%',#{pwd},'%')
-			</if>
-			<if test="avatar != null">
-				and `avatar` like concat('%',#{avatar},'%')
-			</if>
-			<if test="nickname != null">
-				and `nickname` like concat('%',#{nickname},'%')
-			</if>
-			<if test="phone != null">
-				and `phone` like concat('%',#{phone},'%')
-			</if>
-			<if test="email != null">
-				and `email` like concat('%',#{email},'%')
-			</if>
-			<if test="lastIp != null">
-				and `last_ip` like concat('%',#{lastIp},'%')
-			</if>
-			<if test="loc != null">
-				and `loc` like concat('%',#{loc},'%')
-			</if>
-			<if test="lastLoginTime != null">
-				and `last_login_time` like concat('%',#{lastLoginTime},'%')
-			</if>
-			<if test="sex != null">
-				and `sex` like concat('%',#{sex},'%')
-			</if>
-			<if test="birthday != null">
-				and `birthday` like concat('%',#{birthday},'%')
-			</if>
-			<if test="encrypted != null">
-				and `encrypted` like concat('%',#{encrypted},'%')
-			</if>
-			<if test="isDel != null">
-				and `is_del` like concat('%',#{isDel},'%')
-			</if>
-			<if test="createTime != null">
-				and `create_time` like concat('%',#{createTime},'%')
-			</if>
-		</where>
+		where `is_del` = 1
+		<if test="username != null">
+			and `username` like concat('%',#{username},'%')
+		</if>
+		<if test="memberLevel.id != null">
+			and `level_id` = #{memberLevel.id}
+		</if>
+		<if test="nickname != null">
+			and `nickname` like concat('%',#{nickname},'%')
+		</if>
+		<if test="phone != null">
+			and `phone` like concat('%',#{phone},'%')
+		</if>
+		<if test="email != null">
+			and `email` like concat('%',#{email},'%')
+		</if>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.Member">
@@ -346,8 +293,8 @@
 			<if test="id != null">
 				and `id` = #{id}
 			</if>
-			<if test="levelId != null">
-				and `level_id` = #{levelId}
+			<if test="memberLevel.id != null">
+				and `level_id` = #{memberLevel.id}
 			</if>
 			<if test="username != null">
 				and `username` = #{username}
@@ -366,6 +313,9 @@
 			</if>
 			<if test="email != null">
 				and `email` = #{email}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
 			</if>
 			<if test="lastIp != null">
 				and `last_ip` = #{lastIp}

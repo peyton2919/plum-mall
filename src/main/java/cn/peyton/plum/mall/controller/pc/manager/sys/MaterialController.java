@@ -70,7 +70,7 @@ public class MaterialController extends PcController<MaterialParam>
         MaterialParam _param = new MaterialParam();
         _param.setGroupId(groupId);
 
-        return baseFindBykeywordAll(_param,new PageQuery(pageNo),materialService);
+        return baseFindBykeywordAll(_param,new PageQuery(pageNo),materialService,null);
     }
 
     @Token

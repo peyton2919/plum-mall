@@ -39,6 +39,7 @@ public class ShopSlideshowController extends PcController<ShopSlideshowParam>
     public JSONResult<?> slideshow(@RequestMultiple FormData<ShopSlideshowParam> data) {
 
         if(shopSlideshowService.batchInsertSelective(data.getKeyLong(),data.getObjs())){
+
             return JSONResult.success("批量添加成功;", data.getObjs());
         }
         return JSONResult.fail("批量添加失败;");

@@ -1,8 +1,7 @@
 package cn.peyton.plum.mall.param.product;
 
 import cn.peyton.plum.core.utils.DateUtils;
-import cn.peyton.plum.core.validator.constraints.Length;
-import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.bo.ShopCategoryBo;
 import cn.peyton.plum.mall.bo.ShopProductSkuDetailBo;
 import cn.peyton.plum.mall.bo.ShopSkuBo;
@@ -31,6 +30,7 @@ public class ShopProductParam implements Serializable {
     /**
      * 商品图片
      */
+    @NotBlank(message = "封面图不能为空")
     @Length(min = 1,max = 250)
     private String cover;
     /**
@@ -42,11 +42,13 @@ public class ShopProductParam implements Serializable {
     /**
      * 商品简介
      */
+    @NotBlank(message = "商品简介不能为空")
     @Length(min = 1,max = 120)
     private String info;
     /**
      * 关键字
      */
+    @NotBlank(message = "关键字不能为空")
     @Length(min = 1,max = 120)
     private String keyword;
     /**
@@ -56,21 +58,31 @@ public class ShopProductParam implements Serializable {
     /**
      * 商品价格(批发)
      */
+    @NotBlank(message = "批发价格不能为空")
+    @DecimalMin(value = 0.01,message = "批发价格不能小于0.01元")
     private BigDecimal price;
     /** 最低价 {高于 正常要高于 vip 价} */
+    @NotBlank(message = "最低价格不能为空")
+    @DecimalMin(value = 0.01,message = "最低价格不能小于0.01元")
     private BigDecimal minPrice;
 
     /**
      * 会员价格
      */
+    @NotBlank(message = "会员价格不能为空")
+    @DecimalMin(value = 0.01,message = "会员价格不能小于0.01元")
     private BigDecimal vipPrice;
     /**
      * 市场价
      */
+    @NotBlank(message = "市场价格不能为空")
+    @DecimalMin(value = 0.01,message = "市场价格不能小于0.01元")
     private BigDecimal otPrice;
     /**
      * 成本价
      */
+    @NotBlank(message = "成本价格不能为空")
+    @DecimalMin(value = 0.01,message = "成本价格不能小于0.01元")
     private BigDecimal costPrice;
     /**
      * 邮费
@@ -83,6 +95,7 @@ public class ShopProductParam implements Serializable {
     /**
      * 排序取值范围0~9999，默认为0; 按大到小排序
      */
+    @Size(min = 0,max = 9999)
     private Short seq;
     /**
      * 销量, 默认 0
@@ -91,8 +104,10 @@ public class ShopProductParam implements Serializable {
     /**
      * 库存, 默认 0
      */
+    @Min(message = "库存数量不能小于0")
     private Integer stock;
     /** 库存预警(默认0 不提示 >0 低于设置值 提示) */
+    @Min(message = "库存预警数量不能小于0")
     private Integer minStock;
     /** 是否审核 0审核中 1通过 2拒绝  */
     private Integer isCheck;
@@ -108,10 +123,12 @@ public class ShopProductParam implements Serializable {
     /**
      * 重量
      */
+    @DecimalMin(value = 0,message = "重量数值不能小于0")
     private BigDecimal weight;
     /**
      * 体积
      */
+    @DecimalMin(value = 0,message = "体积不能小于0")
     private BigDecimal volume;
 
     /** 库存显示 默认 1显示 0隐藏  */
@@ -128,6 +145,7 @@ public class ShopProductParam implements Serializable {
     /**
      * 规格 0单 1多
      */
+    @Size(min = 0,max = 1)
     private Integer specType;
     /**
      * 商品属性索引值 (attr_value|attr_value[|....])
@@ -189,6 +207,8 @@ public class ShopProductParam implements Serializable {
      * 更新时间
      */
     private String updateTime;
+    /** 操作提示 默认`0,0,0`[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过 */
+    private String operate;
     /** 商品分类集合 */
     private List<ShopCategoryParam> categories;
     /** 商品轮播图集合 */
@@ -786,6 +806,20 @@ public class ShopProductParam implements Serializable {
     }
 
     /**
+     * @return 操作提示 默认0,0,0[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过
+     */
+    public String getOperate() {
+        return operate;
+    }
+
+    /**
+     * @param operate 操作提示 默认0,0,0[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过
+     */
+    public void setOperate(String operate) {
+        this.operate = operate;
+    }
+
+    /**
      * @return 商品分类集合
      */
     public List<ShopCategoryParam> getCategories() {
@@ -892,6 +926,7 @@ public class ShopProductParam implements Serializable {
         shopProduct.setUpdateTime(DateUtils.dateToTimestamp(updateTime));
         shopProduct.setMinStock(minStock);
         shopProduct.setIsCheck(isCheck);
+        shopProduct.setOperate(operate);
         shopProduct.setCategories(new ShopCategoryBo().reverse(categories));
         shopProduct.setSlideshows(new ShopSlideshowBo().reverse(slideshows));
         shopProduct.setProductSkus(new ShopProductSkuDetailBo().reverse(productSkus));
@@ -953,6 +988,7 @@ public class ShopProductParam implements Serializable {
         this.setUpdateTime(DateUtils.timestampToStrDate(shopProduct.getUpdateTime()));
         this.setMinStock(shopProduct.getMinStock());
         this.setIsCheck(shopProduct.getIsCheck());
+        this.setOperate(shopProduct.getOperate());
         this.setCategories(new ShopCategoryBo().adapter(shopProduct.getCategories()));
         this.setSlideshows(new ShopSlideshowBo().adapter(shopProduct.getSlideshows()));
         this.setProductSkus(new ShopProductSkuDetailBo().adapter(shopProduct.getProductSkus()));

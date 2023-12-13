@@ -1,7 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.pojo.product.ShopCategory;
 
@@ -21,7 +20,13 @@ public interface ShopCategoryService extends IBaseService<Integer, ShopCategory,
      * <h4>下拉框查找</h4>
      * @return
      */
-    List<ShopCategoryParam> select(ShopCategoryParam param, PageQuery page);
+    List<ShopCategoryParam> findByOutside();
+
+    /**
+     * <h4>下拉框查找</h4>
+     * @return
+     */
+    List<ShopCategoryParam> findByInner();
 
     /**
      * <h4>更新推荐</h4>
@@ -37,5 +42,11 @@ public interface ShopCategoryService extends IBaseService<Integer, ShopCategory,
      * @return 受影响的行数 > 0
      */
     Boolean updateDelete(Integer id);
+
+    /**
+     * <h4>菜单树型查找</h4>
+     * @return
+     */
+    List<ShopCategoryParam> findByTree();
 
 }

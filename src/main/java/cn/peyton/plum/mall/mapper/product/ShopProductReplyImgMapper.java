@@ -3,6 +3,8 @@ package cn.peyton.plum.mall.mapper.product;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.product.ShopProductReplyImg;
 
+import java.util.List;
+
 /**
  * <h3> 商品评论 Mapper 接口</h3>
  * <pre>
@@ -13,8 +15,12 @@ import cn.peyton.plum.mall.pojo.product.ShopProductReplyImg;
  * </pre>
  */
 public interface ShopProductReplyImgMapper extends IBaseMapper<Long, ShopProductReplyImg> {
-
-
+    /**
+     * <h4>根据评论Id 查找 对象集合</h4>
+     * @param replyId
+     * @return
+     */
+    List<ShopProductReplyImg> selectByReplyId(Long replyId);
     // ==================================== new create method ==================================== //
 
 

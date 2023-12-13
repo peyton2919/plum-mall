@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.mapper.product;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.product.ShopProduct;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -69,6 +70,42 @@ public interface ShopProductMapper extends IBaseMapper<Long, ShopProduct> {
      */
     int updateSpecType(@Param("id") Long id, @Param("specType") Integer specType,@Param("skus") String skus);
 
+    /**
+     * <h4>根据 分类Id 查找 对象</h4>
+     * @param categoryId 分类Id
+     * @return
+     */
+    List<ShopProduct> selectByIdAndJoin(Integer categoryId);
+
+    /**
+     * <h4>更新操作信息</h4>
+     * <pre>
+     *     操作提示 默认0,0,0[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过
+     * </pre>
+     * @param id 主键
+     * @param operate 操作字段
+     * @return 受影响的行数 > 0 成功
+     */
+    int updateOperate(Long id, String operate);
+
+    /**
+     * <h4>根据Id 查找 操作信息</h4>
+     * @param id 商品Id
+     * @return 操作信息
+     */
+    @Select("select operate from tb_shop_product where id =#{id}")
+    String selectByOperate(Long id);
+
+    /**
+     * <h4>根据 Id 查找 商品对象</h4>
+     * <pre>
+     *     `id`,`cover`,`name`,`info`,`keyword`,`stock`,`unit_name`,`price`,`vip_price`,`min_price`,
+     *     `ot_price`,`cost_price`,`is_show`,`is_check`,`seq`,`operate`
+     * </pre>
+     * @param id 主键Id
+     * @return 商品对象
+     */
+    ShopProduct selectSimpleById(Long id);
     // ==================================== new create method ==================================== //
 
 

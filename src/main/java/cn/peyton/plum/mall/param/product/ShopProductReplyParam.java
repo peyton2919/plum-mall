@@ -1,9 +1,16 @@
 package cn.peyton.plum.mall.param.product;
 
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.mall.bo.MemberBo;
+import cn.peyton.plum.mall.bo.ShopProductBo;
+import cn.peyton.plum.mall.bo.ShopProductReplyImgBo;
+import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductReply;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 商品评论 参数 传递类[用来展示数据]类</h3>
@@ -58,7 +65,7 @@ public class ShopProductReplyParam implements Serializable {
     /**
      * 评论时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 是否回复, 默认:0 {0 未回复 1 已回复}
      */
@@ -71,9 +78,22 @@ public class ShopProductReplyParam implements Serializable {
      * 管理员回复时间
      */
     private Integer merchantReplyTime;
+    /** 会员对象 */
+    private MemberParam member;
+    /** 商品对象 */
+    private ShopProductParam product;
+    /**
+     * 回复图片集合
+     */
+    private List<ShopProductReplyImgParam> replyImgs;
+
 
     //================================== Constructor =======================================//
-
+    public ShopProductReplyParam(){
+        if(null == member){member = new MemberParam(); }
+        if(null == product){ product = new ShopProductParam();}
+        if (null == replyImgs) { replyImgs = new ArrayList<>(); }
+    }
     //================================== Method =======================================//
 
 
@@ -222,14 +242,14 @@ public class ShopProductReplyParam implements Serializable {
     /**
      * @param createTime 评论时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 评论时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -276,6 +296,48 @@ public class ShopProductReplyParam implements Serializable {
     }
 
     /**
+     * @return 会员对象
+     */
+    public MemberParam getMember() {
+        return member;
+    }
+
+    /**
+     * @param member 会员对象
+     */
+    public void setMember(MemberParam member) {
+        this.member = member;
+    }
+
+    /**
+     * @return 商品对象
+     */
+    public ShopProductParam getProduct() {
+        return product;
+    }
+
+    /**
+     * @param product 商品对象
+     */
+    public void setProduct(ShopProductParam product) {
+        this.product = product;
+    }
+
+    /**
+     * @return 回复图片集合
+     */
+    public List<ShopProductReplyImgParam> getReplyImgs() {
+        return replyImgs;
+    }
+
+    /**
+     * @param replyImgs 回复图片集合
+     */
+    public void setReplyImgs(List<ShopProductReplyImgParam> replyImgs) {
+        this.replyImgs = replyImgs;
+    }
+
+    /**
      * <h4>对象转成ShopProductReply对象<h4>
      * <pre>
      * 	 转换字段如下:
@@ -294,10 +356,13 @@ public class ShopProductReplyParam implements Serializable {
         shopProductReply.setServiceScore(serviceScore);
         shopProductReply.setReplyComment(replyComment);
         shopProductReply.setIsDel(isDel);
-        shopProductReply.setCreateTime(createTime);
+        shopProductReply.setCreateTime(DateUtils.dateToTimestamp(createTime));
         shopProductReply.setIsReply(isReply);
         shopProductReply.setMerchantReplyContent(merchantReplyContent);
         shopProductReply.setMerchantReplyTime(merchantReplyTime);
+        shopProductReply.setMember(member.convert());
+        shopProductReply.setProduct(product.convert());
+        shopProductReply.setReplyImgs(new ShopProductReplyImgBo().reverse(replyImgs));
         return shopProductReply;
     }
 
@@ -322,10 +387,13 @@ public class ShopProductReplyParam implements Serializable {
         this.setServiceScore(shopProductReply.getServiceScore());
         this.setReplyComment(shopProductReply.getReplyComment());
         this.setIsDel(shopProductReply.getIsDel());
-        this.setCreateTime(shopProductReply.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(shopProductReply.getCreateTime()));
         this.setIsReply(shopProductReply.getIsReply());
         this.setMerchantReplyContent(shopProductReply.getMerchantReplyContent());
         this.setMerchantReplyTime(shopProductReply.getMerchantReplyTime());
+        this.setMember(new MemberBo().compat(shopProductReply.getMember()));
+        this.setProduct(new ShopProductBo().compat(shopProductReply.getProduct()));
+        this.setReplyImgs(new ShopProductReplyImgBo().adapter(shopProductReply.getReplyImgs()));
         return this;
     }
 }

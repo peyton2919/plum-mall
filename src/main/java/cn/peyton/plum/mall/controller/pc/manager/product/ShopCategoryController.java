@@ -3,7 +3,6 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.inf.controller.IBasePCController;
 import cn.peyton.plum.core.json.JSONResult;
-import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
@@ -12,6 +11,7 @@ import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.service.product.ShopCategoryService;
+import cn.peyton.plum.mall.service.product.ShopProductCategoryService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +36,9 @@ public class ShopCategoryController  extends PcController<ShopCategoryParam>
 
     @Resource
     private ShopCategoryService shopCategoryService;
+    @Resource
+    private ShopProductCategoryService shopProductCategoryService;
+
     @Token
     @Valid
     @PostMapping("/manager/all")
@@ -49,19 +52,26 @@ public class ShopCategoryController  extends PcController<ShopCategoryParam>
     @PostMapping("/manager/search")
     @Override
     public JSONResult<?> search(Query query) {
-        ShopCategoryParam _param = new ShopCategoryParam();
-        _param.setName(query.getKeyword());
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopCategoryService);
+        //ShopCategoryParam _param = new ShopCategoryParam();
+        //_param.setName(query.getKeyword());
+        //return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopCategoryService);
+        List<ShopCategoryParam> res = shopCategoryService.findByTree();
+        if (null == res) {
+            return JSONResult.fail("没找到数据");
+        }
+        return JSONResult.success(res);
     }
 
     @Token
     @PostMapping("/manager/select")
     public JSONResult<?> select(){
-        List<ShopCategoryParam> _params = shopCategoryService.select(new ShopCategoryParam(), new PageQuery(false));
-        if (null != _params && _params.size() > 0) {
-            return JSONResult.success("商品分类数据加载成功", _params);
-        }
-        return JSONResult.fail(JSONResult.Props.NO_DATA, NO_DATA);
+
+        return JSONResult.success("商品分类数据加载成功", shopCategoryService.findByOutside());
+    }
+    @Token
+    @PostMapping("/manager/selectinner")
+    public JSONResult<?> selectInner(){
+        return JSONResult.success("商品分类数据加载成功", shopCategoryService.findByInner());
     }
     @Token
     @Valid
@@ -104,16 +114,9 @@ public class ShopCategoryController  extends PcController<ShopCategoryParam>
     public JSONResult<?> editStatus(@NotBlank(message = "Id 不能为空;") @Min(message = "要大于0的数！")Integer id,
                                     @NotBlank(message = "Id 不能为空;")  @Size(min = 0,max = 1) Integer isShow){
         if (shopCategoryService.updateShow(id, isShow)) {
-            return JSONResult.success("推荐更新成功;");
+            return JSONResult.success("更新成功;");
         }
-        return JSONResult.fail("推荐更新失败;");
+        return JSONResult.fail("更新失败;");
     }
-     //category_id 分类Id,cover 商品封面,create_time 创建时间,product_id 商品Id,id,name 商品名称,seq 排序,
-    @Token
-    @Valid
-    @PostMapping("/manager/product")
-    public JSONResult<?> findProduct(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer id) {
 
-        return JSONResult.success("找到数据了");
-    }
 }

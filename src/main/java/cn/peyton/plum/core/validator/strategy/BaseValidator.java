@@ -55,7 +55,19 @@ public final class BaseValidator implements Serializable {
      */
     public Map<String, String> validate(Object obj) {
         ERROR = false;
-        return _validate(obj, false);
+        return _validate(obj,null, false);
+    }
+
+    /**
+     * <h4>验证全部错误</h4>
+     *
+     * @param obj 对象
+     * @param ignores 排除验证的属性名称
+     * @return 全部错误信息
+     */
+    public Map<String, String> validate(Object obj,String[] ignores) {
+        ERROR = false;
+        return _validate(obj,ignores, false);
     }
 
     /**
@@ -102,7 +114,20 @@ public final class BaseValidator implements Serializable {
      */
     public Map<String, String> validateProperty(Object obj) {
         ERROR = false;
-        return _validate(obj, true);
+        return _validate(obj,null, true);
+    }
+
+    /**
+     * <h4>验证单一错误</h4>
+     *
+     * @param obj     对象
+     * @param ignores 排除验证的属性名称
+     * @return 单个错误信息
+     */
+    public Map<String, String> validateProperty(Object obj, String[] ignores) {
+
+        ERROR = false;
+        return _validate(obj,ignores, true);
     }
 
     /**
@@ -112,7 +137,8 @@ public final class BaseValidator implements Serializable {
      * @param single false表示对象全部字段, true表示单个字段[有一个错误信息就返回]
      * @return
      */
-    private Map<String, String> _validate(Object obj, boolean single) {
+    private Map<String, String> _validate(Object obj, String[] ignores, boolean single) {
+
         Map<String, String> map = new LinkedHashMap<>();
         Class<?> clazz = obj.getClass();
         Field[] fields = clazz.getDeclaredFields();
@@ -122,36 +148,37 @@ public final class BaseValidator implements Serializable {
         for (Field field : fields) {
             field.setAccessible(true);
             //判断返回全部还是单个 验证
-            if (!map.isEmpty() && single) { break; }
+            if (!map.isEmpty() && single) {
+                break;
+            }
             try {
-                String typeName1 = field.getGenericType().getTypeName();
-                String name1 = field.getType().getName();
-
-                String typeName = field.getType().getTypeName();
-                if(field.getType().getTypeName().contains("cn.peyton") ||
-                        field.getType().getTypeName().contains("Object")){
+                if (field.getType().getTypeName().contains("cn.peyton") ||
+                        field.getType().getTypeName().contains("Object")) {
                     Object childObj = field.get(obj);
-                    if(null == childObj) continue;
-                    objValid(childObj,map,single);
-                }else if (field.getType().getTypeName().contains("List")){
+                    if (null == childObj) continue;
+                    objValid(childObj,ignores, map, single);
+                } else if (field.getType().getTypeName().contains("List")) {
                     List<?> list = (List<?>) field.get(obj);
-                    if(null == list || list.size()==0) continue;
+                    if (null == list || list.size() == 0) continue;
                     for (Object childObj : list) {
-                        objValid(childObj,map,single);
+                        objValid(childObj,ignores, map, single);
 
-                        if(map.size()>0) break;
+                        if (map.size() > 0) break;
                     }
-                }else {
+                } else {
                     String name = field.getName();
+                    if(isIgnores(ignores,name)){continue;}
                     //获取字段类型 field.getType().getName();
                     String type = field.getGenericType().toString();
                     Object value = field.get(obj);
-                    isValid(field,obj,value,name,type,map,single);
+                    isValid(field, obj, value, name, type, map, single);
                 }
             } catch (Exception e) {
                 LogUtils.error(e.getMessage());
             }
-            if(map.size()>0 && single){break;}
+            if (map.size() > 0 && single) {
+                break;
+            }
         }
         if (!map.isEmpty()) {
             ERROR = true;
@@ -159,12 +186,30 @@ public final class BaseValidator implements Serializable {
         return map;
     }
 
-    private void objValid(Object childObj,Map<String,String> map,Boolean single) throws IllegalAccessException {
+    /**
+     * <h4>判断不需要验证属性名称</h4>
+     * @param ignores 忽略属性集合
+     * @param fieldName 属性名称
+     * @return true 表示不需要验证
+     */
+    private Boolean isIgnores(String[] ignores, String fieldName) {
+        if (null == ignores || ignores.length == 0) {return true;}
+        for (int i = 0; i < ignores.length; i++) {
+            if(fieldName.equals(ignores[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void objValid(Object childObj,String[] ignores,Map<String,String> map,Boolean single) throws IllegalAccessException {
         Class<?> childClazz = childObj.getClass();
         Field[] childFields = childClazz.getDeclaredFields();
         for (Field childField : childFields) {
             childField.setAccessible(true);
             String _name = childField.getName();
+            if(isIgnores(ignores,_name)){continue;}
+
             String _type = childField.getGenericType().toString();
             Object _obj = childField.get(childObj);
             isValid(childField,childObj,_obj,_name,_type,map,single);

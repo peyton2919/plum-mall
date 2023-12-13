@@ -182,6 +182,18 @@ public final class JSONResult<T> implements Serializable {
 
     /**
      * <h4>错误</h4>
+     * @param expand         扩展自定对象
+     * @param msg            消息
+     * @param errorCode      自定义状态码
+     * @param <T>            T 对象
+     * @return JSONResult对象
+     */
+    public static <T> JSONResult<T> fail(Object expand, String msg, Integer errorCode) {
+        return new JSONResult<T>(Props.FAIL, msg, null, expand, errorCode, null);
+    }
+
+    /**
+     * <h4>错误</h4>
      *
      * @param code 状态码
      * @param msg  消息

@@ -69,7 +69,7 @@ public class UserController extends PcController<UserParam>
     public JSONResult<?> search(Query query){
         UserParam _param = new UserParam();
         _param.setUsername(query.getKeyword());
-        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo()), userService);
+        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo()), userService,null);
     }
 
     //,@Min(value = 1,message = "ID 不能小于1的数值") Long roleId

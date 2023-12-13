@@ -7,6 +7,7 @@ import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShopSlideshowBo;
+import cn.peyton.plum.mall.mapper.product.ShopProductMapper;
 import cn.peyton.plum.mall.mapper.product.ShopSlideshowMapper;
 import cn.peyton.plum.mall.param.product.ShopSlideshowParam;
 import cn.peyton.plum.mall.pojo.product.ShopSlideshow;
@@ -31,6 +32,8 @@ import java.util.List;
 public class ShopSlideshowServiceImpl extends AbstractRealizeService<Long, ShopSlideshow, ShopSlideshowParam> implements ShopSlideshowService {
     @Resource
     private ShopSlideshowMapper shopSlideshowMapper;
+    @Resource
+    private ShopProductMapper shopProductMapper;
 
     @Override
     public BaseConvertBo<ShopSlideshow, ShopSlideshowParam> initBo() {
@@ -54,6 +57,10 @@ public class ShopSlideshowServiceImpl extends AbstractRealizeService<Long, ShopS
     public Boolean batchInsertSelective(Long productId, List<ShopSlideshowParam> slideshows) {
         int res = shopSlideshowMapper.batchDelete(productId);
         res = shopSlideshowMapper.batchInsertSelective(initBo().reverse(slideshows));
+        String operate = shopProductMapper.selectByOperate(productId);
+        String[] strs = operate.split(",");
+        strs[1] = "1";
+        res = shopProductMapper.updateOperate(productId, toStr(strs));
         if (res > 0) {
             if (enabledCache) {
                 System.out.println("批量添加数据,清空缓存");

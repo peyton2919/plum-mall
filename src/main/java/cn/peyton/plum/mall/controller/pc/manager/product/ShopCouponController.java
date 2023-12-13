@@ -43,7 +43,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
         PageQuery _page = new PageQuery(pageNo,"seq");
         ShopCouponParam _param = new ShopCouponParam();
         _param.setName(keyword);
-        return baseFindBykeywordAll(_param,_page,shopCouponService);
+        return baseFindBykeywordAll(_param,_page,shopCouponService,null);
     }
 
     @Token
@@ -53,7 +53,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
     public JSONResult<?> search(Query query) {
         ShopCouponParam _param = new ShopCouponParam();
         _param.setName(query.getKeyword());
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),"seq"),shopCouponService);
+        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),"seq"),shopCouponService,null);
     }
 
     @Token

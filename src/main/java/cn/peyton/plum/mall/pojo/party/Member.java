@@ -20,7 +20,8 @@ public class Member implements Serializable {
     /**
      * 会员级别
      */
-    private Integer levelId;
+    //private Integer levelId;
+    private MemberLevel memberLevel;
     /**
      * 会员名称
      */
@@ -45,6 +46,10 @@ public class Member implements Serializable {
      * 会员邮箱
      */
     private String email;
+    /**
+     * 是否启用, 默认 1 启用 0 禁用
+     */
+    private Integer status;
     /**
      * 最后登录IP
      */
@@ -79,7 +84,7 @@ public class Member implements Serializable {
     private Integer createTime;
 
     //================================== Constructor =======================================//
-
+    public Member(){ memberLevel = new MemberLevel(); }
     //================================== Method =======================================//
 
 
@@ -100,17 +105,17 @@ public class Member implements Serializable {
     }
 
     /**
-     * @param levelId 会员级别
+     * @param memberLevel 会员级别
      */
-    public void setLevelId(Integer levelId) {
-        this.levelId = levelId;
+    public void setMemberLevel(MemberLevel memberLevel) {
+        this.memberLevel = memberLevel;
     }
 
     /**
      * @return 会员级别
      */
-    public Integer getLevelId() {
-        return levelId;
+    public MemberLevel getMemberLevel() {
+        return memberLevel;
     }
 
     /**
@@ -196,7 +201,19 @@ public class Member implements Serializable {
     public String getEmail() {
         return email;
     }
+    /**
+     * @param status 是否删除: 默认1(1：可用;0已删除)
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
+    /**
+     * @return 是否删除: 默认1(1：可用;0已删除)
+     */
+    public Integer getStatus() {
+        return status;
+    }
     /**
      * @param lastIp 最后登录IP
      */

@@ -38,6 +38,24 @@ public interface ShopCategoryMapper extends IBaseMapper<Integer, ShopCategory> {
      */
     int updateDelete(Integer id);
 
+    /**
+     * <h4>树形查找</h4>
+     * @return
+     */
+    List<ShopCategory> selectByTree();
+
+    /**
+     * <h4>自身下拉框使用</h4>
+     * @return
+     */
+    List<ShopCategory> selectByInner();
+
+    /**
+     * <h4>外部下拉框使用</h4>
+     * @return
+     */
+    List<ShopCategory> selectByOutside();
+
     // ==================================== new create method ==================================== //
 
 

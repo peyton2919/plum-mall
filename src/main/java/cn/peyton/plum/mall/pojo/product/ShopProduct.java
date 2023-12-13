@@ -171,6 +171,8 @@ public class ShopProduct implements Serializable {
      * 更新时间
      */
     private Integer updateTime;
+    /** 操作提示 默认`0,0,0`[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过 */
+    private String operate;
     /** 商品分类集合 */
     private List<ShopCategory> categories;
     /** 商品轮播图集合 */
@@ -771,6 +773,19 @@ public class ShopProduct implements Serializable {
         return updateTime;
     }
 
+    /**
+     * @return 操作提示 默认0,0,0[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过
+     */
+    public String getOperate() {
+        return operate;
+    }
+
+    /**
+     * @param operate 操作提示 默认0,0,0[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过
+     */
+    public void setOperate(String operate) {
+        this.operate = operate;
+    }
     /**
      * @return 商品分类集合
      */

@@ -58,6 +58,16 @@ public final class Validation implements Serializable {
         return validator.validate(obj);
     }
 
+    /**
+     * <h4>验证对象全部错误</h4>
+     *
+     * @param obj 对象
+     * @param ignores 排除验证的属性名称
+     * @return 错误集合
+     */
+    public static Map<String, String> valid(Object obj, String[] ignores) {
+        return validator.validate(obj,ignores);
+    }
 
     /**
      * <h4>验证对象错误</h4>
@@ -71,6 +81,21 @@ public final class Validation implements Serializable {
             return validator.validateProperty(obj);
         }
         return valid(obj);
+    }
+
+    /**
+     * <h4>验证对象错误</h4>
+     *
+     * @param obj    对象
+     * @param ignores 排除验证的属性名称
+     * @param single 为true时表示验证对象单一属性[遇到验证有错误时就返回,只返回一组错误或没有错误]
+     * @return 错误集合
+     */
+    public static Map<String, String> valid(Object obj, String[] ignores, boolean single) {
+        if (single) {
+            return validator.validateProperty(obj,ignores);
+        }
+        return valid(obj,ignores);
     }
 
     /**

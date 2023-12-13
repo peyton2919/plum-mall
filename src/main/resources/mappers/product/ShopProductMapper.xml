@@ -43,6 +43,7 @@
 		<result column="integral" property="integral" jdbcType="INTEGER"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<result column="operate" property="operate" jdbcType="VARCHAR"/>
 		<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>
 		<collection property="slideshows" ofType="cn.peyton.plum.mall.pojo.product.ShopSlideshow"
@@ -57,7 +58,18 @@
 		`id`,`cover`,`name`,`info`,`keyword`,`temp_id`,`price`,`vip_price`,`min_price`,`ot_price`,`cost_price`,`postage`,`unit_name`,
 		    `seq`,`sales`,`stock`,`min_stock`,`browse`,`ficti`,`code_path`,`explain`,`spec_type`,`skus`,`is_check`,`is_show`,`is_hot`,
 		    `is_benefit`,`is_best`,`is_new`,`is_postage`,`is_del`,`is_good`,`is_sub`,`give_integral`,
-		    `is_integral`,`integral`,`create_time`,`update_time`,`weight`,`volume`,`stock_display`
+		    `is_integral`,`integral`,`create_time`,`update_time`,`weight`,`volume`,`stock_display`,`operate`
+	</sql>
+
+	<resultMap id="result_product_recommend_list" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="cover" property="cover" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+	<sql id="column_product_recommend_list">
+		`id`,`cover`,`name`,`seq`,`create_time`
 	</sql>
 
 	<!-- 详情  -->
@@ -78,7 +90,7 @@
 	`id`
 	</sql>
 
-	<resultMap id="reslut_product_list" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+	<resultMap id="result_simple_product_list" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="cover" property="cover" jdbcType="VARCHAR"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
@@ -92,11 +104,12 @@
 		<result column="ot_price" property="otPrice" jdbcType="DECIMAL"/>
 		<result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
 		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="operate" property="operate" jdbcType="VARCHAR"/>
 		<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>
 	</resultMap>
-	<sql id="column_product_list">
-		`id`,`cover`,`name`,`info`,`keyword`,`stock`,`unit_name`,`price`,`vip_price`,`min_price`,`ot_price`,`cost_price`,`is_show`,`is_check`
+	<sql id="column_simple_product_list">
+		`id`,`cover`,`name`,`info`,`keyword`,`stock`,`unit_name`,`price`,`vip_price`,`min_price`,`ot_price`,`cost_price`,`is_show`,`is_check`,`seq`,`operate`
 	</sql>
 
 	<!-- id,cover,min_price,ot_price ,category,create_time,sales,stock,is_show,is_check,-->
@@ -143,6 +156,7 @@
 			<if test="weight != null">`weight`,</if>
 			<if test="volume != null">`volume`,</if>
 			<if test="stockDisplay != null">`stock_display`,</if>
+			<if test="operate != null">`operate`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="cover != null">#{cover},</if>
@@ -184,6 +198,7 @@
 			<if test="weight != null">#{weight},</if>
 			<if test="volume != null">#{volume},</if>
 			<if test="stockDisplay != null">#{stockDisplay},</if>
+			<if test="operate != null">#{operate},</if>
 		</trim>
 	</insert>
 
@@ -230,6 +245,7 @@
 			<if test="weight != null">`weight` = #{weight},</if>
 			<if test="volume != null">`volume` = #{volume},</if>
 			<if test="stockDisplay != null">`stock_display` = #{stockDisplay},</if>
+			<if test="operate != null">`operate` = #{operate},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -240,10 +256,11 @@
 		where `id`= #{id}
 	</update>
 
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from `tb_shop_product`
-		where `id` = #{id}
-	</delete>
+	<update id="updateOperate" parameterType="map">
+		update `tb_shop_product`
+		set `operate` = #{operate}
+		where `id`= #{id}
+	</update>
 
 	<update id="batchDelete" parameterType="list">
 		update `tb_shop_product` set `is_del` = 0
@@ -268,6 +285,11 @@
 			#{id}
 		</foreach>
 	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_product`
+		where `id` = #{id}
+	</delete>
 
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct">
 		select
@@ -380,9 +402,27 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="reslut_product_list"  parameterType="map">
+	<select id="selectSimpleById" resultMap="result_simple_product_list"  parameterType="java.lang.Long">
 		select
-		<include refid="column_product_list"/>
+		 	<include refid="column_simple_product_list"/>
+		from `tb_shop_product`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByIdAndJoin" resultMap="result_product_recommend_list"  parameterType="java.lang.Long">
+		SELECT
+			sp.id,sp.cover,sp.name,sp.seq,sp.create_time
+		from tb_shop_product as sp, tb_shop_category_recommend as scr
+		where
+		    sp.id = scr.product_id
+		  	and scr.category_id = #{categoryId}
+			and sp.is_del = 1
+		order by sp.seq desc
+	</select>
+
+	<select id="selectByLiekAndObj" resultMap="result_simple_product_list"  parameterType="map">
+		select
+			<include refid="column_simple_product_list"/>
 		from `tb_shop_product`
 		<where>
 			<if test="record.cover != null">

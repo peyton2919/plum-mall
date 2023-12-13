@@ -193,7 +193,31 @@
 	<select id="selectByProductId" resultMap="ResultShopCategoryMap"  parameterType="long">
 		select tsc.id,pid,name,seq,icon,is_show,create_time
 		FROM tb_shop_category tsc ,tb_shop_product_category tspc
-		where tsc.id = tspc.category_id and product_id=#{productId}
+		where tsc.id = tspc.category_id and product_id=#{productId} and `is_del`=1
 		ORDER BY seq desc
+	</select>
+
+	<select id="selectByTree" resultMap="ResultShopCategoryMap">
+		select
+		<include refid="Column_tb_shop_category_List"/>
+		from `tb_shop_category`
+		where `is_del`=1
+		order by seq desc
+	</select>
+
+	<select id="selectByInner" resultMap="ResultShopCategoryMap">
+		select
+		<include refid="Column_tb_shop_category_List"/>
+		from `tb_shop_category`
+		where `is_del`=1 and `pid` = 0
+		order by seq desc
+	</select>
+
+	<select id="selectByOutside" resultMap="ResultShopCategoryMap">
+		select
+		<include refid="Column_tb_shop_category_List"/>
+		from `tb_shop_category`
+		where `is_del`=1
+		order by seq desc
 	</select>
 </mapper>

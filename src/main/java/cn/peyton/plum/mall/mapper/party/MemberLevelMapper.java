@@ -2,6 +2,9 @@ package cn.peyton.plum.mall.mapper.party;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.party.MemberLevel;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <h3> 会员等级 Mapper 接口</h3>
@@ -13,8 +16,13 @@ import cn.peyton.plum.mall.pojo.party.MemberLevel;
  * </pre>
  */
 public interface MemberLevelMapper extends IBaseMapper<Integer, MemberLevel> {
-
-
+    /**
+     * <h4>根据会员类型查找</h4>
+     * @param type 会员类型, 默认 0 零售 1 批发
+     * @return 会员类型集合
+     */
+    @Select("select id,name from tb_member_level where status =1 and member_type=#{type} order by seq desc")
+    List<MemberLevel> selectBySelect(Integer type);
     // ==================================== new create method ==================================== //
 
 

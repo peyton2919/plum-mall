@@ -4,9 +4,12 @@ package cn.peyton.plum.mall.param.product;
 import cn.peyton.plum.core.validator.constraints.Length;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
+import cn.peyton.plum.mall.bo.ShopCategoryBo;
 import cn.peyton.plum.mall.pojo.product.ShopCategory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 商品分类 参数 传递类[用来展示数据]类</h3>
@@ -56,9 +59,13 @@ public class ShopCategoryParam implements Serializable {
      * 添加时间
      */
     private Integer createTime;
+    /** 分类子类 */
+    private List<ShopCategoryParam> childrens;
 
     //================================== Constructor =======================================//
-
+    public ShopCategoryParam() {
+        if (null == childrens) { childrens = new ArrayList<>(); }
+    }
     //================================== Method =======================================//
 
 
@@ -177,6 +184,20 @@ public class ShopCategoryParam implements Serializable {
     }
 
     /**
+     * @return 分类子类
+     */
+    public List<ShopCategoryParam> getChildrens() {
+        return childrens;
+    }
+
+    /**
+     * @param childrens 分类子类
+     */
+    public void setChildrens(List<ShopCategoryParam> childrens) {
+        this.childrens = childrens;
+    }
+
+    /**
      * <h4>对象转成ShopCategory对象<h4>
      * <pre>
      * 	 转换字段如下:
@@ -193,6 +214,7 @@ public class ShopCategoryParam implements Serializable {
         shopCategory.setIsShow(isShow);
         shopCategory.setIsDel(isDel);
         shopCategory.setCreateTime(createTime);
+        shopCategory.setChildrens(new ShopCategoryBo().reverse(childrens));
         return shopCategory;
     }
 
@@ -215,6 +237,7 @@ public class ShopCategoryParam implements Serializable {
         this.setIsShow(shopCategory.getIsShow());
         this.setIsDel(shopCategory.getIsDel());
         this.setCreateTime(shopCategory.getCreateTime());
+        this.setChildrens(new ShopCategoryBo().adapter(shopCategory.getChildrens()));
         return this;
     }
 }

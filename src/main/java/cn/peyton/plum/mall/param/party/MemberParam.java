@@ -1,6 +1,9 @@
 package cn.peyton.plum.mall.param.party;
 
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.*;
+import cn.peyton.plum.mall.bo.MemberLevelBo;
 import cn.peyton.plum.mall.pojo.party.Member;
 
 import java.io.Serializable;
@@ -22,15 +25,22 @@ public class MemberParam implements Serializable {
     /**
      * 会员级别
      */
-    private Integer levelId;
+    private MemberLevelParam memberLevel;
     /**
      * 会员名称
      */
+    @NotBlank(message = "用户名称不能为空")
+    @Length(min = 2,max = 40)
     private String username;
     /**
      * 会员密码
      */
+    @NotBlank(message = "密码不能为空")
+    @Length(min = 6,max = 40)
     private String pwd;
+    /** 确认密码 */
+    @Alike(fieldName = "pwd")
+    private String confirmPwd;
     /**
      * 会员头像
      */
@@ -38,15 +48,23 @@ public class MemberParam implements Serializable {
     /**
      * 会员昵称
      */
+    @Length(min = 2,max = 40)
     private String nickname;
     /**
      * 会员手机
      */
+    @Phone
     private String phone;
     /**
      * 会员邮箱
      */
+    @Email
     private String email;
+    /**
+     * 是否启用, 默认 1 启用 0 禁用
+     */
+    @Size(min = 0,max = 1)
+    private Integer status;
     /**
      * 最后登录IP
      */
@@ -62,10 +80,13 @@ public class MemberParam implements Serializable {
     /**
      * 性别：默认 0{0 保密 1 男 2 女}
      */
+    @Size(min=0,max = 2)
     private Integer sex;
     /**
      * 生日
      */
+    @Date
+    @Past
     private String birthday;
     /**
      * 加密串
@@ -78,10 +99,10 @@ public class MemberParam implements Serializable {
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
 
     //================================== Constructor =======================================//
-
+    public MemberParam() {  memberLevel = new MemberLevelParam(); }
     //================================== Method =======================================//
 
 
@@ -100,19 +121,17 @@ public class MemberParam implements Serializable {
     public Long getId() {
         return id;
     }
-
-    /**
-     * @param levelId 会员级别
-     */
-    public void setLevelId(Integer levelId) {
-        this.levelId = levelId;
-    }
-
     /**
      * @return 会员级别
      */
-    public Integer getLevelId() {
-        return levelId;
+    public MemberLevelParam getMemberLevel() {
+        return memberLevel;
+    }
+    /**
+     * @param memberLevel 会员级别
+     */
+    public void setMemberLevel(MemberLevelParam memberLevel) {
+        this.memberLevel = memberLevel;
     }
 
     /**
@@ -141,6 +160,14 @@ public class MemberParam implements Serializable {
      */
     public String getPwd() {
         return pwd;
+    }
+
+    public String getConfirmPwd() {
+        return confirmPwd;
+    }
+
+    public void setConfirmPwd(String confirmPwd) {
+        this.confirmPwd = confirmPwd;
     }
 
     /**
@@ -197,6 +224,19 @@ public class MemberParam implements Serializable {
      */
     public String getEmail() {
         return email;
+    }
+    /**
+     * @param status 是否删除: 默认1(1：可用;0已删除)
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * @return 是否删除: 默认1(1：可用;0已删除)
+     */
+    public Integer getStatus() {
+        return status;
     }
 
     /**
@@ -300,14 +340,14 @@ public class MemberParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -321,13 +361,14 @@ public class MemberParam implements Serializable {
     public Member convert() {
         Member member = new Member();
         member.setId(id);
-        member.setLevelId(levelId);
+        member.setMemberLevel(memberLevel.convert());
         member.setUsername(username);
         member.setPwd(pwd);
         member.setAvatar(avatar);
         member.setNickname(nickname);
         member.setPhone(phone);
         member.setEmail(email);
+        member.setStatus(status);
         member.setLastIp(lastIp);
         member.setLoc(loc);
         member.setLastLoginTime(lastLoginTime);
@@ -335,7 +376,7 @@ public class MemberParam implements Serializable {
         member.setBirthday(birthday);
         member.setEncrypted(encrypted);
         member.setIsDel(isDel);
-        member.setCreateTime(createTime);
+        member.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return member;
     }
 
@@ -351,13 +392,14 @@ public class MemberParam implements Serializable {
             return new MemberParam();
         }
         this.setId(member.getId());
-        this.setLevelId(member.getLevelId());
+        this.setMemberLevel(new MemberLevelBo().compat(member.getMemberLevel()));
         this.setUsername(member.getUsername());
         this.setPwd(member.getPwd());
         this.setAvatar(member.getAvatar());
         this.setNickname(member.getNickname());
         this.setPhone(member.getPhone());
         this.setEmail(member.getEmail());
+        this.setStatus(member.getStatus());
         this.setLastIp(member.getLastIp());
         this.setLoc(member.getLoc());
         this.setLastLoginTime(member.getLastLoginTime());
@@ -365,7 +407,7 @@ public class MemberParam implements Serializable {
         this.setBirthday(member.getBirthday());
         this.setEncrypted(member.getEncrypted());
         this.setIsDel(member.getIsDel());
-        this.setCreateTime(member.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(member.getCreateTime()));
         return this;
     }
 }

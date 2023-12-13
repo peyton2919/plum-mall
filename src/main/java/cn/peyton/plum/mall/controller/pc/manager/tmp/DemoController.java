@@ -38,8 +38,8 @@ public class DemoController extends PcController<BrandParam>
     @Valid
     @PostMapping("/manager/all")
     @Override
-    public JSONResult<?> all(String keyword, @NotBlank(message = "pageNo 不能为空;")
-    @Min(value = 1,message = "最小为1")Integer pageNo) {
+    public JSONResult<?> all(String keyword,
+         @NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
 
         return null;
     }
@@ -52,7 +52,7 @@ public class DemoController extends PcController<BrandParam>
         BrandParam _param = new BrandParam();
         _param.setName(query.getKeyword());
         // 其他处理判断
-        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo(), "seq"), brandService);
+        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo(), "seq"), brandService,null);
     }
 
     @Token

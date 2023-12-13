@@ -69,3 +69,21 @@ public class MybatisConfiguration implements Serializable {
         };
     }
 }
+// 批量插入
+//<insert id="batchInsert" parameterType="list" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+//        insert into `tb_shop_product_sku`
+//        (`sku_id`,`sku_value_id`,`product_id`)
+//        values
+//<foreach collection="list" item="item" separator=",">
+//        (#{item.skuId},#{item.skuValueId},#{item.productId})
+//</foreach>
+//</insert>
+
+//批量更新
+//<foreach collection="skus" item="item" index="index" separator=";">
+//              update `tb_shop_sku`
+//<set>
+//				`seq`= #{item.seq}
+//</set>
+//        where id = #{item.id}
+//</foreach>

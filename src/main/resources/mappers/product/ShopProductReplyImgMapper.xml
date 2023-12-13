@@ -3,24 +3,24 @@
 <mapper namespace="cn.peyton.plum.mall.mapper.product.ShopProductReplyImgMapper">
 	<resultMap id="ResultShopProductReplyImgMap" type="cn.peyton.plum.mall.pojo.product.ShopProductReplyImg">
 		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="product_reply_id" property="productReplyId" jdbcType="BIGINT"/>
 		<result column="src" property="src" jdbcType="VARCHAR"/>
 		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
 	</resultMap>
 
 	<sql id="Column_tb_shop_product_reply_img_List">
-		`id`,`product_id`,`src`,`is_show`
+		`id`,`product_reply_id`,`src`,`is_show`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReplyImg" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `tb_shop_product_reply_img`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="productId != null">`product_id`,</if>
+			<if test="productReplyId != null">`product_reply_id`,</if>
 			<if test="src != null">`src`,</if>
 			<if test="isShow != null">`is_show`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="productId != null">#{productId},</if>
+			<if test="productReplyId != null">#{productReplyId},</if>
 			<if test="src != null">#{src},</if>
 			<if test="isShow != null">#{isShow},</if>
 		</trim>
@@ -29,7 +29,7 @@
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReplyImg">
 		update `tb_shop_product_reply_img`
 		<set>
-			<if test="productId != null">`product_id` = #{productId},</if>
+			<if test="productReplyId != null">`product_reply_id` = #{productReplyId},</if>
 			<if test="src != null">`src` = #{src},</if>
 			<if test="isShow != null">`is_show` = #{isShow},</if>
 		</set>
@@ -49,8 +49,8 @@
 			<if test="id != null">
 				and `id` = #{id}
 			</if>
-			<if test="productId != null">
-				and `product_id` = #{productId}
+			<if test="productReplyId != null">
+				and `product_reply_id` = #{productReplyId}
 			</if>
 			<if test="src != null">
 				and `src` = #{src}
@@ -68,6 +68,13 @@
 		where `id` = #{id}
 	</select>
 
+	<select id="selectByReplyId" resultMap="ResultShopProductReplyImgMap"  parameterType="long">
+		select
+		<include refid="Column_tb_shop_product_reply_img_List"/>
+		from `tb_shop_product_reply_img`
+		where `product_reply_id` = #{replyId} and `is_show`=1
+	</select>
+
 	<select id="selectByLiekAndObj" resultMap="ResultShopProductReplyImgMap"  parameterType="map">
 		select
 		<include refid="Column_tb_shop_product_reply_img_List"/>
@@ -76,8 +83,8 @@
 			<if test="record.id != null">
 				and `id` like concat('%',#{record.id},'%')
 			</if>
-			<if test="record.productId != null">
-				and `product_id` like concat('%',#{record.productId},'%')
+			<if test="record.productReplyId != null">
+				and `product_reply_id` like concat('%',#{record.productReplyId},'%')
 			</if>
 			<if test="record.src != null">
 				and `src` like concat('%',#{record.src},'%')
@@ -105,8 +112,8 @@
 			<if test="record.id != null">
 				and `id` = #{record.id}
 			</if>
-			<if test="record.productId != null">
-				and `product_id` = #{record.productId}
+			<if test="record.productReplyId != null">
+				and `product_reply_id` = #{record.productReplyId}
 			</if>
 			<if test="record.src != null">
 				and `src` = #{record.src}
@@ -134,8 +141,8 @@
 			<if test="id != null">
 				and `id` like concat('%',#{id},'%')
 			</if>
-			<if test="productId != null">
-				and `product_id` like concat('%',#{productId},'%')
+			<if test="productReplyId != null">
+				and `product_reply_id` like concat('%',#{productReplyId},'%')
 			</if>
 			<if test="src != null">
 				and `src` like concat('%',#{src},'%')
@@ -154,8 +161,8 @@
 			<if test="id != null">
 				and `id` = #{id}
 			</if>
-			<if test="productId != null">
-				and `product_id` = #{productId}
+			<if test="productReplyId != null">
+				and `product_reply_id` = #{productReplyId}
 			</if>
 			<if test="src != null">
 				and `src` = #{src}

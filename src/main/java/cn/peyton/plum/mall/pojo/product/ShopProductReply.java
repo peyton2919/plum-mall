@@ -1,7 +1,11 @@
 package cn.peyton.plum.mall.pojo.product;
 
 
+import cn.peyton.plum.mall.pojo.party.Member;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 商品评论 实体类</h3>
@@ -69,9 +73,24 @@ public class ShopProductReply implements Serializable {
      * 管理员回复时间
      */
     private Integer merchantReplyTime;
+    /** 会员对象 */
+    private Member member;
+    /**
+     * 商品对象
+     */
+    private ShopProduct product;
+
+    /**
+     * 回复图片集合
+     */
+    private List<ShopProductReplyImg> replyImgs;
 
     //================================== Constructor =======================================//
-
+    public ShopProductReply(){
+        if (null == product) {product = new ShopProduct();}
+        if (null == member) { member = new Member(); }
+        if (null == replyImgs) { replyImgs = new ArrayList<>(); }
+    }
     //================================== Method =======================================//
 
 
@@ -271,6 +290,47 @@ public class ShopProductReply implements Serializable {
      */
     public Integer getMerchantReplyTime() {
         return merchantReplyTime;
+    }
+
+    /**
+     * @return 会员对象
+     */
+    public Member getMember() {
+        return member;
+    }
+
+    /**
+     * @param member 会员对象
+     */
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    /**
+     * @return 商品对象
+     */
+    public ShopProduct getProduct() {
+        return product;
+    }
+
+    /**
+     * @param product 商品对象
+     */
+    public void setProduct(ShopProduct product) {
+        this.product = product;
+    }
+
+    /**
+     * @return 回复图片集合
+     */
+    public List<ShopProductReplyImg> getReplyImgs() {
+        return replyImgs;
+    }
+    /**
+     * @param replyImgs 回复图片集合
+     */
+    public void setReplyImgs(List<ShopProductReplyImg> replyImgs) {
+        this.replyImgs = replyImgs;
     }
 
 }

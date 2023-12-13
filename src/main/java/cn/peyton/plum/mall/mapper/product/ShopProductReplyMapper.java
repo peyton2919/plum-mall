@@ -13,6 +13,12 @@ import cn.peyton.plum.mall.pojo.product.ShopProductReply;
  * </pre>
  */
 public interface ShopProductReplyMapper extends IBaseMapper<Long, ShopProductReply> {
+    /**
+     * <h4>删除 对象 {更新 is_del=0}</h4>
+     * @param id 主键
+     * @return 受影响的行数 > 0 成功
+     */
+    int updateIsDel(Long id);
 
     // ==================================== new create method ==================================== //
 

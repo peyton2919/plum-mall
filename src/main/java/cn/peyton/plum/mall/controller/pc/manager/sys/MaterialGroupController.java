@@ -42,7 +42,7 @@ public class MaterialGroupController extends PcController<MaterialGroupParam>
     @PostMapping("/all")
     @Override
     public JSONResult<?> all(String keyword,@NotBlank(message = "pageNo 不能为空;") @Min(message = "当前页码要大于0的数！") Integer pageNo) {
-        return baseFindBykeywordAll(new MaterialGroupParam(), new PageQuery(pageNo, ORDER_BY_FILED), materialGroupService);
+        return baseFindBykeywordAll(new MaterialGroupParam(), new PageQuery(pageNo, ORDER_BY_FILED), materialGroupService,null);
     }
 
     @Override

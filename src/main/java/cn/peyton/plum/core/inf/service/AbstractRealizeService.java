@@ -307,7 +307,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @param isLike true like 查找
      * @return 字符串
      */
-    private String createKey(P param,PageQuery page,Boolean isLike){
+    protected String createKey(P param,PageQuery page,Boolean isLike){
         StringBuffer sb = new StringBuffer(keyPrefix);
         sb.append("_list_");
         if(null != param){
@@ -373,6 +373,31 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
             }
         }
         return sb;
+    }
+
+    /**
+     * <h4>字符串转数组</h4>
+     * @param operate 字符串
+     * @return
+     */
+    public String[] toArr(String operate) {
+        return operate.split(",");
+    }
+
+    /**
+     * <h4>数组转字符串</h4>
+     * @param opearate 数组
+     * @return
+     */
+    public String toStr(String[] opearate) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < opearate.length; i++) {
+            sb.append(opearate[i]);
+            if ((opearate.length - 1 != i)) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
     }
     // -----------------------------------------   private 方法 结束   ----------------------------------------- //
 }

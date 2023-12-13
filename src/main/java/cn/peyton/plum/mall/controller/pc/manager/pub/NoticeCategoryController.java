@@ -44,7 +44,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> all(String keyword,  @NotBlank(message = "pageNo 不能为空;")
             @Min(message = "当前页码要大于0的数！")Integer pageNo) {
 
-        return baseFindBykeywordAll(new NoticeCategoryParam(),new PageQuery(pageNo,"seq"),noticeCategoryService);
+        return baseFindBykeywordAll(new NoticeCategoryParam(),new PageQuery(pageNo,"seq"),noticeCategoryService,null);
     }
     @Token
     @PostMapping("/manager/select")
@@ -54,7 +54,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
             return JSONResult.success(res);
         }
         return baseFindBykeywordAll(new NoticeCategoryParam(),
-                new PageQuery(1,"seq",false),noticeCategoryService);
+                new PageQuery(1,"seq",false),noticeCategoryService,null);
     }
 
     @Token
@@ -63,7 +63,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> findBykeywordAll(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         NoticeCategoryParam _record = new NoticeCategoryParam();
         _record.setName(keyword);
-        return baseFindBykeywordAll(_record,new PageQuery(pageNo,"seq"),noticeCategoryService);
+        return baseFindBykeywordAll(_record,new PageQuery(pageNo,"seq"),noticeCategoryService,null);
     }
 
 

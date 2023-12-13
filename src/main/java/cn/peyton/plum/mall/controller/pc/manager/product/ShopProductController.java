@@ -12,10 +12,11 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.mall.controller.base.PcController;
+import cn.peyton.plum.mall.param.product.ProductSingle;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
-import cn.peyton.plum.mall.param.product.ShopProductSkuDetailParam;
 import cn.peyton.plum.mall.param.product.ShopSkuParam;
 import cn.peyton.plum.mall.service.product.ShopProductService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +50,7 @@ public class ShopProductController extends PcController<ShopProductParam>
         PageQuery _page = new PageQuery(pageNo,"seq");
         ShopProductParam _param = new ShopProductParam();
         _param.setName(keyword);
-        return baseFindBykeywordAll(_param,_page,shopProductService);
+        return baseFindBykeywordAll(_param,_page,shopProductService,null);
     }
 
     @Token
@@ -67,18 +68,20 @@ public class ShopProductController extends PcController<ShopProductParam>
         }else {
             _param.setIsDel(IS_DEL_1);
         }
-
-
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopProductService);
+        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopProductService,null);
     }
 
-    // 单规格
+    // 单规格 specType, skus
     @Token
     @Valid
     @PostMapping("/manager/single")
-    public JSONResult<?> single(@RequestMultiple FormData<ShopProductSkuDetailParam> data) {
+    public JSONResult<?> single(ProductSingle product) {
         // todo 单规格逻辑处理
-        return null;
+        String operate = shopProductService.findByOperate(product.getId());
+        String[] strs = toArr(operate);
+        strs[0] = "1";
+        product.setOperate(toStr(strs));
+        return baseEdit(convert(product),null,shopProductService,"单规格设置");
     }
 
 
@@ -86,20 +89,41 @@ public class ShopProductController extends PcController<ShopProductParam>
     @Valid
     @PostMapping("/manager/create")
     @Override
-    public JSONResult<?> create(ShopProductParam record) {
+    public JSONResult<?> create(@RequestMultiple ShopProductParam record) {
+        if (record.getCategories().size() == 0) {
+            return JSONResult.fail("请选择商品分类");
+        }
         initProps(record);
-        return baseCreate(record, null, shopProductService, record.getName());
+        record.setOperate("0,0,0");
+        if(shopProductService.createAndBatchCategories(record)){
+            return JSONResult.success("添加商品信息成功;");
+        }
+        return JSONResult.fail("添加商品信息失败;");
     }
 
     @Token
     @Valid
     @PostMapping("/manager/edit")
     @Override
-    public JSONResult<?> edit(ShopProductParam record) {
-        if (shopProductService.update(record)) {
-            return JSONResult.success("修改成功;");
+    public JSONResult<?> edit(@RequestMultiple ShopProductParam record) {
+        if (record.getCategories().size() == 0) {
+            return JSONResult.fail("请选择商品分类");
         }
-        return JSONResult.fail("修改失败;");
+        initProps(record);
+        if (shopProductService.updateAndBatchCategories(record)) {
+            return JSONResult.success("修改商品信息成功;");
+        }
+        return JSONResult.fail("修改商品信息失败;");
+    }
+
+    @Token
+    @PostMapping("/manager/editexplain")
+    public JSONResult<?> editExplain(@RequestMultiple ShopProductParam record) {
+
+        if (shopProductService.updateExplain(record)) {
+            return JSONResult.success("修改商品信息成功;");
+        }
+        return JSONResult.fail("修改商品信息失败;");
     }
 
     @Override
@@ -196,4 +220,23 @@ public class ShopProductController extends PcController<ShopProductParam>
         param.setIsIntegral(null);
         param.setIsCheck(null);
     }
+
+    private ShopProductParam convert(ProductSingle single) {
+        if(null == single) return null;
+        ShopProductParam param = new ShopProductParam();
+        param.setId(single.getId());
+        param.setSpecType(single.getSpecType());
+        param.setMinPrice(single.getMinPrice());
+        param.setPrice(single.getPrice());
+        param.setVipPrice(single.getVipPrice());
+        param.setOtPrice(single.getOtPrice());
+        param.setCostPrice(single.getCostPrice());
+        param.setVolume(single.getVolume());
+        param.setWeight(single.getWeight());
+        param.setOperate(single.getOperate());
+        param.setSkus(JSON.toJSONString(single));
+        return param;
+    }
+
+
 }

@@ -80,7 +80,7 @@ public class ValidationAspect {
                 String _filedName = _pm.getName();
                 Annotation[] _declareds = _pm.getDeclaredAnnotations();
                 if(typeName.startsWith("cn.peyton")){// 类型验证
-                    _errMap = Validation.valid(_args[0], _single);
+                    _errMap = Validation.valid(_args[0],_validAnnotation.ignore(), _single);
                 }else if (AbstractValidator.is(_declareds)&&HttpServletRequestUtils.isBaseType(typeName)){
                     if (null != _declareds && _declareds.length > 0) {
                         // 判断基础类型数据
@@ -102,7 +102,7 @@ public class ValidationAspect {
                     String _filedName = _parameters[i].getName();
                     Annotation[] _declareds = _parameters[i].getDeclaredAnnotations();
                     if(typeName.startsWith("cn.peyton")){// 类型验证
-                        _errMap = Validation.valid(_args[i], _single);
+                        _errMap = Validation.valid(_args[i],_validAnnotation.ignore(), _single);
                     }else if (AbstractValidator.is(_declareds)&&HttpServletRequestUtils.isBaseType(typeName)){
                         if (null != _declareds && _declareds.length > 0) {
                             // 判断基础类型数据
@@ -129,7 +129,7 @@ public class ValidationAspect {
                 //String simpleName = _pm.getType().getSimpleName();
                 // 去除不要request,response,session
                 if (HttpServletRequestUtils.isExclude(_typeName)) {continue;}
-                formValidChecked(_pm,_typeName,_single,_errMap,_request);
+                _errMap = formValidChecked(_pm,_typeName,_single,_request);
                 //_single 为 true 时表示单一验证，有一个验证不通过就直接跳出
                 if (_single && _errMap.size() > 0) { break; }
             }
@@ -145,17 +145,16 @@ public class ValidationAspect {
      * @param parameter
      * @param typeName
      * @param single
-     * @param errMap
      * @param request
      * @throws Throwable
      */
-    private void formValidChecked(Parameter parameter,String typeName,Boolean single, Map<String, String> errMap,
+    private Map<String, String> formValidChecked(Parameter parameter,String typeName,Boolean single,
                                     HttpServletRequest request) throws Throwable {
-
+        Map<String, String> _errMap = Maps.createLinkHashMap();
         Map<String, String[]> _parameterValueMap = request.getParameterMap();
         if (typeName.contains("cn.peyton")) { // 验证 对象
             //调用赋值方法: HttpServletRequestUtil.voluation，并验证方法: Validation.valid
-            errMap = Validation.valid(HttpServletRequestUtils.voluation(_parameterValueMap, typeName), single);
+            _errMap = Validation.valid(HttpServletRequestUtils.voluation(_parameterValueMap, typeName), single);
         } else {  // list map 数组 基础类型
             Annotation[] _declareds = parameter.getDeclaredAnnotations();
             //判断属性上是否有注解, 有标记注解 为 true
@@ -165,7 +164,7 @@ public class ValidationAspect {
                     Object[] _ps = _parameterValueMap.get(_filedName);
                     Object _val = null;
                     if (null != _ps && _ps.length > 0) {_val = _ps[0];}
-                    Validation.valid(errMap, _declareds, _filedName, typeName, _val, single);
+                    Validation.valid(_errMap, _declareds, _filedName, typeName, _val, single);
                 } else if (typeName.contains("Map")) {
                     LogUtils.info("Map验证方法没写...");
                     System.out.println("Map验证方法没写...");
@@ -173,12 +172,13 @@ public class ValidationAspect {
                     Object[] _ps = _parameterValueMap.get(_filedName + "[]");
                     if (null != _ps && _ps.length > 0) {
                         for (Object _obj : _ps) {
-                            Validation.valid(errMap, _declareds, _filedName, typeName, _obj, single);
+                            Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, single);
                         }
                     }
                 }
             }
         }
+        return _errMap;
     }
 
     /**

@@ -1,6 +1,9 @@
 package cn.peyton.plum.mall.param.party;
 
 
+import cn.peyton.plum.core.validator.constraints.Length;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.pojo.party.MemberLevel;
 
 import java.io.Serializable;
@@ -22,19 +25,24 @@ public class MemberLevelParam implements Serializable {
     /**
      * 等级名称
      */
+    @NotBlank(message = "名称不能为空")
+    @Length(min = 2,max = 28)
     private String name;
     /**
-     * 等级权重
+     * 排序取值范围0~9999，默认为0; 按大到小排序
      */
+    @Size(min = 0,max = 9999)
     private Integer seq;
     /**
      * 会员类型, 默认 0 零售 1 批发
      */
+    @Size(min = 0,max = 1)
     private Integer memberType;
     /**
-     * 是否删除: 默认1(1：可用;0已删除)
+     * 是否启用, 默认 1 启用 0 禁用
      */
-    private Integer isDel;
+    @Size(min = 0,max = 1)
+    private Integer status;
     /**
      * 折扣
      */
@@ -112,17 +120,17 @@ public class MemberLevelParam implements Serializable {
     }
 
     /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
+     * @param status 是否启用, 默认 1 启用 0 禁用
      */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
+     * @return 是否启用, 默认 1 启用 0 禁用
      */
-    public Integer getIsDel() {
-        return isDel;
+    public Integer getStatus() {
+        return status;
     }
 
     /**
@@ -180,7 +188,7 @@ public class MemberLevelParam implements Serializable {
         memberLevel.setName(name);
         memberLevel.setSeq(seq);
         memberLevel.setMemberType(memberType);
-        memberLevel.setIsDel(isDel);
+        memberLevel.setStatus(status);
         memberLevel.setDiscount(discount);
         memberLevel.setMaxPrice(maxPrice);
         memberLevel.setMaxTimes(maxTimes);
@@ -202,7 +210,7 @@ public class MemberLevelParam implements Serializable {
         this.setName(memberLevel.getName());
         this.setSeq(memberLevel.getSeq());
         this.setMemberType(memberLevel.getMemberType());
-        this.setIsDel(memberLevel.getIsDel());
+        this.setStatus(memberLevel.getStatus());
         this.setDiscount(memberLevel.getDiscount());
         this.setMaxPrice(memberLevel.getMaxPrice());
         this.setMaxTimes(memberLevel.getMaxTimes());

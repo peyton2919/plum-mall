@@ -68,4 +68,38 @@ public interface ShopProductService extends IBaseService<Long, ShopProduct, Shop
      */
     Boolean updateSpecType(Long id, Integer specType,String skus);
 
+    /**
+     * <h4>更新 商品详情</h4>
+     * @param record 商品对象
+     * @return 成功 true
+     */
+    Boolean updateExplain(ShopProductParam record);
+
+    /**
+     * <h4>添加、并添加更新分类</h4>
+     * @param record 商品对象
+     * @return 成功 true
+     */
+    Boolean createAndBatchCategories(ShopProductParam record);
+    /**
+     * <h4>更新、并批量更新分类</h4>
+     * @param record 商品对象
+     * @return 成功 true
+     */
+    Boolean updateAndBatchCategories(ShopProductParam record);
+
+    /**
+     * <h4>根据商品Id 查找 操作信息</h4>
+     * @param id 商品Id
+     * @return 操作信息
+     */
+    String findByOperate(Long id);
+
+    /**
+     * <h4>更新操作信息</h4>
+     * @param id 商品Id
+     * @param operate 操作信息
+     * @return 成功 true
+     */
+    Boolean updateOperate(Long id, String operate);
 }

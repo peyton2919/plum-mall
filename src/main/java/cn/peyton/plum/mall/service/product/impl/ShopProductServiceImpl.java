@@ -4,13 +4,18 @@ import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.ShopProductBo;
+import cn.peyton.plum.mall.mapper.product.ShopProductCategoryMapper;
 import cn.peyton.plum.mall.mapper.product.ShopProductMapper;
+import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
 import cn.peyton.plum.mall.pojo.product.ShopProduct;
+import cn.peyton.plum.mall.pojo.product.ShopProductCategory;
 import cn.peyton.plum.mall.service.product.ShopProductService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +31,8 @@ import java.util.List;
 public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopProduct, ShopProductParam> implements ShopProductService {
     @Resource
     private ShopProductMapper shopProductMapper;
+    @Resource
+    private ShopProductCategoryMapper shopProductCategoryMapper;
 
     @Override
     public BaseConvertBo<ShopProduct, ShopProductParam> initBo() {
@@ -126,6 +133,92 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
         if (res > 0) {
             if (enabledCache) {
                 System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public Boolean createAndBatchCategories(ShopProductParam record) {
+        ShopProduct _sp = record.convert();
+        int res = shopProductMapper.insertSelective(_sp);
+        if (res > 0) {
+            List<ShopCategoryParam> categories = record.getCategories();
+            if (null != categories && categories.size() > 0) {
+                List<ShopProductCategory> _spcs = new ArrayList<>();
+                ShopProductCategory _spc= null;
+                for (int i = 0; i < categories.size(); i++) {
+                    _spc = new ShopProductCategory();
+                    _spc.setCategoryId(categories.get(i).getId());
+                    _spc.setProductId(_sp.getId());
+                    _spcs.add(_spc);
+                }
+                res = shopProductCategoryMapper.batchInsert(_spcs);
+            }
+        }
+        if (res > 0) {
+            if(enabledCache){
+                System.out.println("批量添加操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+    @Transactional
+    public Boolean updateAndBatchCategories(ShopProductParam record) {
+        int res = shopProductMapper.updateSelective(initBo().convert(record));
+        if (res > 0) {
+            List<ShopCategoryParam> categories = record.getCategories();
+            List<ShopProductCategory> _delete = new ArrayList<>();
+            shopProductCategoryMapper.deleteByProductId(record.getId());
+            if (null != categories && categories.size() > 0) {
+                List<ShopProductCategory> _insert = new ArrayList<>();
+                ShopProductCategory _spc= null;
+                for (int i = 0; i < categories.size(); i++) {
+                    _spc = new ShopProductCategory();
+                    _spc.setCategoryId(categories.get(i).getId());
+                    _spc.setProductId(record.getId());
+                    _insert.add(_spc);
+                }
+                res = shopProductCategoryMapper.batchInsert(_insert);
+            }
+        }
+        if (res > 0) {
+            if(enabledCache){
+                System.out.println("批量更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String findByOperate(Long id) {
+        return shopProductMapper.selectByOperate(id);
+    }
+
+    @Override
+    public Boolean updateOperate(Long id, String operate) {
+        return shopProductMapper.updateOperate(id, operate) > 0;
+    }
+
+    @Override
+    public Boolean updateExplain(ShopProductParam record) {
+        Long productId = record.getId();
+        String operate = shopProductMapper.selectByOperate(productId);
+        String[] strs = operate.split(",");
+        strs[2] = "1";
+        ShopProduct _sp = new ShopProduct();
+        _sp.setId(productId);
+        _sp.setExplain(record.getExplain());
+        _sp.setOperate(toStr(strs));
+        if (shopProductMapper.updateSelective(_sp) > 0) {
+            if(enabledCache){
+                System.out.println("更新操作,清空缓存!");
                 removeCache();
             }
             return true;

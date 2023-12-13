@@ -39,4 +39,16 @@ public class ShopProductReplyServiceImpl extends AbstractRealizeService<Long, Sh
         enabledCache = true;
         keyPrefix = this.getClass().getName();
     }
+
+    @Override
+    public Boolean updateIsDel(Long id) {
+        if (shopProductReplyMapper.updateIsDel(id) > 0) {
+            if (enabledCache) {
+                System.out.println("删除操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
 }
