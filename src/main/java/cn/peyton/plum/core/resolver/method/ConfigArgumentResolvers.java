@@ -45,7 +45,9 @@ public class ConfigArgumentResolvers {
         //为什么呢?因为如果放在它后面的话,那么它已经处理掉了,就到不了我们自己定义的策略里面去了
         //所以直接把自定义的策略放在第一个,稳妥!
         // 将自定义的解析器，放置在第一个； 并保留原来的解析器
+
         myArgumentResolvers.add(myHandlerMethodArgumentResolver);
+
         myArgumentResolvers.addAll(argumentResolvers);
         //再把新的集合设置进去
         requestMappingHandlerAdapter.setArgumentResolvers(myArgumentResolvers);

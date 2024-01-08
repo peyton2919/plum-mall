@@ -7,14 +7,33 @@
 		<result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
 		<result column="cart_id" property="cartId" jdbcType="BIGINT"/>
 		<result column="psd_id" property="psdId" jdbcType="BIGINT"/>
+		<result column="product_id" property="productId" jdbcType="BIGINT"/>
+		<result column="spec_type" property="specType" jdbcType="TINYINT"/>
 		<result column="num" property="num" jdbcType="INTEGER"/>
+		<result column="refund_num" property="refundNum" jdbcType="INTEGER"/>
 		<result column="price" property="price" jdbcType="DECIMAL"/>
 		<result column="is_after_sales" property="isAfterSales" jdbcType="TINYINT"/>
 		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="productSkuDetail" javaType="cn.peyton.plum.mall.pojo.product.ShopProductSkuDetail"
+					 column="psd_id" select="cn.peyton.plum.mall.mapper.product.ShopProductSkuDetailMapper.selectSimpleById" />
+		<association property="product" javaType="cn.peyton.plum.mall.pojo.product.ShopProduct"
+					 column="product_id" select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectSimpleById" />
 	</resultMap>
-
 	<sql id="Column_tb_shop_order_item_List">
-		`id`,`o_id`,`order_no`,`cart_id`,`psd_id`,`num`,`price`,`is_after_sales`,`is_show`
+		`id`,`o_id`,`order_no`,`cart_id`,`psd_id`,`product_id`,`spec_type`,`num`,`refund_num`,`price`,`is_after_sales`,`is_show`,`create_time`
+	</sql>
+
+	<!-- 用在销售明细查找 根据 psd_id -->
+	<resultMap id="order_item_sell_map" type="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="psd_id" property="psdId" jdbcType="BIGINT"/>
+		<result column="num" property="num" jdbcType="INTEGER"/>
+		<result column="refund_num" property="refundNum" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+	<sql id="order_item_sell_list">
+		`id`,`psd_id`,`num`,`refund_num`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -24,20 +43,28 @@
 			<if test="orderNo != null">`order_no`,</if>
 			<if test="cartId != null">`cart_id`,</if>
 			<if test="psdId != null">`psd_id`,</if>
+			<if test="productId != null">`product_id`,</if>
+			<if test="specType != null">`psd_id`,</if>
 			<if test="num != null">`num`,</if>
+			<if test="refundNum != null">`refund_num`,</if>
 			<if test="price != null">`price`,</if>
 			<if test="isAfterSales != null">`is_after_sales`,</if>
 			<if test="isShow != null">`is_show`,</if>
+			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="oId != null">#{oId},</if>
 			<if test="orderNo != null">#{orderNo},</if>
 			<if test="cartId != null">#{cartId},</if>
 			<if test="psdId != null">#{psdId},</if>
+			<if test="productId != null">#{productId},</if>
+			<if test="specType != null">#{specType},</if>
 			<if test="num != null">#{num},</if>
+			<if test="refundNum != null">#{refundNum},</if>
 			<if test="price != null">#{price},</if>
 			<if test="isAfterSales != null">#{isAfterSales},</if>
 			<if test="isShow != null">#{isShow},</if>
+			<if test="createTime != null">#{createTime},</if>
 		</trim>
 	</insert>
 
@@ -48,7 +75,10 @@
 			<if test="orderNo != null">`order_no` = #{orderNo},</if>
 			<if test="cartId != null">`cart_id` = #{cartId},</if>
 			<if test="psdId != null">`psd_id` = #{psdId},</if>
+			<if test="productId != null">`product_id` =#{productId},</if>
+			<if test="specType != null">`spec_type` =#{specType},</if>
 			<if test="num != null">`num` = #{num},</if>
+			<if test="refundNum != null">`refund_num` = #{refundNum},</if>
 			<if test="price != null">`price` = #{price},</if>
 			<if test="isAfterSales != null">`is_after_sales` = #{isAfterSales},</if>
 			<if test="isShow != null">`is_show` = #{isShow},</if>
@@ -103,7 +133,59 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopOrderItemMap"  parameterType="map">
+	<select id="selectByOrderId" resultMap="ResultShopOrderItemMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_order_item_List"/>
+		from `tb_shop_order_item`
+		where `o_id` = #{orderId}
+	</select>
+
+	<!-- 用在销售明细查找 根据 psd_id -->
+	<select id="selectByPsdId" resultMap="order_item_sell_map"  parameterType="java.lang.Long">
+		select
+		<include refid="order_item_sell_list"/>
+		from `tb_shop_order_item`
+		<where>
+			<if test="psdId != null">
+				and `psd_id` = #{psdId}
+			</if>
+			<if test="startTime != null">
+				and `create_time` &gt;= #{startTime}
+			</if>
+			<if test="endTime != null">
+				and `create_time` &lt;= #{endTime}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+	<!-- 用在销售明细查找 根据 psd_id 分页 -->
+	<select id="countByPsdId" resultType="int"  parameterType="java.lang.Long">
+		select
+			count(id)
+		from `tb_shop_order_item`
+		<where>
+			<if test="psdId != null">
+				and `psd_id` = #{psdId}
+			</if>
+			<if test="startTime != null">
+				and `create_time` &gt;= #{startTime}
+			</if>
+			<if test="endTime != null">
+				and `create_time` &lt;= #{endTime}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectByLikeAndObj" resultMap="ResultShopOrderItemMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_order_item_List"/>
 		from `tb_shop_order_item`
@@ -136,11 +218,11 @@
 				and `is_show` like concat('%',#{record.isShow},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -180,11 +262,11 @@
 				and `is_show` = #{record.isShow}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

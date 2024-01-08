@@ -1,9 +1,12 @@
 package cn.peyton.plum.mall.param.join;
 
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.pojo.join.Invoice;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <h3> 发票 参数 传递类[用来展示数据]类</h3>
@@ -24,57 +27,62 @@ public class InvoiceParam implements Serializable {
      */
     private Long orderId;
     /**
-     * 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
-     */
-    private Long shaerId;
-    /**
-     * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
-     */
-    private Integer shaerType;
-    /**
      * 名称/公司名称
      */
+    @NotBlank(message = "名称/公司名称不能为空;")
+    @Length(min = 1,max = 90)
     private String name;
     /**
      * 手机
      */
+    @NotBlank(message = "手机号不能为空;")
+    @Phone
     private String phone;
     /**
      * 邮箱
      */
+    @Email
     private String email;
+
+    /** 开票金额 */
+    @MinDecimal(value = 0.01, message = "开票金额要大于0.01元")
+    private BigDecimal money;
+
     /**
      * 税号
      */
+    @NotBlank(message = "税号不能为空;")
+    @Length(max = 90)
     private String code;
     /**
      * 单位地址
      */
+    @Length(max = 140)
     private String path;
     /**
      * 开户行
      */
+    @Length(max = 49)
     private String bankname;
     /**
      * 银行账号
      */
+    @Length(max = 49)
     private String bankno;
     /**
      * 开票状态: 默认0 {0未开票1已开票}
      */
+    @Size(min = 0,max = 1)
     private Integer status;
     /**
      * 类型：0个人1企业
      */
+    @Size(min = 0,max = 1)
     private Integer type;
     /**
      * 创建时间
      */
-    private Integer createTime;
-    /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Boolean isDel;
+    private String createTime;
 
     //================================== Constructor =======================================//
 
@@ -110,35 +118,6 @@ public class InvoiceParam implements Serializable {
     public Long getOrderId() {
         return orderId;
     }
-
-    /**
-     * @param shaerId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
-     */
-    public void setShaerId(Long shaerId) {
-        this.shaerId = shaerId;
-    }
-
-    /**
-     * @return 用户ID(包含 : 会员Id 、 供应商Id 、 员工Id等, 配合share_type一起使用)
-     */
-    public Long getShaerId() {
-        return shaerId;
-    }
-
-    /**
-     * @param shaerType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
-     */
-    public void setShaerType(Integer shaerType) {
-        this.shaerType = shaerType;
-    }
-
-    /**
-     * @return 用户类型 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
-     */
-    public Integer getShaerType() {
-        return shaerType;
-    }
-
     /**
      * @param name 名称/公司名称
      */
@@ -181,6 +160,19 @@ public class InvoiceParam implements Serializable {
         return email;
     }
 
+    /**
+     * @return 开票金额
+     */
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    /**
+     * @param money 开票金额
+     */
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
     /**
      * @param code 税号
      */
@@ -268,55 +260,39 @@ public class InvoiceParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
-    }
-
-    /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
-     */
-    public void setIsDel(Boolean isDel) {
-        this.isDel = isDel;
-    }
-
-    /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
-     */
-    public Boolean getIsDel() {
-        return isDel;
     }
 
     /**
      * <h4>对象转成Invoice对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,orderId,shaerId,shaerType,name,phone,email,code,path,bankname,bankno,status,type,createTime,isDel]
+     * 	 [id,orderId,shaerId,shaerType,name,phone,email,code,path,bankname,bankno,status,type,createTime]
      * </pre>
      */
     public Invoice convert() {
         Invoice invoice = new Invoice();
         invoice.setId(id);
         invoice.setOrderId(orderId);
-        invoice.setShaerId(shaerId);
-        invoice.setShaerType(shaerType);
         invoice.setName(name);
         invoice.setPhone(phone);
         invoice.setEmail(email);
+        invoice.setMoney(money);
         invoice.setCode(code);
         invoice.setPath(path);
         invoice.setBankname(bankname);
         invoice.setBankno(bankno);
         invoice.setStatus(status);
         invoice.setType(type);
-        invoice.setCreateTime(createTime);
-        invoice.setIsDel(isDel);
+        invoice.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return invoice;
     }
 
@@ -324,7 +300,7 @@ public class InvoiceParam implements Serializable {
      * <h4>Invoice对象转成InvoiceParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,orderId,shaerId,shaerType,name,phone,email,code,path,bankname,bankno,status,type,createTime,isDel]
+     * 	 [id,orderId,shaerId,shaerType,name,phone,email,code,path,bankname,bankno,status,type,createTime]
      * </pre>
      */
     public InvoiceParam compat(Invoice invoice) {
@@ -333,19 +309,17 @@ public class InvoiceParam implements Serializable {
         }
         this.setId(invoice.getId());
         this.setOrderId(invoice.getOrderId());
-        this.setShaerId(invoice.getShaerId());
-        this.setShaerType(invoice.getShaerType());
         this.setName(invoice.getName());
         this.setPhone(invoice.getPhone());
         this.setEmail(invoice.getEmail());
+        this.setMoney(invoice.getMoney());
         this.setCode(invoice.getCode());
         this.setPath(invoice.getPath());
         this.setBankname(invoice.getBankname());
         this.setBankno(invoice.getBankno());
         this.setStatus(invoice.getStatus());
         this.setType(invoice.getType());
-        this.setCreateTime(invoice.getCreateTime());
-        this.setIsDel(invoice.getIsDel());
+        this.setCreateTime(DateUtils.timestampToStrDate(invoice.getCreateTime()));
         return this;
     }
 }

@@ -8,13 +8,25 @@
 		<result column="name" property="name" jdbcType="VARCHAR"/>
 		<result column="area" property="area" jdbcType="VARCHAR"/>
 		<result column="seq" property="seq" jdbcType="SMALLINT"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="explain" property="explain" jdbcType="VARCHAR"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="supplier" javaType="cn.peyton.plum.mall.pojo.party.Supplier"
+					 column="sup_id" select="cn.peyton.plum.mall.mapper.party.SupplierMapper.selectByForeignKey" />
 	</resultMap>
 
 	<sql id="Column_tb_brand_List">
-		`id`,`sup_id`,`logo`,`name`,`area`,`seq`,`is_del`,`explain`,`create_time`
+		`id`,`sup_id`,`logo`,`name`,`area`,`seq`,`explain`,`create_time`
+	</sql>
+
+	<resultMap id="result_brand_simple_list" type="cn.peyton.plum.mall.pojo.join.Brand">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="logo" property="logo" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="area" property="area" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="column_brand_simple_list">
+		`id`,`logo`,`name`,`area`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.join.Brand" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -25,7 +37,6 @@
 			<if test="name != null">`name`,</if>
 			<if test="area != null">`area`,</if>
 			<if test="seq != null">`seq`,</if>
-			<if test="isDel != null">`is_del`,</if>
 			<if test="explain != null">`explain`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
@@ -35,7 +46,6 @@
 			<if test="name != null">#{name},</if>
 			<if test="area != null">#{area},</if>
 			<if test="seq != null">#{seq},</if>
-			<if test="isDel != null">#{isDel},</if>
 			<if test="explain != null">#{explain},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
@@ -49,11 +59,9 @@
 			<if test="name != null">`name` = #{name},</if>
 			<if test="area != null">`area` = #{area},</if>
 			<if test="seq != null">`seq` = #{seq},</if>
-			<if test="isDel != null">`is_del` = #{isDel},</if>
 			<if test="explain != null">`explain` = #{explain},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
-		where id = #{id}
+		where id = #{id} and `is_del` = 1
 	</update>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -61,86 +69,53 @@
 		where `id` = #{id}
 	</delete>
 
+
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.Brand">
 		select
 		count(`id`)
 		from `tb_brand`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="supId != null">
-				and `sup_id` = #{supId}
-			</if>
-			<if test="logo != null">
-				and `logo` = #{logo}
-			</if>
-			<if test="name != null">
-				and `name` = #{name}
-			</if>
-			<if test="area != null">
-				and `area` = #{area}
-			</if>
-			<if test="seq != null">
-				and `seq` = #{seq}
-			</if>
-			<if test="isDel != null">
-				and `is_del` = #{isDel}
-			</if>
-			<if test="explain != null">
-				and `explain` = #{explain}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
-		</where>
+		where `is_del` = 1
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
+		<if test="name != null">
+			and `name` = #{name}
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultBrandMap"  parameterType="java.lang.Long">
 		select
 		<include refid="Column_tb_brand_List"/>
 		from `tb_brand`
-		where `id` = #{id}
+		where `id` = #{id} and `is_del` = 1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultBrandMap"  parameterType="map">
+	<select id="selectByDownList" resultMap="result_brand_simple_list">
+		select
+			<include refid="column_brand_simple_list"/>
+		from `tb_brand`
+		where `is_del` = 1
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultBrandMap" parameterType="map">
 		select
 		<include refid="Column_tb_brand_List"/>
 		from `tb_brand`
-		<where>
-			<if test="record.id != null">
-				and `id` like concat('%',#{record.id},'%')
-			</if>
-			<if test="record.supId != null">
-				and `sup_id` like concat('%',#{record.supId},'%')
-			</if>
-			<if test="record.logo != null">
-				and `logo` like concat('%',#{record.logo},'%')
-			</if>
-			<if test="record.name != null">
-				and `name` like concat('%',#{record.name},'%')
-			</if>
-			<if test="record.area != null">
-				and `area` like concat('%',#{record.area},'%')
-			</if>
-			<if test="record.seq != null">
-				and `seq` like concat('%',#{record.seq},'%')
-			</if>
-			<if test="record.isDel != null">
-				and `is_del` like concat('%',#{record.isDel},'%')
-			</if>
-			<if test="record.explain != null">
-				and `explain` like concat('%',#{record.explain},'%')
-			</if>
-			<if test="record.createTime != null">
-				and `create_time` like concat('%',#{record.createTime},'%')
-			</if>
-		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		where `is_del` = 1
+		<if test="record.supId != null">
+			and `sup_id`= #{record.supId}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="record.name != null">
+			and `name` like concat('%',#{record.name},'%')
+		</if>
+		<if test="record.area != null">
+			and `area` like concat('%',#{record.area},'%')
+		</if>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName}   ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -151,40 +126,21 @@
 		select
 		<include refid="Column_tb_brand_List"/>
 		from `tb_brand`
-		<where>
-			<if test="record.id != null">
-				and `id` = #{record.id}
-			</if>
-			<if test="record.supId != null">
-				and `sup_id` = #{record.supId}
-			</if>
-			<if test="record.logo != null">
-				and `logo` = #{record.logo}
-			</if>
-			<if test="record.name != null">
-				and `name` = #{record.name}
-			</if>
-			<if test="record.area != null">
-				and `area` = #{record.area}
-			</if>
-			<if test="record.seq != null">
-				and `seq` = #{record.seq}
-			</if>
-			<if test="record.isDel != null">
-				and `is_del` = #{record.isDel}
-			</if>
-			<if test="record.explain != null">
-				and `explain` = #{record.explain}
-			</if>
-			<if test="record.createTime != null">
-				and `create_time` = #{record.createTime}
-			</if>
-		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		where `is_del` = 1
+		<if test="record.supId != null">
+			and `sup_id` = #{record.supId}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="record.name != null">
+			and `name` = #{record.name}
+		</if>
+		<if test="record.area != null">
+			and `area` = #{record.area}
+		</if>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName}  ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -193,72 +149,34 @@
 
 	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.Brand">
 		select
-		count(`id`)
+			count(`id`)
 		from `tb_brand`
-		<where>
-			<if test="id != null">
-				and `id` like concat('%',#{id},'%')
-			</if>
-			<if test="supId != null">
-				and `sup_id` like concat('%',#{supId},'%')
-			</if>
-			<if test="logo != null">
-				and `logo` like concat('%',#{logo},'%')
-			</if>
-			<if test="name != null">
-				and `name` like concat('%',#{name},'%')
-			</if>
-			<if test="area != null">
-				and `area` like concat('%',#{area},'%')
-			</if>
-			<if test="seq != null">
-				and `seq` like concat('%',#{seq},'%')
-			</if>
-			<if test="isDel != null">
-				and `is_del` like concat('%',#{isDel},'%')
-			</if>
-			<if test="explain != null">
-				and `explain` like concat('%',#{explain},'%')
-			</if>
-			<if test="createTime != null">
-				and `create_time` like concat('%',#{createTime},'%')
-			</if>
-		</where>
+		where `is_del` = 1
+		<if test="supId != null">
+			and `sup_id`= #{supId}
+		</if>
+		<if test="name != null">
+			and `name` like concat('%',#{name},'%')
+		</if>
+		<if test="area != null">
+			and `area` like concat('%',#{area},'%')
+		</if>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.Brand">
 		select
-		count(`id`)
+			count(`id`)
 		from `tb_brand`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="supId != null">
-				and `sup_id` = #{supId}
-			</if>
-			<if test="logo != null">
-				and `logo` = #{logo}
-			</if>
-			<if test="name != null">
-				and `name` = #{name}
-			</if>
-			<if test="area != null">
-				and `area` = #{area}
-			</if>
-			<if test="seq != null">
-				and `seq` = #{seq}
-			</if>
-			<if test="isDel != null">
-				and `is_del` = #{isDel}
-			</if>
-			<if test="explain != null">
-				and `explain` = #{explain}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
-		</where>
+		where `is_del` = 1
+		<if test="supId != null">
+			and `sup_id` = #{supId}
+		</if>
+		<if test="name != null">
+			and `name` = #{name}
+		</if>
+		<if test="area != null">
+			and `area` = #{area}
+		</if>
 	</select>
 
 </mapper>

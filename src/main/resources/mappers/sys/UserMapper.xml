@@ -13,15 +13,21 @@
 		<result column="job_id" property="jobId" jdbcType="BIGINT"/>
 		<result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
 		<result column="sex" property="sex" jdbcType="TINYINT"/>
+		<result column="loc" property="loc" jdbcType="INTEGER"/>
 		<result column="last_ip" property="lastIp" jdbcType="VARCHAR"/>
 		<result column="last_login_time" property="lastLoginTime" jdbcType="INTEGER"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<association property="role" javaType="long" column="{shareId=id,shareType=share_type}"
 					 select="cn.peyton.plum.mall.mapper.sys.RoleMapper.selectByShareIdAndType"/>
 	</resultMap>
+	<sql id="Column_sys_user_List">
+		`id`,`avatar`,`email`,`status`,`username`,`dept_id`,`phone`,`loc`
+		    `job_id`,`nick_name`,`sex`,`last_ip`,`last_login_time`,
+		    `create_time`,3 `share_type`
+	</sql>
 
-	<resultMap id="ResultSimpleUserMap" type="cn.peyton.plum.mall.pojo.sys.User">
+	<!-- 用户登录 -->
+	<resultMap id="result_user_login_map" type="cn.peyton.plum.mall.pojo.sys.User">
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
 		<result column="email" property="email" jdbcType="VARCHAR"/>
@@ -31,15 +37,11 @@
 		<result column="job_id" property="jobId" jdbcType="BIGINT"/>
 		<result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
 		<result column="sex" property="sex" jdbcType="TINYINT"/>
+		<association property="role" javaType="long" column="{shareId=id,shareType=share_type}"
+					 select="cn.peyton.plum.mall.mapper.sys.RoleMapper.selectExpandByShareIdAndType"/>
 	</resultMap>
-	<sql id="simple_user_List">
-		`id`,`avatar`,`email`,`username`,`dept_id`,`phone`,
-		    `job_id`,`nick_name`,`sex`
-	</sql>
-	<sql id="Column_sys_user_List">
-		`id`,`avatar`,`email`,`status`,`username`,`dept_id`,`phone`,
-		    `job_id`,`nick_name`,`sex`,`last_ip`,`last_login_time`,`is_del`,
-		    `create_time`,3 `share_type`
+	<sql id="column_user_login_list">
+		`id`,`avatar`,`email`,`username`,`dept_id`,`phone`,`job_id`,`nick_name`,`sex`,3 `share_type`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -55,9 +57,6 @@
 			<if test="jobId != null">`job_id`,</if>
 			<if test="nickName != null">`nick_name`,</if>
 			<if test="sex != null">`sex`,</if>
-			<if test="lastIp != null">`last_ip`,</if>
-			<if test="lastLoginTime != null">`last_login_time`,</if>
-			<if test="isDel != null">`is_del`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -71,9 +70,6 @@
 			<if test="jobId != null">#{jobId},</if>
 			<if test="nickName != null">#{nickName},</if>
 			<if test="sex != null">#{sex},</if>
-			<if test="lastIp != null">#{lastIp},</if>
-			<if test="lastLoginTime != null">#{lastLoginTime},</if>
-			<if test="isDel != null">#{isDel},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
 	</insert>
@@ -83,18 +79,12 @@
 		<set>
 			<if test="avatar != null">`avatar` = #{avatar},</if>
 			<if test="email != null">`email` = #{email},</if>
-			<if test="status != null">`status` = #{status},</if>
-			<if test="password != null">`password` = #{password},</if>
 			<if test="username != null">`username` = #{username},</if>
 			<if test="deptId != null">`dept_id` = #{deptId},</if>
 			<if test="phone != null">`phone` = #{phone},</if>
 			<if test="jobId != null">`job_id` = #{jobId},</if>
 			<if test="nickName != null">`nick_name` = #{nickName},</if>
 			<if test="sex != null">`sex` = #{sex},</if>
-			<if test="lastIp != null">`last_ip` = #{lastIp},</if>
-			<if test="lastLoginTime != null">`last_login_time` = #{lastLoginTime},</if>
-			<if test="isDel != null">`is_del` = #{isDel},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -109,27 +99,17 @@
 		count(`id`)
 		from `sys_user`
 		where `is_del`=1
+		and (`username` = #{username}
+		<if test="phone != null and phone != ''">
+			or `phone` = #{phone}
+		</if>
+		<if test="email != null and email != ''">
+			or `email`=#{email}
+		</if>
+		)
 		<if test="id != null">
 			and `id` != #{id}
 		</if>
-		<if test="username != null">
-			and `username` = #{username}
-		</if>
-		<if test="nickName != null">
-			and `nick_name` = #{nickName}
-		</if>
-		<if test="record.password != null">
-			and `password` = #{record.password}
-		</if>
-	</select>
-
-	<select id="isPassword" resultType = "java.lang.Integer" parameterType="map">
-		select
-		count(`id`)
-		from `sys_user`
-		where `is_del`=1
-		and `id` != #{id}
-		and `password` = #{password}
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultUserMap"  parameterType="java.lang.Long">
@@ -139,58 +119,43 @@
 		where `id` = #{id} and is_del= 1 and status = 1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultUserMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultUserMap" parameterType="map">
 		select
 		<include refid="Column_sys_user_List"/>
 		from `sys_user`
 		where  is_del= 1
-		<if test="record.id != null">
-			and `id` like concat('%',#{record.id},'%')
-		</if>
-		<if test="record.avatar != null">
-			and `avatar` like concat('%',#{record.avatar},'%')
-		</if>
 		<if test="record.email != null">
 			and `email` like concat('%',#{record.email},'%')
 		</if>
 		<if test="record.status != null">
-			and `status` like concat('%',#{record.status},'%')
-		</if>
-		<if test="record.password != null">
-			and `password` like concat('%',#{record.password},'%')
+			and `status`= #{record.status}
 		</if>
 		<if test="record.username != null">
 			and `username` like concat('%',#{record.username},'%')
 		</if>
 		<if test="record.deptId != null">
-			and `dept_id` like concat('%',#{record.deptId},'%')
+			and `dept_id` = #{record.deptId}
 		</if>
 		<if test="record.phone != null">
 			and `phone` like concat('%',#{record.phone},'%')
 		</if>
 		<if test="record.jobId != null">
-			and `job_id` like concat('%',#{record.jobId},'%')
+			and `job_id` = #{record.jobId}
 		</if>
 		<if test="record.nickName != null">
 			and `nick_name` like concat('%',#{record.nickName},'%')
 		</if>
 		<if test="record.sex != null">
-			and `sex` like concat('%',#{record.sex},'%')
-		</if>
-		<if test="record.lastIp != null">
-			and `last_ip` like concat('%',#{record.lastIp},'%')
-		</if>
-		<if test="record.lastLoginTime != null">
-			and `last_login_time` like concat('%',#{record.lastLoginTime},'%')
+			and `sex` = #{record.sex}
 		</if>
 		<if test="record.createTime != null">
 			and `create_time` like concat('%',#{record.createTime},'%')
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -202,20 +167,11 @@
 		<include refid="Column_sys_user_List"/>
 		from `sys_user`
 		where is_del= 1
-		<if test="record.id != null">
-			and `id` = #{record.id}
-		</if>
-		<if test="record.avatar != null">
-			and `avatar` = #{record.avatar}
-		</if>
 		<if test="record.email != null">
 			and `email` = #{record.email}
 		</if>
 		<if test="record.status != null">
 			and `status` = #{record.status}
-		</if>
-		<if test="record.password != null">
-			and `password` = #{record.password}
 		</if>
 		<if test="record.username != null">
 			and `username` = #{record.username}
@@ -241,17 +197,14 @@
 		<if test="record.lastLoginTime != null">
 			and `last_login_time` = #{record.lastLoginTime}
 		</if>
-		<if test="record.isDel != null">
-			and `is_del` = #{record.isDel}
-		</if>
 		<if test="record.createTime != null">
 			and `create_time` = #{record.createTime}
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -263,44 +216,29 @@
 		count(`id`)
 		from `sys_user`
 		where is_del= 1
-		<if test="id != null">
-			and `id` like concat('%',#{id},'%')
-		</if>
-		<if test="avatar != null">
-			and `avatar` like concat('%',#{avatar},'%')
-		</if>
 		<if test="email != null">
 			and `email` like concat('%',#{email},'%')
 		</if>
 		<if test="status != null">
-			and `status` like concat('%',#{status},'%')
-		</if>
-		<if test="password != null">
-			and `password` like concat('%',#{password},'%')
+			and `status` = #{status}
 		</if>
 		<if test="username != null">
 			and `username` like concat('%',#{username},'%')
 		</if>
 		<if test="deptId != null">
-			and `dept_id` like concat('%',#{deptId},'%')
+			and `dept_id` = #{deptId}
 		</if>
 		<if test="phone != null">
 			and `phone` like concat('%',#{phone},'%')
 		</if>
 		<if test="jobId != null">
-			and `job_id` like concat('%',#{jobId},'%')
+			and `job_id` = #{jobId}
 		</if>
 		<if test="nickName != null">
 			and `nick_name` like concat('%',#{nickName},'%')
 		</if>
 		<if test="sex != null">
-			and `sex` like concat('%',#{sex},'%')
-		</if>
-		<if test="lastIp != null">
-			and `last_ip` like concat('%',#{lastIp},'%')
-		</if>
-		<if test="lastLoginTime != null">
-			and `last_login_time` like concat('%',#{lastLoginTime},'%')
+			and `sex` = #{sex}
 		</if>
 		<if test="createTime != null">
 			and `create_time` like concat('%',#{createTime},'%')
@@ -309,23 +247,14 @@
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.User">
 		select
-		count(`id`)
+			count(`id`)
 		from `sys_user`
 		where is_del= 1
-		<if test="id != null">
-			and `id` = #{id}
-		</if>
-		<if test="avatar != null">
-			and `avatar` = #{avatar}
-		</if>
 		<if test="email != null">
 			and `email` = #{email}
 		</if>
 		<if test="status != null">
 			and `status` = #{status}
-		</if>
-		<if test="password != null">
-			and `password` = #{password}
 		</if>
 		<if test="username != null">
 			and `username` = #{username}
@@ -356,9 +285,10 @@
 		</if>
 	</select>
 
+	<!-- 用户公用方法	-->
 	<select id="checkStatus" parameterType="map" resultType="int">
 		select
-		count(id)
+			count(id)
 		from `sys_user`
 		where is_del= 1
 		<if test="status != -1">
@@ -375,9 +305,9 @@
 		</if>
 	</select>
 
-	<select id="login" resultMap="ResultSimpleUserMap">
+	<select id="login" resultMap="result_user_login_map" parameterType="map">
 		select
-			<include refid="simple_user_List"/>
+			<include refid="column_user_login_list"/>
 		from `sys_user`
 		where password=#{password}
 		and status=1
@@ -393,18 +323,6 @@
 		</if>
 	</select>
 
-	<select id="selectJoinById" resultMap="ResultUserMap" parameterType="map">
-		select
-		<include refid="Column_sys_user_List"/>
-		from `sys_user`
-		where `id` = #{shareId} and is_del= 1
-	</select>
 
-	<select id="condition" parameterType="string" resultType="int">
-		select
-		count(id)
-		from `sys_user`
-		${cond}
-	</select>
 
 </mapper>

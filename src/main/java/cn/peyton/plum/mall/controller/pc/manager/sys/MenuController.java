@@ -8,6 +8,7 @@ import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.sys.MenuParam;
@@ -28,10 +29,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/menu")
-@CrossOrigin(origins = "*")
 public class MenuController extends PcController<MenuParam>
         implements IBasePCController<Long, MenuParam> {
-    private String TIP_NAME = "菜单";
 
     @Resource
     private MenuService menuService;
@@ -40,26 +39,22 @@ public class MenuController extends PcController<MenuParam>
     public JSONResult<?> findByTree(){
         List<MenuParam> result = menuService.findByTree();
         if (null != result) {
-            return JSONResult.success("数据加载成功",result);
+            return JSONResult.success(DATA_LOADING_SUCCESS,result);
         }
-        return JSONResult.fail(JSONResult.Props.NO_DATA,"没找到数据");
+        return JSONResult.fail(JSONResult.Props.NO_DATA,NO_DATA);
     }
 
     @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 
-    @Override
-    public JSONResult<?> search(Query query) {
-        return null;
-    }
     @Token
     @Valid
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(MenuParam record) {
-        return baseCreate(record, new MenuParam(null,record.getPid(),record.getName()),menuService, TIP_NAME);
+        return baseHandleCreate(record, new MenuParam(null,record.getPid(),record.getName()),menuService, TIP_MENU);
     }
 
 
@@ -67,24 +62,22 @@ public class MenuController extends PcController<MenuParam>
     @Valid
     @PostMapping("/manager/edit")
     public JSONResult<?> edit(MenuParam param) {
-        return baseEdit(param,new MenuParam(param.getId(),param.getPid(),param.getName()), menuService, TIP_NAME);
+        return baseHandleEdit(param,new MenuParam(param.getId(),param.getPid(),param.getName()), menuService, TIP_MENU);
     }
 
     @Token
-    @PostMapping("/manager/delete")
     @Valid
-    public JSONResult<?> delete(@Min(value = 1,message = "最小值为1") Long id) {
-        return baseDelete(id, menuService, TIP_NAME);
+    @PostMapping("/manager/delete")
+    public JSONResult<?> delete(@NotBlank (message = "菜单Id不能为空") @Min(value = 1,message = "最小值为1") Long id) {
+        return baseHandleDelete(id, menuService, TIP_MENU);
     }
 
     @Token
+    @Valid
     @PostMapping("/manager/upstatus")
-    public JSONResult<?> editStatus(@Min(message = "要大于0的数！")long id,
+    public JSONResult<?> editStatus(@NotBlank(message = "菜单Id不能为空") @Min(message = "要大于0的数！")long id,
                                         @Size(min = 0,max = 1) Integer status){
-        MenuParam _param = new MenuParam();
-        _param.setId(id);
-        _param.setStatus(status);
-        return baseEdit(_param, null, menuService, "状态");
+        return baseHandle(menuService.upStatus(id, status), STATUS);
     }
 
 
@@ -97,11 +90,11 @@ public class MenuController extends PcController<MenuParam>
     public JSONResult<?> findAllByKeyword(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         MenuParam _param = new MenuParam();
         _param.setName(keyword);
-        PageResult<?> result = menuService.findAllByLike(_param, new PageQuery(pageNo,"seq"));
+        PageResult<?> result = menuService.likeByPage(_param, new PageQuery(pageNo,ORDER_BY_FILED));
         if (result.isSuccess){
-            return JSONResult.success("数据加载成功",result);
+            return JSONResult.success(DATA_LOADING_SUCCESS,result);
         }
-        return JSONResult.fail(JSONResult.Props.NO_DATA,"没找到数据");
+        return JSONResult.fail(JSONResult.Props.NO_DATA,NO_DATA);
     }
 
 }

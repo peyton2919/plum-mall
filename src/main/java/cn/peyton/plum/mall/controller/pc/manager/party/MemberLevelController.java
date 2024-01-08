@@ -8,6 +8,7 @@ import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.MemberLevelParam;
 import cn.peyton.plum.mall.service.party.MemberLevelService;
@@ -36,18 +37,16 @@ public class MemberLevelController extends PcController<MemberLevelParam>
     @Resource
     private MemberService memberService;
 
-    @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
-        return null;
-    }
+    // keyword
     @Token
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
 
-        return baseFindBykeywordAll(new MemberLevelParam(),new PageQuery(query.getPageNo(),ORDER_BY_FILED),memberLevelService,null);
+        return baseHandleList(new MemberLevelParam(), new PageQuery(query.getPageNo(), ORDER_BY_FILED), memberLevelService, null);
     }
+
     @Token
     @Valid
     @PostMapping("/manager/create")
@@ -55,8 +54,7 @@ public class MemberLevelController extends PcController<MemberLevelParam>
     public JSONResult<?> create(MemberLevelParam record) {
         MemberLevelParam _repeat = new MemberLevelParam();
         _repeat.setName(record.getName());
-        _repeat.setMemberType(record.getMemberType());
-        return baseCreate(record, _repeat, memberLevelService, "会员等级");
+        return baseHandleCreate(record, _repeat, memberLevelService, TIP_MEMBER_LEVEL);
     }
 
     @Token
@@ -67,30 +65,42 @@ public class MemberLevelController extends PcController<MemberLevelParam>
         MemberLevelParam _repeat = new MemberLevelParam();
         _repeat.setId(record.getId());
         _repeat.setName(record.getName());
-        _repeat.setMemberType(record.getMemberType());
-        return baseEdit(record, _repeat, memberLevelService, "会员等级",UPDATE);
+        return baseHandleEdit(record, _repeat, memberLevelService, TIP_MEMBER_LEVEL,UPDATE);
     }
+
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;")
                                     @Min(value = 1,message = "最小为1")Integer id) {
-        return baseDelete(id, memberLevelService, "会员等级");
+        // 判断
+        if (memberService.isMemberLevel(id)) {
+            return JSONResult.fail("等级关联会员信息,无法删除;如需要删除先清除相应的数据");
+        }
+        return baseHandleDelete(id, memberLevelService, TIP_MEMBER_LEVEL);
     }
 
     @Token
-    @PostMapping("/manager/upstatus")
     @Valid
+    @PostMapping("/manager/upstatus")
     public JSONResult<?> updateStatus(@NotBlank(message = "Id 不能为空;")
                                       @Min(value = 1,message = "最小为1")Integer id,
-                                      @NotBlank(message = "status 不能为空;")Integer status) {
+                                      @NotBlank(message = "status 不能为空;") @Size(min = 0,max = 1) Integer status) {
         if (memberService.isMemberLevel(id)) {
-            return JSONResult.fail("等级关联会员信息,无法删除;如需要删除先清除相应的数据");
+            return JSONResult.fail("等级关联会员信息,无法禁用;如需要禁用先清除相应的数据");
         }
         MemberLevelParam _param = new MemberLevelParam();
         _param.setId(id);
         _param.setStatus(status);
-        return baseEdit(_param,null,memberLevelService,"会员等级状态更新");
+        return baseHandleEdit(_param,null,memberLevelService,"会员等级状态更新");
+    }
+
+    // 下拉框
+    @Token
+    @Valid
+    @PostMapping("/manager/down")
+    public JSONResult<?> down(){
+        return JSONResult.success(memberLevelService.findByDownList());
     }
 }

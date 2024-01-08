@@ -4,6 +4,8 @@ import cn.peyton.plum.core.inf.service.IBaseService;
 import cn.peyton.plum.mall.param.join.WarehouseInfoParam;
 import cn.peyton.plum.mall.pojo.join.WarehouseInfo;
 
+import java.util.List;
+
 /**
  * <h3> 仓库信息 Service 接口</h3>
  * <pre>
@@ -15,4 +17,13 @@ import cn.peyton.plum.mall.pojo.join.WarehouseInfo;
  */
 public interface WarehouseInfoService extends IBaseService<Integer, WarehouseInfo, WarehouseInfoParam> {
 
+    /**
+     * <h4>下拉框查找</h4>
+     * <pre>
+     *     `id`,`logo`,`name`,`area`
+     *     用于下拉框使用
+     * </pre>
+     * @return 仓库对象集合
+     */
+    List<WarehouseInfoParam> findByDownList();
 }

@@ -14,7 +14,6 @@ import cn.peyton.plum.mall.pojo.party.SupplierInfo;
  */
 public interface SupplierInfoMapper extends IBaseMapper<Long, SupplierInfo> {
 
-
     // ==================================== new create method ==================================== //
 
 

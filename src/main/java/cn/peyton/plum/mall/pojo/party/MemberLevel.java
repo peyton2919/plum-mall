@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.pojo.party;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <h3> 会员等级 实体类</h3>
@@ -28,23 +29,23 @@ public class MemberLevel implements Serializable {
     /**
      * 会员类型, 默认 0 零售 1 批发
      */
-    private Integer memberType;
+    //private Integer memberType;
     /**
      * 是否启用, 默认 1 启用 0 禁用
      */
     private Integer status;
     /**
-     * 折扣
+     * 折扣(50~100) /100,默认: 100 
      */
     private Integer discount;
     /**
      * 消费满元
      */
-    private Integer maxPrice;
+    private BigDecimal maxPrice;
     /**
      * 消费满次数
      */
-    private Integer maxTimes;
+    private Integer maxCount;
 
     //================================== Constructor =======================================//
 
@@ -98,16 +99,16 @@ public class MemberLevel implements Serializable {
     /**
      * @param memberType 会员类型, 默认 0 零售 1 批发
      */
-    public void setMemberType(Integer memberType) {
-        this.memberType = memberType;
-    }
+    //public void setMemberType(Integer memberType) {
+    //    this.memberType = memberType;
+    //}
 
     /**
      * @return 会员类型, 默认 0 零售 1 批发
      */
-    public Integer getMemberType() {
-        return memberType;
-    }
+    //public Integer getMemberType() {
+    //    return memberType;
+    //}
 
     /**
      * @param status 是否删除: 默认1(1：可用;0已删除)
@@ -124,14 +125,14 @@ public class MemberLevel implements Serializable {
     }
 
     /**
-     * @param discount 折扣
+     * @param discount 折扣(50~100) /100,默认: 100
      */
     public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
     /**
-     * @return 折扣
+     * @return 折扣(50~100) /100,默认: 100
      */
     public Integer getDiscount() {
         return discount;
@@ -140,29 +141,29 @@ public class MemberLevel implements Serializable {
     /**
      * @param maxPrice 消费满元
      */
-    public void setMaxPrice(Integer maxPrice) {
+    public void setMaxPrice(BigDecimal maxPrice) {
         this.maxPrice = maxPrice;
     }
 
     /**
      * @return 消费满元
      */
-    public Integer getMaxPrice() {
+    public BigDecimal getMaxPrice() {
         return maxPrice;
     }
 
     /**
-     * @param maxTimes 消费满次数
+     * @param maxCount 消费满次数
      */
-    public void setMaxTimes(Integer maxTimes) {
-        this.maxTimes = maxTimes;
+    public void setMaxCount(Integer maxCount) {
+        this.maxCount = maxCount;
     }
 
     /**
      * @return 消费满次数
      */
-    public Integer getMaxTimes() {
-        return maxTimes;
+    public Integer getMaxCount() {
+        return maxCount;
     }
 
 }

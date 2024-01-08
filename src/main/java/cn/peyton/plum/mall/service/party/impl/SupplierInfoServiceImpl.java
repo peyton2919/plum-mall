@@ -5,11 +5,13 @@ import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
 import cn.peyton.plum.mall.bo.SupplierInfoBo;
 import cn.peyton.plum.mall.mapper.party.SupplierInfoMapper;
+import cn.peyton.plum.mall.mapper.party.SupplierMapper;
 import cn.peyton.plum.mall.param.party.SupplierInfoParam;
 import cn.peyton.plum.mall.pojo.party.SupplierInfo;
 import cn.peyton.plum.mall.service.party.SupplierInfoService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <h3> 供应商基础信息 Service 实现类</h3>
@@ -24,7 +26,8 @@ import org.springframework.stereotype.Service;
 public class SupplierInfoServiceImpl extends AbstractRealizeService<Long, SupplierInfo, SupplierInfoParam> implements SupplierInfoService {
     @Resource
     private SupplierInfoMapper supplierInfoMapper;
-
+    @Resource
+    private SupplierMapper supplierMapper;
     @Override
     public BaseConvertBo<SupplierInfo, SupplierInfoParam> initBo() {
         return new SupplierInfoBo();
@@ -38,5 +41,24 @@ public class SupplierInfoServiceImpl extends AbstractRealizeService<Long, Suppli
     public SupplierInfoServiceImpl () {
         enabledCache = true;
         keyPrefix = this.getClass().getName();
+    }
+
+    @Override
+    @Transactional
+    public Boolean createJoin(SupplierInfoParam param,Long id) {
+        SupplierInfo result = param.convert();
+        int res = supplierInfoMapper.insertSelective(result);
+        if (res > 0) {
+            res = supplierMapper.updateInfo(id, result.getId());
+            if (res > 0) {
+                if(enabledCache){
+                    System.out.println("更新操作,清空缓存");
+                    removeCache();
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 }

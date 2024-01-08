@@ -7,18 +7,19 @@ import cn.peyton.plum.core.inf.controller.IBasePCController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.users.IUser;
 import cn.peyton.plum.core.validator.anno.Valid;
-import cn.peyton.plum.core.validator.constraints.Min;
-import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
-import cn.peyton.plum.mall.param.party.MemberLevelParam;
+import cn.peyton.plum.core.validator.constraints.*;
+import cn.peyton.plum.mall.controller.base.UserOperationController;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.service.party.MemberLevelService;
 import cn.peyton.plum.mall.service.party.MemberService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <h3> 会员 Controller 类</h3>
@@ -31,8 +32,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/member")
-public class MemberController extends PcController<MemberParam>
+public class MemberController extends UserOperationController
         implements IBasePCController<Long, MemberParam> {
+
+    /** 验证码 在缓存中的时间 */
+    public final static String KEY_PHONE_CODE_CACHE_TIME = "MEM_PHONE_TIME_202312261559";
+    /** session中的 验证码 key */
+    public final static String KEY_SESSION_PHONE_CODE = "MEM_SESSION_PHONE_CODE_202312261600";
+    /** session中的 手机号码 key */
+    public final static String KEY_SESSION_PHONE = "MEM_SESSION_PHONE_202312261601";
+
     /** MD5 加密 key */
     private final static String KEY_PASSWORD_ENCODER = "member_controller_password_202312112140";
     @Resource
@@ -40,61 +49,59 @@ public class MemberController extends PcController<MemberParam>
     @Resource
     private MemberLevelService memberLevelService;
 
-    @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
-        return null;
-    }
-
+    // ComplexValue {level_id username nickname phone}
     @Token
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
+
         MemberParam _param = new MemberParam();
         _param.setUsername(query.getKeyword());
-        if (null != query.getIntValue()) {
-            MemberLevelParam _mlp = new MemberLevelParam();
-            _mlp.setId(query.getIntValue());
-            _param.setMemberLevel(_mlp);
-        }
+        _param.getMemberLevel().setId(query.getIntValue());
 
-        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo()), memberService,memberLevelService.select(0));
+        return baseHandleList(_param, new PageQuery(query.getPageNo()), memberService,memberLevelService.findByDownList());
     }
 
     @Token
-    @Valid
+    @Valid(ignore = {"memberLevel","userAddresses","shareBinds"})
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(@RequestMultiple MemberParam record) {
         if (null == record.getMemberLevel().getId() || record.getMemberLevel().getId() <= 0) {
-            return JSONResult.fail("请选择会员等级");
+            return JSONResult.fail(TIP_MEMBER_LEVEL);
         }
         MemberParam _repeat = new MemberParam();
         _repeat.setUsername(record.getUsername());
-        record.setPwd(BaseCipher.encoderMD5(record.getPwd(),KEY_PASSWORD_ENCODER));
-        return baseCreate(record, _repeat, memberService, "会员");
+        _repeat.setPhone(record.getPhone());
+        _repeat.setEmail(record.getEmail());
+        record.setPassword(BaseCipher.encoderMD5(record.getPassword(),KEY_PASSWORD_ENCODER));
+        return baseHandleCreate(record, _repeat, memberService, TIP_MEMBER);
     }
 
     @Token
-    @Valid(ignore = {"pwd","confirmPwd","name"})
+    @Valid(ignore = {"password","confirmPwd","memberLevel","shareBinds","userAddresses"})
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(@RequestMultiple MemberParam record) {
         if (null == record.getMemberLevel().getId() || record.getMemberLevel().getId() <= 0) {
-            return JSONResult.fail("请选择会员等级");
+            return JSONResult.fail(TIP_MEMBER_LEVEL);
         }
         MemberParam _repeat = new MemberParam();
         _repeat.setId(record.getId());
         _repeat.setUsername(record.getUsername());
-        return baseEdit(record, _repeat, memberService, "会员",UPDATE);
+        _repeat.setPhone(record.getPhone());
+        _repeat.setEmail(record.getEmail());
+        return baseHandleEdit(record, _repeat, memberService, TIP_MEMBER,UPDATE);
     }
+
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;")
                                     @Min(value = 1,message = "最小为1")Long id) {
-        if(memberService.editDelete(id)){
+        if(memberService.upDelete(id)){
             return JSONResult.success("会员删除成功;");
         }
         return JSONResult.fail("会员删除失败;");
@@ -105,11 +112,76 @@ public class MemberController extends PcController<MemberParam>
     @Valid
     public JSONResult<?> updateStatus(@NotBlank(message = "Id 不能为空;")
                                       @Min(value = 1,message = "最小为1")Long id,
-                                      @NotBlank(message = "status 不能为空;")Integer status) {
+                                      @NotBlank(message = "status 不能为空;")@Size(min = 0,max = 1) Integer status) {
 
-        if(memberService.editStatus(id,status)){
+        if(memberService.upStatus(id,status)){
             return JSONResult.success("会员状态更新成功;");
         }
         return JSONResult.fail("会员状态更新失败;");
     }
+
+    @Token
+    @PostMapping("/manager/down")
+    public JSONResult<?> down(){
+        return JSONResult.success(memberService.findByDownList());
+    }
+
+
+
+    @Valid
+    @PostMapping("/login")
+    public JSONResult<?> login(@NotBlank(message = "用户名不能为空！") String keyword,
+                               @NotBlank(message = "密码不能为空！") String password,
+                               HttpServletRequest request) {
+
+        return super.login(keyword, password, new MemberParam(), KEY_PASSWORD_ENCODER, IUser.TYPE_USER, memberService, request);
+    }
+
+    // 用户退出
+    @Token
+    @PostMapping("/manager/logout")
+    public JSONResult<?> logout() {
+
+        return super.logout();
+    }
+
+    // 修改用户密码
+    @Valid
+    @Token
+    @PostMapping("/manager/uppassword")
+    public JSONResult<?> editPassword(
+            @NotBlank(message = "旧密码不能为空！")
+            @Length(min = 6,max = 30,message = "密码长度为6~30的字符!")
+            String oldPassword,
+            @NotBlank(message = "新密码不能为空！")
+            @Length(min = 6,max = 30,message = "密码长度为6~30的字符!")
+            String newPassword,
+            @NotBlank(message = "确认密码不能为空！")String confirmPassword) {
+        // 从 token 获取 对象
+        MemberParam _param = handleToken(new MemberParam());
+
+        return super.editPassword(_param.getId(),oldPassword,newPassword,confirmPassword,KEY_PASSWORD_ENCODER,memberService);
+    }
+
+
+    // 发送验证码
+    @Token
+    @Valid
+    @PostMapping("/manager/sendcode")
+    public JSONResult<?> sendCode(
+            @NotBlank(message = "手机号码不能为空!") @Phone String phone){
+
+        return super.sendCode(phone, KEY_PHONE_CODE_CACHE_TIME, KEY_SESSION_PHONE_CODE, KEY_SESSION_PHONE, memberService);
+    }
+
+
+    // 编辑用户头像
+    @PostMapping("/manager/edituseravatar")
+    @Token
+    public JSONResult<?> editAvatar(MultipartFile file) {
+        MemberParam _param = handleToken(new MemberParam());
+
+        return super.editAvatar(file, _param.getId(), memberService);
+    }
+
 }

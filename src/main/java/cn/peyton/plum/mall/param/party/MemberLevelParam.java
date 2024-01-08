@@ -1,12 +1,11 @@
 package cn.peyton.plum.mall.param.party;
 
 
-import cn.peyton.plum.core.validator.constraints.Length;
-import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.core.validator.constraints.Size;
+import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.pojo.party.MemberLevel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <h3> 会员等级 参数 传递类[用来展示数据]类</h3>
@@ -36,25 +35,28 @@ public class MemberLevelParam implements Serializable {
     /**
      * 会员类型, 默认 0 零售 1 批发
      */
-    @Size(min = 0,max = 1)
-    private Integer memberType;
+    //@Size(min = 0,max = 1)
+    //private Integer memberType;
     /**
      * 是否启用, 默认 1 启用 0 禁用
      */
     @Size(min = 0,max = 1)
     private Integer status;
     /**
-     * 折扣
+     * 折扣(50~100) /100,默认: 100
      */
+    @Size(min=50,max = 100)
     private Integer discount;
     /**
      * 消费满元
      */
-    private Integer maxPrice;
+    @MinDecimal(value = 0.01,message = "最小消费为0.01元")
+    private BigDecimal maxPrice;
     /**
      * 消费满次数
      */
-    private Integer maxTimes;
+    @Min(message = "消费次数最小为0")
+    private Integer maxCount;
 
     //================================== Constructor =======================================//
 
@@ -108,16 +110,16 @@ public class MemberLevelParam implements Serializable {
     /**
      * @param memberType 会员类型, 默认 0 零售 1 批发
      */
-    public void setMemberType(Integer memberType) {
-        this.memberType = memberType;
-    }
+    //public void setMemberType(Integer memberType) {
+    //    this.memberType = memberType;
+    //}
 
     /**
      * @return 会员类型, 默认 0 零售 1 批发
      */
-    public Integer getMemberType() {
-        return memberType;
-    }
+    //public Integer getMemberType() {
+    //    return memberType;
+    //}
 
     /**
      * @param status 是否启用, 默认 1 启用 0 禁用
@@ -134,14 +136,14 @@ public class MemberLevelParam implements Serializable {
     }
 
     /**
-     * @param discount 折扣
+     * @param discount 折扣(50~100) /100,默认: 100
      */
     public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
     /**
-     * @return 折扣
+     * @return 折扣(50~100) /100,默认: 100
      */
     public Integer getDiscount() {
         return discount;
@@ -150,29 +152,29 @@ public class MemberLevelParam implements Serializable {
     /**
      * @param maxPrice 消费满元
      */
-    public void setMaxPrice(Integer maxPrice) {
+    public void setMaxPrice(BigDecimal maxPrice) {
         this.maxPrice = maxPrice;
     }
 
     /**
      * @return 消费满元
      */
-    public Integer getMaxPrice() {
+    public BigDecimal getMaxPrice() {
         return maxPrice;
     }
 
     /**
-     * @param maxTimes 消费满次数
+     * @param maxCount 消费满次数
      */
-    public void setMaxTimes(Integer maxTimes) {
-        this.maxTimes = maxTimes;
+    public void setMaxCount(Integer maxCount) {
+        this.maxCount = maxCount;
     }
 
     /**
      * @return 消费满次数
      */
-    public Integer getMaxTimes() {
-        return maxTimes;
+    public Integer getMaxCount() {
+        return maxCount;
     }
 
     /**
@@ -187,11 +189,11 @@ public class MemberLevelParam implements Serializable {
         memberLevel.setId(id);
         memberLevel.setName(name);
         memberLevel.setSeq(seq);
-        memberLevel.setMemberType(memberType);
+        //memberLevel.setMemberType(memberType);
         memberLevel.setStatus(status);
         memberLevel.setDiscount(discount);
         memberLevel.setMaxPrice(maxPrice);
-        memberLevel.setMaxTimes(maxTimes);
+        memberLevel.setMaxCount(maxCount);
         return memberLevel;
     }
 
@@ -209,11 +211,11 @@ public class MemberLevelParam implements Serializable {
         this.setId(memberLevel.getId());
         this.setName(memberLevel.getName());
         this.setSeq(memberLevel.getSeq());
-        this.setMemberType(memberLevel.getMemberType());
+        //this.setMemberType(memberLevel.getMemberType());
         this.setStatus(memberLevel.getStatus());
         this.setDiscount(memberLevel.getDiscount());
         this.setMaxPrice(memberLevel.getMaxPrice());
-        this.setMaxTimes(memberLevel.getMaxTimes());
+        this.setMaxCount(memberLevel.getMaxCount());
         return this;
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * <h3> 商品轮播图 Controller 类</h3>
  * <pre>
@@ -32,26 +34,25 @@ public class ShopSlideshowController extends PcController<ShopSlideshowParam>
     @Resource
     private ShopSlideshowService shopSlideshowService;
 
-    // 轮播图
+    //  10. 轮播图
     @Token
     @Valid
     @PostMapping("/manager/create")
     public JSONResult<?> slideshow(@RequestMultiple FormData<ShopSlideshowParam> data) {
-
-        if(shopSlideshowService.batchInsertSelective(data.getKeyLong(),data.getObjs())){
-
-            return JSONResult.success("批量添加成功;", data.getObjs());
+        if (null == data) { return JSONResult.fail(NO_DATA);}
+        if (null == data.getKeyLong() || data.getKeyLong() < 1) {return JSONResult.fail(TIP_PRODUCT + TIP_ID + null);}
+        if (null == data.getObjs() || data.getObjs().size() < 1) { return JSONResult.fail(NO_DATA);}
+        if (null == data.getBool()) { return JSONResult.fail(PARAM+NULL);}
+        List<ShopSlideshowParam> objs = data.getObjs();
+        for (int i = 0; i < objs.size(); i++) {
+            objs.get(i).setSrc(convertImgPath(objs.get(i).getSrc()));
         }
-        return JSONResult.fail("批量添加失败;");
+
+        return baseHandle(shopSlideshowService.batchInsertSelective(data.getKeyLong(), objs, data.getBool()), BATCH, OPERATE);
     }
 
     @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
-        return null;
-    }
-
-    @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 

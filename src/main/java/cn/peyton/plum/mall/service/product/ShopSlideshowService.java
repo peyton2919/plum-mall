@@ -21,7 +21,8 @@ public interface ShopSlideshowService extends IBaseService<Long, ShopSlideshow, 
      * <h4>批量添加轮播图</h4>
      * @param productId 商品Id
      * @param slideshows 轮播图对象
+     * @param bool 新增 false | 更新 true
      * @return true 表示 成功
      */
-    Boolean batchInsertSelective(Long productId,List<ShopSlideshowParam> slideshows);
+    Boolean batchInsertSelective(Long productId,List<ShopSlideshowParam> slideshows,Boolean bool);
 }

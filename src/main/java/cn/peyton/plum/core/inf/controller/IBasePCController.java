@@ -20,14 +20,14 @@ public interface IBasePCController<K,P> {
      * @param pageNo 分页页码数
      * @return JSONResult 包装的 对象集合
      */
-    JSONResult<?> all(String keyword,Integer pageNo);
+    //JSONResult<?> all(String keyword,Integer pageNo);
 
     /**
      * <h4>分页搜索 查找全部</h4>
      * @param query 关键字 | 对象
      * @return JSONResult 包装的 对象集合
      */
-    JSONResult<?> search(Query query);
+    JSONResult<?> list(Query<P> query);
 
     /**
      * <h4>添加对象</h4>

@@ -1,6 +1,10 @@
 package cn.peyton.plum.mall.param.product;
 
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Date;
+import cn.peyton.plum.core.validator.constraints.Min;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.pojo.product.ShopCart;
 
 import java.io.Serializable;
@@ -26,43 +30,50 @@ public class ShopCartParam implements Serializable {
     /**
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
+    @Size(min = 0,max = 5)
     private Integer shareType;
     /**
      * 商品数量,默认: 0
      */
+    @Min(value = 1,message = "购买数量最小为1；")
     private Integer num;
     /**
      * 0 = 未购买 1 = 已购买
      */
+    @Size(min = 0,max = 1)
     private Integer isPay;
-    /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Integer isDel;
     /**
      * 是否为立即购买,默认0 未立即购买 1购买
      */
+    @Size(min = 0,max = 1)
     private Integer isNew;
     /**
      * 拼团id
      */
+    @Min(value = 1,message = "拼团Id要大于0;")
     private Long pinkId;
     /**
      * 秒杀产品ID
      */
+    @Min(value = 1,message = "秒杀Id要大于0;")
     private Long seckillId;
     /**
      * 砍价id
      */
+    @Min(value = 1,message = "砍价Id要大于0;")
     private Long bargainId;
+    /** 购物车详细数据 { 数据存储格式: JSON} */
+    private String expand;
     /**
      * 添加时间
      */
-    private Integer createTime;
+    @Date
+    private String createTime;
     /**
      * 更新时间
      */
-    private Integer updateTime;
+    @Date
+    private String updateTime;
 
     //================================== Constructor =======================================//
 
@@ -142,20 +153,6 @@ public class ShopCartParam implements Serializable {
     }
 
     /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
-     */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
-     */
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    /**
      * @param isNew 是否为立即购买,默认0 未立即购买 1购买
      */
     public void setIsNew(Integer isNew) {
@@ -210,32 +207,44 @@ public class ShopCartParam implements Serializable {
     public Long getBargainId() {
         return bargainId;
     }
+    /**
+     * @return 购物车详细数据 { 数据存储格式: JSON}
+     */
+    public String getExpand() {
+        return expand;
+    }
 
+    /**
+     * @param expand 购物车详细数据 { 数据存储格式: JSON}
+     */
+    public void setExpand(String expand) {
+        this.expand = expand;
+    }
     /**
      * @param createTime 添加时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 添加时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
     /**
      * @param updateTime 更新时间
      */
-    public void setUpdateTime(Integer updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
     /**
      * @return 更新时间
      */
-    public Integer getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
@@ -254,13 +263,13 @@ public class ShopCartParam implements Serializable {
         shopCart.setShareType(shareType);
         shopCart.setNum(num);
         shopCart.setIsPay(isPay);
-        shopCart.setIsDel(isDel);
         shopCart.setIsNew(isNew);
         shopCart.setPinkId(pinkId);
         shopCart.setSeckillId(seckillId);
         shopCart.setBargainId(bargainId);
-        shopCart.setCreateTime(createTime);
-        shopCart.setUpdateTime(updateTime);
+        shopCart.setExpand(expand);
+        shopCart.setCreateTime(DateUtils.dateToTimestamp(createTime));
+        shopCart.setUpdateTime(DateUtils.dateToTimestamp(updateTime));
         return shopCart;
     }
 
@@ -280,13 +289,13 @@ public class ShopCartParam implements Serializable {
         this.setShareType(shopCart.getShareType());
         this.setNum(shopCart.getNum());
         this.setIsPay(shopCart.getIsPay());
-        this.setIsDel(shopCart.getIsDel());
         this.setIsNew(shopCart.getIsNew());
         this.setPinkId(shopCart.getPinkId());
         this.setSeckillId(shopCart.getSeckillId());
         this.setBargainId(shopCart.getBargainId());
-        this.setCreateTime(shopCart.getCreateTime());
-        this.setUpdateTime(shopCart.getUpdateTime());
+        this.setExpand(shopCart.getExpand());
+        this.setCreateTime(DateUtils.timestampToStrDate(shopCart.getCreateTime()));
+        this.setUpdateTime(DateUtils.timestampToStrDate(shopCart.getUpdateTime()));
         return this;
     }
 }

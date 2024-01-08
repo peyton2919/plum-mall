@@ -33,7 +33,6 @@ public class ShopProductRuleParam implements Serializable {
      * 规格值:[{detail:[黑色,白色],value:颜色},{detail:[111,112],value:尺寸},...]
      */
     @NotBlank(message = "规格值不能为空")
-    @Length(min = 3)
     private String ruleValue;
     /**
      * 使用热度(数值越大越靠前)

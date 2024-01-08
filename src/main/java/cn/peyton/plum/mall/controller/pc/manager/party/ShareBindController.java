@@ -1,7 +1,13 @@
 package cn.peyton.plum.mall.controller.pc.manager.party;
 
+import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.mall.controller.base.PcController;
+import cn.peyton.plum.mall.param.party.ShareBindParam;
 import cn.peyton.plum.mall.service.party.ShareBindService;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,9 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-public class ShareBindController {
+@RequestMapping("/pc/sharebind")
+public class ShareBindController extends PcController<ShareBindParam>
+        implements IBasePCController<Long, ShareBindParam> {
 
     @Resource
     private ShareBindService shareBindService;
 
+    @Override
+    public JSONResult<?> list(Query query) {
+        return null;
+    }
+
+    @Override
+    public JSONResult<?> create(ShareBindParam record) {
+        return null;
+    }
+
+    @Override
+    public JSONResult<?> edit(ShareBindParam record) {
+        return null;
+    }
+
+    @Override
+    public JSONResult<?> delete(Long id) {
+        return null;
+    }
 }

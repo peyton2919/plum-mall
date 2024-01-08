@@ -48,18 +48,6 @@
 		where id = #{id} and `is_del` = 1
 	</update>
 
-	<update id="updateShow" parameterType="map">
-		update `tb_shop_category`
-		set `is_show` = #{isShow}
-		where id = #{id} and `is_del` = 1
-	</update>
-
-	<update id="updateDelete" parameterType="map">
-		update `tb_shop_category`
-		set `is_del` = 0
-		where id = #{id}
-	</update>
-
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from `tb_sh*op_category`
 		where `id` = #{id}
@@ -84,7 +72,7 @@
 		where `id` = #{id} and `is_del`=1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopCategoryMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultShopCategoryMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_category_List"/>
 		from `tb_shop_category`
@@ -104,11 +92,11 @@
 		<if test="record.createTime != null">
 			and `create_time` like concat('%',#{record.createTime},'%')
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName},id ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -135,11 +123,11 @@
 		<if test="record.createTime != null">
 			and `create_time` = #{record.createTime}
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName},id ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -197,6 +185,7 @@
 		ORDER BY seq desc
 	</select>
 
+	<!-- 树型 查找 -->
 	<select id="selectByTree" resultMap="ResultShopCategoryMap">
 		select
 		<include refid="Column_tb_shop_category_List"/>
@@ -205,6 +194,7 @@
 		order by seq desc
 	</select>
 
+	<!-- 自身下拉框使用 -->
 	<select id="selectByInner" resultMap="ResultShopCategoryMap">
 		select
 		<include refid="Column_tb_shop_category_List"/>
@@ -213,6 +203,7 @@
 		order by seq desc
 	</select>
 
+	<!-- 外部下拉框使用 -->
 	<select id="selectByOutside" resultMap="ResultShopCategoryMap">
 		select
 		<include refid="Column_tb_shop_category_List"/>

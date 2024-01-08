@@ -66,7 +66,7 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultMaterialGroupMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultMaterialGroupMap" parameterType="map">
 		select
 		<include refid="Column_sys_material_group_List"/>
 		from `sys_material_group`
@@ -90,11 +90,11 @@
 				and `create_time` like concat('%',#{record.createTime},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -125,11 +125,11 @@
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

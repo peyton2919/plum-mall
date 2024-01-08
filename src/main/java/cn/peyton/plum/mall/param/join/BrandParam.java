@@ -1,6 +1,13 @@
 package cn.peyton.plum.mall.param.join;
 
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Length;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
+import cn.peyton.plum.mall.bo.SupplierBo;
+import cn.peyton.plum.mall.param.party.SupplierParam;
 import cn.peyton.plum.mall.pojo.join.Brand;
 
 import java.io.Serializable;
@@ -14,6 +21,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
+@ImageHostPath(name = "logo")
 public class BrandParam implements Serializable {
     /**
      * 编号
@@ -26,34 +34,42 @@ public class BrandParam implements Serializable {
     /**
      * 品牌LOGO 图片大小120px*120px
      */
+    @Length(min = 0,max = 145)
     private String logo;
     /**
      * 品牌名称
      */
+    @NotBlank(message = "品牌名称不能为空;")
+    @Length(min = 2,max = 29)
     private String name;
     /**
      * 所属地区
      */
+    @Length(max = 99)
     private String area;
     /**
      * 排序取值范围0~9999，默认为0; 按大到小排序
      */
+    @Size(min = 0,max = 9999)
     private Short seq;
-    /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Integer isDel;
     /**
      * 品牌描述
      */
+    @Length(max = 249)
     private String explain;
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String  createTime;
+    /**
+     * 供应商对象
+     */
+    private SupplierParam supplier;
 
     //================================== Constructor =======================================//
-
+    public BrandParam() {
+        if (null == supplier) { supplier = new SupplierParam(); }
+    }
     //================================== Method =======================================//
 
 
@@ -142,21 +158,6 @@ public class BrandParam implements Serializable {
     public Short getSeq() {
         return seq;
     }
-
-    /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
-     */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
-     */
-    public Integer getIsDel() {
-        return isDel;
-    }
-
     /**
      * @param explain 品牌描述
      */
@@ -174,22 +175,35 @@ public class BrandParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
+    }
+    /**
+     * @return 供应商对象
+     */
+    public SupplierParam getSupplier() {
+        return supplier;
+    }
+
+    /**
+     * @param supplier 供应商对象
+     */
+    public void setSupplier(SupplierParam supplier) {
+        this.supplier = supplier;
     }
 
     /**
      * <h4>对象转成Brand对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,supId,logo,name,area,seq,isDel,explain,createTime]
+     * 	 [id,supId,logo,name,area,seq,explain,createTime]
      * </pre>
      */
     public Brand convert() {
@@ -200,9 +214,9 @@ public class BrandParam implements Serializable {
         brand.setName(name);
         brand.setArea(area);
         brand.setSeq(seq);
-        brand.setIsDel(isDel);
         brand.setExplain(explain);
-        brand.setCreateTime(createTime);
+        brand.setCreateTime(DateUtils.dateToTimestamp(createTime));
+        brand.setSupplier(supplier.convert());
         return brand;
     }
 
@@ -210,7 +224,7 @@ public class BrandParam implements Serializable {
      * <h4>Brand对象转成BrandParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,supId,logo,name,area,seq,isDel,explain,createTime]
+     * 	 [id,supId,logo,name,area,seq,explain,createTime]
      * </pre>
      */
     public BrandParam compat(Brand brand) {
@@ -223,9 +237,9 @@ public class BrandParam implements Serializable {
         this.setName(brand.getName());
         this.setArea(brand.getArea());
         this.setSeq(brand.getSeq());
-        this.setIsDel(brand.getIsDel());
         this.setExplain(brand.getExplain());
-        this.setCreateTime(brand.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(brand.getCreateTime()));
+        this.setSupplier(new SupplierBo().compat(brand.getSupplier()));
         return this;
     }
 }

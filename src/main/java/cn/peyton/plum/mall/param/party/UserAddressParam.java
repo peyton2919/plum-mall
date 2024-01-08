@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.param.party;
 
 
-import cn.peyton.plum.mall.pojo.party.UserAddress;
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.*;
 
 import java.io.Serializable;
 
@@ -22,47 +23,59 @@ public class UserAddressParam implements Serializable {
     /**
      * 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    private Long shaerId;
+    @NotBlank(message = "当前用户ID不能为空;")
+    private Long shareId;
     /**
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    private Integer shaerType;
+    @NotBlank(message = "类型不能为空;")
+    @Size(min = 0,max = 5)
+    private Integer shareType;
     /**
      * 省
      */
+    @Length(max = 50)
     private String province;
     /**
      * 市
      */
+    @Length(max = 50)
     private String city;
     /**
      * 区
      */
+    @Length(max = 50)
     private String district;
     /**
      * 具体地址
      */
+    @Length(max = 150)
     private String address;
     /**
      * 邮编
      */
+    @Length(max = 6)
     private String zip;
     /**
      * 联系人
      */
+    @Length(max = 30)
     private String name;
     /**
      * 联系电话
      */
+    @Phone
     private String phone;
     /**
      * 最后一次使用
      */
-    private Integer lastUsedTime;
+    @Date
+    private String lastUsedTime;
     /**
      * 创建时间
      */
-    private Integer createTime;
+    @Date
+    private String createTime;
 
     //================================== Constructor =======================================//
 
@@ -86,31 +99,31 @@ public class UserAddressParam implements Serializable {
     }
 
     /**
-     * @param shaerId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
+     * @param shareId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    public void setShaerId(Long shaerId) {
-        this.shaerId = shaerId;
+    public void setShareId(Long shareId) {
+        this.shareId = shareId;
     }
 
     /**
      * @return 用户ID(包含 : 会员Id 、 供应商Id 、 员工Id等, 配合share_type一起使用)
      */
-    public Long getShaerId() {
-        return shaerId;
+    public Long getShareId() {
+        return shareId;
     }
 
     /**
-     * @param shaerType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
+     * @param shareType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    public void setShaerType(Integer shaerType) {
-        this.shaerType = shaerType;
+    public void setShareType(Integer shareType) {
+        this.shareType = shareType;
     }
 
     /**
      * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    public Integer getShaerType() {
-        return shaerType;
+    public Integer getShareType() {
+        return shareType;
     }
 
     /**
@@ -214,28 +227,28 @@ public class UserAddressParam implements Serializable {
     /**
      * @param lastUsedTime 最后一次使用
      */
-    public void setLastUsedTime(Integer lastUsedTime) {
+    public void setLastUsedTime(String lastUsedTime) {
         this.lastUsedTime = lastUsedTime;
     }
 
     /**
      * @return 最后一次使用
      */
-    public Integer getLastUsedTime() {
+    public String getLastUsedTime() {
         return lastUsedTime;
     }
 
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -243,14 +256,14 @@ public class UserAddressParam implements Serializable {
      * <h4>对象转成MemberAddress对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,shaerId,shaerType,province,city,district,address,zip,name,phone,lastUsedTime,createTime]
+     * 	 [id,shareId,shareType,province,city,district,address,zip,name,phone,lastUsedTime,createTime]
      * </pre>
      */
-    public UserAddress convert() {
-        UserAddress userAddress = new UserAddress();
+    public cn.peyton.plum.mall.pojo.party.UserAddress convert() {
+        cn.peyton.plum.mall.pojo.party.UserAddress userAddress = new cn.peyton.plum.mall.pojo.party.UserAddress();
         userAddress.setId(id);
-        userAddress.setShaerId(shaerId);
-        userAddress.setShaerType(shaerType);
+        userAddress.setShareId(shareId);
+        userAddress.setShareType(shareType);
         userAddress.setProvince(province);
         userAddress.setCity(city);
         userAddress.setDistrict(district);
@@ -258,8 +271,8 @@ public class UserAddressParam implements Serializable {
         userAddress.setZip(zip);
         userAddress.setName(name);
         userAddress.setPhone(phone);
-        userAddress.setLastUsedTime(lastUsedTime);
-        userAddress.setCreateTime(createTime);
+        userAddress.setLastUsedTime(DateUtils.dateToTimestamp(lastUsedTime));
+        userAddress.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return userAddress;
     }
 
@@ -267,16 +280,16 @@ public class UserAddressParam implements Serializable {
      * <h4>MemberAddress对象转成MemberAddressParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,shaerId,shaerType,province,city,district,address,zip,name,phone,lastUsedTime,createTime]
+     * 	 [id,shareId,shareType,province,city,district,address,zip,name,phone,lastUsedTime,createTime]
      * </pre>
      */
-    public UserAddressParam compat(UserAddress userAddress) {
+    public UserAddressParam compat(cn.peyton.plum.mall.pojo.party.UserAddress userAddress) {
         if (null == userAddress) {
             return new UserAddressParam();
         }
         this.setId(userAddress.getId());
-        this.setShaerId(userAddress.getShaerId());
-        this.setShaerType(userAddress.getShaerType());
+        this.setShareId(userAddress.getShareId());
+        this.setShareType(userAddress.getShareType());
         this.setProvince(userAddress.getProvince());
         this.setCity(userAddress.getCity());
         this.setDistrict(userAddress.getDistrict());
@@ -284,8 +297,8 @@ public class UserAddressParam implements Serializable {
         this.setZip(userAddress.getZip());
         this.setName(userAddress.getName());
         this.setPhone(userAddress.getPhone());
-        this.setLastUsedTime(userAddress.getLastUsedTime());
-        this.setCreateTime(userAddress.getCreateTime());
+        this.setLastUsedTime(DateUtils.timestampToStrDate(userAddress.getLastUsedTime()));
+        this.setCreateTime(DateUtils.timestampToStrDate(userAddress.getCreateTime()));
         return this;
     }
 }

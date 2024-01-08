@@ -5,7 +5,7 @@
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<!--<result column="level_id" property="levelId" jdbcType="INTEGER"/>-->
 		<result column="username" property="username" jdbcType="VARCHAR"/>
-		<result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+		<result column="password" property="password" jdbcType="VARCHAR"/>
 		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
 		<result column="nickname" property="nickname" jdbcType="VARCHAR"/>
 		<result column="phone" property="phone" jdbcType="VARCHAR"/>
@@ -17,19 +17,27 @@
 		<result column="sex" property="sex" jdbcType="TINYINT"/>
 		<result column="birthday" property="birthday" jdbcType="VARCHAR"/>
 		<result column="encrypted" property="encrypted" jdbcType="VARCHAR"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<association property="memberLevel" column="level_id" javaType="cn.peyton.plum.mall.pojo.party.MemberLevel"
 					 select="cn.peyton.plum.mall.mapper.party.MemberLevelMapper.selectByPrimaryKey" />
 
+		<!--<association property="bill" javaType="cn.peyton.plum.mall.pojo.party.UserBill"-->
+		<!--			 column="{shareId=id,shareType=share_type}" select="cn.peyton.plum.mall.mapper.party.UserBillMapper.selectByShareId" />-->
+
+		<!--<association property="extract" javaType="cn.peyton.plum.mall.pojo.party.UserExtract"-->
+		<!--			 column="{shareId=id,shareType=share_type}" select="cn.peyton.plum.mall.mapper.party.UserExtractMapper.selectByShareId" />-->
+		<collection property="userAddresses" javaType="list"
+					column="{shareId=id,shareType=share_type}" select="cn.peyton.plum.mall.mapper.party.UserAddressMapper.selectByShareId" />
+		<collection property="shareBinds" javaType="list"
+					column="{shareId=id,shareType=share_type}" select="cn.peyton.plum.mall.mapper.party.ShareBindMapper.selectByShareId" />
 	</resultMap>
 
 	<sql id="Column_tb_member_List">
 		`id`,`level_id`,`username`,`avatar`,`nickname`,`phone`,`email`,`status`,`last_ip`,
-		    `loc`,`last_login_time`,`sex`,`birthday`,`encrypted`,`is_del`,`create_time`
+		    `loc`,`last_login_time`,`sex`,`birthday`,`encrypted`,`create_time`,0 `share_type`
 	</sql>
 
-	<resultMap id="result_simple_member_list" type="cn.peyton.plum.mall.pojo.party.Member">
+	<resultMap id="result_member_simple_list" type="cn.peyton.plum.mall.pojo.party.Member">
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="username" property="username" jdbcType="VARCHAR"/>
 		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
@@ -42,11 +50,29 @@
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<association property="memberLevel" column="level_id" javaType="cn.peyton.plum.mall.pojo.party.MemberLevel"
 					 select="cn.peyton.plum.mall.mapper.party.MemberLevelMapper.selectByPrimaryKey" />
-
+		<collection property="userAddresses" javaType="list"
+					 column="{shareId=id,shareType=share_type}" select="cn.peyton.plum.mall.mapper.party.UserAddressMapper.selectByShareId" />
+		<collection property="shareBinds" javaType="list"
+					column="{shareId=id,shareType=share_type}" select="cn.peyton.plum.mall.mapper.party.ShareBindMapper.selectByShareId" />
 	</resultMap>
 
-	<sql id="column_simple_member_list">
-		`id`,`level_id`,`username`,`avatar`,`nickname`,`phone`,`email`,`loc`,`sex`,`birthday`,`create_time`
+	<sql id="column_member_simple_list">
+		`id`,`level_id`,`username`,`avatar`,`nickname`,`phone`,`email`,`loc`,`sex`,`birthday`,`create_time`,0 `share_type`
+	</sql>
+
+	<resultMap id="result_member_fk_list" type="cn.peyton.plum.mall.pojo.party.Member">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="username" property="username" jdbcType="VARCHAR"/>
+		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+		<result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="email" property="email" jdbcType="VARCHAR"/>
+		<association property="memberLevel" column="level_id" javaType="cn.peyton.plum.mall.pojo.party.MemberLevel"
+					 select="cn.peyton.plum.mall.mapper.party.MemberLevelMapper.selectByPrimaryKey" />
+	</resultMap>
+
+	<sql id="column_member_fk_list">
+		`id`,`level_id`,`username`,`avatar`,`nickname`,`phone`,`email`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.Member" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -54,37 +80,27 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test=" memberLevel.id!= null">`level_id`,</if>
 			<if test="username != null">`username`,</if>
-			<if test="pwd != null">`pwd`,</if>
+			<if test="password != null">`password`,</if>
 			<if test="avatar != null">`avatar`,</if>
 			<if test="nickname != null">`nickname`,</if>
 			<if test="phone != null">`phone`,</if>
 			<if test="email != null">`email`,</if>
-			<if test="status != null">`status`,</if>
-			<if test="lastIp != null">`last_ip`,</if>
-			<if test="loc != null">`loc`,</if>
-			<if test="lastLoginTime != null">`last_login_time`,</if>
 			<if test="sex != null">`sex`,</if>
 			<if test="birthday != null">`birthday`,</if>
 			<if test="encrypted != null">`encrypted`,</if>
-			<if test="isDel != null">`is_del`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="memberLevel.id != null">#{memberLevel.id},</if>
 			<if test="username != null">#{username},</if>
-			<if test="pwd != null">#{pwd},</if>
+			<if test="password != null">#{password},</if>
 			<if test="avatar != null">#{avatar},</if>
 			<if test="nickname != null">#{nickname},</if>
 			<if test="phone != null">#{phone},</if>
 			<if test="email != null">#{email},</if>
-			<if test="status != null">#{status},</if>
-			<if test="lastIp != null">#{lastIp},</if>
-			<if test="loc != null">#{loc},</if>
-			<if test="lastLoginTime != null">#{lastLoginTime},</if>
 			<if test="sex != null">#{sex},</if>
 			<if test="birthday != null">#{birthday},</if>
 			<if test="encrypted != null">#{encrypted},</if>
-			<if test="isDel != null">#{isDel},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
 	</insert>
@@ -94,35 +110,16 @@
 		<set>
 			<if test="memberLevel.id != null">`level_id` = #{memberLevel.id},</if>
 			<if test="username != null">`username` = #{username},</if>
-			<if test="pwd != null">`pwd` = #{pwd},</if>
 			<if test="avatar != null">`avatar` = #{avatar},</if>
 			<if test="nickname != null">`nickname` = #{nickname},</if>
 			<if test="phone != null">`phone` = #{phone},</if>
 			<if test="email != null">`email` = #{email},</if>
-			<if test="status != null">`status` = #{status},</if>
-			<if test="lastIp != null">`last_ip` = #{lastIp},</if>
-			<if test="loc != null">`loc` = #{loc},</if>
-			<if test="lastLoginTime != null">`last_login_time` = #{lastLoginTime},</if>
 			<if test="sex != null">`sex` = #{sex},</if>
 			<if test="birthday != null">`birthday` = #{birthday},</if>
-			<if test="encrypted != null">`encrypted` = #{encrypted},</if>
-			<if test="isDel != null">`is_del` = #{isDel},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
 		where id = #{id}
 	</update>
 
-	<update id="updateDelete" parameterType="long">
-		update `tb_member`
-		set `is_del` = 0
-		where id = #{id}
-	</update>
-
-	<update id="updateStatus" parameterType="map">
-		update `tb_member`
-		set `status` = #{status}
-		where id = #{id} and `is_del` = 1
-	</update>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from `tb_member`
@@ -134,12 +131,18 @@
 		count(`id`)
 		from `tb_member`
 		where `is_del`=1
+		and (`username` = #{username}
+			<if test="phone != null and phone != ''">
+				or `phone` = #{phone}
+			</if>
+			<if test="email != null and email != ''">
+				or `email`=#{email}
+			</if>
+		)
 		<if test="id != null">
 			and `id` != #{id}
 		</if>
-		<if test="username != null">
-			and `username` = #{username}
-		</if>
+
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultMemberMap"  parameterType="java.lang.Long">
@@ -149,11 +152,25 @@
 		where `id` = #{id} and `is_del` =1
 	</select>
 
-	<select id="selectSimpleById" resultMap="result_simple_member_list"  parameterType="java.lang.Long">
+	<select id="selectSimpleById" resultMap="result_member_simple_list" parameterType="java.lang.Long">
 		select
-		<include refid="column_simple_member_list"/>
+		<include refid="column_member_simple_list"/>
 		from `tb_member`
 		where `id` = #{id} and `is_del` =1
+	</select>
+
+	<select id="selectByForeignKey" resultMap="result_member_fk_list" parameterType="java.lang.Long">
+		select
+		<include refid="column_member_fk_list"/>
+		from `tb_member`
+		where `id` = #{id} and `is_del` =1
+	</select>
+
+	<select id="selectByDownList" resultMap="result_member_fk_list">
+		select
+		<include refid="column_member_fk_list"/>
+		from `tb_member`
+		where `is_del` =1
 	</select>
 
 	<select id="isMemberLevel" resultType="int"  parameterType="int">
@@ -163,7 +180,7 @@
 		where `level_id` = #{levelId} and `is_del` =1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultMemberMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultMemberMap" parameterType="map">
 		select
 		<include refid="Column_tb_member_List"/>
 		from `tb_member`
@@ -184,11 +201,11 @@
 		<if test="record.email != null">
 			and `email` like concat('%',#{record.email},'%')
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -209,8 +226,8 @@
 			<if test="record.username != null">
 				and `username` = #{record.username}
 			</if>
-			<if test="record.pwd != null">
-				and `pwd` = #{record.pwd}
+			<if test="record.password != null">
+				and `password` = #{record.password}
 			</if>
 			<if test="record.avatar != null">
 				and `avatar` = #{record.avatar}
@@ -245,18 +262,15 @@
 			<if test="record.encrypted != null">
 				and `encrypted` = #{record.encrypted}
 			</if>
-			<if test="record.isDel != null">
-				and `is_del` = #{record.isDel}
-			</if>
 			<if test="record.createTime != null">
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -299,8 +313,8 @@
 			<if test="username != null">
 				and `username` = #{username}
 			</if>
-			<if test="pwd != null">
-				and `pwd` = #{pwd}
+			<if test="password != null">
+				and `password` = #{password}
 			</if>
 			<if test="avatar != null">
 				and `avatar` = #{avatar}
@@ -335,13 +349,48 @@
 			<if test="encrypted != null">
 				and `encrypted` = #{encrypted}
 			</if>
-			<if test="isDel != null">
-				and `is_del` = #{isDel}
-			</if>
 			<if test="createTime != null">
 				and `create_time` = #{createTime}
 			</if>
 		</where>
+	</select>
+
+	<!-- 用户公用方法	-->
+	<select id="checkStatus" parameterType="map" resultType="int">
+		select
+			count(id)
+		from `tb_member`
+		where is_del= 1
+		<if test="status != -1">
+			and status = #{status}
+		</if>
+		<if test="type == 'account'">
+			and username = #{keyword}
+		</if>
+		<if test="type == 'phone'">
+			and phone = #{keyword}
+		</if>
+		<if test="type == 'email'">
+			and email = #{keyword}
+		</if>
+	</select>
+
+	<select id="login" resultMap="result_member_fk_list" parameterType="map">
+		select
+		<include refid="column_member_fk_list"/>
+		from `tb_member`
+		where password=#{password}
+		and status=1
+		and is_del= 1
+		<if test="loginType == 'account'">
+			and username = #{keyword}
+		</if>
+		<if test="loginType == 'phone'">
+			and phone = #{keyword}
+		</if>
+		<if test="loginType == 'email'">
+			and email = #{keyword}
+		</if>
 	</select>
 
 </mapper>

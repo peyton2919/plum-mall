@@ -30,4 +30,12 @@ public interface MenuService extends IBaseService<Long, Menu, MenuParam> {
      */
     List<MenuParam> findByTree();
 
+    /**
+     * <h4>更新状态</h4>
+     * @param id 主键
+     * @param status 状态 1 可用 0 禁用
+     * @return true 成功
+     */
+    Boolean upStatus(Long id, Integer status);
+
 }

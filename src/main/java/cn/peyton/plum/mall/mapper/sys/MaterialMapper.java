@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.mapper.sys;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.sys.Material;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <h3> 素材库 Mapper 接口</h3>
@@ -14,12 +15,14 @@ import cn.peyton.plum.mall.pojo.sys.Material;
  */
 public interface MaterialMapper extends IBaseMapper<Long, Material> {
 
-    // ==================================== new create method ==================================== //
+    // ==================================== 注解方式 ==================================== //
     /**
      * <h4>判断有没有关联分组</h4>
      * @param groupId 分组Id
      * @return 受影响的行数 有关联 大于 0
      */
+    @Select("select count(id) from sys_material  where group_id = #{groupId}")
     int joinGroup(Long groupId);
+
 
 }

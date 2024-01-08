@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.param.party;
 
 
+import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.pojo.party.SupplierInfo;
 
 import java.io.Serializable;
@@ -19,49 +20,54 @@ public class SupplierInfoParam implements Serializable {
      * 编号
      */
     private Long id;
-    /**
-     * 供应商Id
-     */
-    private Long supId;
+
     /**
      * 地址
      */
+    @NotBlank(message = "地址不能为空")
+    @Length(max = 150)
     private String address;
-    /**
-     * 邮箱
-     */
-    private String email;
+
     /**
      * 电话
      */
+    @Phone
     private String tel;
     /**
      * QQ号
      */
+    @Length(min = 0,max = 20)
     private String qq;
     /**
      * 传真
      */
+    @Length(min = 0,max = 20)
     private String fax;
     /**
      * 性别：默认 0{0 保密 1 男 2 女}
      */
+    @Size(min = 0,max = 2)
     private Integer sex;
     /**
      * 生日
      */
+    @Date
+    @Past
     private String birthday;
     /**
      * 说明
      */
+    @Length(min=0,max = 250)
     private String explain;
     /**
      * 外接网址
      */
+    @Length(min=0,max = 250)
     private String webSite;
     /**
      * 连接外网标识码
      */
+    @Length(min=0,max = 250)
     private String webCode;
 
     //================================== Constructor =======================================//
@@ -79,27 +85,6 @@ public class SupplierInfoParam implements Serializable {
     }
 
     /**
-     * @return 编号
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param supId 供应商Id
-     */
-    public void setSupId(Long supId) {
-        this.supId = supId;
-    }
-
-    /**
-     * @return 供应商Id
-     */
-    public Long getSupId() {
-        return supId;
-    }
-
-    /**
      * @param address 地址
      */
     public void setAddress(String address) {
@@ -111,20 +96,6 @@ public class SupplierInfoParam implements Serializable {
      */
     public String getAddress() {
         return address;
-    }
-
-    /**
-     * @param email 邮箱
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return 邮箱
-     */
-    public String getEmail() {
-        return email;
     }
 
     /**
@@ -249,9 +220,7 @@ public class SupplierInfoParam implements Serializable {
     public SupplierInfo convert() {
         SupplierInfo supplierInfo = new SupplierInfo();
         supplierInfo.setId(id);
-        supplierInfo.setSupId(supId);
         supplierInfo.setAddress(address);
-        supplierInfo.setEmail(email);
         supplierInfo.setTel(tel);
         supplierInfo.setQq(qq);
         supplierInfo.setFax(fax);
@@ -275,9 +244,7 @@ public class SupplierInfoParam implements Serializable {
             return new SupplierInfoParam();
         }
         this.setId(supplierInfo.getId());
-        this.setSupId(supplierInfo.getSupId());
         this.setAddress(supplierInfo.getAddress());
-        this.setEmail(supplierInfo.getEmail());
         this.setTel(supplierInfo.getTel());
         this.setQq(supplierInfo.getQq());
         this.setFax(supplierInfo.getFax());

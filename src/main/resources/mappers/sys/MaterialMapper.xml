@@ -6,6 +6,7 @@
 		<result column="create_id" property="createId" jdbcType="BIGINT"/>
 		<result column="type" property="type" jdbcType="TINYINT"/>
 		<result column="group_id" property="groupId" jdbcType="BIGINT"/>
+		<result column="category" property="category" jdbcType="TINYINT"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
 		<result column="src" property="src" jdbcType="VARCHAR"/>
 		<result column="url" property="url" jdbcType="VARCHAR"/>
@@ -14,7 +15,7 @@
 	</resultMap>
 
 	<sql id="Column_sys_material_List">
-		`id`,`create_id`,`type`,`group_id`,`name`,`src`,`url`,`create_type`,`create_time`
+		`id`,`create_id`,`type`,`group_id`,`category`,`name`,`src`,`url`,`create_type`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.Material" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -23,6 +24,7 @@
 			<if test="createId != null">`create_id`,</if>
 			<if test="type != null">`type`,</if>
 			<if test="groupId != null">`group_id`,</if>
+			<if test="category != null">`category`,</if>
 			<if test="name != null">`name`,</if>
 			<if test="src != null">`src`,</if>
 			<if test="url != null">`url`,</if>
@@ -33,6 +35,7 @@
 			<if test="createId != null">#{createId},</if>
 			<if test="type != null">#{type},</if>
 			<if test="groupId != null">#{groupId},</if>
+			<if test="category != null">#{category},</if>
 			<if test="name != null">#{name},</if>
 			<if test="src != null">#{src},</if>
 			<if test="url != null">#{url},</if>
@@ -47,11 +50,11 @@
 			<if test="createId != null">`create_id` = #{createId},</if>
 			<if test="type != null">`type` = #{type},</if>
 			<if test="groupId != null">`group_id` = #{groupId},</if>
+			<if test="category != null">`category` = #{category},</if>
 			<if test="name != null">`name` = #{name},</if>
 			<if test="src != null">`src` = #{src},</if>
 			<if test="url != null">`url` = #{url},</if>
 			<if test="createType != null">`create_type` = #{createType},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -69,30 +72,7 @@
 			<if test="id != null">
 				and `id` = #{id}
 			</if>
-			<if test="createId != null">
-				and `create_id` = #{createId}
-			</if>
-			<if test="type != null">
-				and `type` = #{type}
-			</if>
-			<if test="groupId != null">
-				and `group_id` = #{groupId}
-			</if>
-			<if test="name != null">
-				and `name` = #{name}
-			</if>
-			<if test="src != null">
-				and `src` = #{src}
-			</if>
-			<if test="url != null">
-				and `url` = #{url}
-			</if>
-			<if test="createType != null">
-				and `create_type` = #{createType}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
+
 		</where>
 	</select>
 
@@ -103,44 +83,35 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultMaterialMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultMaterialMap" parameterType="map">
 		select
 		<include refid="Column_sys_material_List"/>
 		from `sys_material`
 		<where>
-			<if test="record.id != null">
-				and `id` like concat('%',#{record.id},'%')
+			<if test="record.category != null">
+				and `category` = #{record.category}
 			</if>
 			<if test="record.createId != null">
-				and `create_id` like concat('%',#{record.createId},'%')
+				and `create_id` =#{record.createId}
 			</if>
 			<if test="record.type != null">
-				and `type` like concat('%',#{record.type},'%')
+				and `type` #{record.type}
 			</if>
 			<if test="record.groupId != null">
-				and `group_id` like concat('%',#{record.groupId},'%')
+				and `group_id`=#{record.groupId}
 			</if>
 			<if test="record.name != null">
 				and `name` like concat('%',#{record.name},'%')
 			</if>
-			<if test="record.src != null">
-				and `src` like concat('%',#{record.src},'%')
-			</if>
-			<if test="record.url != null">
-				and `url` like concat('%',#{record.url},'%')
-			</if>
 			<if test="record.createType != null">
-				and `create_type` like concat('%',#{record.createType},'%')
-			</if>
-			<if test="record.createTime != null">
-				and `create_time` like concat('%',#{record.createTime},'%')
+				and `create_type` = #{record.createType}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by ${page.orderByColumuName}  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -177,11 +148,11 @@
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by ${page.orderByColumuName}  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -193,32 +164,23 @@
 		count(`id`)
 		from `sys_material`
 		<where>
-			<if test="id != null">
-				and `id` like concat('%',#{id},'%')
+			<if test="category != null">
+				and `category` = #{category}
 			</if>
 			<if test="createId != null">
-				and `create_id` like concat('%',#{createId},'%')
+				and `create_id` = #{createId}
 			</if>
 			<if test="type != null">
-				and `type` like concat('%',#{type},'%')
+				and `type` = #{type}
 			</if>
 			<if test="groupId != null">
-				and `group_id` like concat('%',#{groupId},'%')
+				and `group_id` = #{groupId}
 			</if>
 			<if test="name != null">
 				and `name` like concat('%',#{name},'%')
 			</if>
-			<if test="src != null">
-				and `src` like concat('%',#{src},'%')
-			</if>
-			<if test="url != null">
-				and `url` like concat('%',#{url},'%')
-			</if>
 			<if test="createType != null">
-				and `create_type` like concat('%',#{createType},'%')
-			</if>
-			<if test="createTime != null">
-				and `create_time` like concat('%',#{createTime},'%')
+				and `create_type` = #{createType}
 			</if>
 		</where>
 	</select>
@@ -258,12 +220,5 @@
 		</where>
 	</select>
 
-
-	<select id="joinGroup" resultType = "int" parameterType="long">
-		select
-		count(`id`)
-		from `sys_material`
-		where group_id = #{groupId}
-	</select>
 
 </mapper>

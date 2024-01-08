@@ -1,6 +1,11 @@
 package cn.peyton.plum.mall.param.party;
 
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Length;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.pojo.party.ShareBind;
 
 import java.io.Serializable;
@@ -14,6 +19,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
+@ImageHostPath(name = "avatar")
 public class ShareBindParam implements Serializable {
     /**
      * 编号
@@ -22,35 +28,44 @@ public class ShareBindParam implements Serializable {
     /**
      * 类型{sinaweibo、qq、weixin等}与open_id配合使用
      */
+    @NotBlank(message = "绑定类型不能为空")
+    @Length(min=1,max = 45)
     private String openType;
     /**
      * 开放编号
      */
+    @NotBlank(message = "绑定Id不能为空")
+    @Length(min=1,max = 250)
     private String openId;
     /**
      * 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    private Long shaerId;
+    private Long shareId;
     /**
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    private Integer shaerType;
+    @Size(min = 0,max = 5)
+    private Integer shareType;
     /**
      * 昵称
      */
+    @Length(min = 1,max = 40)
     private String nickName;
     /**
      * 头像地址
      */
+    @Length(min = 0,max = 200)
     private String avatar;
     /**
      * 说明
      */
+    @Length(min = 1,max = 250)
     private String explain;
     /**
      * 创建时间
      */
-    private Integer createTime;
+    @Length(max = 40)
+    private String  createTime;
 
     //================================== Constructor =======================================//
 
@@ -102,31 +117,31 @@ public class ShareBindParam implements Serializable {
     }
 
     /**
-     * @param shaerId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
+     * @param shareId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    public void setShaerId(Long shaerId) {
-        this.shaerId = shaerId;
+    public void setShareId(Long shareId) {
+        this.shareId = shareId;
     }
 
     /**
      * @return 用户ID(包含 : 会员Id 、 供应商Id 、 员工Id等, 配合share_type一起使用)
      */
-    public Long getShaerId() {
-        return shaerId;
+    public Long getShareId() {
+        return shareId;
     }
 
     /**
-     * @param shaerType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
+     * @param shareType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    public void setShaerType(Integer shaerType) {
-        this.shaerType = shaerType;
+    public void setShareType(Integer shareType) {
+        this.shareType = shareType;
     }
 
     /**
      * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    public Integer getShaerType() {
-        return shaerType;
+    public Integer getShareType() {
+        return shareType;
     }
 
     /**
@@ -174,14 +189,14 @@ public class ShareBindParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -189,7 +204,7 @@ public class ShareBindParam implements Serializable {
      * <h4>对象转成ShareBind对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,openType,openId,shaerId,shaerType,nickName,avatar,explain,createTime]
+     * 	 [id,openType,openId,shareId,shareType,nickName,avatar,explain,createTime]
      * </pre>
      */
     public ShareBind convert() {
@@ -197,12 +212,12 @@ public class ShareBindParam implements Serializable {
         shareBind.setId(id);
         shareBind.setOpenType(openType);
         shareBind.setOpenId(openId);
-        shareBind.setShaerId(shaerId);
-        shareBind.setShaerType(shaerType);
+        shareBind.setShareId(shareId);
+        shareBind.setShareType(shareType);
         shareBind.setNickName(nickName);
         shareBind.setAvatar(avatar);
         shareBind.setExplain(explain);
-        shareBind.setCreateTime(createTime);
+        shareBind.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return shareBind;
     }
 
@@ -210,7 +225,7 @@ public class ShareBindParam implements Serializable {
      * <h4>ShareBind对象转成ShareBindParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,openType,openId,shaerId,shaerType,nickName,avatar,explain,createTime]
+     * 	 [id,openType,openId,shareId,shareType,nickName,avatar,explain,createTime]
      * </pre>
      */
     public ShareBindParam compat(ShareBind shareBind) {
@@ -220,12 +235,12 @@ public class ShareBindParam implements Serializable {
         this.setId(shareBind.getId());
         this.setOpenType(shareBind.getOpenType());
         this.setOpenId(shareBind.getOpenId());
-        this.setShaerId(shareBind.getShaerId());
-        this.setShaerType(shareBind.getShaerType());
+        this.setShareId(shareBind.getShareId());
+        this.setShareType(shareBind.getShareType());
         this.setNickName(shareBind.getNickName());
         this.setAvatar(shareBind.getAvatar());
         this.setExplain(shareBind.getExplain());
-        this.setCreateTime(shareBind.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(shareBind.getCreateTime()));
         return this;
     }
 }

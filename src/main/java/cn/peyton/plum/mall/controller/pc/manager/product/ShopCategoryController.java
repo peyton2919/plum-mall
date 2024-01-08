@@ -11,7 +11,6 @@ import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.service.product.ShopCategoryService;
-import cn.peyton.plum.mall.service.product.ShopProductCategoryService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,29 +31,16 @@ import java.util.List;
 @RequestMapping("/pc/category")
 public class ShopCategoryController  extends PcController<ShopCategoryParam>
         implements IBasePCController<Integer, ShopCategoryParam> {
-    String TIP_NAME = "商品分类";
 
     @Resource
     private ShopCategoryService shopCategoryService;
-    @Resource
-    private ShopProductCategoryService shopProductCategoryService;
 
+    // 查找 列表
     @Token
-    @Valid
-    @PostMapping("/manager/all")
-    @Override
-    public JSONResult<?> all(String keyword,
-             @NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
-        return null;
-    }
-    @Token
-    @Valid
+    @Valid(ignore = {"pageNo"})
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
-        //ShopCategoryParam _param = new ShopCategoryParam();
-        //_param.setName(query.getKeyword());
-        //return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopCategoryService);
+    public JSONResult<?> list(Query query) {
         List<ShopCategoryParam> res = shopCategoryService.findByTree();
         if (null == res) {
             return JSONResult.fail("没找到数据");
@@ -62,17 +48,21 @@ public class ShopCategoryController  extends PcController<ShopCategoryParam>
         return JSONResult.success(res);
     }
 
+    // 下拉框 查找
     @Token
     @PostMapping("/manager/select")
     public JSONResult<?> select(){
-
         return JSONResult.success("商品分类数据加载成功", shopCategoryService.findByOutside());
     }
+
+    // 下拉框 内部 使用 pid = 0
     @Token
     @PostMapping("/manager/selectinner")
     public JSONResult<?> selectInner(){
         return JSONResult.success("商品分类数据加载成功", shopCategoryService.findByInner());
     }
+
+    // 添加分类
     @Token
     @Valid
     @PostMapping("/manager/create")
@@ -81,42 +71,63 @@ public class ShopCategoryController  extends PcController<ShopCategoryParam>
         ShopCategoryParam _repeat = new ShopCategoryParam();
         _repeat.setName(record.getName());
         _repeat.setPid((null != record.getPid())?record.getPid():0);
-        return baseCreate(record, _repeat, shopCategoryService, TIP_NAME);
+        return baseHandleCreate(record, _repeat, shopCategoryService, TIP_SHOP_CATEGROY);
     }
+
+    // 修改分类
     @Token
     @Valid
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(ShopCategoryParam record) {
+        Boolean child = false;
+        if (shopCategoryService.isChildren(record.getId())||
+                shopCategoryService.isRecommend(record.getId())) {
+            child = true;
+        }
+        if (child){
+            if (null != record.getSeq() && record.getSeq() >= 0) {
+                if (shopCategoryService.updateSeq(record.getId(), record.getSeq())) {
+                    return JSONResult.success(UPDATE + SORT + SEMICOLON + DATA + JOIN_DATA + DELETE);
+                }
+
+            }
+            return JSONResult.fail(DATA + JOIN_DATA + DELETE);
+        }
+
         ShopCategoryParam _repeat = new ShopCategoryParam();
         _repeat.setName(record.getName());
         _repeat.setPid((null != record.getPid())?record.getPid():0);
         _repeat.setId(record.getId());
-        return baseEdit(record, _repeat, shopCategoryService, TIP_NAME,UPDATE);
+        return baseHandleEdit(record, _repeat, shopCategoryService, TIP_SHOP_CATEGROY,UPDATE);
     }
+
+    // 删除分类
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer id) {
-        //ShopCategoryParam record = new ShopCategoryParam();
-        //record.setId(id);
-        //return baseEdit(record, null, shopCategoryService, TIP_NAME,DELETE);
-        if (shopCategoryService.updateDelete(id)) {
-            return JSONResult.success("分类删除成功;");
+        if (shopCategoryService.isChildren(id)) {
+            return JSONResult.fail("有关联子类,先删除相关子类;");
         }
-        return JSONResult.fail("分类删除失败;");
+        if (shopCategoryService.isRecommend(id)) {
+            return JSONResult.fail("有关联的推荐产品,先删除相关的推荐产品;");
+        }
+        return baseHandle(shopCategoryService.upDelete(id), TIP_SHOP_CATEGROY,DELETE);
     }
 
+    // 修改分类状态
     @Token
     @Valid
     @PostMapping("/manager/upstatus")
     public JSONResult<?> editStatus(@NotBlank(message = "Id 不能为空;") @Min(message = "要大于0的数！")Integer id,
-                                    @NotBlank(message = "Id 不能为空;")  @Size(min = 0,max = 1) Integer isShow){
-        if (shopCategoryService.updateShow(id, isShow)) {
-            return JSONResult.success("更新成功;");
+                                    @NotBlank(message = "是否推荐不能为空;")  @Size(min = 0,max = 1) Integer isShow){
+        if (shopCategoryService.isRecommend(id)) {
+            return JSONResult.fail("有关联的推荐产品,先删除相关的推荐产品;");
         }
-        return JSONResult.fail("更新失败;");
+        String msg = (isShow == 1) ? "推荐更新" : "移除推荐";
+        return baseHandle(shopCategoryService.updateShow(id,isShow),msg);
     }
 
 }

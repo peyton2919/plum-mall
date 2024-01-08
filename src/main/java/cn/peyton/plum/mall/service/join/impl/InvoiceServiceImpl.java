@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.service.join.impl;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.utils.LogUtils;
 import cn.peyton.plum.mall.bo.InvoiceBo;
 import cn.peyton.plum.mall.mapper.join.InvoiceMapper;
 import cn.peyton.plum.mall.param.join.InvoiceParam;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class InvoiceServiceImpl extends AbstractRealizeService<Long, Invoice, InvoiceParam> implements InvoiceService {
     @Resource
     private InvoiceMapper invoiceMapper;
+    private String TABLE_NAME = "sys_invoice";
 
     @Override
     public BaseConvertBo<Invoice, InvoiceParam> initBo() {
@@ -37,5 +39,18 @@ public class InvoiceServiceImpl extends AbstractRealizeService<Long, Invoice, In
     public InvoiceServiceImpl() {
         enabledCache = true;
         keyPrefix = this.getClass().getName();
+    }
+
+    @Override
+    public Boolean upDelete(Long id) {
+        int res = invoiceMapper.updateDeleteStatus(TABLE_NAME,id);
+        if (res > 0) {
+            if (enabledCache) {
+                LogUtils.info("发票删除操作清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 }

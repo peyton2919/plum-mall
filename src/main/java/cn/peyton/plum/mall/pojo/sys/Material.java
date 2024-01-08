@@ -29,6 +29,9 @@ public class Material implements Serializable {
      * 分组ID
      */
     private Long groupId;
+    /** 所属类型;默认 0 商品 1 头像 2 广告 3 其他 */
+    private Integer category;
+
     /**
      * 素材名
      */
@@ -115,6 +118,19 @@ public class Material implements Serializable {
     }
 
     /**
+     * @return 所属类型;默认 0 商品 1 头像 2 广告 3 其他
+     */
+    public Integer getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category 所属类型;默认 0 商品 1 头像 2 广告 3 其他
+     */
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+    /**
      * @param name 素材名
      */
     public void setName(String name) {
@@ -156,14 +172,14 @@ public class Material implements Serializable {
     }
 
     /**
-     * @param createType 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
+     * @param createType 创建者类型: 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public void setCreateType(Integer createType) {
         this.createType = createType;
     }
 
     /**
-     * @return 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
+     * @return 创建者类型: 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public Integer getCreateType() {
         return createType;

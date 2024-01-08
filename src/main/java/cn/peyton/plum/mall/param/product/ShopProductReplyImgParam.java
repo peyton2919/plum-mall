@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.param.product;
 
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.mall.pojo.product.ShopProductReplyImg;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
 */
+@ImageHostPath(name = "src")
 public class ShopProductReplyImgParam implements Serializable {
 	/** 评论Id  */
 	private Long id;

@@ -3,46 +3,62 @@
 <mapper namespace="cn.peyton.plum.mall.mapper.party.SupplierMapper">
 	<resultMap id="ResultSupplierMap" type="cn.peyton.plum.mall.pojo.party.Supplier">
 		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="username" property="username" jdbcType="VARCHAR"/>
+		<result column="email" property="email" jdbcType="VARCHAR"/>
 		<result column="login_name" property="loginName" jdbcType="VARCHAR"/>
 		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
-		<result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+		<result column="password" property="password" jdbcType="VARCHAR"/>
 		<result column="phone" property="phone" jdbcType="VARCHAR"/>
 		<result column="loc" property="loc" jdbcType="INTEGER"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
 		<result column="encrypted" property="encrypted" jdbcType="VARCHAR"/>
 		<result column="last_ip" property="lastIp" jdbcType="VARCHAR"/>
+		<result column="last_login_time" property="lastLoginTime" jdbcType="INTEGER"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="supplierInfo" javaType="cn.peyton.plum.mall.pojo.party.SupplierInfo"
+					 column="info_id" select="cn.peyton.plum.mall.mapper.party.SupplierInfoMapper.selectByPrimaryKey" />
 	</resultMap>
 
 	<sql id="Column_tb_supplier_List">
-		`id`,`name`,`login_name`,`avatar`,`pwd`,`phone`,`loc`,`is_del`,`encrypted`,`last_ip`,`create_time`
+		`id`,`username`,`email`,`info_id`,`login_name`,`avatar`,`phone`,`loc`,`status`,`encrypted`,`last_ip`,`last_login_time`,`create_time`
+	</sql>
+
+	<resultMap id="result_supplier_simple_list" type="cn.peyton.plum.mall.pojo.party.Supplier">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="username" property="username" jdbcType="VARCHAR"/>
+		<result column="email" property="email" jdbcType="VARCHAR"/>
+		<result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="supplierInfo" javaType="cn.peyton.plum.mall.pojo.party.SupplierInfo"
+					 column="info_id" select="cn.peyton.plum.mall.mapper.party.SupplierInfoMapper.selectByPrimaryKey" />
+	</resultMap>
+
+	<sql id="column_supplier_simple_List">
+		`id`,`username`,`info_id`,`email`,`login_name`,`avatar`,`phone`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.Supplier" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `tb_supplier`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">`name`,</if>
+			<if test="username != null">`username`,</if>
 			<if test="loginName != null">`login_name`,</if>
+			<if test="email != null">`email`,</if>
 			<if test="avatar != null">`avatar`,</if>
-			<if test="pwd != null">`pwd`,</if>
+			<if test="password != null">`password`,</if>
 			<if test="phone != null">`phone`,</if>
-			<if test="loc != null">`loc`,</if>
-			<if test="isDel != null">`is_del`,</if>
 			<if test="encrypted != null">`encrypted`,</if>
-			<if test="lastIp != null">`last_ip`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="name != null">#{name},</if>
+			<if test="username != null">#{username},</if>
 			<if test="loginName != null">#{loginName},</if>
+			<if test="email != null">#{email},</if>
 			<if test="avatar != null">#{avatar},</if>
-			<if test="pwd != null">#{pwd},</if>
+			<if test="password != null">#{password},</if>
 			<if test="phone != null">#{phone},</if>
-			<if test="loc != null">#{loc},</if>
-			<if test="isDel != null">#{isDel},</if>
 			<if test="encrypted != null">#{encrypted},</if>
-			<if test="lastIp != null">#{lastIp},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
 	</insert>
@@ -50,18 +66,13 @@
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.Supplier">
 		update `tb_supplier`
 		<set>
-			<if test="name != null">`name` = #{name},</if>
+			<if test="username != null">`username` = #{username},</if>
 			<if test="loginName != null">`login_name` = #{loginName},</if>
+			<if test="email != null">`email` = #{email},</if>
 			<if test="avatar != null">`avatar` = #{avatar},</if>
-			<if test="pwd != null">`pwd` = #{pwd},</if>
 			<if test="phone != null">`phone` = #{phone},</if>
-			<if test="loc != null">`loc` = #{loc},</if>
-			<if test="isDel != null">`is_del` = #{isDel},</if>
-			<if test="encrypted != null">`encrypted` = #{encrypted},</if>
-			<if test="lastIp != null">`last_ip` = #{lastIp},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
-		where id = #{id}
+		where id = #{id} and `is_del` = 1
 	</update>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -73,94 +84,66 @@
 		select
 		count(`id`)
 		from `tb_supplier`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
+		where `is_del`=1
+		and (`login_name` = #{loginName}
+			<if test="phone != null and phone != ''">
+				or `phone` = #{phone}
 			</if>
-			<if test="name != null">
-				and `name` = #{name}
+			<if test="email != null and email != ''">
+				or `email`=#{email}
 			</if>
-			<if test="loginName != null">
-				and `login_name` = #{loginName}
-			</if>
-			<if test="avatar != null">
-				and `avatar` = #{avatar}
-			</if>
-			<if test="pwd != null">
-				and `pwd` = #{pwd}
-			</if>
-			<if test="phone != null">
-				and `phone` = #{phone}
-			</if>
-			<if test="loc != null">
-				and `loc` = #{loc}
-			</if>
-			<if test="isDel != null">
-				and `is_del` = #{isDel}
-			</if>
-			<if test="encrypted != null">
-				and `encrypted` = #{encrypted}
-			</if>
-			<if test="lastIp != null">
-				and `last_ip` = #{lastIp}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
-		</where>
+		)
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultSupplierMap"  parameterType="java.lang.Long">
 		select
 		<include refid="Column_tb_supplier_List"/>
 		from `tb_supplier`
-		where `id` = #{id}
+		where `id` = #{id} and `is_del` = 1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultSupplierMap"  parameterType="map">
+	<select id="selectByForeignKey" resultMap="result_supplier_simple_list"  parameterType="java.lang.Long">
+		select
+			<include refid="column_supplier_simple_List"/>
+		from `tb_supplier`
+		where `id` = #{id} and `status` = 1 and `is_del` = 1
+	</select>
+
+	<select id="selectByDownList" resultMap="result_supplier_simple_list">
+		select
+			<include refid="column_supplier_simple_List"/>
+		from `tb_supplier`
+		where `status` = 1 and `is_del` = 1
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultSupplierMap" parameterType="map">
 		select
 		<include refid="Column_tb_supplier_List"/>
 		from `tb_supplier`
-		<where>
-			<if test="record.id != null">
-				and `id` like concat('%',#{record.id},'%')
-			</if>
-			<if test="record.name != null">
-				and `name` like concat('%',#{record.name},'%')
-			</if>
-			<if test="record.loginName != null">
-				and `login_name` like concat('%',#{record.loginName},'%')
-			</if>
-			<if test="record.avatar != null">
-				and `avatar` like concat('%',#{record.avatar},'%')
-			</if>
-			<if test="record.pwd != null">
-				and `pwd` like concat('%',#{record.pwd},'%')
-			</if>
-			<if test="record.phone != null">
-				and `phone` like concat('%',#{record.phone},'%')
-			</if>
-			<if test="record.loc != null">
-				and `loc` like concat('%',#{record.loc},'%')
-			</if>
-			<if test="record.isDel != null">
-				and `is_del` like concat('%',#{record.isDel},'%')
-			</if>
-			<if test="record.encrypted != null">
-				and `encrypted` like concat('%',#{record.encrypted},'%')
-			</if>
-			<if test="record.lastIp != null">
-				and `last_ip` like concat('%',#{record.lastIp},'%')
-			</if>
-			<if test="record.createTime != null">
-				and `create_time` like concat('%',#{record.createTime},'%')
-			</if>
-		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		where `is_del` = 1
+		<if test="record.username != null">
+			and `username` like concat('%',#{record.username},'%')
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="record.loginName != null">
+			and `login_name` like concat('%',#{record.loginName},'%')
+		</if>
+		<if test="record.email != null">
+			and `email` like concat('%',#{record.email},'%')
+		</if>
+		<if test="record.phone != null">
+			and `phone` like concat('%',#{record.phone},'%')
+		</if>
+		<if test="record.status != null">
+			and `status`=#{record.status}
+		</if>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -172,45 +155,27 @@
 		<include refid="Column_tb_supplier_List"/>
 		from `tb_supplier`
 		<where>
-			<if test="record.id != null">
-				and `id` = #{record.id}
-			</if>
-			<if test="record.name != null">
-				and `name` = #{record.name}
+			<if test="record.username != null">
+				and `username` = #{record.username}
 			</if>
 			<if test="record.loginName != null">
 				and `login_name` = #{record.loginName}
 			</if>
-			<if test="record.avatar != null">
-				and `avatar` = #{record.avatar}
-			</if>
-			<if test="record.pwd != null">
-				and `pwd` = #{record.pwd}
+			<if test="record.email != null">
+				and `email` = #{record.email}
 			</if>
 			<if test="record.phone != null">
 				and `phone` = #{record.phone}
 			</if>
-			<if test="record.loc != null">
-				and `loc` = #{record.loc}
-			</if>
-			<if test="record.isDel != null">
-				and `is_del` = #{record.isDel}
-			</if>
-			<if test="record.encrypted != null">
-				and `encrypted` = #{record.encrypted}
-			</if>
-			<if test="record.lastIp != null">
-				and `last_ip` = #{record.lastIp}
-			</if>
-			<if test="record.createTime != null">
-				and `create_time` = #{record.createTime}
+			<if test="record.status != null">
+				and `status` = #{record.status}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -221,82 +186,84 @@
 		select
 		count(`id`)
 		from `tb_supplier`
-		<where>
-			<if test="id != null">
-				and `id` like concat('%',#{id},'%')
-			</if>
-			<if test="name != null">
-				and `name` like concat('%',#{name},'%')
-			</if>
-			<if test="loginName != null">
-				and `login_name` like concat('%',#{loginName},'%')
-			</if>
-			<if test="avatar != null">
-				and `avatar` like concat('%',#{avatar},'%')
-			</if>
-			<if test="pwd != null">
-				and `pwd` like concat('%',#{pwd},'%')
-			</if>
-			<if test="phone != null">
-				and `phone` like concat('%',#{phone},'%')
-			</if>
-			<if test="loc != null">
-				and `loc` like concat('%',#{loc},'%')
-			</if>
-			<if test="isDel != null">
-				and `is_del` like concat('%',#{isDel},'%')
-			</if>
-			<if test="encrypted != null">
-				and `encrypted` like concat('%',#{encrypted},'%')
-			</if>
-			<if test="lastIp != null">
-				and `last_ip` like concat('%',#{lastIp},'%')
-			</if>
-			<if test="createTime != null">
-				and `create_time` like concat('%',#{createTime},'%')
-			</if>
-		</where>
+		where `is_del` = 1
+		<if test="username != null">
+			and `username` like concat('%',#{username},'%')
+		</if>
+		<if test="loginName != null">
+			and `login_name` like concat('%',#{loginName},'%')
+		</if>
+		<if test="email != null">
+			and `email` like concat('%',#{email},'%')
+		</if>
+		<if test="phone != null">
+			and `phone` like concat('%',#{phone},'%')
+		</if>
+		<if test="status != null">
+			and `status` like concat('%',#{status},'%')
+		</if>
 	</select>
 
 	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.Supplier">
 		select
 		count(`id`)
 		from `tb_supplier`
+		where `is_del` = 1
 		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="name != null">
-				and `name` = #{name}
+			<if test="username != null">
+				and `username` = #{username}
 			</if>
 			<if test="loginName != null">
 				and `login_name` = #{loginName}
 			</if>
-			<if test="avatar != null">
-				and `avatar` = #{avatar}
-			</if>
-			<if test="pwd != null">
-				and `pwd` = #{pwd}
+			<if test="email != null">
+				and `email` = #{email}
 			</if>
 			<if test="phone != null">
 				and `phone` = #{phone}
 			</if>
-			<if test="loc != null">
-				and `loc` = #{loc}
-			</if>
-			<if test="isDel != null">
-				and `is_del` = #{isDel}
-			</if>
-			<if test="encrypted != null">
-				and `encrypted` = #{encrypted}
-			</if>
-			<if test="lastIp != null">
-				and `last_ip` = #{lastIp}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
+			<if test="status != null">
+				and `status` = #{status}
 			</if>
 		</where>
+	</select>
+
+	<!-- 用户公用方法	-->
+	<select id="checkStatus" parameterType="map" resultType="int">
+		select
+		count(id)
+		from `tb_supplier`
+		where is_del= 1
+		<if test="status != -1">
+			and status = #{status}
+		</if>
+		<if test="type == 'account'">
+			and username = #{keyword}
+		</if>
+		<if test="type == 'phone'">
+			and phone = #{keyword}
+		</if>
+		<if test="type == 'email'">
+			and email = #{keyword}
+		</if>
+	</select>
+
+	<select id="login" resultMap="result_supplier_simple_list" parameterType="map">
+		select
+		<include refid="column_supplier_simple_List"/>
+		from `tb_supplier`
+		where password=#{password}
+		and status=1
+		and is_del= 1
+		<if test="loginType == 'account'">
+			and login_name = #{keyword}
+		</if>
+		<if test="loginType == 'phone'">
+			and phone = #{keyword}
+		</if>
+		<if test="loginType == 'email'">
+			and email = #{keyword}
+		</if>
 	</select>
 
 </mapper>

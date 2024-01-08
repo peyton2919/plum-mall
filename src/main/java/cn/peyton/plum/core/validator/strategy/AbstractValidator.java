@@ -142,9 +142,9 @@ public abstract class AbstractValidator implements IValidator {
                     return true;
                 }else if(an instanceof Datetime){
                     return true;
-                }else if(an instanceof DecimalMax){
+                }else if(an instanceof MaxDecimal){
                     return true;
-                }else if(an instanceof DecimalMin){
+                }else if(an instanceof MinDecimal){
                     return true;
                 }else if(an instanceof Email){
                     return true;

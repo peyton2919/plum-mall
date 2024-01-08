@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.IDeleteService;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.pojo.product.ShopCategory;
 
@@ -15,7 +16,30 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopCategoryService extends IBaseService<Integer, ShopCategory, ShopCategoryParam> {
+public interface ShopCategoryService extends IDeleteService<Integer>, IBaseService<Integer, ShopCategory, ShopCategoryParam> {
+
+    /**
+     * <h4>删除时判断是否有子类</h4>
+     * @param id 分类Id
+     * @return true 表示有关联, 不能删除
+     */
+    Boolean isChildren(Integer id);
+
+    /**
+     * <h4>删除时判断是否有推荐子类</h4>
+     * @param id 分类Id
+     * @return true 表示有关联, 不能删除
+     */
+    Boolean isRecommend(Integer id);
+
+    /**
+     * <h4>更新排序</h4>
+     * @param id 主键
+     * @param seq 数值
+     * @return true 成功
+     */
+    Boolean updateSeq(Integer id, Short seq);
+
     /**
      * <h4>下拉框查找</h4>
      * @return
@@ -35,13 +59,6 @@ public interface ShopCategoryService extends IBaseService<Integer, ShopCategory,
      * @return 成功 true
      */
     Boolean updateShow(Integer id, Integer isShow);
-
-    /**
-     * <h4>删除 更新 is_del = 0 </h4>
-     * @param id 主键
-     * @return 受影响的行数 > 0
-     */
-    Boolean updateDelete(Integer id);
 
     /**
      * <h4>菜单树型查找</h4>

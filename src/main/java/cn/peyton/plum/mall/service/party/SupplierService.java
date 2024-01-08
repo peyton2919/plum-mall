@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.*;
 import cn.peyton.plum.mall.param.party.SupplierParam;
 import cn.peyton.plum.mall.pojo.party.Supplier;
 
@@ -13,6 +13,14 @@ import cn.peyton.plum.mall.pojo.party.Supplier;
  * @version 1.0.0
  * </pre>
  */
-public interface SupplierService extends IBaseService<Long, Supplier, SupplierParam> {
+public interface SupplierService extends IStatusService<Long>, IDeleteService<Long>, IDownListService<SupplierParam>,
+        IBaseService<Long, Supplier, SupplierParam>, IUserService<SupplierParam> {
 
+    /**
+     * <h4>更新供应商基础信息Id</h4>
+     * @param id 供应商Id
+     * @param infoId 供应商基础信息Id
+     * @return 受影响行数 > 0 成功
+     */
+    Boolean updateInfo(Long id, Long infoId);
 }

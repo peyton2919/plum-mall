@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.pojo.join;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <h3> 发票 实体类</h3>
@@ -22,14 +23,6 @@ public class Invoice implements Serializable {
      */
     private Long orderId;
     /**
-     * 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
-     */
-    private Long shaerId;
-    /**
-     * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
-     */
-    private Integer shaerType;
-    /**
      * 名称/公司名称
      */
     private String name;
@@ -41,6 +34,23 @@ public class Invoice implements Serializable {
      * 邮箱
      */
     private String email;
+    /** 开票金额 */
+    private BigDecimal money;
+
+    /**
+     * @return 开票金额
+     */
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    /**
+     * @param money 开票金额
+     */
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
     /**
      * 税号
      */
@@ -107,34 +117,6 @@ public class Invoice implements Serializable {
      */
     public Long getOrderId() {
         return orderId;
-    }
-
-    /**
-     * @param shaerId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
-     */
-    public void setShaerId(Long shaerId) {
-        this.shaerId = shaerId;
-    }
-
-    /**
-     * @return 用户ID(包含 : 会员Id 、 供应商Id 、 员工Id等, 配合share_type一起使用)
-     */
-    public Long getShaerId() {
-        return shaerId;
-    }
-
-    /**
-     * @param shaerType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
-     */
-    public void setShaerType(Integer shaerType) {
-        this.shaerType = shaerType;
-    }
-
-    /**
-     * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
-     */
-    public Integer getShaerType() {
-        return shaerType;
     }
 
     /**

@@ -1,9 +1,16 @@
 package cn.peyton.plum.mall.param.product;
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.mall.bo.MemberBo;
+import cn.peyton.plum.mall.bo.ShopOrderItemBo;
+import cn.peyton.plum.mall.bo.ShopOrderRefundBo;
+import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.pojo.product.ShopOrder;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 订单 参数 传递类[用来展示数据]类</h3>
@@ -98,7 +105,7 @@ public class ShopOrderParam implements Serializable {
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 更新时间
      */
@@ -164,24 +171,27 @@ public class ShopOrderParam implements Serializable {
      */
     private Integer shippingType;
     /**
-     * 快递公司编号
+     * 订单快递数据json格式:{company:"快递公司",no:"NO12345",time:"",name:"",phone:"",address:""}
      */
-    private String deliverySn;
+    private String shipData;
     /**
-     * 快递名称/送货人姓名
+     * 订单快递状态
      */
-    private String deliveryName;
-    /**
-     * 发货类型
-     */
-    private String deliveryType;
-    /**
-     * 快递单号/手机号
-     */
-    private String deliveryId;
+    private String shipStatus;
+    /** 退款对象 */
+    private ShopOrderRefundParam orderRefund;
+
+    /** 订单项的集合 */
+    private List<ShopOrderItemParam> items;
+    /** 会员对象 */
+    private MemberParam member;
 
     //================================== Constructor =======================================//
-
+    public ShopOrderParam() {
+        if (null == member) {member = new MemberParam();}
+        if (null == orderRefund) {orderRefund = new ShopOrderRefundParam();}
+        if (null == items) { items = new ArrayList<>();  }
+    }
     //================================== Method =======================================//
 
 
@@ -470,14 +480,14 @@ public class ShopOrderParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -510,14 +520,14 @@ public class ShopOrderParam implements Serializable {
     }
 
     /**
-     * @param refundStatus 0 未退款 1 申请中 2 已退款
+     * @param refundStatus 0 未退款 1 已申请,等待审核 2 退款中 3 退款成功 4 退款失败
      */
     public void setRefundStatus(Integer refundStatus) {
         this.refundStatus = refundStatus;
     }
 
     /**
-     * @return 0 未退款 1 申请中 2 已退款
+     * @return 0 未退款 1 已申请,等待审核 2 退款中 3 退款成功 4 退款失败
      */
     public Integer getRefundStatus() {
         return refundStatus;
@@ -706,67 +716,82 @@ public class ShopOrderParam implements Serializable {
     }
 
     /**
-     * @param deliverySn 快递公司编号
+     * @param shipData 订单快递数据json格式:{company:"快递公司",no:"NO12345",time:"",name:"",phone:"",address:""}
      */
-    public void setDeliverySn(String deliverySn) {
-        this.deliverySn = deliverySn;
+    public void setShipData(String shipData) {
+        this.shipData = shipData;
     }
 
     /**
-     * @return 快递公司编号
+     * @return 订单快递数据json格式:{company:"快递公司",no:"NO12345",time:"",name:"",phone:"",address:""}
      */
-    public String getDeliverySn() {
-        return deliverySn;
+    public String getShipData() {
+        return shipData;
     }
 
     /**
-     * @param deliveryName 快递名称/送货人姓名
+     * @param shipStatus 订单快递状态
      */
-    public void setDeliveryName(String deliveryName) {
-        this.deliveryName = deliveryName;
+    public void setShipStatus(String shipStatus) {
+        this.shipStatus = shipStatus;
     }
 
     /**
-     * @return 快递名称/送货人姓名
+     * @return 订单快递状态
      */
-    public String getDeliveryName() {
-        return deliveryName;
+    public String getShipStatus() {
+        return shipStatus;
     }
 
     /**
-     * @param deliveryType 发货类型
+     * @return 订单项的集合
      */
-    public void setDeliveryType(String deliveryType) {
-        this.deliveryType = deliveryType;
+    public List<ShopOrderItemParam> getItems() {
+        return items;
     }
 
     /**
-     * @return 发货类型
+     * @param items 订单项的集合
      */
-    public String getDeliveryType() {
-        return deliveryType;
+    public void setItems(List<ShopOrderItemParam> items) {
+        this.items = items;
     }
 
     /**
-     * @param deliveryId 快递单号/手机号
+     * @return 会员对象
      */
-    public void setDeliveryId(String deliveryId) {
-        this.deliveryId = deliveryId;
+    public MemberParam getMember() {
+        return member;
     }
 
     /**
-     * @return 快递单号/手机号
+     * @param member 会员对象
      */
-    public String getDeliveryId() {
-        return deliveryId;
+    public void setMember(MemberParam member) {
+        this.member = member;
+    }
+    /**
+     * @return 退款对象
+     */
+    public ShopOrderRefundParam getOrderRefund() {
+        return orderRefund;
     }
 
+    /**
+     * @param orderRefund 退款对象
+     */
+    public void setOrderRefund(ShopOrderRefundParam orderRefund) {
+        this.orderRefund = orderRefund;
+    }
 
     /**
      * <h4>对象转成ShopOrder对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,orderNo,extendOrderNo,shareId,shareType,explain,cartId,freightPrice,totalNum,totalPrice,totalPostage,payPrice,payPostage,deductionPrice,couponId,couponPrice,paid,payTime,payType,createTime,updateTime,status,refundStatus,refundId,gainIntegral,useIntegral,payIntegral,backIntegral,isDel,adminRemark,pinkId,seckillId,bargainId,verifyCode,shopId,shippingType,deliverySn,deliveryName,deliveryType,deliveryId]
+     * 	 [id,orderNo,extendOrderNo,shareId,shareType,explain,cartId,freightPrice,totalNum,totalPrice,totalPostage,
+     * 	 payPrice,payPostage,deductionPrice,couponId,couponPrice,paid,payTime,payType,createTime,updateTime,status,
+     * 	 refundStatus,refundId,gainIntegral,useIntegral,payIntegral,backIntegral,isDel,adminRemark,pinkId,seckillId,
+     * 	 bargainId,verifyCode,shopId,shippingType,deliverySn,deliveryName,deliveryType,deliveryId]
      * </pre>
      */
     public ShopOrder convert() {
@@ -791,7 +816,7 @@ public class ShopOrderParam implements Serializable {
         shopOrder.setPaid(paid);
         shopOrder.setPayTime(payTime);
         shopOrder.setPayType(payType);
-        shopOrder.setCreateTime(createTime);
+        shopOrder.setCreateTime(DateUtils.dateToTimestamp(createTime));
         shopOrder.setUpdateTime(updateTime);
         shopOrder.setStatus(status);
         shopOrder.setRefundStatus(refundStatus);
@@ -808,11 +833,11 @@ public class ShopOrderParam implements Serializable {
         shopOrder.setVerifyCode(verifyCode);
         shopOrder.setShopId(shopId);
         shopOrder.setShippingType(shippingType);
-        shopOrder.setDeliverySn(deliverySn);
-        shopOrder.setDeliveryName(deliveryName);
-        shopOrder.setDeliveryType(deliveryType);
-        shopOrder.setDeliveryId(deliveryId);
-
+        shopOrder.setShipData(shipData);
+        shopOrder.setShipStatus(shipStatus);
+        shopOrder.setMember(member.convert());
+        shopOrder.setItems(new ShopOrderItemBo().reverse(items));
+        shopOrder.setOrderRefund(orderRefund.convert());
         return shopOrder;
     }
 
@@ -820,7 +845,10 @@ public class ShopOrderParam implements Serializable {
      * <h4>ShopOrder对象转成ShopOrderParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,orderNo,extendOrderNo,shareId,shareType,explain,closed,cartId,freightPrice,totalNum,totalPrice,totalPostage,payPrice,payPostage,deductionPrice,couponId,couponPrice,paid,payTime,payType,createTime,updateTime,status,refundStatus,refundId,gainIntegral,useIntegral,payIntegral,backIntegral,isDel,adminRemark,pinkId,seckillId,bargainId,verifyCode,shopId,shippingType,deliverySn,deliveryName,deliveryType,deliveryId,id,orderNo,extendOrderNo,shareId,shareType,explain,cartId,freightPrice,totalNum,totalPrice,totalPostage,payPrice,payPostage,deductionPrice,couponId,couponPrice,paid,payTime,payType,createTime,updateTime,status,refundStatus,refundId,gainIntegral,useIntegral,payIntegral,backIntegral,isDel,adminRemark,pinkId,seckillId,bargainId,verifyCode,shopId,shippingType,deliverySn,deliveryName,deliveryType,deliveryId]
+     * 	 [id,orderNo,extendOrderNo,shareId,shareType,explain,closed,cartId,freightPrice,totalNum,totalPrice,totalPostage,
+     * 	 payPrice,payPostage,deductionPrice,couponId,couponPrice,paid,payTime,payType,createTime,updateTime,status,refundStatus,
+     * 	 refundId,gainIntegral,useIntegral,payIntegral,backIntegral,isDel,adminRemark,pinkId,seckillId,bargainId,verifyCode,
+     * 	 shopId,shippingType,deliverySn,deliveryName,deliveryType,deliveryId]
      * </pre>
      */
     public ShopOrderParam compat(ShopOrder shopOrder) {
@@ -847,7 +875,7 @@ public class ShopOrderParam implements Serializable {
         this.setPaid(shopOrder.getPaid());
         this.setPayTime(shopOrder.getPayTime());
         this.setPayType(shopOrder.getPayType());
-        this.setCreateTime(shopOrder.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(shopOrder.getCreateTime()));
         this.setUpdateTime(shopOrder.getUpdateTime());
         this.setStatus(shopOrder.getStatus());
         this.setRefundStatus(shopOrder.getRefundStatus());
@@ -864,11 +892,11 @@ public class ShopOrderParam implements Serializable {
         this.setVerifyCode(shopOrder.getVerifyCode());
         this.setShopId(shopOrder.getShopId());
         this.setShippingType(shopOrder.getShippingType());
-        this.setDeliverySn(shopOrder.getDeliverySn());
-        this.setDeliveryName(shopOrder.getDeliveryName());
-        this.setDeliveryType(shopOrder.getDeliveryType());
-        this.setDeliveryId(shopOrder.getDeliveryId());
-
+        this.setShipData(shopOrder.getShipData());
+        this.setShipStatus(shopOrder.getShipStatus());
+        this.setMember(new MemberBo().compat(shopOrder.getMember()));
+        this.setOrderRefund(new ShopOrderRefundBo().compat(shopOrder.getOrderRefund()));
+        this.setItems(new ShopOrderItemBo().adapter(shopOrder.getItems()));
         return this;
     }
 }

@@ -1,7 +1,11 @@
 package cn.peyton.plum.mall.pojo.product;
 
+import cn.peyton.plum.mall.pojo.party.Member;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 订单 实体类</h3>
@@ -162,24 +166,29 @@ public class ShopOrder implements Serializable {
      */
     private Integer shippingType;
     /**
-     * 快递公司编号
+     * 订单快递数据json格式:{company:"快递公司",no:"NO12345",time:"",name:"",phone:"",address:""}
      */
-    private String deliverySn;
+    private String shipData;
     /**
-     * 快递名称/送货人姓名
+     * 订单快递状态
      */
-    private String deliveryName;
+    private String shipStatus;
+    /** 退款对象 */
+    private ShopOrderRefund orderRefund;
+
     /**
-     * 发货类型
+     * 订单项的集合
      */
-    private String deliveryType;
-    /**
-     * 快递单号/手机号
-     */
-    private String deliveryId;
+    private List<ShopOrderItem> items;
+    /** 买家对象 */
+    private Member member;
 
     //================================== Constructor =======================================//
-
+    public ShopOrder() {
+        if (null == member) {member = new Member();}
+        if(null== items){ items = new ArrayList<>(); }
+        if(null== orderRefund){ orderRefund = new ShopOrderRefund(); }
+    }
     //================================== Method =======================================//
 
 
@@ -508,14 +517,14 @@ public class ShopOrder implements Serializable {
     }
 
     /**
-     * @param refundStatus 0 未退款 1 申请中 2 已退款
+     * @param refundStatus 0 未退款 1 已申请,等待审核 2 退款中 3 退款成功 4 退款失败
      */
     public void setRefundStatus(Integer refundStatus) {
         this.refundStatus = refundStatus;
     }
 
     /**
-     * @return 0 未退款 1 申请中 2 已退款
+     * @return 0 未退款 1 已申请,等待审核 2 退款中 3 退款成功 4 退款失败
      */
     public Integer getRefundStatus() {
         return refundStatus;
@@ -704,59 +713,74 @@ public class ShopOrder implements Serializable {
     }
 
     /**
-     * @param deliverySn 快递公司编号
+     * @param shipData 订单快递数据json格式:{company:"快递公司",no:"NO12345",time:"",name:"",phone:"",address:""}
      */
-    public void setDeliverySn(String deliverySn) {
-        this.deliverySn = deliverySn;
+    public void setShipData(String shipData) {
+        this.shipData = shipData;
     }
 
     /**
-     * @return 快递公司编号
+     * @return 订单快递数据json格式:{company:"快递公司",no:"NO12345",time:"",name:"",phone:"",address:""}
      */
-    public String getDeliverySn() {
-        return deliverySn;
+    public String getShipData() {
+        return shipData;
     }
 
     /**
-     * @param deliveryName 快递名称/送货人姓名
+     * @param shipStatus 订单快递状态
      */
-    public void setDeliveryName(String deliveryName) {
-        this.deliveryName = deliveryName;
+    public void setShipStatus(String shipStatus) {
+        this.shipStatus = shipStatus;
     }
 
     /**
-     * @return 快递名称/送货人姓名
+     * @return 订单快递状态
      */
-    public String getDeliveryName() {
-        return deliveryName;
+    public String getShipStatus() {
+        return shipStatus;
     }
 
     /**
-     * @param deliveryType 发货类型
+     * @return 订单项的集合
      */
-    public void setDeliveryType(String deliveryType) {
-        this.deliveryType = deliveryType;
+    public List<ShopOrderItem> getItems() {
+        return items;
     }
 
     /**
-     * @return 发货类型
+     * @param items 订单项的集合
      */
-    public String getDeliveryType() {
-        return deliveryType;
+    public void setItems(List<ShopOrderItem> items) {
+        this.items = items;
+    }
+
+
+    /**
+     * @return 买家对象
+     */
+    public Member getMember() {
+        return member;
     }
 
     /**
-     * @param deliveryId 快递单号/手机号
+     * @param member 买家对象
      */
-    public void setDeliveryId(String deliveryId) {
-        this.deliveryId = deliveryId;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     /**
-     * @return 快递单号/手机号
+     * @return 退款对象
      */
-    public String getDeliveryId() {
-        return deliveryId;
+    public ShopOrderRefund getOrderRefund() {
+        return orderRefund;
+    }
+
+    /**
+     * @param orderRefund 退款对象
+     */
+    public void setOrderRefund(ShopOrderRefund orderRefund) {
+        this.orderRefund = orderRefund;
     }
 
 

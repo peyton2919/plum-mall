@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.service.product.impl;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.bo.ShopCouponMemberBo;
 import cn.peyton.plum.mall.mapper.product.ShopCouponMemberMapper;
 import cn.peyton.plum.mall.param.product.ShopCouponMemberParam;
@@ -10,6 +11,9 @@ import cn.peyton.plum.mall.pojo.product.ShopCouponMember;
 import cn.peyton.plum.mall.service.product.ShopCouponMemberService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <h3> 优惠券会员(关联优惠券与会员) Service 实现类</h3>
@@ -38,5 +42,34 @@ public class ShopCouponMemberServiceImpl extends AbstractRealizeService<Long, Sh
     public ShopCouponMemberServiceImpl () {
         enabledCache = true;
         keyPrefix = this.getClass().getName();
+    }
+
+    @Override
+    public List<ShopCouponMemberParam> findByUseableOrAll(Long shareId, Integer shareType, BigDecimal price, Integer currentTime, PageQuery page) {
+        // 特殊: 不做缓存处理
+        return initBo().adapter(shopCouponMemberMapper.selectByUseableOrAll(shareId, shareType, price, currentTime, page));
+    }
+
+    @Override
+    public Boolean isJoinCoupon(Long couponId) {
+        return shopCouponMemberMapper.isJoinCoupon(couponId) > 0;
+    }
+
+    @Override
+    public Boolean isUsed(Long couponId, Long shareId, Integer shareType) {
+        return shopCouponMemberMapper.isUsed(couponId, shareId, shareType) > 0;
+    }
+
+    @Override
+    public Boolean upUsed(Long couponId, Long shareId, Integer shareType) {
+        int res = shopCouponMemberMapper.upUsed(couponId, shareId, shareType);
+        if (res > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -53,6 +53,8 @@ public class ShopCart implements Serializable {
      * 砍价id
      */
     private Long bargainId;
+    /** 购物车详细数据 { 数据存储格式: JSON} */
+    private String expand;
     /**
      * 添加时间
      */
@@ -209,7 +211,19 @@ public class ShopCart implements Serializable {
     public Long getBargainId() {
         return bargainId;
     }
+    /**
+     * @return 购物车详细数据 { 数据存储格式: JSON}
+     */
+    public String getExpand() {
+        return expand;
+    }
 
+    /**
+     * @param expand 购物车详细数据 { 数据存储格式: JSON}
+     */
+    public void setExpand(String expand) {
+        this.expand = expand;
+    }
     /**
      * @param createTime 添加时间
      */

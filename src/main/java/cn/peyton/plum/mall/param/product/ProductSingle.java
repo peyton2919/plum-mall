@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.param.product;
 
-import cn.peyton.plum.core.validator.constraints.DecimalMin;
+import cn.peyton.plum.core.validator.constraints.MinDecimal;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 
 import java.io.Serializable;
@@ -27,42 +27,42 @@ public class ProductSingle implements Serializable {
     private Integer specType;
     /**  最低价格 */
     @NotBlank(message = "最低价格不能为空")
-    @DecimalMin(value = 0.01,message = "最低价格不能小于0.01元")
+    @MinDecimal(value = 0.01,message = "最低价格不能小于0.01元")
     private BigDecimal minPrice;
 
     /**
      * 商品价格(批发)
      */
     @NotBlank(message = "批发价格不能为空")
-    @DecimalMin(value = 0.01,message = "批发价格不能小于0.01元")
+    @MinDecimal(value = 0.01,message = "批发价格不能小于0.01元")
     private BigDecimal price;
     /**
      * 会员价格
      */
     @NotBlank(message = "会员价格不能为空")
-    @DecimalMin(value = 0.01,message = "会员价格不能小于0.01元")
+    @MinDecimal(value = 0.01,message = "会员价格不能小于0.01元")
     private BigDecimal vipPrice;
     /**
      * 市场价格
      */
     @NotBlank(message = "市场价格不能为空")
-    @DecimalMin(value = 0.01,message = "市场价格不能小于0.01元")
+    @MinDecimal(value = 0.01,message = "市场价格不能小于0.01元")
     private BigDecimal otPrice;
     /**
      * 成本价格
      */
     @NotBlank(message = "成本价格不能为空")
-    @DecimalMin(value = 0.01,message = "成本价格不能小于0.01元")
+    @MinDecimal(value = 0.01,message = "成本价格不能小于0.01元")
     private BigDecimal costPrice;
     /**
      * 重量
      */
-    @DecimalMin(value = 0,message = "重量数值不能小于0")
+    @MinDecimal(value = 0,message = "重量数值不能小于0")
     private BigDecimal weight;
     /**
      * 体积
      */
-    @DecimalMin(value = 0,message = "重量数值不能小于0")
+    @MinDecimal(value = 0,message = "重量数值不能小于0")
     private BigDecimal volume;
 
     /** 操作提示 默认`0,0,0`[规格|spec, 轮播图|slideshow, 详情|info],0 表示 未操作 1 表示操作过 */

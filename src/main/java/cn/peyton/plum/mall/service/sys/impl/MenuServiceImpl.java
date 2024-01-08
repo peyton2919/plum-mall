@@ -25,6 +25,8 @@ import java.util.List;
  */
 @Service("menuService")
 public class MenuServiceImpl extends AbstractRealizeService<Long, Menu, MenuParam> implements MenuService {
+    private String TABLE_NAME = "sys_menu";
+
     @Resource
     private MenuMapper menuMapper;
 
@@ -48,17 +50,13 @@ public class MenuServiceImpl extends AbstractRealizeService<Long, Menu, MenuPara
     @Override
     public List<MenuParam> findMenuListByShareIdAndType(Long shareId, Integer shareType) {
         List<Menu> menus = menuMapper.selectMenuListByShareIdAndType(shareId,shareType);
-
         return new MenuBo().adapter(MenuUtils.reorganize(menus));
-
-
-
 
     }
 
     @Override
     public List<MenuParam> findByTree() {
-        String key = keyPrefix + "find_tree_all";
+        String key = keyPrefix + "_find_tree_all";
         if (enabledCache){
             Object list = cache.get(key);
             if (null != list) {
@@ -73,5 +71,18 @@ public class MenuServiceImpl extends AbstractRealizeService<Long, Menu, MenuPara
             cache.put(key,pList);
         }
         return pList;
+    }
+
+    @Override
+    public Boolean upStatus(Long id, Integer status) {
+        int res = menuMapper.updateStatus(TABLE_NAME, id, status);
+        if (res > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 }

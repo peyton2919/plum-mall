@@ -3,37 +3,65 @@
 <mapper namespace="cn.peyton.plum.mall.mapper.sys.CityMapper">
 	<resultMap id="ResultCityMap" type="cn.peyton.plum.mall.pojo.sys.City">
 		<id column="id" property="id" jdbcType="INTEGER"/>
-		<result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+		<result column="level" property="level" jdbcType="TINYINT"/>
+		<result column="pid" property="pid" jdbcType="INTEGER"/>
+		<result column="area_code" property="areaCode" jdbcType="VARCHAR"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
-		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="merger_name" property="mergerName" jdbcType="VARCHAR"/>
+		<result column="lng" property="lng" jdbcType="VARCHAR"/>
+		<result column="lat" property="lat" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
 	</resultMap>
 
 	<sql id="Column_sys_city_List">
-		`id`,`province_id`,`name`,`seq`
+		`id`,`level`,`pid`,`area_code`,`name`,`merger_name`,`lng`,`lat`,`status`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.City" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `sys_city`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="provinceId != null">`province_id`,</if>
+			<if test="level != null">`level`,</if>
+			<if test="pid != null">`pid`,</if>
+			<if test="areaCode != null">`area_code`,</if>
 			<if test="name != null">`name`,</if>
-			<if test="seq != null">`seq`,</if>
+			<if test="mergerName != null">`merger_name`,</if>
+			<if test="lng != null">`lng`,</if>
+			<if test="lat != null">`lat`,</if>
+			<if test="status != null">`status`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="provinceId != null">#{provinceId},</if>
+			<if test="level != null">#{level},</if>
+			<if test="pid != null">#{pid},</if>
+			<if test="areaCode != null">#{areaCode},</if>
 			<if test="name != null">#{name},</if>
-			<if test="seq != null">#{seq},</if>
+			<if test="mergerName != null">#{mergerName},</if>
+			<if test="lng != null">#{lng},</if>
+			<if test="lat != null">#{lat},</if>
+			<if test="status != null">#{status},</if>
 		</trim>
 	</insert>
 
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.sys.City">
 		update `sys_city`
 		<set>
-			<if test="provinceId != null">`province_id` = #{provinceId},</if>
+			<if test="level != null">`level` = #{level},</if>
+			<if test="pid != null">`pid` = #{pid},</if>
+			<if test="areaCode != null">`area_code` = #{areaCode},</if>
 			<if test="name != null">`name` = #{name},</if>
-			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="mergerName != null">`merger_name` = #{mergerName},</if>
+			<if test="lng != null">`lng` = #{lng},</if>
+			<if test="lat != null">`lat` = #{lat},</if>
+			<if test="status != null">`status` = #{status},</if>
 		</set>
 		where id = #{id}
+	</update>
+
+	<update id="batchUpdate" parameterType="map">
+		update `sys_city` set `status` = #{status}
+		where id in
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
 	</update>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -41,24 +69,23 @@
 		where `id` = #{id}
 	</delete>
 
+	<delete id="batchDelete" parameterType="list">
+		delete  from `sys_city`
+		where id in
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.sys.City">
 		select
 		count(`id`)
 		from `sys_city`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="provinceId != null">
-				and `province_id` = #{provinceId}
-			</if>
-			<if test="name != null">
-				and `name` = #{name}
-			</if>
-			<if test="seq != null">
-				and `seq` = #{seq}
-			</if>
-		</where>
+		where `name` = #{name}
+		and `pid` = #{pid}
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultCityMap"  parameterType="java.lang.Integer">
@@ -68,7 +95,7 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultCityMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultCityMap"  parameterType="map">
 		select
 		<include refid="Column_sys_city_List"/>
 		from `sys_city`
@@ -76,21 +103,36 @@
 			<if test="record.id != null">
 				and `id` like concat('%',#{record.id},'%')
 			</if>
-			<if test="record.provinceId != null">
-				and `province_id` like concat('%',#{record.provinceId},'%')
+			<if test="record.level != null">
+				and `level` like concat('%',#{record.level},'%')
+			</if>
+			<if test="record.pid != null">
+				and `pid` like concat('%',#{record.pid},'%')
+			</if>
+			<if test="record.areaCode != null">
+				and `area_code` like concat('%',#{record.areaCode},'%')
 			</if>
 			<if test="record.name != null">
 				and `name` like concat('%',#{record.name},'%')
 			</if>
-			<if test="record.seq != null">
-				and `seq` like concat('%',#{record.seq},'%')
+			<if test="record.mergerName != null">
+				and `merger_name` like concat('%',#{record.mergerName},'%')
+			</if>
+			<if test="record.lng != null">
+				and `lng` like concat('%',#{record.lng},'%')
+			</if>
+			<if test="record.lat != null">
+				and `lat` like concat('%',#{record.lat},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` like concat('%',#{record.status},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -105,21 +147,36 @@
 			<if test="record.id != null">
 				and `id` = #{record.id}
 			</if>
-			<if test="record.provinceId != null">
-				and `province_id` = #{record.provinceId}
+			<if test="record.level != null">
+				and `level` = #{record.level}
+			</if>
+			<if test="record.pid != null">
+				and `pid` = #{record.pid}
+			</if>
+			<if test="record.areaCode != null">
+				and `area_code` = #{record.areaCode}
 			</if>
 			<if test="record.name != null">
 				and `name` = #{record.name}
 			</if>
-			<if test="record.seq != null">
-				and `seq` = #{record.seq}
+			<if test="record.mergerName != null">
+				and `merger_name` = #{record.mergerName}
+			</if>
+			<if test="record.lng != null">
+				and `lng` = #{record.lng}
+			</if>
+			<if test="record.lat != null">
+				and `lat` = #{record.lat}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -134,14 +191,29 @@
 			<if test="id != null">
 				and `id` like concat('%',#{id},'%')
 			</if>
-			<if test="provinceId != null">
-				and `province_id` like concat('%',#{provinceId},'%')
+			<if test="level != null">
+				and `level` like concat('%',#{level},'%')
+			</if>
+			<if test="pid != null">
+				and `pid` like concat('%',#{pid},'%')
+			</if>
+			<if test="areaCode != null">
+				and `area_code` like concat('%',#{areaCode},'%')
 			</if>
 			<if test="name != null">
 				and `name` like concat('%',#{name},'%')
 			</if>
-			<if test="seq != null">
-				and `seq` like concat('%',#{seq},'%')
+			<if test="mergerName != null">
+				and `merger_name` like concat('%',#{mergerName},'%')
+			</if>
+			<if test="lng != null">
+				and `lng` like concat('%',#{lng},'%')
+			</if>
+			<if test="lat != null">
+				and `lat` like concat('%',#{lat},'%')
+			</if>
+			<if test="status != null">
+				and `status` like concat('%',#{status},'%')
 			</if>
 		</where>
 	</select>
@@ -154,16 +226,67 @@
 			<if test="id != null">
 				and `id` = #{id}
 			</if>
-			<if test="provinceId != null">
-				and `province_id` = #{provinceId}
+			<if test="level != null">
+				and `level` = #{level}
+			</if>
+			<if test="pid != null">
+				and `pid` = #{pid}
+			</if>
+			<if test="areaCode != null">
+				and `area_code` = #{areaCode}
 			</if>
 			<if test="name != null">
 				and `name` = #{name}
 			</if>
-			<if test="seq != null">
-				and `seq` = #{seq}
+			<if test="mergerName != null">
+				and `merger_name` = #{mergerName}
+			</if>
+			<if test="lng != null">
+				and `lng` = #{lng}
+			</if>
+			<if test="lat != null">
+				and `lat` = #{lat}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
 			</if>
 		</where>
+	</select>
+
+	<select id="selectByTree" resultMap="ResultCityMap">
+		select
+			<include refid="Column_sys_city_List"/>
+		from `sys_city`
+	</select>
+
+	<select id="selectByDown" resultMap="ResultCityMap"  parameterType="int">
+		select
+			<include refid="Column_sys_city_List"/>
+		from`sys_city`
+		where `status` = 1 and `level` &lt; #{level}
+	</select>
+
+	<select id="selectByPid" resultMap="ResultCityMap"  parameterType="map">
+		select
+			<include refid="Column_sys_city_List"/>
+		from`sys_city`
+		where `pid`= #{pid}
+		<if test="status != null">
+			and `status` = #{status}
+		</if>
+	</select>
+
+	<select id="selectLevelByObj1" resultMap="ResultCityMap"  parameterType="int">
+		SELECT
+		<include refid="Column_sys_city_List"/>
+		FROM sys_city
+		where (pid in(SELECT id FROM sys_city where pid=#{pid})) or pid=#{pid}
+	</select>
+
+	<select id="selectLevelByObj2" resultMap="ResultCityMap"  parameterType="int">
+		select
+			<include refid="Column_sys_city_List"/>
+		FROM sys_city where pid= #{pid}
 	</select>
 
 </mapper>

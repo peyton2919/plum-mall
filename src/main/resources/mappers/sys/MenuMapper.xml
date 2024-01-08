@@ -24,7 +24,8 @@
 	</resultMap>
 
 	<sql id="Column_sys_menu_List">
-		`id`,`pid`,`name`,`is_menu`,`condition`,`front_path`,`router_method`,`seq`,`icon`,`status`,`i_frame`,`menu_type`,`path`,`permission`,`cache`,`hidden`,`component`,`component_name`,`create_time`
+		`id`,`pid`,`name`,`is_menu`,`condition`,`front_path`,`router_method`,`seq`,`icon`,`status`,`i_frame`,`menu_type`,
+		    `path`,`permission`,`cache`,`hidden`,`component`,`component_name`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.Menu" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -119,7 +120,7 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultMenuMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultMenuMap" parameterType="map">
 		select
 		<include refid="Column_sys_menu_List"/>
 		from `sys_menu`
@@ -182,11 +183,11 @@
 				and `create_time` like concat('%',#{record.createTime},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -195,7 +196,7 @@
 
 	<select id="selectByObj" resultMap="ResultMenuMap"  parameterType="map">
 		select
-		<include refid="Column_sys_menu_List"/>
+			<include refid="Column_sys_menu_List"/>
 		from `sys_menu`
 		<where>
 			<if test="record.id != null">
@@ -256,11 +257,11 @@
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -397,7 +398,7 @@
 		</where>
 	</select>
 
-	<!-- -->
+	<!-- 获取相应的权限 -->
 	<select id="selectMenuListByShareIdAndType"  parameterType="map" resultMap="ResultMenuMap">
 		SELECT
 		    sys_menu.id,sys_menu.pid,sys_menu.name,sys_menu.is_menu,sys_menu.condition,
@@ -405,7 +406,16 @@
 		    sys_menu.i_frame,sys_menu.menu_type,sys_menu.path,sys_menu.permission,sys_menu.cache,
 		    sys_menu.hidden,sys_menu.component,sys_menu.component_name,sys_menu.create_time
 		from sys_menu LEFT JOIN sys_role_menu on sys_menu.id = sys_role_menu.menu_id
-		where sys_role_menu.role_id in(select role_id FROM sys_user_role where share_id=#{shareId} and share_type=#{shareType})
+		where sys_menu.status =1 and sys_role_menu.role_id in(select role_id FROM sys_role_user where share_id=#{shareId} and share_type=#{shareType})
+		order by seq desc
+	</select>
+
+	<select id="selectMenuListBySuperAdmin"  resultMap="ResultMenuMap">
+		SELECT
+			<include refid="Column_sys_menu_List"/>
+		from sys_menu
+		where status =1
+		order by seq desc
 	</select>
 
 	<select id="selectByTree" resultMap="ResultMenuMap">
@@ -422,6 +432,5 @@
 		from sys_menu ,sys_role_menu
 		where sys_menu.id=sys_role_menu.menu_id
 		  and sys_role_menu.role_id=#{roleId}
-
 	</select>
 </mapper>

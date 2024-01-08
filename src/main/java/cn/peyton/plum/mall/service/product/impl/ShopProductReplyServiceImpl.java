@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.service.product.impl;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.mall.bo.ShopProductReplyBo;
 import cn.peyton.plum.mall.mapper.product.ShopProductReplyMapper;
 import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
@@ -10,6 +11,8 @@ import cn.peyton.plum.mall.pojo.product.ShopProductReply;
 import cn.peyton.plum.mall.service.product.ShopProductReplyService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * <h3> 商品评论 Service 实现类</h3>
@@ -45,6 +48,18 @@ public class ShopProductReplyServiceImpl extends AbstractRealizeService<Long, Sh
         if (shopProductReplyMapper.updateIsDel(id) > 0) {
             if (enabledCache) {
                 System.out.println("删除操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean updateReview(Long id, String content) {
+        if (shopProductReplyMapper.updateReview(id, content, DateUtils.dateToTimestamp(new Date())) > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
                 removeCache();
             }
             return true;

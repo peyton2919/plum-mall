@@ -1,6 +1,9 @@
 package cn.peyton.plum.core.resolver.method;
 
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +11,7 @@ import java.io.IOException;
 
 /**
  * <h4>替换掉原本的Request对象，使用自定义的</h4>
+ * implements Filter
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -17,8 +21,8 @@ import java.io.IOException;
  * </pre>
  */
 @Component
-public class HttpServletRequestReplacedFilter implements Filter {
-    @Override
+public class HttpServletRequestReplacedFilter  {
+    //@Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         ServletRequest requestWrapper = null;
         if(request instanceof HttpServletRequest) {

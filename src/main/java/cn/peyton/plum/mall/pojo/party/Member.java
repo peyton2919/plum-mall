@@ -2,6 +2,8 @@ package cn.peyton.plum.mall.pojo.party;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 会员 实体类</h3>
@@ -29,7 +31,7 @@ public class Member implements Serializable {
     /**
      * 会员密码
      */
-    private String pwd;
+    private String password;
     /**
      * 会员头像
      */
@@ -82,9 +84,23 @@ public class Member implements Serializable {
      * 创建时间
      */
     private Integer createTime;
+    /** 用户地址 */
+    private List<UserAddress> userAddresses;
+    /** 用户账单  */
+    //private UserBill bill;
+    /** 用户提现  */
+    //private UserExtract extract;
+    /** 第三方用户绑定信息  */
+    private List<ShareBind> shareBinds;
 
     //================================== Constructor =======================================//
-    public Member(){ memberLevel = new MemberLevel(); }
+    public Member(){
+        if (null == memberLevel) {memberLevel = new MemberLevel();}
+        if (null == userAddresses) { userAddresses = new ArrayList<>();}
+        //if (null == bill) {bill = new UserBill();}
+        //if (null == extract) {extract = new UserExtract();}
+        if (null == shareBinds) { shareBinds = new ArrayList<>();}
+    }
     //================================== Method =======================================//
 
 
@@ -133,17 +149,17 @@ public class Member implements Serializable {
     }
 
     /**
-     * @param pwd 会员密码
+     * @param password 会员密码
      */
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
      * @return 会员密码
      */
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
     /**
@@ -324,6 +340,62 @@ public class Member implements Serializable {
      */
     public Integer getCreateTime() {
         return createTime;
+    }
+
+    /**
+     * @return 用户地址
+     */
+    public List<UserAddress> getUserAddresses() {
+        return userAddresses;
+    }
+
+    /**
+     * @param userAddresses 用户地址
+     */
+    public void setUserAddresses(List<UserAddress> userAddresses) {
+        this.userAddresses = userAddresses;
+    }
+
+    /**
+     * @return 用户账单
+     */
+    //public UserBill getBill() {
+    //    return bill;
+    //}
+
+    /**
+     * @param bill 用户账单
+     */
+    //public void setBill(UserBill bill) {
+    //    this.bill = bill;
+    //}
+
+    /**
+     * @return 用户提现
+     */
+    //public UserExtract getExtract() {
+    //    return extract;
+    //}
+
+    /**
+     * @param extract 用户提现
+     */
+    //public void setExtract(UserExtract extract) {
+    //    this.extract = extract;
+    //}
+
+    /**
+     * @return 第三方用户绑定信息
+     */
+    public List<ShareBind> getShareBinds() {
+        return shareBinds;
+    }
+
+    /**
+     * @param shareBinds 第三方用户绑定信息
+     */
+    public void setShareBinds(List<ShareBind> shareBinds) {
+        this.shareBinds = shareBinds;
     }
 
 }

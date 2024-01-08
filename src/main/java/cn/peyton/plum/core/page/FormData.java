@@ -36,7 +36,7 @@ public class FormData<P> implements Serializable {
     private Integer status;
     /** 数据 */
     private Object data;
-    /** 布尔值 */
+    /** 布尔值  */
     private Boolean bool;
 
 

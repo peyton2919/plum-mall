@@ -27,6 +27,10 @@ public @interface Valid {
      */
     boolean single() default true;
 
+    /**
+     * 忽略的属性值 {"name","password"}
+     * @return
+     */
     String[] ignore() default {};
 
     //虽然没用到，但是要加上

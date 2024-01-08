@@ -33,9 +33,9 @@ public final class PageQuery implements Serializable {
      */
     private Integer offset;
     /** 排序列字段名称(数据库的字段) */
-    private String orderByColumuName;
+    private String orderColumnName;
     /** 排序方式 [ASC|DESC] */
-    private String orderByMode="DESC";
+    private String orderMode ="DESC";
     /**
      * 启用分页默认 true 分页查找; 设 false 查找全部不做分页查找
      */
@@ -74,49 +74,49 @@ public final class PageQuery implements Serializable {
     /**
      * 构造函数
      * @param pageNo   当前页数
-     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     * @param orderColumnName 排序列字段名称(数据库的字段)
      */
-    public PageQuery(Integer pageNo, String orderByColumuName) {
+    public PageQuery(Integer pageNo, String orderColumnName) {
         this.pageNo = pageNo;
-        this.orderByColumuName = orderByColumuName;
+        this.orderColumnName = orderColumnName;
     }
 
     /**
      * 构造函数
      * @param pageNo   当前页数
-     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     * @param orderColumnName 排序列字段名称(数据库的字段)
      * @param enablePaging 启用分页默认 true 分页查找; 设 false 查找全部不做分页查找
      */
-    public PageQuery(Integer pageNo, String orderByColumuName,Boolean enablePaging) {
+    public PageQuery(Integer pageNo, String orderColumnName, Boolean enablePaging) {
         this.pageNo = pageNo;
-        this.orderByColumuName = orderByColumuName;
+        this.orderColumnName = orderColumnName;
         this.enablePaging = enablePaging;
     }
 
     /**
      * 构造函数
      * @param pageNo   当前页数
-     * @param orderByColumuName 排序列字段名称(数据库的字段)
-     * @param orderByMode 排序方式 [ASC|DESC]
+     * @param orderColumnName 排序列字段名称(数据库的字段)
+     * @param orderMode 排序方式 [ASC|DESC]
      */
-    public PageQuery(Integer pageNo,String orderByColumuName,String orderByMode) {
+    public PageQuery(Integer pageNo, String orderColumnName, String orderMode) {
         this.pageNo = pageNo;
-        this.orderByColumuName = orderByColumuName;
-        this.orderByMode = orderByMode;
+        this.orderColumnName = orderColumnName;
+        this.orderMode = orderMode;
     }
 
     /**
      * 构造函数
      * @param pageNo   当前页数
      * @param pageSize 每页大小
-     * @param orderByColumuName 排序列字段名称(数据库的字段)
-     * @param orderByMode 排序方式 [ASC|DESC]
+     * @param orderColumnName 排序列字段名称(数据库的字段)
+     * @param orderMode 排序方式 [ASC|DESC]
      */
-    public PageQuery(Integer pageNo, Integer pageSize,String orderByColumuName,String orderByMode) {
+    public PageQuery(Integer pageNo, Integer pageSize, String orderColumnName, String orderMode) {
         this.pageNo = pageNo;
         this.pageSize = pageSize;
-        this.orderByColumuName = orderByColumuName;
-        this.orderByMode = orderByMode;
+        this.orderColumnName = orderColumnName;
+        this.orderMode = orderMode;
     }
 
 
@@ -165,29 +165,29 @@ public final class PageQuery implements Serializable {
     /**
      * @return 排序列字段名称(数据库的字段)
      */
-    public String getOrderByColumuName() {
-        return orderByColumuName;
+    public String getOrderColumnName() {
+        return orderColumnName;
     }
 
     /**
-     * @param orderByColumuName 排序列字段名称(数据库的字段)
+     * @param orderColumnName 排序列字段名称(数据库的字段)
      */
-    public void setOrderByColumuName(String orderByColumuName) {
-        this.orderByColumuName = orderByColumuName;
+    public void setOrderColumnName(String orderColumnName) {
+        this.orderColumnName = orderColumnName;
     }
 
     /**
      * @return 排序方式 [ASC|DESC]
      */
-    public String getOrderByMode() {
-        return orderByMode;
+    public String getOrderMode() {
+        return orderMode;
     }
 
     /**
-     * @param orderByMode 排序方式 [ASC|DESC]
+     * @param orderMode 排序方式 [ASC|DESC]
      */
-    public void setOrderByMode(String orderByMode) {
-        this.orderByMode = orderByMode;
+    public void setOrderMode(String orderMode) {
+        this.orderMode = orderMode;
     }
 
     /**

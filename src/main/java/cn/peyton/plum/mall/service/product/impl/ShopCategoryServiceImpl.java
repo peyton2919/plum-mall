@@ -25,6 +25,7 @@ import java.util.List;
  */
 @Service("shopCategoryService")
 public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, ShopCategory, ShopCategoryParam> implements ShopCategoryService {
+    private String TABEL_NAME = "tb_shop_category";
     @Resource
     private ShopCategoryMapper shopCategoryMapper;
 
@@ -41,6 +42,29 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
     public ShopCategoryServiceImpl () {
         enabledCache = true;
         keyPrefix = this.getClass().getName();
+    }
+
+    @Override
+    public Boolean isChildren(Integer id) {
+        return shopCategoryMapper.isChildren(id) > 0;
+    }
+
+    @Override
+    public Boolean isRecommend(Integer id) {
+        return shopCategoryMapper.isRecommend(id) > 0;
+    }
+
+    @Override
+    public Boolean updateSeq(Integer id, Short seq) {
+        int res = shopCategoryMapper.updateSeq(id, seq);
+        if (res > 0) {
+            if(enabledCache){
+                System.out.println("更新操作清空缓存;");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -93,8 +117,8 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
     }
 
     @Override
-    public Boolean updateDelete(Integer id) {
-        int res = shopCategoryMapper.updateDelete(id);
+    public Boolean upDelete(Integer id) {
+        int res = shopCategoryMapper.updateDeleteStatus(TABEL_NAME, id);
         if (res > 0) {
             if(enabledCache){
                 System.out.println("更新操作清空缓存;");

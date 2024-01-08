@@ -22,4 +22,12 @@ public interface ShopProductReplyService extends IBaseService<Long, ShopProductR
      */
     Boolean updateIsDel(Long id);
 
+    /**
+     * <h4>更新管理员回复</h4>
+     * @param id 主键Id
+     * @param content 管理员回复内容
+     * @return 受影响的行数 > 0 成功
+     */
+    Boolean updateReview(Long id, String content);
+
 }

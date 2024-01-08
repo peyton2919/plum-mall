@@ -75,7 +75,7 @@
 		where `product_reply_id` = #{replyId} and `is_show`=1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopProductReplyImgMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultShopProductReplyImgMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_product_reply_img_List"/>
 		from `tb_shop_product_reply_img`
@@ -93,11 +93,11 @@
 				and `is_show` like concat('%',#{record.isShow},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -122,11 +122,11 @@
 				and `is_show` = #{record.isShow}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

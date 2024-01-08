@@ -44,7 +44,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> all(String keyword,  @NotBlank(message = "pageNo 不能为空;")
             @Min(message = "当前页码要大于0的数！")Integer pageNo) {
 
-        return baseFindBykeywordAll(new NoticeCategoryParam(),new PageQuery(pageNo,"seq"),noticeCategoryService,null);
+        return baseHandleList(new NoticeCategoryParam(),new PageQuery(pageNo,"seq"),noticeCategoryService,null);
     }
     @Token
     @PostMapping("/manager/select")
@@ -53,7 +53,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
         if (null != res && res.size() > 0) {
             return JSONResult.success(res);
         }
-        return baseFindBykeywordAll(new NoticeCategoryParam(),
+        return baseHandleList(new NoticeCategoryParam(),
                 new PageQuery(1,"seq",false),noticeCategoryService,null);
     }
 
@@ -63,12 +63,12 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> findBykeywordAll(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         NoticeCategoryParam _record = new NoticeCategoryParam();
         _record.setName(keyword);
-        return baseFindBykeywordAll(_record,new PageQuery(pageNo,"seq"),noticeCategoryService,null);
+        return baseHandleList(_record,new PageQuery(pageNo,"seq"),noticeCategoryService,null);
     }
 
 
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 
@@ -79,7 +79,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> create(NoticeCategoryParam param) {
         NoticeCategoryParam _repeat = new NoticeCategoryParam();
         _repeat.setName(param.getName());
-        return baseCreate(param, _repeat, noticeCategoryService, TIP_NAME);
+        return baseHandleCreate(param, _repeat, noticeCategoryService, TIP_NAME);
     }
 
     @Token
@@ -89,7 +89,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
         NoticeCategoryParam _repeat = new NoticeCategoryParam();
         _repeat.setName(param.getName());
         _repeat.setId(param.getId());
-        return baseEdit(param, _repeat, noticeCategoryService, TIP_NAME);
+        return baseHandleEdit(param, _repeat, noticeCategoryService, TIP_NAME);
     }
 
     @Token
@@ -99,7 +99,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
         if (noticeService.joinGroup(id)){
             return JSONResult.fail("与公告信息有关联,不能直接删除。");
         }
-        return baseDelete(id, noticeCategoryService, TIP_NAME);
+        return baseHandleDelete(id, noticeCategoryService, TIP_NAME);
     }
 
 }

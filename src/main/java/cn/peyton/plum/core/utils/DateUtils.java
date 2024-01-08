@@ -217,8 +217,9 @@ public final class DateUtils implements Serializable {
         if (null == date) {
             return null;
         }
+        int l = date.length();
         SimpleDateFormat simpleDateFormat =
-                new SimpleDateFormat(format == null ? FORMAT.DATE_FORMAT_TIME : format);
+                new SimpleDateFormat(format == null ? ((l > 11) ? FORMAT.DATE_FORMAT_TIME:FORMAT.DATE_FORMAT) : format);
         try {
             return (int) (simpleDateFormat.parse(date).getTime() / 1000);
         } catch (Exception e) {

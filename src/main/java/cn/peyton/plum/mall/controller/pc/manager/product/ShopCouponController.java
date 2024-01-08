@@ -5,11 +5,14 @@ import cn.peyton.plum.core.inf.controller.IBasePCController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopCouponParam;
+import cn.peyton.plum.mall.service.product.ShopCouponMemberService;
 import cn.peyton.plum.mall.service.product.ShopCouponService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,31 +32,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/pc/coupon")
 public class ShopCouponController extends PcController<ShopCouponParam>
         implements IBasePCController<Long, ShopCouponParam> {
-    String TIP_NAME = "优惠券";
+
 
     @Resource
     private ShopCouponService shopCouponService;
+    @Resource
+    private ShopCouponMemberService shopCouponMemberService;
 
     @Token
     @Valid
     @PostMapping("/manager/all")
-    @Override
     public JSONResult<?> all(String keyword,
                  @NotBlank(message = "页码数不能为空;") @Min(message = "当前页码要大于0的数!")Integer pageNo) {
-        PageQuery _page = new PageQuery(pageNo,"seq");
         ShopCouponParam _param = new ShopCouponParam();
         _param.setName(keyword);
-        return baseFindBykeywordAll(_param,_page,shopCouponService,null);
+        return baseHandleList(_param,new PageQuery(pageNo,ORDER_BY_FILED),shopCouponService,null);
     }
 
+    // keyword
     @Token
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         ShopCouponParam _param = new ShopCouponParam();
         _param.setName(query.getKeyword());
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),"seq"),shopCouponService,null);
+        return baseHandleList(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopCouponService,null);
     }
 
     @Token
@@ -63,7 +67,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
     public JSONResult<?> create(ShopCouponParam record) {
         ShopCouponParam _repeat = new ShopCouponParam();
         _repeat.setName(record.getName());
-        return baseCreate(record, _repeat, shopCouponService, TIP_NAME);
+        return baseHandleCreate(record, _repeat, shopCouponService, TIP_SHOP_COPON);
     }
 
     @Token
@@ -71,31 +75,44 @@ public class ShopCouponController extends PcController<ShopCouponParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(ShopCouponParam record) {
+        if (shopCouponMemberService.isJoinCoupon(record.getId())) {
+            return JSONResult.fail("优惠券已被领取, 不能修改;");
+        }
+        if (shopCouponService.isEffective(record.getId(), DateUtils.dateToTimestamp())) {
+            return JSONResult.fail("优惠券在使用期间, 不能修改;");
+        }
         ShopCouponParam _repeat = new ShopCouponParam();
         _repeat.setName(record.getName());
         _repeat.setId(record.getId());
-        return baseEdit(record, _repeat, shopCouponService, TIP_NAME);
+        return baseHandleEdit(record, _repeat, shopCouponService, TIP_SHOP_COPON);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/upstatus")
-    public JSONResult<?> updateStatus(@NotBlank(message = "Id不能为空;") @Min(message = "Id大于0的数!")Long id) {
-        ShopCouponParam _repeat = new ShopCouponParam();
-        _repeat.setStatus(STATUS_0);
-        _repeat.setId(id);
-        if (shopCouponService.update(_repeat)) {
-            return JSONResult.success( "状态修改成功;");
-        }
-        return JSONResult.fail("状态修改失败;");
+    public JSONResult<?> updateStatus(@NotBlank(message = "Id不能为空;") @Min(message = "Id大于0的数!")Long id,
+        @NotBlank(message="状态码不能为空") @Size(min = 0,max = 3) Integer status) {
+        //if (shopCouponMemberService.isJoinCoupon(id)) {
+        //    return JSONResult.fail("优惠券已被领取, 状态不能修改;");
+        //}
+        //if (shopCouponService.isEffective(id, DateUtils.dateToTimestamp())) {
+        //    return JSONResult.fail("优惠券在使用期间, 状态不能修改;");
+        //}
+        return baseHandle(shopCouponService.upStatus(id,status), STATUS,MODIFY);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@NotBlank(message = "Id不能为空;") @Min(value = 1,message = "Id大于0的数!")Long id) {
-        return baseDelete(id,shopCouponService,TIP_NAME);
+    public JSONResult<?> delete(@NotBlank(message = "优惠券Id不能为空;") @Min(value = 1,message = "Id大于0的数!")Long id) {
+        if (shopCouponMemberService.isJoinCoupon(id)) {
+            return JSONResult.fail("优惠券已被领取, 不能删除;");
+        }
+        if (shopCouponService.isEffective(id, DateUtils.dateToTimestamp())) {
+            return JSONResult.fail("优惠券在使用期间, 不能删除;");
+        }
+        return baseHandle(shopCouponService.upStatus(id,STATUS_4), TIP_SHOP_COPON,DELETE);
     }
 
 }

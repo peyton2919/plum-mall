@@ -40,35 +40,31 @@ public class ShopSkuController extends PcController<ShopSkuParam>
     @Resource
     private ShopProductSkuService shopProductSkuService;
 
-
     @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 
-    @Override
-    public JSONResult<?> search(Query query) {
-        return null;
-    }
-
+    // 13. 创建规格
     @Token
     @Valid
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(ShopSkuParam record) {
-        //
+        // 判断 规格名称 ; 在数据库中如果找到相同在返回 , 否则 重新创建一个
         ShopSkuParam res = shopSkuService.findByName(record.getName());
         if (null != res) {
-            return JSONResult.success("查找到数据", res);
+            return JSONResult.success(FIND_DATA, res);
         }
-        return baseCreate(record, null, shopSkuService, "规格名称");
+        return baseHandleCreate(record, null, shopSkuService, TIP_SHOP_SKU);
     }
+
     // record、keyLong、bool
+    // 14. 更新 | 创建 规格
     @Token
     @Valid
     @PostMapping("/manager/change")
     public JSONResult<?> chanage(@RequestMultiple FormData<ShopSkuParam> data) {
-
         ShopSkuParam record = data.getRecord();
         ShopProductSkuParam _param = new ShopProductSkuParam();
         _param.setSkuValueId(record.getId());
@@ -77,22 +73,21 @@ public class ShopSkuController extends PcController<ShopSkuParam>
         // 在当前操作是 更新 shop_product_sku 关联表中查找
         if (data.getBool() && null != record.getId()) {
             if (shopProductSkuService.isExisted(_param)) {
-                return JSONResult.fail("修改的名称关联其他数据,无法修改;");
+                return JSONResult.fail(MODIFY + JOIN_DATA + MODIFY);
             }
         }
         ShopSkuParam res = shopSkuService.findByName(record.getName());
         if (null != res) {
-            return JSONResult.success("查找到数据", res);
+            return JSONResult.success(FIND_DATA, res);
         }
-
         ShopSkuParam param = shopSkuService.add(record);
         if(null != param){
-            return JSONResult.success("规格修改成功;", param);
+            return JSONResult.success((TIP_SHOP_SKU + OPERATE + SUCCESS), param);
         }
-        return JSONResult.fail("规格修改失败;");
+        return JSONResult.fail(TIP_SHOP_SKU + OPERATE + FAIL);
     }
 
-
+    // 15. 删除 规格
     @Token
     @Valid
     @PostMapping("/manager/delete")
@@ -105,32 +100,37 @@ public class ShopSkuController extends PcController<ShopSkuParam>
         if (shopProductSkuService.isExisted(_param)) {
             return JSONResult.fail("删除数据关联其他数据,无法删除;");
         }
-        //return baseDelete(id,shopSkuValueService,TIP_NAME);
+
         return JSONResult.success("删除数据成功;");
     }
-    // 排序 参数: 规格对象集合
+
+    // 16. 排序规格 排序 参数: 规格对象集合
     @Token
     @Valid
     @PostMapping("/manager/sort")
     public JSONResult<?> sort(@RequestMultiple FormData<ShopSkuParam> data) {
         List<ShopSkuParam> objs = data.getObjs();
         if (null == objs || objs.size() == 0) {
-            return JSONResult.fail("没有数据不需要不更新;");
+            return JSONResult.fail(NO_DATA + NO_NEED + UPDATE);
         }
-        return shopSkuService.batchUpdate(objs) ? JSONResult.success("数据操作排序成功;") :
-                JSONResult.fail("数据操作排序失败;");
+        return shopSkuService.batchUpdate(objs) ? JSONResult.success(SORT + OPERATE + SUCCESS) :
+                JSONResult.fail(SORT + OPERATE + FAIL);
     }
+
     // 设置 参数: str 字符串, strs 字符串集合
+    // 20. 选中商品规格规则(快捷选择)
     @Token
     @Valid
     @PostMapping("/manager/set")
     public JSONResult<?> set(@RequestMultiple FormData data) {
-        if(null == data){return JSONResult.fail("提交数据为空;");}
-        if(null ==data.getStr() || "".equals(data.getStr())){return JSONResult.fail("规格名称不能为空;");}
+
+        if (null == data || null == data.getStr() || "".equals(data.getStr())) {
+            return JSONResult.fail(NO_DATA);
+        }
 
         ShopSkuParam res = shopSkuService.set(data.getStr(), data.getStrs());
         if(null == res){
-            return JSONResult.fail("提交数据失败;");
+            return JSONResult.fail(DATA+SUBMIT+FAIL);
         }
         return JSONResult.success(res);
     }

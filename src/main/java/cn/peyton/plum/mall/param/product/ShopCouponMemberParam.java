@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.param.product;
 
 
+import cn.peyton.plum.mall.bo.ShopCouponBo;
 import cn.peyton.plum.mall.pojo.product.ShopCouponMember;
 
 import java.io.Serializable;
@@ -43,9 +44,13 @@ public class ShopCouponMemberParam implements Serializable {
      * 创建时间
      */
     private Integer createTime;
+    /** 优惠券对象 */
+    private ShopCouponParam shopCoupon;
 
     //================================== Constructor =======================================//
-
+    public ShopCouponMemberParam() {
+        if (null == shopCoupon) {shopCoupon = new ShopCouponParam(); }
+    }
     //================================== Method =======================================//
 
 
@@ -149,6 +154,21 @@ public class ShopCouponMemberParam implements Serializable {
         return createTime;
     }
 
+
+    /**
+     * @return 优惠券对象
+     */
+    public ShopCouponParam getShopCoupon() {
+        return shopCoupon;
+    }
+
+    /**
+     * @param shopCoupon 优惠券对象
+     */
+    public void setShopCoupon(ShopCouponParam shopCoupon) {
+        this.shopCoupon = shopCoupon;
+    }
+
     /**
      * <h4>对象转成ShopCouponMember对象<h4>
      * <pre>
@@ -165,6 +185,7 @@ public class ShopCouponMemberParam implements Serializable {
         shopCouponMember.setUsed(used);
         shopCouponMember.setStatus(status);
         shopCouponMember.setCreateTime(createTime);
+        shopCouponMember.setShopCoupon(shopCoupon.convert());
         return shopCouponMember;
     }
 
@@ -186,6 +207,7 @@ public class ShopCouponMemberParam implements Serializable {
         this.setUsed(shopCouponMember.getUsed());
         this.setStatus(shopCouponMember.getStatus());
         this.setCreateTime(shopCouponMember.getCreateTime());
+        this.setShopCoupon(new ShopCouponBo().compat(shopCouponMember.getShopCoupon()));
         return this;
     }
 }

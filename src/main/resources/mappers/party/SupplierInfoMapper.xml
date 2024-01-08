@@ -3,9 +3,7 @@
 <mapper namespace="cn.peyton.plum.mall.mapper.party.SupplierInfoMapper">
 	<resultMap id="ResultSupplierInfoMap" type="cn.peyton.plum.mall.pojo.party.SupplierInfo">
 		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="sup_id" property="supId" jdbcType="BIGINT"/>
 		<result column="address" property="address" jdbcType="VARCHAR"/>
-		<result column="email" property="email" jdbcType="VARCHAR"/>
 		<result column="tel" property="tel" jdbcType="VARCHAR"/>
 		<result column="qq" property="qq" jdbcType="VARCHAR"/>
 		<result column="fax" property="fax" jdbcType="VARCHAR"/>
@@ -17,15 +15,13 @@
 	</resultMap>
 
 	<sql id="Column_tb_supplier_info_List">
-		`id`,`sup_id`,`address`,`email`,`tel`,`qq`,`fax`,`sex`,`birthday`,`explain`,`web_site`,`web_code`
+		`id`,`address`,`tel`,`qq`,`fax`,`sex`,`birthday`,`explain`,`web_site`,`web_code`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.SupplierInfo" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `tb_supplier_info`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="supId != null">`sup_id`,</if>
 			<if test="address != null">`address`,</if>
-			<if test="email != null">`email`,</if>
 			<if test="tel != null">`tel`,</if>
 			<if test="qq != null">`qq`,</if>
 			<if test="fax != null">`fax`,</if>
@@ -36,9 +32,7 @@
 			<if test="webCode != null">`web_code`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="supId != null">#{supId},</if>
 			<if test="address != null">#{address},</if>
-			<if test="email != null">#{email},</if>
 			<if test="tel != null">#{tel},</if>
 			<if test="qq != null">#{qq},</if>
 			<if test="fax != null">#{fax},</if>
@@ -53,9 +47,7 @@
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.SupplierInfo">
 		update `tb_supplier_info`
 		<set>
-			<if test="supId != null">`sup_id` = #{supId},</if>
 			<if test="address != null">`address` = #{address},</if>
-			<if test="email != null">`email` = #{email},</if>
 			<if test="tel != null">`tel` = #{tel},</if>
 			<if test="qq != null">`qq` = #{qq},</if>
 			<if test="fax != null">`fax` = #{fax},</if>
@@ -77,44 +69,7 @@
 		select
 		count(`id`)
 		from `tb_supplier_info`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="supId != null">
-				and `sup_id` = #{supId}
-			</if>
-			<if test="address != null">
-				and `address` = #{address}
-			</if>
-			<if test="email != null">
-				and `email` = #{email}
-			</if>
-			<if test="tel != null">
-				and `tel` = #{tel}
-			</if>
-			<if test="qq != null">
-				and `qq` = #{qq}
-			</if>
-			<if test="fax != null">
-				and `fax` = #{fax}
-			</if>
-			<if test="sex != null">
-				and `sex` = #{sex}
-			</if>
-			<if test="birthday != null">
-				and `birthday` = #{birthday}
-			</if>
-			<if test="explain != null">
-				and `explain` = #{explain}
-			</if>
-			<if test="webSite != null">
-				and `web_site` = #{webSite}
-			</if>
-			<if test="webCode != null">
-				and `web_code` = #{webCode}
-			</if>
-		</where>
+
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultSupplierInfoMap"  parameterType="java.lang.Long">
@@ -124,7 +79,7 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultSupplierInfoMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultSupplierInfoMap" parameterType="map">
 		select
 		<include refid="Column_tb_supplier_info_List"/>
 		from `tb_supplier_info`
@@ -132,14 +87,8 @@
 			<if test="record.id != null">
 				and `id` like concat('%',#{record.id},'%')
 			</if>
-			<if test="record.supId != null">
-				and `sup_id` like concat('%',#{record.supId},'%')
-			</if>
 			<if test="record.address != null">
 				and `address` like concat('%',#{record.address},'%')
-			</if>
-			<if test="record.email != null">
-				and `email` like concat('%',#{record.email},'%')
 			</if>
 			<if test="record.tel != null">
 				and `tel` like concat('%',#{record.tel},'%')
@@ -166,11 +115,11 @@
 				and `web_code` like concat('%',#{record.webCode},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -185,14 +134,8 @@
 			<if test="record.id != null">
 				and `id` = #{record.id}
 			</if>
-			<if test="record.supId != null">
-				and `sup_id` = #{record.supId}
-			</if>
 			<if test="record.address != null">
 				and `address` = #{record.address}
-			</if>
-			<if test="record.email != null">
-				and `email` = #{record.email}
 			</if>
 			<if test="record.tel != null">
 				and `tel` = #{record.tel}
@@ -219,11 +162,11 @@
 				and `web_code` = #{record.webCode}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -238,14 +181,8 @@
 			<if test="id != null">
 				and `id` like concat('%',#{id},'%')
 			</if>
-			<if test="supId != null">
-				and `sup_id` like concat('%',#{supId},'%')
-			</if>
 			<if test="address != null">
 				and `address` like concat('%',#{address},'%')
-			</if>
-			<if test="email != null">
-				and `email` like concat('%',#{email},'%')
 			</if>
 			<if test="tel != null">
 				and `tel` like concat('%',#{tel},'%')
@@ -282,14 +219,8 @@
 			<if test="id != null">
 				and `id` = #{id}
 			</if>
-			<if test="supId != null">
-				and `sup_id` = #{supId}
-			</if>
 			<if test="address != null">
 				and `address` = #{address}
-			</if>
-			<if test="email != null">
-				and `email` = #{email}
 			</if>
 			<if test="tel != null">
 				and `tel` = #{tel}

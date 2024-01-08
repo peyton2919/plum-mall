@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopStockMapper">
+	<resultMap id="ResultShopStockMap" type="cn.peyton.plum.mall.pojo.product.ShopStock">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="psd_id" property="psdId" jdbcType="BIGINT"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="min_stock" property="minStock" jdbcType="INTEGER"/>
+		<result column="total" property="total" jdbcType="INTEGER"/>
+		<result column="pay_count" property="payCount" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<!--  备用 -->
+	<resultMap id="result_stock_expand_map" type="cn.peyton.plum.mall.pojo.product.ShopStock">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="psd_id" property="psdId" jdbcType="BIGINT"/>
+		<result column="is_show" property="isShow" jdbcType="TINYINT"/>
+		<result column="min_stock" property="minStock" jdbcType="INTEGER"/>
+		<!--<result column="total" property="total" jdbcType="INTEGER"/>-->
+		<result column="pay_count" property="payCount" jdbcType="INTEGER"/>
+		<association property="total" javaType="int"
+					 column="id" select="cn.peyton.plum.mall.mapper.product.ShopStorageDetailMapper.storageTotal"/>
+		<association property="payCount" javaType="int"
+					 column="psd_id" select="cn.peyton.plum.mall.mapper.product.ShopOrderItemMapper.orderTotal"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_stock_List">
+		`id`,`is_show`,`min_stock`,`total`,`pay_count`,`psd_id`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopStock" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_stock`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="psdId != null">`psd_id`,</if>
+			<if test="isShow != null">`is_show`,</if>
+			<if test="minStock != null">`min_stock`,</if>
+			<if test="total != null">`total`,</if>
+			<if test="payCount != null">`pay_count`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="psdId != null">#{psdId},</if>
+			<if test="isShow != null">#{isShow},</if>
+			<if test="minStock != null">#{minStock},</if>
+			<if test="total != null">#{total},</if>
+			<if test="payCount != null">#{payCount},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopStock">
+		update `tb_shop_stock`
+		<set>
+			<if test="isShow != null">`is_show` = #{isShow},</if>
+			<if test="minStock != null">`min_stock` = #{minStock},</if>
+			<if test="total != null">`total` = #{total},</if>
+			<if test="payCount != null">`pay_count` = #{payCount},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_stock`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopStock">
+		select
+		count(`id`)
+		from `tb_shop_stock`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+			<if test="minStock != null">
+				and `min_stock` = #{minStock}
+			</if>
+			<if test="total != null">
+				and `total` = #{total}
+			</if>
+			<if test="payCount != null">
+				and `pay_count` = #{payCount}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopStockMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_stock_List"/>
+		from `tb_shop_stock`
+		where `id` = #{id}
+	</select>
+
+	<!-- 判断该商品是否有创建过库存 -->
+	<select id="isExist" resultMap="ResultShopStockMap"  parameterType="java.lang.Long">
+		select
+			<include refid="Column_tb_shop_stock_List"/>
+		from `tb_shop_stock`
+		where `psd_id` = #{psdId} limit 1
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultShopStockMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_stock_List"/>
+		from `tb_shop_stock`
+		<where>
+			<if test="record.id != null">
+				and `id` like concat('%',#{record.id},'%')
+			</if>
+			<if test="record.psdId != null">
+				and `psd_id` like concat('%',#{record.psdId},'%')
+			</if>
+			<if test="record.isShow != null">
+				and `is_show` like concat('%',#{record.isShow},'%')
+			</if>
+			<if test="record.minStock != null">
+				and `min_stock` like concat('%',#{record.minStock},'%')
+			</if>
+			<if test="record.total != null">
+				and `total` like concat('%',#{record.total},'%')
+			</if>
+			<if test="record.payCount != null">
+				and `pay_count` like concat('%',#{record.payCount},'%')
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopStockMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_stock_List"/>
+		from `tb_shop_stock`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.isShow != null">
+				and `is_show` = #{record.isShow}
+			</if>
+			<if test="record.minStock != null">
+				and `min_stock` = #{record.minStock}
+			</if>
+			<if test="record.total != null">
+				and `total` = #{record.total}
+			</if>
+			<if test="record.payCount != null">
+				and `pay_count` = #{record.payCount}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopStock">
+		select
+		count(`id`)
+		from `tb_shop_stock`
+		<where>
+			<if test="id != null">
+				and `id` like concat('%',#{id},'%')
+			</if>
+			<if test="psdId != null">
+				and `psd_id` like concat('%',#{psdId},'%')
+			</if>
+			<if test="isShow != null">
+				and `is_show` like concat('%',#{isShow},'%')
+			</if>
+			<if test="minStock != null">
+				and `min_stock` like concat('%',#{minStock},'%')
+			</if>
+			<if test="total != null">
+				and `total` like concat('%',#{total},'%')
+			</if>
+			<if test="payCount != null">
+				and `pay_count` like concat('%',#{payCount},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopStock">
+		select
+		count(`id`)
+		from `tb_shop_stock`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="isShow != null">
+				and `is_show` = #{isShow}
+			</if>
+			<if test="minStock != null">
+				and `min_stock` = #{minStock}
+			</if>
+			<if test="total != null">
+				and `total` = #{total}
+			</if>
+			<if test="payCount != null">
+				and `pay_count` = #{payCount}
+			</if>
+		</where>
+	</select>
+
+</mapper>

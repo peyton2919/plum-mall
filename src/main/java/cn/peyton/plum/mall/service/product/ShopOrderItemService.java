@@ -1,6 +1,8 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.page.PageQuery;
+import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.mall.param.product.ShopOrderItemParam;
 import cn.peyton.plum.mall.pojo.product.ShopOrderItem;
 
@@ -14,5 +16,15 @@ import cn.peyton.plum.mall.pojo.product.ShopOrderItem;
  * </pre>
  */
 public interface ShopOrderItemService extends IBaseService<Long, ShopOrderItem, ShopOrderItemParam> {
+
+    /**
+     * <h4>根据 商品规格明细Id 查找销售明细</h4>
+     * @param psdId 商品规格明细Id
+     * @param page 分页对象
+     * @param startTime 查找开始时间
+     * @param endTime 查找结束时间
+     * @return 入库明细对象集合
+     */
+    PageResult<ShopOrderItemParam> findByStockId(Long psdId, PageQuery page, Integer startTime, Integer endTime);
 
 }

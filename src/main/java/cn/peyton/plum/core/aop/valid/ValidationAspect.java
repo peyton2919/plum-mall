@@ -65,7 +65,7 @@ public class ValidationAspect {
 
         HttpServletRequest _request = HttpServletRequestUtils.getRequest();
         Map<String, String> _errMap = Maps.createLinkHashMap();
-        String contentType =_request.getContentType();
+        String contentType = _request.getHeader("Content-Type");
 
         Parameter[] _parameters = _method.getParameters();
         if (null == _parameters && _parameters.length < 1) {return point.proceed(_args);}
@@ -90,7 +90,9 @@ public class ValidationAspect {
                     List<?> _ls = (List<?>) _args[0];
                     if (null != _ls && _ls.size() > 0) {
                         for (Object _obj : _ls) {
-                            Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, _single);
+                            _errMap = Validation.valid(_obj, _validAnnotation.ignore(), _single);
+                            //Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, _single);
+                            if (_errMap.size() > 0) { break;}
                         }
                     }
                 }
@@ -113,7 +115,9 @@ public class ValidationAspect {
                         List<?> _ls = (List<?>) _args[i];
                         if (null != _ls && _ls.size() > 0) {
                             for (Object _obj : _ls) {
-                                Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, _single);
+
+                                //Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, _single);
+                                _errMap = Validation.valid(_obj, _validAnnotation.ignore(), _single);
                                 if (_errMap.size() > 0) { break;}
                             }
                         }
@@ -121,7 +125,7 @@ public class ValidationAspect {
                 }
             }
 
-        } else if (null != contentType && contentType.contains(applicationForm)) { // 表单验证逻辑
+        } else{ // 表单验证逻辑
             // 判断逻辑
             for (Parameter _pm : _parameters) {
                 // Java 基础属性验证方法
@@ -129,7 +133,7 @@ public class ValidationAspect {
                 //String simpleName = _pm.getType().getSimpleName();
                 // 去除不要request,response,session
                 if (HttpServletRequestUtils.isExclude(_typeName)) {continue;}
-                _errMap = formValidChecked(_pm,_typeName,_single,_request);
+                _errMap = formValidChecked(_pm,_validAnnotation.ignore(),_typeName,_single,_request);
                 //_single 为 true 时表示单一验证，有一个验证不通过就直接跳出
                 if (_single && _errMap.size() > 0) { break; }
             }
@@ -137,24 +141,26 @@ public class ValidationAspect {
         if (null != _errMap && _errMap.size() > 0) {
             return JSONResult.fail(JSONResult.Props.VALIDATE, _errMap);
         }
+
         return point.proceed(_args);
     }
 
     /**
      * <h4>Form 表单验证</h4>
      * @param parameter
+     * @param ignores
      * @param typeName
      * @param single
      * @param request
      * @throws Throwable
      */
-    private Map<String, String> formValidChecked(Parameter parameter,String typeName,Boolean single,
+    private Map<String, String> formValidChecked(Parameter parameter,String[] ignores,String typeName,Boolean single,
                                     HttpServletRequest request) throws Throwable {
         Map<String, String> _errMap = Maps.createLinkHashMap();
         Map<String, String[]> _parameterValueMap = request.getParameterMap();
         if (typeName.contains("cn.peyton")) { // 验证 对象
             //调用赋值方法: HttpServletRequestUtil.voluation，并验证方法: Validation.valid
-            _errMap = Validation.valid(HttpServletRequestUtils.voluation(_parameterValueMap, typeName), single);
+            _errMap = Validation.valid(HttpServletRequestUtils.voluation(_parameterValueMap, typeName),ignores, single);
         } else {  // list map 数组 基础类型
             Annotation[] _declareds = parameter.getDeclaredAnnotations();
             //判断属性上是否有注解, 有标记注解 为 true
@@ -172,7 +178,9 @@ public class ValidationAspect {
                     Object[] _ps = _parameterValueMap.get(_filedName + "[]");
                     if (null != _ps && _ps.length > 0) {
                         for (Object _obj : _ps) {
-                            Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, single);
+                            _errMap = Validation.valid(_obj, ignores, single);
+                            //Validation.valid(_errMap, _declareds, _filedName, typeName, _obj, single);
+                            if (single && _errMap.size() > 0) { break; }
                         }
                     }
                 }

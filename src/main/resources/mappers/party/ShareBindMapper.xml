@@ -5,8 +5,8 @@
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="open_type" property="openType" jdbcType="VARCHAR"/>
 		<result column="open_id" property="openId" jdbcType="VARCHAR"/>
-		<result column="shaer_id" property="shaerId" jdbcType="BIGINT"/>
-		<result column="shaer_type" property="shaerType" jdbcType="TINYINT"/>
+		<result column="share_id" property="shareId" jdbcType="BIGINT"/>
+		<result column="share_type" property="shareType" jdbcType="TINYINT"/>
 		<result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
 		<result column="avatar" property="avatar" jdbcType="VARCHAR"/>
 		<result column="explain" property="explain" jdbcType="VARCHAR"/>
@@ -14,7 +14,7 @@
 	</resultMap>
 
 	<sql id="Column_tb_share_bind_List">
-		`id`,`open_type`,`open_id`,`shaer_id`,`shaer_type`,`nick_name`,`avatar`,`explain`,`create_time`
+		`id`,`open_type`,`open_id`,`share_id`,`share_type`,`nick_name`,`avatar`,`explain`,`create_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.ShareBind" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -22,8 +22,8 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="openType != null">`open_type`,</if>
 			<if test="openId != null">`open_id`,</if>
-			<if test="shaerId != null">`shaer_id`,</if>
-			<if test="shaerType != null">`shaer_type`,</if>
+			<if test="shareId != null">`share_id`,</if>
+			<if test="shareType != null">`share_type`,</if>
 			<if test="nickName != null">`nick_name`,</if>
 			<if test="avatar != null">`avatar`,</if>
 			<if test="explain != null">`explain`,</if>
@@ -32,8 +32,8 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="openType != null">#{openType},</if>
 			<if test="openId != null">#{openId},</if>
-			<if test="shaerId != null">#{shaerId},</if>
-			<if test="shaerType != null">#{shaerType},</if>
+			<if test="shareId != null">#{shareId},</if>
+			<if test="shareType != null">#{shareType},</if>
 			<if test="nickName != null">#{nickName},</if>
 			<if test="avatar != null">#{avatar},</if>
 			<if test="explain != null">#{explain},</if>
@@ -46,8 +46,8 @@
 		<set>
 			<if test="openType != null">`open_type` = #{openType},</if>
 			<if test="openId != null">`open_id` = #{openId},</if>
-			<if test="shaerId != null">`shaer_id` = #{shaerId},</if>
-			<if test="shaerType != null">`shaer_type` = #{shaerType},</if>
+			<if test="shareId != null">`share_id` = #{shareId},</if>
+			<if test="shareType != null">`share_type` = #{shareType},</if>
 			<if test="nickName != null">`nick_name` = #{nickName},</if>
 			<if test="avatar != null">`avatar` = #{avatar},</if>
 			<if test="explain != null">`explain` = #{explain},</if>
@@ -61,39 +61,14 @@
 		where `id` = #{id}
 	</delete>
 
+	<!-- 判断 大于 > 0 已被注册 -->
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.ShareBind">
 		select
-		count(`id`)
+			count(`id`)
 		from `tb_share_bind`
-		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="openType != null">
-				and `open_type` = #{openType}
-			</if>
-			<if test="openId != null">
-				and `open_id` = #{openId}
-			</if>
-			<if test="shaerId != null">
-				and `shaer_id` = #{shaerId}
-			</if>
-			<if test="shaerType != null">
-				and `shaer_type` = #{shaerType}
-			</if>
-			<if test="nickName != null">
-				and `nick_name` = #{nickName}
-			</if>
-			<if test="avatar != null">
-				and `avatar` = #{avatar}
-			</if>
-			<if test="explain != null">
-				and `explain` = #{explain}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
-		</where>
+		where `open_type` = #{openType}
+			and `open_id` = #{openId}
+		  	and !(`share_id` = #{shareId} and `share_type` = #{shareType})
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultShareBindMap"  parameterType="java.lang.Long">
@@ -103,7 +78,14 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShareBindMap"  parameterType="map">
+	<select id="selectByShareId" resultMap="ResultShareBindMap"  parameterType="map">
+		select
+		<include refid="Column_tb_share_bind_List"/>
+		from `tb_share_bind`
+		where `share_id` = #{shareId} and `share_type` = #{shareType}
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultShareBindMap" parameterType="map">
 		select
 		<include refid="Column_tb_share_bind_List"/>
 		from `tb_share_bind`
@@ -117,11 +99,11 @@
 			<if test="record.openId != null">
 				and `open_id` like concat('%',#{record.openId},'%')
 			</if>
-			<if test="record.shaerId != null">
-				and `shaer_id` like concat('%',#{record.shaerId},'%')
+			<if test="record.shareId != null">
+				and `share_id` like concat('%',#{record.shareId},'%')
 			</if>
-			<if test="record.shaerType != null">
-				and `shaer_type` like concat('%',#{record.shaerType},'%')
+			<if test="record.shareType != null">
+				and `share_type` like concat('%',#{record.shareType},'%')
 			</if>
 			<if test="record.nickName != null">
 				and `nick_name` like concat('%',#{record.nickName},'%')
@@ -136,11 +118,11 @@
 				and `create_time` like concat('%',#{record.createTime},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -161,11 +143,11 @@
 			<if test="record.openId != null">
 				and `open_id` = #{record.openId}
 			</if>
-			<if test="record.shaerId != null">
-				and `shaer_id` = #{record.shaerId}
+			<if test="record.shareId != null">
+				and `share_id` = #{record.shareId}
 			</if>
-			<if test="record.shaerType != null">
-				and `shaer_type` = #{record.shaerType}
+			<if test="record.shareType != null">
+				and `share_type` = #{record.shareType}
 			</if>
 			<if test="record.nickName != null">
 				and `nick_name` = #{record.nickName}
@@ -180,11 +162,11 @@
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -205,11 +187,11 @@
 			<if test="openId != null">
 				and `open_id` like concat('%',#{openId},'%')
 			</if>
-			<if test="shaerId != null">
-				and `shaer_id` like concat('%',#{shaerId},'%')
+			<if test="shareId != null">
+				and `share_id` like concat('%',#{shareId},'%')
 			</if>
-			<if test="shaerType != null">
-				and `shaer_type` like concat('%',#{shaerType},'%')
+			<if test="shareType != null">
+				and `share_type` like concat('%',#{shareType},'%')
 			</if>
 			<if test="nickName != null">
 				and `nick_name` like concat('%',#{nickName},'%')
@@ -240,11 +222,11 @@
 			<if test="openId != null">
 				and `open_id` = #{openId}
 			</if>
-			<if test="shaerId != null">
-				and `shaer_id` = #{shaerId}
+			<if test="shareId != null">
+				and `share_id` = #{shareId}
 			</if>
-			<if test="shaerType != null">
-				and `shaer_type` = #{shaerType}
+			<if test="shareType != null">
+				and `share_type` = #{shareType}
 			</if>
 			<if test="nickName != null">
 				and `nick_name` = #{nickName}

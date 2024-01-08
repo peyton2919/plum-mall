@@ -27,19 +27,18 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-@RequestMapping("/pc/brand")
+@RequestMapping("/pc/demo")
 public class DemoController extends PcController<BrandParam>
         implements IBasePCController<Long, BrandParam> {
-
+    private String TIP_NAME = "品牌";
     @Resource
     private BrandService brandService;
 
     @Token
     @Valid
     @PostMapping("/manager/all")
-    @Override
     public JSONResult<?> all(String keyword,
-         @NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
+         @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
 
         return null;
     }
@@ -48,11 +47,13 @@ public class DemoController extends PcController<BrandParam>
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
+
         BrandParam _param = new BrandParam();
+
         _param.setName(query.getKeyword());
         // 其他处理判断
-        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo(), "seq"), brandService,null);
+        return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), brandService,null);
     }
 
     @Token
@@ -65,7 +66,7 @@ public class DemoController extends PcController<BrandParam>
         // 判断重名 _repeat 为空不做重名判断
         BrandParam _repeat = new BrandParam();
         _repeat.setName(record.getName());
-        return baseCreate(record, _repeat, brandService, "品牌");
+        return baseHandleCreate(record, _repeat, brandService, TIP_NAME);
     }
 
     @Token
@@ -78,7 +79,7 @@ public class DemoController extends PcController<BrandParam>
         BrandParam _repeat = new BrandParam();
         _repeat.setId(record.getId());
         _repeat.setName(record.getName());
-        return baseEdit(record, _repeat, brandService, "品牌",UPDATE);
+        return baseHandleEdit(record, _repeat, brandService, TIP_NAME,UPDATE);
     }
 
     @Token
@@ -86,18 +87,32 @@ public class DemoController extends PcController<BrandParam>
     @PostMapping("/manager/delete")
     @Override
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
-        return baseDelete(id,brandService,"品牌");
+        return baseHandleDelete(id,brandService,"品牌");
     }
 
     @Token
-    @PostMapping("/manager/upstatus")
     @Valid
+    @PostMapping("/manager/upstatus")
     public JSONResult<?> updateStatus(@NotBlank(message = "Id 不能为空;")
             @Min(value = 1,message = "最小为1")Long id,
             @NotBlank(message = "status 不能为空;")Integer status) {
         BrandParam _param = new BrandParam();
         _param.setId(id);
-        _param.setIsDel(status);
-        return baseEdit(_param,null,brandService,"品牌",DELETE);
+        return baseHandleEdit(_param,null,brandService,"品牌",DELETE);
+    }
+
+    @Token
+    @Valid
+    @PostMapping("/manager/updelete")
+    public JSONResult<?> updelete(@NotBlank(message = "品牌Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
+
+        return baseHandle(brandService.upDelete(id), TIP_NAME);
+    }
+
+    // 下拉框
+    @Token
+    @PostMapping("/manager/down")
+    public JSONResult<?> down(){
+        return JSONResult.success(brandService.findByDownList());
     }
 }

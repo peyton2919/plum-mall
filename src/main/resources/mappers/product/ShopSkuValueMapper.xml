@@ -92,7 +92,7 @@
 		SELECT count(id) FROM tb_shop_sku_value WHERE sku_id = #{skuId}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopSkuValueMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultShopSkuValueMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_sku_value_List"/>
 		from `tb_shop_sku_value`
@@ -110,11 +110,11 @@
 				and `seq` like concat('%',#{record.seq},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -139,11 +139,11 @@
 				and `seq` = #{record.seq}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

@@ -14,6 +14,14 @@ import cn.peyton.plum.mall.pojo.product.ShopCart;
  */
 public interface ShopCartMapper extends IBaseMapper<Long, ShopCart> {
 
+    /**
+     * <h4>根据shareId 查找</h4>
+     * @param shareId 用户ID
+     * @param shareType 用户类型
+     * @return 对象
+     */
+    ShopCart selectByShareId(Long shareId, Integer shareType);
+
     // ==================================== new create method ==================================== //
 
 

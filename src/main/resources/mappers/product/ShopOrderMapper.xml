@@ -39,14 +39,63 @@
 		<result column="verify_code" property="verifyCode" jdbcType="VARCHAR"/>
 		<result column="shop_id" property="shopId" jdbcType="BIGINT"/>
 		<result column="shipping_type" property="shippingType" jdbcType="TINYINT"/>
-		<result column="delivery_sn" property="deliverySn" jdbcType="VARCHAR"/>
-		<result column="delivery_name" property="deliveryName" jdbcType="VARCHAR"/>
-		<result column="delivery_type" property="deliveryType" jdbcType="VARCHAR"/>
-		<result column="delivery_id" property="deliveryId" jdbcType="VARCHAR"/>
+		<result column="ship_data" property="shipData" jdbcType="VARCHAR"/>
+		<result column="ship_status" property="shipStatus" jdbcType="VARCHAR"/>
+		<association property="member" javaType="cn.peyton.plum.mall.pojo.party.Member"
+					 column="share_id" select="cn.peyton.plum.mall.mapper.party.MemberMapper.selectSimpleById"/>
+		<association property="orderRefund" javaType="cn.peyton.plum.mall.pojo.product.ShopOrderRefund"
+					 column="refund_id" select="cn.peyton.plum.mall.mapper.product.ShopOrderRefundMapper.selectByPrimaryKey"/>
+		<collection property="items" javaType="list"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopOrderItemMapper.selectByOrderId" />
 	</resultMap>
 
 	<sql id="Column_tb_shop_order_List">
-		`id`,`order_no`,`extend_order_no`,`share_id`,`share_type`,`explain`,`closed`,`cart_id`,`freight_price`,`total_num`,`total_price`,`total_postage`,`pay_price`,`pay_postage`,`deduction_price`,`coupon_id`,`coupon_price`,`paid`,`pay_time`,`pay_type`,`create_time`,`update_time`,`status`,`refund_status`,`refund_id`,`gain_integral`,`use_integral`,`pay_integral`,`back_integral`,`is_del`,`admin_remark`,`pink_id`,`seckill_id`,`bargain_id`,`verify_code`,`shop_id`,`shipping_type`,`delivery_sn`,`delivery_name`,`delivery_type`,`delivery_id`
+		`id`,`order_no`,`extend_order_no`,`share_id`,`share_type`,`explain`,`closed`,`cart_id`,`freight_price`,
+		    `total_num`,`total_price`,`total_postage`,`pay_price`,`pay_postage`,`deduction_price`,`coupon_id`,
+		    `coupon_price`,`paid`,`pay_time`,`pay_type`,`create_time`,`update_time`,`status`,`refund_status`,
+		    `refund_id`,`gain_integral`,`use_integral`,`pay_integral`,`back_integral`,`admin_remark`,
+		    `pink_id`,`seckill_id`,`bargain_id`,`verify_code`,`shop_id`,`shipping_type`,`ship_data`,
+		    `ship_status`
+	</sql>
+
+	<resultMap id="result_order_simple_list" type="cn.peyton.plum.mall.pojo.product.ShopOrder">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+		<result column="extend_order_no" property="extendOrderNo" jdbcType="VARCHAR"/>
+		<result column="share_id" property="shareId" jdbcType="BIGINT"/>
+		<result column="share_type" property="shareType" jdbcType="TINYINT"/>
+		<result column="total_num" property="totalNum" jdbcType="INTEGER"/>
+		<result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+		<result column="pay_price" property="payPrice" jdbcType="DECIMAL"/>
+		<result column="deduction_price" property="deductionPrice" jdbcType="DECIMAL"/>
+		<result column="coupon_id" property="couponId" jdbcType="BIGINT"/>
+		<result column="coupon_price" property="couponPrice" jdbcType="DECIMAL"/>
+		<result column="paid" property="paid" jdbcType="TINYINT"/>
+		<result column="pay_time" property="payTime" jdbcType="INTEGER"/>
+		<result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="refund_status" property="refundStatus" jdbcType="TINYINT"/>
+		<result column="refund_id" property="refundId" jdbcType="BIGINT"/>
+		<result column="verify_code" property="verifyCode" jdbcType="VARCHAR"/>
+		<result column="shop_id" property="shopId" jdbcType="BIGINT"/>
+		<result column="shipping_type" property="shippingType" jdbcType="TINYINT"/>
+		<result column="ship_data" property="shipData" jdbcType="VARCHAR"/>
+		<result column="ship_status" property="shipStatus" jdbcType="VARCHAR"/>
+		<association property="member" javaType="cn.peyton.plum.mall.pojo.party.Member"
+					 column="share_id" select="cn.peyton.plum.mall.mapper.party.MemberMapper.selectSimpleById"/>
+		<association property="orderRefund" javaType="cn.peyton.plum.mall.pojo.product.ShopOrderRefund"
+					 column="refund_id" select="cn.peyton.plum.mall.mapper.product.ShopOrderRefundMapper.selectByPrimaryKey"/>
+		<collection property="items" javaType="list"
+					column="id" select="cn.peyton.plum.mall.mapper.product.ShopOrderItemMapper.selectByOrderId" />
+	</resultMap>
+
+	<sql id="column_order_simple_List">
+		`id`,`order_no`,`extend_order_no`,`share_id`,`share_type`,
+		    `total_num`,`total_price`,`pay_price`,`deduction_price`,`coupon_id`,
+		    `coupon_price`,`paid`,`pay_time`,`pay_type`,`create_time`,`status`,`refund_status`,
+		    `refund_id`,`verify_code`,`shop_id`,`shipping_type`,`ship_data`,
+		    `ship_status`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrder" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -88,10 +137,8 @@
 			<if test="verifyCode != null">`verify_code`,</if>
 			<if test="shopId != null">`shop_id`,</if>
 			<if test="shippingType != null">`shipping_type`,</if>
-			<if test="deliverySn != null">`delivery_sn`,</if>
-			<if test="deliveryName != null">`delivery_name`,</if>
-			<if test="deliveryType != null">`delivery_type`,</if>
-			<if test="deliveryId != null">`delivery_id`,</if>
+			<if test="shipData != null">`ship_data`,</if>
+			<if test="shipStatus != null">`ship_status`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="orderNo != null">#{orderNo},</if>
@@ -130,10 +177,8 @@
 			<if test="verifyCode != null">#{verifyCode},</if>
 			<if test="shopId != null">#{shopId},</if>
 			<if test="shippingType != null">#{shippingType},</if>
-			<if test="deliverySn != null">#{deliverySn},</if>
-			<if test="deliveryName != null">#{deliveryName},</if>
-			<if test="deliveryType != null">#{deliveryType},</if>
-			<if test="deliveryId != null">#{deliveryId},</if>
+			<if test="shipData != null">#{shipData},</if>
+			<if test="shipStatus != null">#{shipStatus},</if>
 		</trim>
 	</insert>
 
@@ -176,10 +221,8 @@
 			<if test="verifyCode != null">`verify_code` = #{verifyCode},</if>
 			<if test="shopId != null">`shop_id` = #{shopId},</if>
 			<if test="shippingType != null">`shipping_type` = #{shippingType},</if>
-			<if test="deliverySn != null">`delivery_sn` = #{deliverySn},</if>
-			<if test="deliveryName != null">`delivery_name` = #{deliveryName},</if>
-			<if test="deliveryType != null">`delivery_type` = #{deliveryType},</if>
-			<if test="deliveryId != null">`delivery_id` = #{deliveryId},</if>
+			<if test="shipData != null">`ship_data` = #{shipData},</if>
+			<if test="shipStatus != null">`ship_status` = #{shipStatus},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -188,6 +231,16 @@
 		delete from `tb_shop_order`
 		where `id` = #{id}
 	</delete>
+
+	<update id="updateIsDel" parameterType="list">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update `tb_shop_order`
+			<set>
+				`is_del`= 0
+			</set>
+			where id = #{item}
+		</foreach>
+	</update>
 
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrder">
 		select
@@ -305,17 +358,11 @@
 			<if test="shippingType != null">
 				and `shipping_type` = #{shippingType}
 			</if>
-			<if test="deliverySn != null">
-				and `delivery_sn` = #{deliverySn}
+			<if test="shipData != null">
+				and `ship_data` = #{shipData}
 			</if>
-			<if test="deliveryName != null">
-				and `delivery_name` = #{deliveryName}
-			</if>
-			<if test="deliveryType != null">
-				and `delivery_type` = #{deliveryType}
-			</if>
-			<if test="deliveryId != null">
-				and `delivery_id` = #{deliveryId}
+			<if test="shipStatus != null">
+				and `ship_status` = #{shipStatus}
 			</if>
 		</where>
 	</select>
@@ -324,10 +371,28 @@
 		select
 		<include refid="Column_tb_shop_order_List"/>
 		from `tb_shop_order`
-		where `id` = #{id}
+		where `id` = #{id} and `is_del`=1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopOrderMap"  parameterType="map">
+	<select id="selectSimpleByCondition" resultMap="result_order_simple_list"  parameterType="map">
+		select
+			<include refid="column_order_simple_List"/>
+		from `tb_shop_order`
+		where `is_del` = 1
+		<if test="record.paid != null">
+			and `paid` = #{record.paid}
+		</if>
+		<if test="record.status != null">
+			and `status` = #{record.status}
+		</if>
+
+		<if test="start != null and end !=null">
+			and `create_time` between #{start} and #{end}
+		</if>
+
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultShopOrderMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_order_List"/>
 		from `tb_shop_order`
@@ -443,24 +508,18 @@
 			<if test="record.shippingType != null">
 				and `shipping_type` like concat('%',#{record.shippingType},'%')
 			</if>
-			<if test="record.deliverySn != null">
-				and `delivery_sn` like concat('%',#{record.deliverySn},'%')
+			<if test="record.shipData != null">
+				and `ship_data` like concat('%',#{record.shipData},'%')
 			</if>
-			<if test="record.deliveryName != null">
-				and `delivery_name` like concat('%',#{record.deliveryName},'%')
-			</if>
-			<if test="record.deliveryType != null">
-				and `delivery_type` like concat('%',#{record.deliveryType},'%')
-			</if>
-			<if test="record.deliveryId != null">
-				and `delivery_id` like concat('%',#{record.deliveryId},'%')
+			<if test="record.shipStatus != null">
+				and `ship_status` like concat('%',#{record.shipStatus},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -583,24 +642,18 @@
 			<if test="record.shippingType != null">
 				and `shipping_type` = #{record.shippingType}
 			</if>
-			<if test="record.deliverySn != null">
-				and `delivery_sn` = #{record.deliverySn}
+			<if test="record.shipData != null">
+				and `ship_data` = #{record.shipData}
 			</if>
-			<if test="record.deliveryName != null">
-				and `delivery_name` = #{record.deliveryName}
-			</if>
-			<if test="record.deliveryType != null">
-				and `delivery_type` = #{record.deliveryType}
-			</if>
-			<if test="record.deliveryId != null">
-				and `delivery_id` = #{record.deliveryId}
+			<if test="record.shipStatus != null">
+				and `ship_status` = #{record.shipStatus}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -723,17 +776,11 @@
 			<if test="shippingType != null">
 				and `shipping_type` like concat('%',#{shippingType},'%')
 			</if>
-			<if test="deliverySn != null">
-				and `delivery_sn` like concat('%',#{deliverySn},'%')
+			<if test="shipData != null">
+				and `ship_data` like concat('%',#{shipData},'%')
 			</if>
-			<if test="deliveryName != null">
-				and `delivery_name` like concat('%',#{deliveryName},'%')
-			</if>
-			<if test="deliveryType != null">
-				and `delivery_type` like concat('%',#{deliveryType},'%')
-			</if>
-			<if test="deliveryId != null">
-				and `delivery_id` like concat('%',#{deliveryId},'%')
+			<if test="shipStatus != null">
+				and `ship_status` like concat('%',#{shipStatus},'%')
 			</if>
 		</where>
 	</select>
@@ -854,17 +901,11 @@
 			<if test="shippingType != null">
 				and `shipping_type` = #{shippingType}
 			</if>
-			<if test="deliverySn != null">
-				and `delivery_sn` = #{deliverySn}
+			<if test="shipData != null">
+				and `ship_data` = #{shipData}
 			</if>
-			<if test="deliveryName != null">
-				and `delivery_name` = #{deliveryName}
-			</if>
-			<if test="deliveryType != null">
-				and `delivery_type` = #{deliveryType}
-			</if>
-			<if test="deliveryId != null">
-				and `delivery_id` = #{deliveryId}
+			<if test="shipStatus != null">
+				and `ship_status` = #{shipStatus}
 			</if>
 		</where>
 	</select>

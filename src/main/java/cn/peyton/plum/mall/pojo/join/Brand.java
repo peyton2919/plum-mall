@@ -1,6 +1,8 @@
 package cn.peyton.plum.mall.pojo.join;
 
 
+import cn.peyton.plum.mall.pojo.party.Supplier;
+
 import java.io.Serializable;
 
 /**
@@ -49,9 +51,15 @@ public class Brand implements Serializable {
      * 创建时间
      */
     private Integer createTime;
+    /**
+     * 供应商对象
+     */
+    private Supplier supplier;
 
     //================================== Constructor =======================================//
-
+    public Brand() {
+        if (null == supplier) { supplier = new Supplier(); }
+    }
     //================================== Method =======================================//
 
 
@@ -181,6 +189,20 @@ public class Brand implements Serializable {
      */
     public Integer getCreateTime() {
         return createTime;
+    }
+
+    /**
+     * @return 供应商对象
+     */
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    /**
+     * @param supplier 供应商对象
+     */
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
 }

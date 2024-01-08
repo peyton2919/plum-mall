@@ -14,7 +14,6 @@ import cn.peyton.plum.mall.pojo.join.Invoice;
  */
 public interface InvoiceMapper extends IBaseMapper<Long, Invoice> {
 
-
     // ==================================== new create method ==================================== //
 
 

@@ -18,8 +18,8 @@ import java.util.List;
 public interface MemberLevelService extends IBaseService<Integer, MemberLevel, MemberLevelParam> {
     /**
      * <h4>根据会员类型查找</h4>
-     * @param type 会员类型, 默认 0 零售 1 批发
      * @return 会员类型集合
      */
-    List<MemberLevelParam> select(Integer type);
+    List<MemberLevelParam> findByDownList();
+
 }

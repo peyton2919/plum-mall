@@ -32,7 +32,7 @@ public abstract class CacehService {
         cache.put(key, p);
     }
 
-    protected <P> List<P> get(String key) {
+    protected <P> List<P> list(String key) {
         return (List<P>)cache.get(key);
     }
 

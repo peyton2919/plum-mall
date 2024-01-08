@@ -26,8 +26,8 @@ public interface RoleMapper extends IBaseMapper<Long, Role> {
 
     /**
      * <h4>根据用户Id和类型,查找角色对象</h4>
-     * @param shareId
-     * @param shareType
+     * @param shareId 用户id
+     * @param shareType 用户类型
      * @return
      */
     Role selectByShareIdAndType(@Param("shareId") Long shareId, @Param("shareType") Integer shareType);
@@ -37,6 +37,17 @@ public interface RoleMapper extends IBaseMapper<Long, Role> {
      * @return 对象集合 {id,name}
      */
     List<Role> selectByAll();
+
+    /**
+     * <h4>根据用户Id和类型,查找角色对象</h4>
+     * <pre>
+     *     用在用户登录时附加的用户角色信息
+     * </pre>
+     * @param shareId 用户id
+     * @param shareType 用户类型
+     * @return
+     */
+    Role selectExpandByShareIdAndType(@Param("shareId") Long shareId, @Param("shareType") Integer shareType);
 
 
     // ==================================== new create method ==================================== //

@@ -9,6 +9,8 @@
 		<result column="used" property="used" jdbcType="TINYINT"/>
 		<result column="status" property="status" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="shopCoupon" javaType="cn.peyton.plum.mall.pojo.product.ShopCoupon"
+					 column="coupon_id" select="cn.peyton.plum.mall.mapper.product.ShopCouponMapper.selectByFKId"/>
 	</resultMap>
 
 	<sql id="Column_tb_shop_coupon_member_List">
@@ -42,15 +44,13 @@
 			<if test="shareId != null">`share_id` = #{shareId},</if>
 			<if test="shareType != null">`share_type` = #{shareType},</if>
 			<if test="used != null">`used` = #{used},</if>
-			<if test="status != null">`status` = #{status},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
-		where id = #{id}
+		where id = #{id} and `status` = 1
 	</update>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from `tb_shop_coupon_member`
-		where `id` = #{id}
+		where `id` = #{id} and `status` != 2
 	</delete>
 
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCouponMember">
@@ -70,15 +70,6 @@
 			<if test="shareType != null">
 				and `share_type` = #{shareType}
 			</if>
-			<if test="used != null">
-				and `used` = #{used}
-			</if>
-			<if test="status != null">
-				and `status` = #{status}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
 		</where>
 	</select>
 
@@ -89,7 +80,43 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+	<!--  selectUsedByShareIdAndType -->
+	<select id="selectUsedByShareIdAndType" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+		select
+			<include refid="Column_tb_shop_coupon_member_List"/>
+		from `tb_shop_coupon_member`
+		where `share_id` = #{shareId} and `share_type` = #{shareType} and `status` != 2
+	</select>
+
+	<!--  selectByUseableOrAll -->
+	<select id="selectByUseableOrAll" resultMap="ResultShopCouponMemberMap"  parameterType="map">
+		SELECT scm.id,scm.coupon_id,scm.share_id,scm.share_type,scm.used,scm.status,scm.create_time
+		from tb_shop_coupon_member as scm ,tb_shop_coupon as sc
+		WHERE scm.coupon_id = sc.id
+		  and scm.share_id = #{shareId}
+		  and scm.share_type = #{shareType}
+		  <if test="price != null and price > 0">
+			  and #{price} &gt; sc.min_price
+		  	  and #{currentTime} &gt; sc.start_time
+			  and sc.status &lt; 3
+		  	  and scm.status = 1
+		  	  and scm.used = 0
+		  </if>
+			and #{currentTime} &lt;= end_time
+		  <if test="null != page">
+			  <if test="page.orderColumnName != null">
+				  order by ${page.orderColumnName} ${page.orderMode}
+			  </if>
+			  <if test="page.orderColumnName == null">
+				  order by `id` ${page.orderMode}
+			  </if>
+			  <if test="page.enablePaging">
+				  limit #{page.offset},#{page.pageSize}
+			  </if>
+		  </if>
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultShopCouponMemberMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_coupon_member_List"/>
 		from `tb_shop_coupon_member`
@@ -116,11 +143,11 @@
 				and `create_time` like concat('%',#{record.createTime},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -154,11 +181,11 @@
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

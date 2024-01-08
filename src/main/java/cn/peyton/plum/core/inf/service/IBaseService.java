@@ -6,7 +6,7 @@ import cn.peyton.plum.core.page.PageResult;
 import java.util.List;
 
 /**
- * <h4>Service 基础类</h4>
+ * <h4>{规范} 基础类 服务接口</h4>
  * <pre>
  *     基础类定义以下 9 个方法:
  *     1. P add(P record); 插入 P对象[根据属性是否有值 插入]
@@ -84,7 +84,7 @@ public interface IBaseService<K, T, P> {
      * @param page   分页对象
      * @return 对象集合
      */
-    List<P> findByLikeAndObj(P record, PageQuery page);
+    List<P> like(P record, PageQuery page);
 
     /**
      * <h4>分页查询(全部或关键字模糊查找)</h4>
@@ -93,7 +93,19 @@ public interface IBaseService<K, T, P> {
      * @param page   分页对象
      * @return 对象集合
      */
-    PageResult<?> findAllByLike(P record, PageQuery page);
+    PageResult<?> likeByPage(P record, PageQuery page);
+
+    /**
+     * <h4>分页查询(全部或关键字模糊查找)</h4>
+     *
+     * @param record 关键字, 当 record = null 时为全部查询
+     * @param page   分页对象
+     * @param key    缓存区分key{用在扩展查找}
+     * @return 对象集合
+     */
+    PageResult<?> likeByPage(P record, PageQuery page, String key);
+
+
     /**
      * <h4>根据对象条件查找</h4>
      *
@@ -101,7 +113,7 @@ public interface IBaseService<K, T, P> {
      * @param page   分页对象
      * @return 对象集合
      */
-    List<P> findByObj(P record, PageQuery page);
+    List<P> list(P record, PageQuery page);
 
     /**
      * <h4>分页查询(全部或关键字模糊查找)</h4>
@@ -110,7 +122,7 @@ public interface IBaseService<K, T, P> {
      * @param page   分页对象
      * @return 对象集合
      */
-    PageResult<?> findAll(P record, PageQuery page);
+    PageResult<?> listByPage(P record, PageQuery page);
     /**
      * <h4>查找全部数量(模糊Like查找)</h4>
      *

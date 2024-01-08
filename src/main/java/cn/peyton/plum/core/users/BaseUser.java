@@ -11,16 +11,23 @@ import java.io.Serializable;
  * @version: 1.0.0
  * </pre>
  */
-public abstract class BaseUser<K, T> implements IUser, Serializable {
+public abstract class BaseUser implements IUser, Serializable {
 
+    /** 主键Id */
+    private Long id;
+    /** 最后登录IP  */
+    private String lastIp;
+    /** 最后登录时间  */
+    private String lastLoginTime;
     /** token 值 */
     private String token;
+
     /**
      * 用户登录类型
      */
     private String loginType;
     /**
-     * 用户类型
+     * 获取用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     private Integer userType;
 
@@ -32,7 +39,7 @@ public abstract class BaseUser<K, T> implements IUser, Serializable {
     protected abstract Integer userType();
 
     /**
-     * <h4>获取用户类型</h4>
+     * <h4>获取用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员</h4>
      *
      * @return
      */
@@ -41,7 +48,7 @@ public abstract class BaseUser<K, T> implements IUser, Serializable {
     }
 
     /**
-     * @param userType 用户类型
+     * @param userType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public void setUserType(Integer userType) {
         this.userType = userType;
@@ -77,5 +84,46 @@ public abstract class BaseUser<K, T> implements IUser, Serializable {
      */
     public void setToken(String token) {
         this.token = token;
+    }
+
+    /**
+     * @return 主键Id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id 主键Id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    /**
+     * @param lastIp 最后登录IP
+     */
+    public void setLastIp(String lastIp){
+        this.lastIp = lastIp;
+    }
+
+    /**
+     * @return 最后登录IP
+     */
+    public String getLastIp(){
+        return lastIp;
+    }
+
+    /**
+     * @param lastLoginTime 最后登录时间
+     */
+    public void setLastLoginTime(String lastLoginTime){
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * @return 最后登录时间
+     */
+    public String getLastLoginTime(){
+        return lastLoginTime;
     }
 }

@@ -1,6 +1,12 @@
 package cn.peyton.plum.mall.param.party;
 
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
+import cn.peyton.plum.core.users.BaseUser;
+import cn.peyton.plum.core.users.IUser;
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.*;
+import cn.peyton.plum.mall.bo.SupplierInfoBo;
 import cn.peyton.plum.mall.pojo.party.Supplier;
 
 import java.io.Serializable;
@@ -14,85 +20,83 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
-public class SupplierParam implements Serializable {
-    /**
-     * 编号
-     */
-    private Long id;
+@ImageHostPath(name = "avatar")
+public class SupplierParam extends BaseUser implements Serializable {
     /**
      * 名称
      */
-    private String name;
+    @NotBlank(message = "用户名不能为空")
+    @Length(min=3,max = 40)
+    private String username;
     /**
      * 登录名
      */
+    @NotBlank(message = "登录名不能为空")
+    @Length(min=3,max = 40)
     private String loginName;
     /**
      * 头像地址
      */
+    @Length(min = 0,max = 245)
     private String avatar;
     /**
      * 密码
      */
-    private String pwd;
+    @NotBlank(message = "密码不能为空")
+    @Length(min=6,max = 40)
+    private String password;
+    /** 确认密码 */
+    @Alike(fieldName = "password")
+    private String confirmPwd;
+
     /**
      * 手机
      */
+    @Phone
     private String phone;
     /**
      * 登录次数,每登录一次加1
      */
     private Integer loc;
-    /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Integer isDel;
+    /** 状态：默认: 1启用、0禁用 */
+    private Integer status;
+    /** 邮箱 */
+    @Email
+    private String email;
+
     /**
      * 加密串
      */
     private String encrypted;
-    /**
-     * 最后登录IP
-     */
-    private String lastIp;
+
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
+    /** 供应商基础信息 对象 */
+    private SupplierInfoParam supplierInfo;
 
     //================================== Constructor =======================================//
-
+    public SupplierParam() {
+        if (null == supplierInfo) {supplierInfo = new SupplierInfoParam();}
+    }
     //================================== Method =======================================//
 
 
     //================================== PREFIX_GET AND PREFIX_SET =======================================//
 
     /**
-     * @param id 编号
+     * @param username 名称
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return 编号
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param name 名称
-     */
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
      * @return 名称
      */
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     /**
@@ -124,19 +128,32 @@ public class SupplierParam implements Serializable {
     }
 
     /**
-     * @param pwd 密码
+     * @param password 密码
      */
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
      * @return 密码
      */
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
+    /**
+     * @return 确认密码
+     */
+    public String getConfirmPwd() {
+        return confirmPwd;
+    }
+
+    /**
+     * @param confirmPwd  确认密码
+     */
+    public void setConfirmPwd(String confirmPwd) {
+        this.confirmPwd = confirmPwd;
+    }
     /**
      * @param phone 手机
      */
@@ -166,17 +183,31 @@ public class SupplierParam implements Serializable {
     }
 
     /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
+     * @return 状态：默认: 1启用、0禁用
      */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public Integer getStatus() {
+        return status;
     }
 
     /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
+     * @param status 状态：默认: 1启用、0禁用
      */
-    public Integer getIsDel() {
-        return isDel;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * @return 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -194,32 +225,33 @@ public class SupplierParam implements Serializable {
     }
 
     /**
-     * @param lastIp 最后登录IP
-     */
-    public void setLastIp(String lastIp) {
-        this.lastIp = lastIp;
-    }
-
-    /**
-     * @return 最后登录IP
-     */
-    public String getLastIp() {
-        return lastIp;
-    }
-
-    /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
+
+    /**
+     * @return 供应商基础信息 对象
+     */
+    public SupplierInfoParam getSupplierInfo() {
+        return supplierInfo;
+    }
+
+    /**
+     * @param supplierInfo 供应商基础信息 对象
+     */
+    public void setSupplierInfo(SupplierInfoParam supplierInfo) {
+        this.supplierInfo = supplierInfo;
+    }
+
 
     /**
      * <h4>对象转成Supplier对象<h4>
@@ -230,17 +262,20 @@ public class SupplierParam implements Serializable {
      */
     public Supplier convert() {
         Supplier supplier = new Supplier();
-        supplier.setId(id);
-        supplier.setName(name);
+        supplier.setId(getId());
+        supplier.setUsername(username);
         supplier.setLoginName(loginName);
         supplier.setAvatar(avatar);
-        supplier.setPwd(pwd);
+        supplier.setPassword(password);
         supplier.setPhone(phone);
         supplier.setLoc(loc);
-        supplier.setIsDel(isDel);
         supplier.setEncrypted(encrypted);
-        supplier.setLastIp(lastIp);
-        supplier.setCreateTime(createTime);
+        supplier.setLastIp(getLastIp());
+        supplier.setStatus(status);
+        supplier.setEmail(email);
+        supplier.setLastLoginTime(DateUtils.dateToTimestamp(getLastLoginTime()));
+        supplier.setCreateTime(DateUtils.dateToTimestamp(createTime));
+        supplier.setSupplierInfo(supplierInfo.convert());
         return supplier;
     }
 
@@ -256,16 +291,24 @@ public class SupplierParam implements Serializable {
             return new SupplierParam();
         }
         this.setId(supplier.getId());
-        this.setName(supplier.getName());
+        this.setUsername(supplier.getUsername());
         this.setLoginName(supplier.getLoginName());
         this.setAvatar(supplier.getAvatar());
-        this.setPwd(supplier.getPwd());
+        this.setPassword(supplier.getPassword());
         this.setPhone(supplier.getPhone());
         this.setLoc(supplier.getLoc());
-        this.setIsDel(supplier.getIsDel());
         this.setEncrypted(supplier.getEncrypted());
         this.setLastIp(supplier.getLastIp());
-        this.setCreateTime(supplier.getCreateTime());
+        this.setStatus(supplier.getStatus());
+        this.setEmail(supplier.getEmail());
+        this.setLastLoginTime(DateUtils.timestampToStrDate(supplier.getLastLoginTime()));
+        this.setCreateTime(DateUtils.timestampToStrDate(supplier.getCreateTime()));
+        this.setSupplierInfo(new SupplierInfoBo().compat(supplier.getSupplierInfo()));
         return this;
+    }
+
+    @Override
+    protected Integer userType() {
+        return IUser.TYPE_SUPPLIER;
     }
 }

@@ -22,6 +22,7 @@ import java.util.Set;
  * <pre>
  *     参数有 RequestMultiple 注解，那么则会使用该类进行处理
  * </pre>
+ *
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -71,25 +72,40 @@ public class MyHandlerMethodArgumentResolver implements HandlerMethodArgumentRes
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         final String applicationJson = MediaType.APPLICATION_JSON_VALUE;
-        //final String applicationForm = MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+        final String applicationForm = MediaType.APPLICATION_FORM_URLENCODED_VALUE;
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         Object _obj = null;
         if (null == request) {
             throw new RuntimeException("[MyHandlerMethodArgumentResolver.resolveArgument - 62 行] request 为空");
         }
-        //获取参数类型
-        Class<?> parameterType = parameter.getParameterType();
-        // 获取内容类型
-        String contentType = request.getContentType();
-        if(contentType.contains(MediaType.APPLICATION_JSON_VALUE)){
-
-
-        }else {
-
+        String contentType = (null != request.getContentType()) ? request.getContentType() : applicationForm;
+        // JSON 解析
+        if(contentType.contains(applicationJson)){
+            //String parameterName = parameter.getParameterName();
+            //String read = getRead(request.getReader());
+            //_obj = JSON.parseObject(read);
+        }else {  // FORM 解析
+            //Map<String, String[]> parameterValueMap = request.getParameterMap();
+            //Method method = parameter.getMethod();
+            //Parameter[] parameters = method.getParameters();
+            //if (null != parameters && parameters.length > 0) {
+            //    for (Parameter pm : parameters) {
+            //        // Java 基础属性验证方法
+            //        String typeName = pm.getType().getName();
+            //        //String simpleName = _pm.getType().getSimpleName();
+            //        // 去除不要request,response,session
+            //        if (HttpServletRequestUtils.isExclude(typeName)) {continue;}
+            //        if (typeName.contains("cn.peyton")){
+            //            _obj = HttpServletRequestUtils.voluation(parameterValueMap, typeName);
+            //        }
+            //    }
+            //}
         }
+        //System.out.println(_obj);
         // 使用原本的策略类
         return contentType.contains(applicationJson) ? requestResponseBodyMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory)
                 : servletModelAttributeMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+
     }
 
 

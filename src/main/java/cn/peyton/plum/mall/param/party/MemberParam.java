@@ -1,12 +1,18 @@
 package cn.peyton.plum.mall.param.party;
 
-
+import cn.peyton.plum.core.anno.img.ImageHostPath;
+import cn.peyton.plum.core.users.BaseUser;
+import cn.peyton.plum.core.users.IUser;
 import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.bo.MemberLevelBo;
+import cn.peyton.plum.mall.bo.ShareBindBo;
+import cn.peyton.plum.mall.bo.UserAddressBo;
 import cn.peyton.plum.mall.pojo.party.Member;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3> 会员 参数 传递类[用来展示数据]类</h3>
@@ -17,11 +23,9 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
-public class MemberParam implements Serializable {
-    /**
-     *
-     */
-    private Long id;
+@ImageHostPath(name = "avatar")
+public class MemberParam extends BaseUser implements Serializable {
+
     /**
      * 会员级别
      */
@@ -37,19 +41,22 @@ public class MemberParam implements Serializable {
      */
     @NotBlank(message = "密码不能为空")
     @Length(min = 6,max = 40)
-    private String pwd;
+    private String password;
     /** 确认密码 */
     @Alike(fieldName = "pwd")
     private String confirmPwd;
     /**
      * 会员头像
      */
+    @Length(max = 250)
     private String avatar;
+
     /**
      * 会员昵称
      */
     @Length(min = 2,max = 40)
     private String nickname;
+
     /**
      * 会员手机
      */
@@ -59,6 +66,7 @@ public class MemberParam implements Serializable {
      * 会员邮箱
      */
     @Email
+    @Length(max = 150)
     private String email;
     /**
      * 是否启用, 默认 1 启用 0 禁用
@@ -66,17 +74,9 @@ public class MemberParam implements Serializable {
     @Size(min = 0,max = 1)
     private Integer status;
     /**
-     * 最后登录IP
-     */
-    private String lastIp;
-    /**
      * 每登录一次加1
      */
     private Integer loc;
-    /**
-     * 最后登录时间
-     */
-    private Integer lastLoginTime;
     /**
      * 性别：默认 0{0 保密 1 男 2 女}
      */
@@ -93,34 +93,35 @@ public class MemberParam implements Serializable {
      */
     private String encrypted;
     /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Integer isDel;
-    /**
      * 创建时间
      */
     private String createTime;
+    /**
+     * 用户地址
+     */
+    private List<UserAddressParam> userAddresses;
+    /** 用户账单  */
+    //private UserBillParam bill;
+    /** 用户提现  */
+    //private UserExtractParam extract;
+    /** 第三方用户绑定信息  */
+    private List<ShareBindParam> shareBinds;
+
 
     //================================== Constructor =======================================//
-    public MemberParam() {  memberLevel = new MemberLevelParam(); }
+    public MemberParam() {
+        if (null == memberLevel) {memberLevel = new MemberLevelParam();}
+        if (null == userAddresses) {
+            userAddresses = new ArrayList<>();}
+        //if (null == bill) {bill = new UserBillParam();}
+        //if (null == extract) {extract = new UserExtractParam();}
+        if (null == shareBinds) {shareBinds = new ArrayList<>();}
+    }
     //================================== Method =======================================//
 
 
     //================================== PREFIX_GET AND PREFIX_SET =======================================//
 
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return
-     */
-    public Long getId() {
-        return id;
-    }
     /**
      * @return 会员级别
      */
@@ -149,23 +150,29 @@ public class MemberParam implements Serializable {
     }
 
     /**
-     * @param pwd 会员密码
+     * @param password 会员密码
      */
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
      * @return 会员密码
      */
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
+    /**
+     * @return 确认密码
+     */
     public String getConfirmPwd() {
         return confirmPwd;
     }
 
+    /**
+     * @param confirmPwd  确认密码
+     */
     public void setConfirmPwd(String confirmPwd) {
         this.confirmPwd = confirmPwd;
     }
@@ -239,19 +246,6 @@ public class MemberParam implements Serializable {
         return status;
     }
 
-    /**
-     * @param lastIp 最后登录IP
-     */
-    public void setLastIp(String lastIp) {
-        this.lastIp = lastIp;
-    }
-
-    /**
-     * @return 最后登录IP
-     */
-    public String getLastIp() {
-        return lastIp;
-    }
 
     /**
      * @param loc 每登录一次加1
@@ -265,20 +259,6 @@ public class MemberParam implements Serializable {
      */
     public Integer getLoc() {
         return loc;
-    }
-
-    /**
-     * @param lastLoginTime 最后登录时间
-     */
-    public void setLastLoginTime(Integer lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    /**
-     * @return 最后登录时间
-     */
-    public Integer getLastLoginTime() {
-        return lastLoginTime;
     }
 
     /**
@@ -324,24 +304,67 @@ public class MemberParam implements Serializable {
     }
 
     /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
-     */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
-     */
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    /**
      * @param createTime 创建时间
      */
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+
+    /**
+     * @return 用户地址
+     */
+    public List<UserAddressParam> getUserAddresses() {
+        return userAddresses;
+    }
+
+    /**
+     * @param userAddresses 用户地址
+     */
+    public void setUserAddresses(List<UserAddressParam> userAddresses) {
+        this.userAddresses = userAddresses;
+    }
+
+    /**
+     * @return 用户账单
+     */
+    //public UserBillParam getBill() {
+    //    return bill;
+    //}
+
+    /**
+     * @param bill 用户账单
+     */
+    //public void setBill(UserBillParam bill) {
+    //    this.bill = bill;
+    //}
+
+    /**
+     * @return 用户提现
+     */
+    //public UserExtractParam getExtract() {
+    //    return extract;
+    //}
+
+    /**
+     * @param extract 用户提现
+     */
+    //public void setExtract(UserExtractParam extract) {
+    //    this.extract = extract;
+    //}
+
+    /**
+     * @return 第三方用户绑定信息
+     */
+    public List<ShareBindParam> getShareBinds() {
+        return shareBinds;
+    }
+
+    /**
+     * @param shareBinds 第三方用户绑定信息
+     */
+    public void setShareBinds(List<ShareBindParam> shareBinds) {
+        this.shareBinds = shareBinds;
     }
 
     /**
@@ -355,28 +378,31 @@ public class MemberParam implements Serializable {
      * <h4>对象转成Member对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,levelId,username,pwd,avatar,nickname,phone,email,lastIp,loc,lastLoginTime,sex,birthday,encrypted,isDel,createTime]
+     * 	 [id,levelId,username,pwd,avatar,nickname,phone,email,lastIp,loc,lastLoginTime,sex,birthday,encrypted,createTime]
      * </pre>
      */
     public Member convert() {
         Member member = new Member();
-        member.setId(id);
+        member.setId(getId());
         member.setMemberLevel(memberLevel.convert());
         member.setUsername(username);
-        member.setPwd(pwd);
+        member.setPassword(password);
         member.setAvatar(avatar);
         member.setNickname(nickname);
         member.setPhone(phone);
         member.setEmail(email);
         member.setStatus(status);
-        member.setLastIp(lastIp);
+        member.setLastIp(getLastIp());
         member.setLoc(loc);
-        member.setLastLoginTime(lastLoginTime);
+        member.setLastLoginTime(DateUtils.dateToTimestamp(getLastLoginTime()));
         member.setSex(sex);
         member.setBirthday(birthday);
         member.setEncrypted(encrypted);
-        member.setIsDel(isDel);
         member.setCreateTime(DateUtils.dateToTimestamp(createTime));
+        member.setUserAddresses(new UserAddressBo().reverse(userAddresses));
+        //member.setBill(bill.convert());
+        //member.setExtract(extract.convert());
+        member.setShareBinds(new ShareBindBo().reverse(shareBinds));
         return member;
     }
 
@@ -384,7 +410,7 @@ public class MemberParam implements Serializable {
      * <h4>Member对象转成MemberParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,levelId,username,pwd,avatar,nickname,phone,email,lastIp,loc,lastLoginTime,sex,birthday,encrypted,isDel,createTime]
+     * 	 [id,levelId,username,pwd,avatar,nickname,phone,email,lastIp,loc,lastLoginTime,sex,birthday,encrypted,createTime]
      * </pre>
      */
     public MemberParam compat(Member member) {
@@ -394,7 +420,7 @@ public class MemberParam implements Serializable {
         this.setId(member.getId());
         this.setMemberLevel(new MemberLevelBo().compat(member.getMemberLevel()));
         this.setUsername(member.getUsername());
-        this.setPwd(member.getPwd());
+        this.setPassword(member.getPassword());
         this.setAvatar(member.getAvatar());
         this.setNickname(member.getNickname());
         this.setPhone(member.getPhone());
@@ -402,12 +428,20 @@ public class MemberParam implements Serializable {
         this.setStatus(member.getStatus());
         this.setLastIp(member.getLastIp());
         this.setLoc(member.getLoc());
-        this.setLastLoginTime(member.getLastLoginTime());
+        this.setLastLoginTime(DateUtils.timestampToStrDate(member.getLastLoginTime()));
         this.setSex(member.getSex());
         this.setBirthday(member.getBirthday());
         this.setEncrypted(member.getEncrypted());
-        this.setIsDel(member.getIsDel());
         this.setCreateTime(DateUtils.timestampToStrDate(member.getCreateTime()));
+        this.setUserAddresses(new UserAddressBo().adapter(member.getUserAddresses()));
+        //this.setBill(new UserBillBo().compat(member.getBill()));
+        //this.setExtract(new UserExtractBo().compat(member.getExtract()));
+        this.setShareBinds(new ShareBindBo().adapter(member.getShareBinds()));
         return this;
+    }
+
+    @Override
+    protected Integer userType() {
+        return IUser.TYPE_MEMBER;
     }
 }

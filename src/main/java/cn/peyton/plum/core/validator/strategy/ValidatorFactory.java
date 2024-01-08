@@ -58,10 +58,12 @@ public final class ValidatorFactory implements Serializable {
             comparer = new DateStrategy();
         } else if (annotation instanceof Datetime) {
             comparer = new DatetimeStrategy();
-        } else if (annotation instanceof DecimalMax) {
-            comparer = new DecimalMaxStrategy();
-        } else if (annotation instanceof DecimalMin) {
-            comparer = new DecimalMinStrategy();
+        } else if (annotation instanceof MaxDecimal) {
+            comparer = new MaxDecimalStrategy();
+        } else if (annotation instanceof MinDecimal) {
+            comparer = new MinDecimalStrategy();
+        } else if (annotation instanceof Decimal) {
+            comparer = new DecimalStrategy();
         } else if (annotation instanceof Email) {
             comparer = new EmailStrategy();
         } else if (annotation instanceof Future) {

@@ -39,13 +39,12 @@ public class ShopCategoryRecommendController extends PcController<ShopCategoryRe
 	@Resource
 	private ShopCategoryRecommendService shopCategoryRecommendService;
 
-	@Override
 	public JSONResult<?> all(String keyword, Integer pageNo) {
 		return null;
 	}
 
 	@Override
-	public JSONResult<?> search(Query query) {
+	public JSONResult<?> list(Query query) {
 		return null;
 	}
 
@@ -58,15 +57,24 @@ public class ShopCategoryRecommendController extends PcController<ShopCategoryRe
 	public JSONResult<?> edit(ShopCategoryRecommendParam record) {
 		return null;
 	}
+
+	@Override
+	public JSONResult<?> delete(Long id) {
+		return null;
+	}
+
+	// 删除分类推荐
 	@Token
 	@Valid
 	@PostMapping("/manager/delete")
-	@Override
-	public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
-		return baseDelete(id, shopCategoryRecommendService, "推荐");
+	public JSONResult<?> joinDelete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long productId,
+				@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer categoryId) {
+
+		return baseHandle(shopCategoryRecommendService.deleteByJoinId(productId, categoryId), DATA, DELETE);
 	}
 
 	//category_id 分类Id,cover 商品封面,create_time 创建时间,product_id 商品Id,id,name 商品名称,seq 排序,
+	// 查找 分类-推荐列表
 	@Token
 	@Valid
 	@PostMapping("/manager/product")
@@ -75,6 +83,7 @@ public class ShopCategoryRecommendController extends PcController<ShopCategoryRe
 
 		return JSONResult.success((null == res)? new ShopCategoryRecommendParam():res);
 	}
+
 	@Token
 	@Valid
 	@PostMapping("/manager/connect")

@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.param.pub;
 
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.mall.pojo.pub.Article;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
+@ImageHostPath(name = "image")
 public class ArticleParam implements Serializable {
     /**
      * 文章管理ID

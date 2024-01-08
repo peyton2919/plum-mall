@@ -18,11 +18,11 @@ import java.util.List;
 public interface MemberLevelMapper extends IBaseMapper<Integer, MemberLevel> {
     /**
      * <h4>根据会员类型查找</h4>
-     * @param type 会员类型, 默认 0 零售 1 批发
      * @return 会员类型集合
      */
-    @Select("select id,name from tb_member_level where status =1 and member_type=#{type} order by seq desc")
-    List<MemberLevel> selectBySelect(Integer type);
+    @Select("select id,name from tb_member_level where status =1 order by seq desc")
+    List<MemberLevel> selectByDownList();
+
     // ==================================== new create method ==================================== //
 
 

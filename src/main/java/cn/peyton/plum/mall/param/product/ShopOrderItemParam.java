@@ -1,5 +1,8 @@
 package cn.peyton.plum.mall.param.product;
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.mall.bo.ShopProductBo;
+import cn.peyton.plum.mall.bo.ShopProductSkuDetailBo;
 import cn.peyton.plum.mall.pojo.product.ShopOrderItem;
 
 import java.io.Serializable;
@@ -35,10 +38,18 @@ public class ShopOrderItemParam implements Serializable {
      * 商品规格详细Id(shop_product_detail)
      */
     private Long psdId;
+
+    /** 商品Id */
+    private Long productId;
+
+    /** 规格 0单 1多 */
+    private Integer specType;
     /**
      * 数量
      */
     private Integer num;
+    /** 退回数量 */
+    private Integer refundNum;
     /**
      * 单价
      */
@@ -51,9 +62,19 @@ public class ShopOrderItemParam implements Serializable {
      * 是否显示, 默认: 1 显示, 0 不显示
      */
     private Integer isShow;
+    /** 创建时间 */
+    private String createTime;
+
+    /** 商品规格详细对象 */
+    private ShopProductSkuDetailParam productSkuDetail;
+    /** 商品对象 */
+    private ShopProductParam product;
 
     //================================== Constructor =======================================//
-
+    public ShopOrderItemParam() {
+        if (null == product) {product = new ShopProductParam();}
+        if (null == productSkuDetail) { productSkuDetail = new ShopProductSkuDetailParam(); }
+    }
     //================================== Method =======================================//
 
 
@@ -128,6 +149,33 @@ public class ShopOrderItemParam implements Serializable {
     public Long getPsdId() {
         return psdId;
     }
+    /**
+     * @return 商品Id
+     */
+    public Long getProductId() {
+        return productId;
+    }
+
+    /**
+     * @param productId 商品Id
+     */
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    /**
+     * @return 规格 0单 1多
+     */
+    public Integer getSpecType() {
+        return specType;
+    }
+
+    /**
+     * @param specType 规格 0单 1多
+     */
+    public void setSpecType(Integer specType) {
+        this.specType = specType;
+    }
 
     /**
      * @param num 数量
@@ -143,6 +191,19 @@ public class ShopOrderItemParam implements Serializable {
         return num;
     }
 
+    /**
+     * @return 退回数量
+     */
+    public Integer getRefundNum() {
+        return refundNum;
+    }
+
+    /**
+     * @param refundNum 退回数量
+     */
+    public void setRefundNum(Integer refundNum) {
+        this.refundNum = refundNum;
+    }
     /**
      * @param price 单价
      */
@@ -184,6 +245,46 @@ public class ShopOrderItemParam implements Serializable {
     public Integer getIsShow() {
         return isShow;
     }
+    /**
+     * @return 创建时间
+     */
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime 创建时间
+     */
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * @return 商品规格详细对象
+     */
+    public ShopProductSkuDetailParam getProductSkuDetail() {
+        return productSkuDetail;
+    }
+
+    /**
+     * @param productSkuDetail 商品规格详细对象
+     */
+    public void setProductSkuDetail(ShopProductSkuDetailParam productSkuDetail) {
+        this.productSkuDetail = productSkuDetail;
+    }
+    /**
+     * @return 商品对象
+     */
+    public ShopProductParam getProduct() {
+        return product;
+    }
+
+    /**
+     * @param product 商品对象
+     */
+    public void setProduct(ShopProductParam product) {
+        this.product = product;
+    }
 
     /**
      * <h4>对象转成ShopOrderItem对象<h4>
@@ -199,10 +300,16 @@ public class ShopOrderItemParam implements Serializable {
         shopOrderItem.setOrderNo(orderNo);
         shopOrderItem.setCartId(cartId);
         shopOrderItem.setPsdId(psdId);
+        shopOrderItem.setProductId(productId);
+        shopOrderItem.setSpecType(specType);
         shopOrderItem.setNum(num);
+        shopOrderItem.setRefundNum(refundNum);
         shopOrderItem.setPrice(price);
         shopOrderItem.setIsAfterSales(isAfterSales);
         shopOrderItem.setIsShow(isShow);
+        shopOrderItem.setCreateTime(DateUtils.dateToTimestamp(createTime));
+        shopOrderItem.setProductSkuDetail(productSkuDetail.convert());
+        shopOrderItem.setProduct(product.convert());
         return shopOrderItem;
     }
 
@@ -222,10 +329,16 @@ public class ShopOrderItemParam implements Serializable {
         this.setOrderNo(shopOrderItem.getOrderNo());
         this.setCartId(shopOrderItem.getCartId());
         this.setPsdId(shopOrderItem.getPsdId());
+        this.setProductId(shopOrderItem.getProductId());
+        this.setSpecType(shopOrderItem.getSpecType());
         this.setNum(shopOrderItem.getNum());
+        this.setRefundNum(shopOrderItem.getRefundNum());
         this.setPrice(shopOrderItem.getPrice());
         this.setIsAfterSales(shopOrderItem.getIsAfterSales());
         this.setIsShow(shopOrderItem.getIsShow());
+        this.setCreateTime(DateUtils.timestampToStrDate(shopOrderItem.getCreateTime()));
+        this.setProductSkuDetail(new ShopProductSkuDetailBo().compat(shopOrderItem.getProductSkuDetail()));
+        this.setProduct(new ShopProductBo().compat(shopOrderItem.getProduct()));
         return this;
     }
 }

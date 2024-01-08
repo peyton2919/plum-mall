@@ -20,6 +20,21 @@
 		`id`,`name`,`remark`,`data_scope`,`level`,`create_time`,`permission`,`update_time`,`is_del`,`status`
 	</sql>
 
+	<resultMap id="result_role_expand_map" type="cn.peyton.plum.mall.pojo.sys.Role">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="data_scope" property="dataScope" jdbcType="VARCHAR"/>
+		<result column="level" property="level" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="permission" property="permission" jdbcType="VARCHAR"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="column_role_expand_list">
+		`id`,`name`,`remark`,`data_scope`,`level`,`create_time`,`permission`,`update_time`
+	</sql>
+
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.sys.Role" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `sys_role`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -85,7 +100,7 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultRoleMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultRoleMap" parameterType="map">
 		select
 		<include refid="Column_sys_role_List"/>
 		from `sys_role`
@@ -117,11 +132,11 @@
 		<if test="record.status != null">
 			and `status` like concat('%',#{record.status},'%')
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by ${page.orderByColumuName}  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -160,11 +175,11 @@
 		<if test="record.status != null">
 			and `status` = #{record.statusl}
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by ${page.orderByColumuName}  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -238,8 +253,7 @@
 			and `status` = #{status}
 		</if>
 	</select>
-
-
+	
 	<select id="selectByIdList" parameterType="map" resultMap="ResultRoleMap">
 		SELECT
 		<include refid="Column_sys_role_List"/>
@@ -251,10 +265,10 @@
 	</select>
 
 		<!-- SELECT * from sys_role where is_del = 1 and id in(
-				select role_id from sys_user_role WHERE share_id=1 and share_type=2) -->
+				select role_id from sys_role_user WHERE share_id=1 and share_type=2) -->
 	<select id="selectByShareIdAndType" parameterType="map" resultMap="ResultRoleMap">
 		SELECT * from sys_role where is_del = 1 and id in(
-			select role_id from sys_user_role WHERE share_id=#{shareId} and share_type=#{shareType})
+			select role_id from sys_role_user WHERE share_id=#{shareId} and share_type=#{shareType})
 	</select>
 
 	<select id="selectByAll" resultMap="ResultRoleMap">
@@ -262,6 +276,13 @@
 			`id`,`name`
 		from `sys_role`
 		where is_del = 1
+	</select>
+
+	<select id="selectExpandByShareIdAndType" parameterType="map" resultMap="result_role_expand_map">
+		SELECT 
+		    <include refid="column_role_expand_list"></include>
+		from sys_role where is_del = 1 and id in(
+		select role_id from sys_role_user WHERE share_id=#{shareId} and share_type=#{shareType})
 	</select>
 
 

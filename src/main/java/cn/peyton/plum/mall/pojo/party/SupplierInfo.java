@@ -18,17 +18,9 @@ public class SupplierInfo implements Serializable {
      */
     private Long id;
     /**
-     * 供应商Id
-     */
-    private Long supId;
-    /**
      * 地址
      */
     private String address;
-    /**
-     * 邮箱
-     */
-    private String email;
     /**
      * 电话
      */
@@ -84,20 +76,6 @@ public class SupplierInfo implements Serializable {
     }
 
     /**
-     * @param supId 供应商Id
-     */
-    public void setSupId(Long supId) {
-        this.supId = supId;
-    }
-
-    /**
-     * @return 供应商Id
-     */
-    public Long getSupId() {
-        return supId;
-    }
-
-    /**
      * @param address 地址
      */
     public void setAddress(String address) {
@@ -109,20 +87,6 @@ public class SupplierInfo implements Serializable {
      */
     public String getAddress() {
         return address;
-    }
-
-    /**
-     * @param email 邮箱
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return 邮箱
-     */
-    public String getEmail() {
-        return email;
     }
 
     /**

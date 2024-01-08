@@ -28,7 +28,7 @@ public class MenuParam implements Serializable {
 	private Long pid;
 	/** 菜单名称  */
 	@NotBlank(message = "菜单名称不能为空")
-	@Length(min = 3,max = 40)
+	@Length(min = 2,max = 40)
 	private String name;
 	/** 是否是菜单，默认 0否 1是  */
 	@Size(min = 0,max = 1)
@@ -71,7 +71,7 @@ public class MenuParam implements Serializable {
 	/** 创建日期  */
 	private Integer createTime;
 	/** 子菜单集合 */
-	private List<MenuParam> menuParamList;
+	private List<MenuParam> children;
 
 	//================================== Constructor =======================================//
 	public MenuParam(){}
@@ -361,15 +361,15 @@ public class MenuParam implements Serializable {
 	/**
 	 * @return 子菜单集合
 	 */
-	public List<MenuParam> getMenuParamList() {
-		return menuParamList;
+	public List<MenuParam> getChildren() {
+		return children;
 	}
 
 	/**
-	 * @param menuParamList 子菜单集合
+	 * @param children 子菜单集合
 	 */
-	public void setMenuParamList(List<MenuParam> menuParamList) {
-		this.menuParamList = menuParamList;
+	public void setChildren(List<MenuParam> children) {
+		this.children = children;
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class MenuParam implements Serializable {
 		menu.setComponent(component);
 		menu.setComponentName(componentName);
 		menu.setCreateTime(createTime);
-		menu.setChildren(new MenuBo().reverse(menuParamList));
+		menu.setChildren(new MenuBo().reverse(children));
 		return menu;
 	} 
 	/**
@@ -433,7 +433,7 @@ public class MenuParam implements Serializable {
 		this.setComponent(menu.getComponent());
 		this.setComponentName(menu.getComponentName());
 		this.setCreateTime(menu.getCreateTime());
-		this.setMenuParamList(new MenuBo().adapter(menu.getChildren()));
+		this.setChildren(new MenuBo().adapter(menu.getChildren()));
 		return this;
 	} 
 }

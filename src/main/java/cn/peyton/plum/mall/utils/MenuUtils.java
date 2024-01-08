@@ -55,7 +55,6 @@ public final class MenuUtils implements Serializable {
     private Menu getChildrens(Menu menu, List<Menu> menus) {
         List<Menu> childNodes = new ArrayList<>();
         for (Menu node : menus) {
-
             if((node.getPid()+"").equals(menu.getId()+"")){
                 childNodes.add(getChildrens(node, menus));
             }

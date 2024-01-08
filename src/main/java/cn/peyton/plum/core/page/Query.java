@@ -24,7 +24,7 @@ public class Query<P> implements Serializable {
     private String type;
     /** 简单值 */
     private String simpleValue;
-    /** 复杂(多选)值 */
+    /** 复杂(多选)值;JSON对象字符串 */
     private String complexValue;
     /** int 值 */
     private Integer intValue;
@@ -33,8 +33,8 @@ public class Query<P> implements Serializable {
     /** double 值 */
     private Double doubleValue;
     /** 分页 页码数 */
-    @NotBlank(message = "Id 不能为空;")
-    @Min(value = 1,message = "最小为1")
+    @NotBlank(message = "分页页码不能为空")
+    @Min(value = 1,message = "分页页码最小为1")
     private Integer pageNo;
     /** 扩展对象 */
     private P record;
@@ -98,14 +98,14 @@ public class Query<P> implements Serializable {
     }
 
     /**
-     * @return 复杂(多选)值
+     * @return 复杂(多选)值;JSON对象字符串
      */
     public String getComplexValue() {
         return complexValue;
     }
 
     /**
-     * @param complexValue 复杂(多选)值
+     * @param complexValue 复杂(多选)值;JSON对象字符串
      */
     public void setComplexValue(String complexValue) {
         this.complexValue = complexValue;

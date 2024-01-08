@@ -4,6 +4,7 @@ import cn.peyton.plum.core.inf.service.IBaseService;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
 import cn.peyton.plum.mall.pojo.product.ShopProduct;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -17,12 +18,28 @@ import java.util.List;
  */
 public interface ShopProductService extends IBaseService<Long, ShopProduct, ShopProductParam> {
 
+
+    /**
+     * <h4>根据 分类Id 查找 对象</h4>
+     * @param categoryId 分类Id
+     * @return
+     */
+    List<ShopProductParam> findByIdAndJoin(Integer categoryId);
+
     /**
      * <h4>批量删除商品{更新is_del为0}</h4>
      * @param ids 商品Id 集合
      * @return true 成功
      */
     Boolean batchDelete(List<Long> ids);
+
+    /**
+     * <h4>批量彻底 删除商品</h4>
+     * @param ids 商品Id 集合
+     * @return true 成功
+     */
+    Boolean destroy(List<Long> ids);
+
     /**
      * <h4>批量恢复商品{更新is_del为1}</h4>
      * @param ids 商品Id 集合
@@ -99,7 +116,23 @@ public interface ShopProductService extends IBaseService<Long, ShopProduct, Shop
      * <h4>更新操作信息</h4>
      * @param id 商品Id
      * @param operate 操作信息
-     * @return 成功 true
+     * @return true 成功
      */
     Boolean updateOperate(Long id, String operate);
+
+    /**
+     * <h4>更新审核状态</h4>
+     * @param id  商品Id
+     * @return true 成功
+     */
+    Boolean updateCheck(Long id);
+
+    /**
+     * <h4>更新商品最低价</h4>
+     * @param id 商品Id
+     * @param minPrice 商品最低价格
+     * @param price 商品市场价格
+     * @return true 成功
+     */
+    Boolean updatePrice(Long id, BigDecimal minPrice, BigDecimal price);
 }

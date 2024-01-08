@@ -25,6 +25,15 @@ public interface MenuMapper extends IBaseMapper<Long, Menu> {
     List<Menu> selectMenuListByShareIdAndType(@Param("shareId") Long shareId, @Param("shareType") Integer shareType);
 
     /**
+     * <h4>超级管理员的权限</h4>
+     * <pre>
+     *     条件 status = 1 所有权限
+     * </pre>
+     * @return
+     */
+    List<Menu> selectMenuListBySuperAdmin();
+
+    /**
      * SELECT * from sys_menu LEFT JOIN sys_role_menu on sys_menu.id = sys_role_menu.menu_id
      * where sys_role_menu.role_id in(select role_id FROM sys_user_role where share_id=1 and share_type=2)
      */

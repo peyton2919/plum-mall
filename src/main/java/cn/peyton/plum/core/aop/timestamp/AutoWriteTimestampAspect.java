@@ -120,7 +120,8 @@ public class AutoWriteTimestampAspect {
         } catch (NoSuchFieldException e) {
             //todo
             LogUtils.error(obj);
-            return JSONResult.fail(400999, "获取当前对象{" + _name + "}的{" + fieldName + "}属性名称错误");
+            //return JSONResult.fail(400999, "获取当前对象{" + _name + "}的{" + fieldName + "}属性名称错误");
+            return null;
         }
         field.setAccessible(true);
         try {

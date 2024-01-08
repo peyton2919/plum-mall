@@ -39,6 +39,7 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
     @Resource
     private ShopProductSkuService shopProductSkuService;
 
+    // 17. 创建 规格值
     @Token
     @Valid
     @PostMapping("/manager/create")
@@ -46,16 +47,13 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
     public JSONResult<?> create(ShopSkuValueParam record) {
         ShopSkuValueParam res = shopSkuValueService.findBySkuIdAndValue(record.getSkuId(), record.getSkuValue());
         if(null != res){
-            return JSONResult.success("查找相应数据;", res);
+            return JSONResult.success(FIND_DATA, res);
         }
-        ShopSkuValueParam param = shopSkuValueService.add(record);
-        if(null != param){
-            return JSONResult.success("规格值添加成功;", param);
-        }
-        return JSONResult.fail("规格值添加失败;");
+        return baseHandleCreate(record, null, shopSkuValueService, TIP_SHOP_SKU_VALUE);
     }
 
     // keyLong,record,bool
+    // 18. 更新 规格值
     @Token
     @Valid
     @PostMapping("/manager/edit")
@@ -68,21 +66,17 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
         // 在当前操作是 更新 shop_product_sku 关联表中查找
         if(data.getBool() && null != record.getId()){
             if (shopProductSkuService.isExisted(_param)) {
-                return JSONResult.fail("修改的名称关联其他数据,无法修改;");
+                return JSONResult.fail(MODIFY + JOIN_DATA + MODIFY);
             }
         }
-
         ShopSkuValueParam res = shopSkuValueService.findBySkuIdAndValue(record.getSkuId(), record.getSkuValue());
         if(null != res){
             return JSONResult.success("查找相应数据;", res);
         }
-        ShopSkuValueParam param = shopSkuValueService.add(record);
-        if(null != param){
-            return JSONResult.success("规格值修改成功;", param);
-        }
-        return JSONResult.fail("规格值修改失败;");
+        return baseHandleCreate(record, null, shopSkuValueService, TIP_SHOP_SKU_VALUE);
     }
     // 商品Id、规格值Id
+    //  19. 删除 规格值
     @Token
     @Valid
     @PostMapping("/manager/delete")
@@ -92,10 +86,10 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
         _param.setSkuValueId(skuValueId);
         _param.setProductId(productId);
         if (shopProductSkuService.isExisted(_param)) {
-            return JSONResult.fail("删除数据关联其他数据,无法删除;");
+            return JSONResult.fail(DELETE + JOIN_DATA + DELETE);
         }
         //return baseDelete(id,shopSkuValueService,TIP_NAME);
-        return JSONResult.success("删除数据成功;");
+        return JSONResult.success(DATA + DELETE + SUCCESS);
     }
 
 
@@ -111,12 +105,7 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
 
 
     @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
-        return null;
-    }
-
-    @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 }

@@ -7,6 +7,8 @@ import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
+import cn.peyton.plum.core.validator.constraints.Min;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopProductSkuDetailParam;
 import cn.peyton.plum.mall.service.product.ShopProductService;
@@ -16,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <h3> 商品规格详细 Controller 类</h3>
@@ -36,7 +40,26 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
     @Resource
     private ShopProductService shopProductService;
 
-    // 多规格 添加|更新 MODEL判断{MODEL=true 更新 | MODEL=false 新增}
+    // 11. 单规格 specType, skus 添加|更新 MODEL判断{MODEL=true 更新 | MODEL=false 新增}
+    @Token
+    @Valid
+    @PostMapping("/manager/single")
+    public JSONResult<?> single(@RequestMultiple FormData<ShopProductSkuDetailParam> data) {
+        // todo 单规格逻辑处理
+        //String operate = shopProductService.findByOperate(product.getId());
+        //String[] strs = toArr(operate);
+        //strs[0] = "1";
+        //product.setOperate(toStr(strs));
+        //return baseEdit(convert(product),null,shopProductService,"单规格设置");
+        if (null == data || null == data.getRecord() || null == data.getStr() || null == data.getBool()) {
+            return JSONResult.fail(MSG);
+        }
+        data.getRecord().setCover(convertImgPath(data.getRecord().getCover()));
+        return baseHandle(shopProductSkuDetailService.joinCreateAndEdit(data.getRecord(), data.getStr(), data.getBool()),
+                TIP_PRODUCT,SPEC_SINGLE,OPERATE);
+    }
+
+    // 12. 多规格 添加|更新 MODEL判断{MODEL=true 更新 | MODEL=false 新增}
     // 参数: ShopProductSkuDetailParam集合、skus{规格集合转成字符串}、bool{更新|新增}
     @Token
     @Valid
@@ -45,38 +68,31 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
     public JSONResult<?> multi(@RequestMultiple FormData<ShopProductSkuDetailParam> data) {
         // 多规格逻辑处理
         if (null == data || null == data.getObjs() || null == data.getStr()) {
-            return JSONResult.fail("提交的数据有异常,请重新提交;");
+            return JSONResult.fail(MSG);
         }
-        // 判断是 更新|新增
-        if(data.getBool()){
-
-            if (shopProductSkuDetailService.batchEdit(data.getObjs(), data.getStr())) {
-                return JSONResult.success("批量更新商品规格成功;");
-            }
-        }else {
-            Long productId = data.getObjs().get(0).getProductId();
-            String operate = shopProductService.findByOperate(productId);
-            String[] strs = toArr(operate);
-            strs[0] = "1";
-            operate = toStr(strs);
-            if(shopProductService.updateOperate(productId, operate)){  // 更新 操作信息
-                if(shopProductSkuDetailService.batchCreate(data.getObjs(),data.getStr())){
-                    return JSONResult.success("批量添加商品规格成功;");
-                }
-            }
+        List<ShopProductSkuDetailParam> objs = data.getObjs();
+        for (int i = 0; i < objs.size(); i++) {
+            objs.get(i).setCover(convertImgPath(objs.get(i).getCover()));
         }
 
-        System.out.println(data);
-        return JSONResult.fail("批量添加商品规格失败;");
+        if (shopProductSkuDetailService.joinMultiCrateAndEdit(objs, data.getStr(), data.getBool())) {
+            return JSONResult.success(BATCH + OPERATE + TIP_PRODUCT + SPEC_MULTI + SUCCESS);
+        }
+        return JSONResult.fail(BATCH + OPERATE + TIP_PRODUCT + SPEC_MULTI + FAIL);
+    }
+
+
+    // 更新仓库
+    @Token
+    @Valid
+    @PostMapping("/manager/upwarehouse")
+    public JSONResult<?> upWarehouse(Long id, Integer warehouseId,String explain) {
+
+        return baseHandle(shopProductSkuDetailService.updateWarehouse(id,warehouseId,explain),TIP_WAREHOUSE,UPDATE);
     }
 
     @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
-        return null;
-    }
-
-    @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 
@@ -93,5 +109,13 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
     @Override
     public JSONResult<?> delete(Long id) {
         return null;
+    }
+
+    @Token
+    @Valid
+    @PostMapping("/manager/one")
+    public JSONResult<?> one(@NotBlank(message = "商品 Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
+
+        return JSONResult.success(shopProductSkuDetailService.findByProductId(id));
     }
 }

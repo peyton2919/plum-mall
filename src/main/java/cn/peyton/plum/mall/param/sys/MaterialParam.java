@@ -3,8 +3,7 @@ package cn.peyton.plum.mall.param.sys;
 
 import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.core.utils.DateUtils;
-import cn.peyton.plum.core.validator.constraints.Length;
-import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.pojo.sys.Material;
 
 import java.io.Serializable;
@@ -27,38 +26,47 @@ public class MaterialParam implements Serializable {
     /**
      * 创建者ID
      */
+    @Min(value = 1,message = "创建者Id 最小值 为1")
     private Long createId;
     /**
      * 类型1、图片；2、视频
      */
+    @Size(min = 1,max = 2)
     private Integer type;
     /**
      * 分组ID
      */
+    @Min(value = 1,message = "分组Id 最小值 为1")
     private Long groupId;
+    /** 所属类型;默认 0 商品 1 头像 2 广告 3 其他 */
+    private Integer category;
+
     /**
      * 素材名
      */
     @NotBlank(message = "名称不能为空")
-    @Length(min = 2,max = 180)
+    @Length(min = 2,max = 200)
     private String name;
     /**
      * 素材图片路径
      */
+    @Length(max = 200)
     private String src;
 
     /**
      * 素材链接
      */
-
+    @Length(max = 510)
     private String url;
     /**
-     * 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
+     * 创建者类型: 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
+    @Size(min=0,max = 5)
     private Integer createType;
     /**
      * 创建时间
      */
+    @Date
     private String createTime;
 
     //================================== Constructor =======================================//
@@ -125,6 +133,19 @@ public class MaterialParam implements Serializable {
     }
 
     /**
+     * @return 所属类型;默认 0 商品 1 头像 2 广告 3 其他
+     */
+    public Integer getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category 所属类型;默认 0 商品 1 头像 2 广告 3 其他
+     */
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+    /**
      * @param name 素材名
      */
     public void setName(String name) {
@@ -166,14 +187,14 @@ public class MaterialParam implements Serializable {
     }
 
     /**
-     * @param createType 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
+     * @param createType 创建者类型: 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public void setCreateType(Integer createType) {
         this.createType = createType;
     }
 
     /**
-     * @return 创建者类型:默认 0 {0: 员工, 1: 供应商, 2: 管理员, 3: 会员}
+     * @return 创建者类型: 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     public Integer getCreateType() {
         return createType;
@@ -206,6 +227,7 @@ public class MaterialParam implements Serializable {
         material.setCreateId(createId);
         material.setType(type);
         material.setGroupId(groupId);
+        material.setCategory(category);
         material.setName(name);
         material.setSrc(src);
         material.setUrl(url);
@@ -229,6 +251,7 @@ public class MaterialParam implements Serializable {
         this.setCreateId(material.getCreateId());
         this.setType(material.getType());
         this.setGroupId(material.getGroupId());
+        this.setCategory(material.getCategory());
         this.setName(material.getName());
         this.setSrc(material.getSrc());
         this.setUrl(material.getUrl());

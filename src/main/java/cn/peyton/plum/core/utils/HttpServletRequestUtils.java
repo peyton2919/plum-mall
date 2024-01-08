@@ -237,6 +237,19 @@ public final class HttpServletRequestUtils implements Serializable {
     }
 
     /**
+     * <h4>获取网站根目录</h4>
+     * <pre>
+     *     http://127.0.0.1:8080 或
+     *     http://www.peyton.cn
+     * </pre>
+     * @return
+     */
+    public static String getSiteRootPath(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+    }
+
+    /**
      * <h4>获取当前的request</h4>
      * <pre>
      *      必需引用 spring-web.jar 包

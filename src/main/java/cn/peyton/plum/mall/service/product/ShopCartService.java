@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.IDeleteService;
 import cn.peyton.plum.mall.param.product.ShopCartParam;
 import cn.peyton.plum.mall.pojo.product.ShopCart;
 
@@ -13,6 +14,13 @@ import cn.peyton.plum.mall.pojo.product.ShopCart;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopCartService extends IBaseService<Long, ShopCart, ShopCartParam> {
+public interface ShopCartService extends IDeleteService<Long>, IBaseService<Long, ShopCart, ShopCartParam> {
 
+    /**
+     * <h4>根据shareId 查找</h4>
+     * @param shareId 用户ID
+     * @param shareType 用户类型
+     * @return 对象
+     */
+    ShopCartParam findByShareId(Long shareId, Integer shareType);
 }

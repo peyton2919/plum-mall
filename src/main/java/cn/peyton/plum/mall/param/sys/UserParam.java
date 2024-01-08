@@ -24,11 +24,11 @@ import java.util.List;
  * </pre>
  */
 @ImageHostPath(name = "avatar")
-public class UserParam extends BaseUser<Long,UserParam> implements Serializable {
+public class UserParam extends BaseUser implements Serializable {
     /**
      * ID
      */
-    private Long id;
+    //private Long id;
     /**
      * 头像
      */
@@ -84,15 +84,16 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
     /**
      * 性别：默认 0{0 保密 1 男 2 女}
      */
+    @Size(min = 0,max = 2)
     private Integer sex;
+    /** 每登录一次加1 */
+    private Integer loc;
+
     /** 最后登录IP  */
-    private String lastIp;
+    //private String lastIp;
     /** 最后登录时间  */
-    private String lastLoginTime;
-    /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Integer isDel;
+    //private String lastLoginTime;
+
     /** 角色 */
     private RoleParam roleParam;
     /** 菜单集合 */
@@ -120,16 +121,16 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
     /**
      * @param id ID
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
+    //public void setId(Long id) {
+    //    this.id = id;
+    //}
 
     /**
      * @return ID
      */
-    public Long getId() {
-        return id;
-    }
+    //public Long getId() {
+    //    return id;
+    //}
 
     /**
      * @param avatar 头像
@@ -299,46 +300,45 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         return sex;
     }
     /**
+     * @return 每登录一次加1
+     */
+    public Integer getLoc() {
+        return loc;
+    }
+
+    /**
+     * @param loc 每登录一次加1
+     */
+    public void setLoc(Integer loc) {
+        this.loc = loc;
+    }
+    /**
      * @param lastIp 最后登录IP
      */
-    public void setLastIp(String lastIp){
-        this.lastIp = lastIp;
-    }
+    //public void setLastIp(String lastIp){
+    //    this.lastIp = lastIp;
+    //}
 
     /**
      * @return 最后登录IP
      */
-    public String getLastIp(){
-        return lastIp;
-    }
+    //public String getLastIp(){
+    //    return lastIp;
+    //}
 
     /**
      * @param lastLoginTime 最后登录时间
      */
-    public void setLastLoginTime(String lastLoginTime){
-        this.lastLoginTime = lastLoginTime;
-    }
+    //public void setLastLoginTime(String lastLoginTime){
+    //    this.lastLoginTime = lastLoginTime;
+    //}
 
     /**
      * @return 最后登录时间
      */
-    public String getLastLoginTime(){
-        return lastLoginTime;
-    }
-
-    /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
-     */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
-     */
-    public Integer getIsDel() {
-        return isDel;
-    }
+    //public String getLastLoginTime(){
+    //    return lastLoginTime;
+    //}
 
     /**
      * @return 角色对象
@@ -386,12 +386,12 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
      * <h4>对象转成User对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,avatar,email,enabled,password,username,deptId,phone,jobId,createTime,nickName,sex,isDel]
+     * 	 [id,avatar,email,enabled,password,username,deptId,phone,jobId,createTime,nickName,sex]
      * </pre>
      */
     public User convert() {
         User user = new User();
-        user.setId(id);
+        user.setId(getId());
         user.setAvatar(avatar);
         user.setEmail(email);
         user.setStatus(status);
@@ -403,9 +403,9 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         user.setCreateTime(DateUtils.dateToTimestamp(createTime));
         user.setNickName(nickName);
         user.setSex(sex);
-        user.setLastIp(lastIp);
-        user.setLastLoginTime(DateUtils.dateToTimestamp(lastLoginTime));
-        user.setIsDel(isDel);
+        user.setLoc(loc);
+        user.setLastIp(getLastIp());
+        user.setLastLoginTime(DateUtils.dateToTimestamp(getLastLoginTime()));
         user.setRole(roleParam.convert());
         user.setMenuList(new MenuBo().reverse(menus));
         return user;
@@ -415,7 +415,7 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
      * <h4>User对象转成UserParam对象<h4>
      * <pre>
      * 	 转换字段如下:
-     * 	 [id,avatar,email,enabled,password,username,deptId,phone,jobId,createTime,nickName,sex,isDel]
+     * 	 [id,avatar,email,enabled,password,username,deptId,phone,jobId,createTime,nickName,sex]
      * </pre>
      */
     public UserParam compat(User user) {
@@ -434,9 +434,9 @@ public class UserParam extends BaseUser<Long,UserParam> implements Serializable 
         this.setCreateTime(DateUtils.timestampToStrDate(user.getCreateTime()));
         this.setNickName(user.getNickName());
         this.setSex(user.getSex());
+        this.setLoc(user.getLoc());
         this.setLastIp(user.getLastIp());
         this.setLastLoginTime(DateUtils.timestampToStrDate(user.getLastLoginTime()));
-        this.setIsDel(user.getIsDel());
         this.setRoleParam(new RoleBo().compat(user.getRole()));
         this.setMenus(new MenuBo().adapter(user.getMenuList()));
         return this;

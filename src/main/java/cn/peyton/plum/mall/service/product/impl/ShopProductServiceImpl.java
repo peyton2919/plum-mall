@@ -15,6 +15,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +51,41 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
     }
 
     @Override
+    public List<ShopProductParam> findByIdAndJoin(Integer categoryId) {
+        String key = keyPrefix + "_find_id_join_" + categoryId;
+        if (enabledCache) {
+            Object obj = cache.get(key);
+            if (null != obj) {
+                return (List<ShopProductParam>) obj;
+            }
+        }
+        List<ShopProduct> shopProducts = shopProductMapper.selectByIdAndJoin(categoryId);
+        if (null != shopProducts) {
+            List<ShopProductParam> result = initBo().adapter(shopProducts);
+            if (enabledCache) {
+                System.out.println("查找数据,添加数据到缓存, key=" + key);
+                cache.put(key,result);
+            }
+            return result;
+        }
+        return null;
+    }
+
+    @Override
     public Boolean batchDelete(List<Long> ids) {
         if(shopProductMapper.batchDelete(ids) > 0){
+            if(enabledCache){
+                System.out.println("批量删除操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean destroy(List<Long> ids) {
+        if(shopProductMapper.destroy(ids) > 0){
             if(enabledCache){
                 System.out.println("批量删除操作,清空缓存");
                 removeCache();
@@ -215,8 +249,32 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
         ShopProduct _sp = new ShopProduct();
         _sp.setId(productId);
         _sp.setExplain(record.getExplain());
-        _sp.setOperate(toStr(strs));
+        _sp.setOperate(convertArrToStr(strs));
         if (shopProductMapper.updateSelective(_sp) > 0) {
+            if(enabledCache){
+                System.out.println("更新操作,清空缓存!");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean updateCheck(Long id) {
+        if (shopProductMapper.updateCheck(id) > 0) {
+            if(enabledCache){
+                System.out.println("更新操作,清空缓存!");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean updatePrice(Long id, BigDecimal minPrice, BigDecimal price) {
+        if (shopProductMapper.updatePrice(id, minPrice,price) > 0) {
             if(enabledCache){
                 System.out.println("更新操作,清空缓存!");
                 removeCache();

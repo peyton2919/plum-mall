@@ -2,7 +2,6 @@ package cn.peyton.plum.mall.bo;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.mall.param.party.UserAddressParam;
-import cn.peyton.plum.mall.pojo.party.UserAddress;
 
 /**
  * <h3> 用户地址{用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)} 数据转换 类</h3>
@@ -13,15 +12,15 @@ import cn.peyton.plum.mall.pojo.party.UserAddress;
  * @version 1.0.0
  * </pre>
 */
-public class UserAddressBo  extends BaseConvertBo<UserAddress, UserAddressParam> {
+public class UserAddressBo  extends BaseConvertBo<cn.peyton.plum.mall.pojo.party.UserAddress, UserAddressParam> {
 
 	@Override
-	public UserAddressParam compat(UserAddress info){ 
-		return new UserAddressParam().compat(info); 
+	public UserAddressParam compat(cn.peyton.plum.mall.pojo.party.UserAddress info){
+		return new UserAddressParam().compat(info);
 	}
 
 	@Override
-	public UserAddress convert(UserAddressParam info){ 
+	public cn.peyton.plum.mall.pojo.party.UserAddress convert(UserAddressParam info){
 		return info.convert(); 
 	}
 }

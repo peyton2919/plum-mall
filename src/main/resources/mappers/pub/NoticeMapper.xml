@@ -78,7 +78,7 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultNoticeMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultNoticeMap" parameterType="map">
 		select
 		<include refid="Column_tb_notice_List"/>
 		from `tb_notice`
@@ -89,11 +89,11 @@
 		<if test="record.content != null">
 			and `content` like concat('%',#{record.content},'%')
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -120,11 +120,11 @@
 		<if test="record.content != null">
 			and `content` = #{record.content}
 		</if>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

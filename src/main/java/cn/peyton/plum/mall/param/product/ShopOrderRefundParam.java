@@ -1,5 +1,7 @@
 package cn.peyton.plum.mall.param.product;
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
+import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.mall.pojo.product.ShopOrderRefund;
 
 import java.io.Serializable;
@@ -14,6 +16,7 @@ import java.math.BigDecimal;
  * @version 1.0.0
  * </pre>
  */
+@ImageHostPath(name = "imgs")
 public class ShopOrderRefundParam implements Serializable {
     /**
      *
@@ -42,11 +45,11 @@ public class ShopOrderRefundParam implements Serializable {
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 更新时间
      */
-    private Integer updateTime;
+    private String updateTime;
 
     //================================== Constructor =======================================//
 
@@ -142,28 +145,28 @@ public class ShopOrderRefundParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
     /**
      * @param updateTime 更新时间
      */
-    public void setUpdateTime(Integer updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
     /**
      * @return 更新时间
      */
-    public Integer getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
@@ -182,8 +185,8 @@ public class ShopOrderRefundParam implements Serializable {
         shopOrderRefund.setReason(reason);
         shopOrderRefund.setNoReason(noReason);
         shopOrderRefund.setRefundPrice(refundPrice);
-        shopOrderRefund.setCreateTime(createTime);
-        shopOrderRefund.setUpdateTime(updateTime);
+        shopOrderRefund.setCreateTime(DateUtils.dateToTimestamp(createTime));
+        shopOrderRefund.setUpdateTime(DateUtils.dateToTimestamp(updateTime));
         return shopOrderRefund;
     }
 
@@ -204,8 +207,8 @@ public class ShopOrderRefundParam implements Serializable {
         this.setReason(shopOrderRefund.getReason());
         this.setNoReason(shopOrderRefund.getNoReason());
         this.setRefundPrice(shopOrderRefund.getRefundPrice());
-        this.setCreateTime(shopOrderRefund.getCreateTime());
-        this.setUpdateTime(shopOrderRefund.getUpdateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(shopOrderRefund.getCreateTime()));
+        this.setUpdateTime(DateUtils.timestampToStrDate(shopOrderRefund.getUpdateTime()));
         return this;
     }
 }

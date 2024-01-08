@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.*;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.mall.param.party.MemberParam;
@@ -15,7 +15,8 @@ import cn.peyton.plum.mall.pojo.party.Member;
  * @version 1.0.0
  * </pre>
  */
-public interface MemberService extends IBaseService<Long, Member, MemberParam> {
+public interface MemberService extends IStatusService<Long>, IDeleteService<Long>, IDownListService<MemberParam>,
+        IUserService<MemberParam>, IBaseService<Long, Member, MemberParam> {
 
     /**
      * <h4>根据 会员等级Id 查找 </h4>
@@ -25,21 +26,11 @@ public interface MemberService extends IBaseService<Long, Member, MemberParam> {
     Boolean isMemberLevel(Integer levelId);
 
     /**
-     * <h4>删除会员</h4>
-     * @param id 会员Id
-     * @return true 成功
+     * <h4>条件 查找 对象集合</h4>
+     * @param record 条件对象
+     * @param page 分页对象
+     * @return 对象集合
      */
-    Boolean editDelete(Long id);
-
-    /**
-     * <h4>更新会员状态</h4>
-     * @param id 会员Id
-     * @param status 状态 0 不可用 1 可用
-     * @return true 成功
-     */
-    Boolean editStatus(Long id, Integer status);
-
-
     PageResult<?> search(MemberParam record, PageQuery page);
 
 }

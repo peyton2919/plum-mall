@@ -169,7 +169,6 @@ public class TokenUtils<T> implements Serializable {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(tokenSecret)).withIssuer(getIssuer())
                     .build().verify(token);
             String value = jwt.getClaim(key).asString();
-
             return (T) JsonMapper.readValue(value, t.getClass());
         } catch (Exception e) {
             LogUtils.error(e.getMessage());

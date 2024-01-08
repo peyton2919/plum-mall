@@ -20,7 +20,7 @@ public class Supplier implements Serializable {
     /**
      * 名称
      */
-    private String name;
+    private String username;
     /**
      * 登录名
      */
@@ -32,7 +32,7 @@ public class Supplier implements Serializable {
     /**
      * 密码
      */
-    private String pwd;
+    private String password;
     /**
      * 手机
      */
@@ -45,6 +45,11 @@ public class Supplier implements Serializable {
      * 是否删除: 默认1(1：可用;0已删除)
      */
     private Integer isDel;
+    /** 状态：默认: 1启用、0禁用 */
+    private Integer status;
+    /** 邮箱 */
+    private String email;
+
     /**
      * 加密串
      */
@@ -53,13 +58,19 @@ public class Supplier implements Serializable {
      * 最后登录IP
      */
     private String lastIp;
+    /** 最后登录时间  */
+    private Integer lastLoginTime;
     /**
      * 创建时间
      */
     private Integer createTime;
+    /** 供应商基础信息 对象 */
+    private SupplierInfo supplierInfo;
 
     //================================== Constructor =======================================//
-
+    public Supplier() {
+        if (null == supplierInfo) {supplierInfo = new SupplierInfo();}
+    }
     //================================== Method =======================================//
 
 
@@ -80,17 +91,17 @@ public class Supplier implements Serializable {
     }
 
     /**
-     * @param name 名称
+     * @param username 名称
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
      * @return 名称
      */
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     /**
@@ -122,17 +133,17 @@ public class Supplier implements Serializable {
     }
 
     /**
-     * @param pwd 密码
+     * @param password 密码
      */
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
      * @return 密码
      */
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
     /**
@@ -178,6 +189,34 @@ public class Supplier implements Serializable {
     }
 
     /**
+     * @return 状态：默认: 1启用、0禁用
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status 状态：默认: 1启用、0禁用
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * @return 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
      * @param encrypted 加密串
      */
     public void setEncrypted(String encrypted) {
@@ -206,6 +245,20 @@ public class Supplier implements Serializable {
     }
 
     /**
+     * @param lastLoginTime 最后登录时间
+     */
+    public void setLastLoginTime(Integer lastLoginTime){
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    /**
+     * @return 最后登录时间
+     */
+    public Integer getLastLoginTime(){
+        return lastLoginTime;
+    }
+
+    /**
      * @param createTime 创建时间
      */
     public void setCreateTime(Integer createTime) {
@@ -219,4 +272,17 @@ public class Supplier implements Serializable {
         return createTime;
     }
 
+    /**
+     * @return 供应商基础信息 对象
+     */
+    public SupplierInfo getSupplierInfo() {
+        return supplierInfo;
+    }
+
+    /**
+     * @param supplierInfo 供应商基础信息 对象
+     */
+    public void setSupplierInfo(SupplierInfo supplierInfo) {
+        this.supplierInfo = supplierInfo;
+    }
 }

@@ -8,7 +8,7 @@
 		<result column="seq" property="seq" jdbcType="SMALLINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<collection property="products" ofType="cn.peyton.plum.mall.pojo.product.ShopProduct"
-					column="category_id" select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectByIdAndJoin"/>
+					column="product_id" select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectByIdAndJoin"/>
 	</resultMap>
 
 	<sql id="Column_tb_shop_category_recommend_List">
@@ -56,6 +56,14 @@
 		where `id` = #{id}
 	</delete>
 
+	<delete id="deleteByJoinId" parameterType="map">
+		delete from `tb_shop_category_recommend`
+		where category_id = #{categoryId}
+		<if test="productId != null">
+			and product_id = #{productId}
+		</if>
+	</delete>
+
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategoryRecommend">
 		select
 		count(`id`)
@@ -94,7 +102,7 @@
 		limit 1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopCategoryRecommendMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultShopCategoryRecommendMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_category_recommend_List"/>
 		from `tb_shop_category_recommend`
@@ -115,11 +123,11 @@
 				and `create_time` like concat('%',#{record.createTime},'%')
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -147,11 +155,11 @@
 				and `create_time` = #{record.createTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

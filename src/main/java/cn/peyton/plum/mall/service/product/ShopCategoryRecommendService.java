@@ -30,4 +30,12 @@ public interface ShopCategoryRecommendService extends IBaseService<Long, ShopCat
      * @return 受影响行数 > 0 成功
      */
     Boolean batchCreate(List<ShopCategoryRecommendParam> list);
+
+    /**
+     * <h4>删除分类推荐</h4>
+     * @param productId 商品主键
+     * @param categoryId 分类主键
+     * @return true 成功
+     */
+    Boolean deleteByJoinId(Long productId, Integer categoryId);
 }

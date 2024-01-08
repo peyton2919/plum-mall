@@ -58,27 +58,12 @@
 		count(`id`)
 		from `tb_warehouse_info`
 		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
-			<if test="name != null">
-				and `name` = #{name}
-			</if>
-			<if test="phone != null">
-				and `phone` = #{phone}
-			</if>
-			<if test="address != null">
-				and `address` = #{address}
-			</if>
-			<if test="loaction != null">
-				and `loaction` = #{loaction}
-			</if>
-			<if test="explain != null">
-				and `explain` = #{explain}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
-			</if>
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
+		<if test="name != null">
+			and `name` = #{name}
+		</if>
 		</where>
 	</select>
 
@@ -89,14 +74,17 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultWarehouseInfoMap"  parameterType="map">
+	<select id="selectByDownList" resultMap="ResultWarehouseInfoMap">
+		select
+			<include refid="Column_tb_warehouse_info_List"/>
+		from `tb_warehouse_info`
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultWarehouseInfoMap" parameterType="map">
 		select
 		<include refid="Column_tb_warehouse_info_List"/>
 		from `tb_warehouse_info`
 		<where>
-			<if test="record.id != null">
-				and `id` like concat('%',#{record.id},'%')
-			</if>
 			<if test="record.name != null">
 				and `name` like concat('%',#{record.name},'%')
 			</if>
@@ -112,15 +100,12 @@
 			<if test="record.explain != null">
 				and `explain` like concat('%',#{record.explain},'%')
 			</if>
-			<if test="record.createTime != null">
-				and `create_time` like concat('%',#{record.createTime},'%')
-			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -132,9 +117,6 @@
 		<include refid="Column_tb_warehouse_info_List"/>
 		from `tb_warehouse_info`
 		<where>
-			<if test="record.id != null">
-				and `id` = #{record.id}
-			</if>
 			<if test="record.name != null">
 				and `name` = #{record.name}
 			</if>
@@ -150,15 +132,12 @@
 			<if test="record.explain != null">
 				and `explain` = #{record.explain}
 			</if>
-			<if test="record.createTime != null">
-				and `create_time` = #{record.createTime}
-			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -170,9 +149,6 @@
 		count(`id`)
 		from `tb_warehouse_info`
 		<where>
-			<if test="id != null">
-				and `id` like concat('%',#{id},'%')
-			</if>
 			<if test="name != null">
 				and `name` like concat('%',#{name},'%')
 			</if>
@@ -188,9 +164,6 @@
 			<if test="explain != null">
 				and `explain` like concat('%',#{explain},'%')
 			</if>
-			<if test="createTime != null">
-				and `create_time` like concat('%',#{createTime},'%')
-			</if>
 		</where>
 	</select>
 
@@ -199,9 +172,6 @@
 		count(`id`)
 		from `tb_warehouse_info`
 		<where>
-			<if test="id != null">
-				and `id` = #{id}
-			</if>
 			<if test="name != null">
 				and `name` = #{name}
 			</if>
@@ -216,9 +186,6 @@
 			</if>
 			<if test="explain != null">
 				and `explain` = #{explain}
-			</if>
-			<if test="createTime != null">
-				and `create_time` = #{createTime}
 			</if>
 		</where>
 	</select>

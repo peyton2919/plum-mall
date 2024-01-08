@@ -10,6 +10,7 @@ import cn.peyton.plum.mall.pojo.product.ShopCategoryRecommend;
 import cn.peyton.plum.mall.service.product.ShopCategoryRecommendService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,11 +52,27 @@ public class ShopCategoryRecommendServiceImpl extends AbstractRealizeService<Lon
 	}
 
 	@Override
+	@Transactional
 	public Boolean batchCreate(List<ShopCategoryRecommendParam> list) {
-		int res = shopCategoryRecommendMapper.batchInsert(initBo().reverse(list));
+		int res = 0;
+		shopCategoryRecommendMapper.deleteByJoinId(null, list.get(0).getCategoryId());
+		res = shopCategoryRecommendMapper.batchInsert(initBo().reverse(list));
 		if (res > 0) {
 			if(enabledCache){
 				System.out.println("批量操作数据,清空缓存;");
+				removeCache();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean deleteByJoinId(Long productId, Integer categoryId) {
+		int res = shopCategoryRecommendMapper.deleteByJoinId(productId,categoryId);
+		if (res > 0) {
+			if(enabledCache){
+				System.out.println("删除数据操作,清空缓存;");
 				removeCache();
 			}
 			return true;

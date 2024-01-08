@@ -7,6 +7,7 @@ import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.HttpServletRequestUtils;
 import cn.peyton.plum.core.utils.LogUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
@@ -15,6 +16,7 @@ import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ProductSingle;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
 import cn.peyton.plum.mall.param.product.ShopSkuParam;
+import cn.peyton.plum.mall.param.sys.UserParam;
 import cn.peyton.plum.mall.service.product.ShopProductService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -42,133 +44,173 @@ public class ShopProductController extends PcController<ShopProductParam>
     @Resource
     private ShopProductService shopProductService;
 
-    @Token
-    @Valid
-    @PostMapping("/manager/all")
-    @Override
-    public JSONResult<?> all(String keyword, @Min(message = "当前页码要大于0的数!")Integer pageNo) {
-        PageQuery _page = new PageQuery(pageNo,"seq");
-        ShopProductParam _param = new ShopProductParam();
-        _param.setName(keyword);
-        return baseFindBykeywordAll(_param,_page,shopProductService,null);
-    }
-
+    // 1. 查找商品列表
+    // tab：all全部，checking审核中，saling出售中，off已下架，delete回收站，hot 热卖, best 精品, new 新品, good 推荐
     @Token
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
+        System.out.println(HttpServletRequestUtils.getSiteRootPath());
         if (null == query) {
-            return JSONResult.fail("条件异常;");
+            return JSONResult.fail(ERROR);
         }
         ShopProductParam _param = new ShopProductParam();
-        if ("delete".equals(query.getTab())) {
-            _param.setName(query.getKeyword());
+        _param.setTitle(query.getKeyword());
+        String key = "all";
+        if ("delete".equals(query.getTab())) {  // 回收站
             _param.setIsDel(IS_DEL_0);
+            key = "delete";
         }else {
             _param.setIsDel(IS_DEL_1);
+            if ("checking".equals(query.getTab())) { //审核中
+                key = "checking";
+                _param.setIsCheck(0);
+            } else if ("off".equals(query.getTab())) { // 已下架
+                key = "off";
+                _param.setIsShow(0);
+            } else if ("saling".equals(query.getTab())) { // 出售中
+                key = "saling";
+                _param.setIsCheck(1);
+                _param.setIsShow(1);
+            } else if ("hot".equals(query.getTab())) { // 是否热卖, 默认 0 不是 1 是
+                key = "hot";
+                _param.setIsHot(1);
+            }
+            else if ("best".equals(query.getTab())) { // 是否精品, 默认 0 不是 1 是
+                key = "best";
+                _param.setIsBest(1);
+            }
+            else if ("new".equals(query.getTab())) { // 是否是新品, 默认 0 不是 1 是
+                key = "new";
+                _param.setIsNew(1);
+            }
+            else if ("good".equals(query.getTab())) { // 是否优品推荐, 默认 0 不是 1 是
+                key = "good";
+                _param.setIsGood(1);
+            }
         }
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopProductService,null);
+        return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), shopProductService, null, key);
     }
 
     // 单规格 specType, skus
     @Token
     @Valid
-    @PostMapping("/manager/single")
+    //@PostMapping("/manager/single")
     public JSONResult<?> single(ProductSingle product) {
         // todo 单规格逻辑处理
         String operate = shopProductService.findByOperate(product.getId());
-        String[] strs = toArr(operate);
+        String[] strs = convertStrToArr(operate);
         strs[0] = "1";
-        product.setOperate(toStr(strs));
-        return baseEdit(convert(product),null,shopProductService,"单规格设置");
+        product.setOperate(convertArrToStr(strs));
+        return baseHandleEdit(convert(product),null,shopProductService,"单规格设置");
     }
 
-
+    // 审核
     @Token
     @Valid
+    @PostMapping("/manager/check")
+    public JSONResult<?> verify(@NotBlank(message = "商品 Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
+
+        String operate = shopProductService.findByOperate(id);
+        if (null == operate || "".equals(operate)) {
+            return JSONResult.fail(ERROR);
+        }
+        String [] _tmp = operate.split(",");
+        if("0".equals(_tmp[0])){ // 规格
+            return JSONResult.fail("商品 [规格] 未设置!");
+        }else if("0".equals(_tmp[1])){ // 轮播图
+            return JSONResult.fail("商品 [轮播图] 未设置!");
+        }else if("0".equals(_tmp[2])){ // 详情
+            return JSONResult.fail("商品 [详情] 未设置!");
+        }
+
+        return baseHandle(shopProductService.updateCheck(id), TIP_PRODUCT, VERIFY);
+    }
+
+    // 3. 新增商品
+    @Token
+    @Valid(ignore = {"price","minPrice","categories","slideshows","productSkus","shopSkus"})
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(@RequestMultiple ShopProductParam record) {
-        if (record.getCategories().size() == 0) {
-            return JSONResult.fail("请选择商品分类");
+        if (null == record || null == record.getCategories() || record.getCategories().size() == 0) {
+            return JSONResult.fail(SELECT + TIP_PRODUCT + CATEGORY);
         }
         initProps(record);
         record.setOperate("0,0,0");
-        if(shopProductService.createAndBatchCategories(record)){
-            return JSONResult.success("添加商品信息成功;");
-        }
-        return JSONResult.fail("添加商品信息失败;");
+        return baseHandle(shopProductService.createAndBatchCategories(record), TIP_PRODUCT, CREATE);
     }
 
+    // 4. 修改商品
     @Token
-    @Valid
+    @Valid(ignore = {"price","minPrice","categories","slideshows","productSkus","shopSkus"})
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(@RequestMultiple ShopProductParam record) {
         if (record.getCategories().size() == 0) {
-            return JSONResult.fail("请选择商品分类");
+            return JSONResult.fail(SELECT + TIP_PRODUCT + CATEGORY);
         }
         initProps(record);
-        if (shopProductService.updateAndBatchCategories(record)) {
-            return JSONResult.success("修改商品信息成功;");
-        }
-        return JSONResult.fail("修改商品信息失败;");
+        return baseHandle(shopProductService.updateAndBatchCategories(record), TIP_PRODUCT, MODIFY);
     }
 
+    //  5. 更新商品详情
     @Token
     @PostMapping("/manager/editexplain")
     public JSONResult<?> editExplain(@RequestMultiple ShopProductParam record) {
-
-        if (shopProductService.updateExplain(record)) {
-            return JSONResult.success("修改商品信息成功;");
+        if (null == record || null == record.getId() || null == record.getExplain() || "".equals(record.getExplain())) {
+            return JSONResult.fail(OPERATE + PARAM + NULL);
         }
-        return JSONResult.fail("修改商品信息失败;");
+
+        return baseHandle(shopProductService.updateExplain(record), TIP_PRODUCT, DETAIL, MODIFY);
     }
 
-    @Override
-    public JSONResult<?> delete(Long id) {
-        return null;
-    }
-
+    // 6. 删除||批量删除 商品
     @Token
     @Valid
     @PostMapping("/manager/delete")
     public JSONResult<?> batchDelete(@RequestMultiple FormData data) {
-        if(shopProductService.batchDelete(data.getLongs())){
-            return JSONResult.success("批量删除商品成功;");
+        if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
+            return JSONResult.fail(MSG);
         }
-        return JSONResult.fail("批量删除商品失败;");
+        return baseHandle(shopProductService.batchDelete(data.getLongs()), TIP_PRODUCT, BATCH, DELETE);
     }
 
-    //批量恢复商品
+    // 7. 批量恢复商品
     @Token
     @Valid
     @PostMapping("/manager/restore")
     public JSONResult<?> restore(@RequestMultiple FormData data) {
-        if(shopProductService.batchRestore(data.getLongs())){
-            return JSONResult.success("批量恢复商品成功;");
+        if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
+            return JSONResult.fail(MSG);
         }
-        return JSONResult.fail("批量恢复商品失败;");
+        return baseHandle(shopProductService.batchRestore(data.getLongs()), TIP_PRODUCT, BATCH, RESTORE);
     }
 
-    //彻底删除商品
+    // 8. 彻底删除商品
     @Token
     @Valid
     @PostMapping("/manager/destroy")
     public JSONResult<?> destroy(@RequestMultiple FormData data) {
-        // todo
-        //if(shopProductService.batchRestore(data.getLongs())){
-        //    return JSONResult.success("批量恢复商品成功;");
-        //}
-        return JSONResult.fail("批量恢复商品失败;");
+        // todo 需要超级管理员权限
+        UserParam _user = handleToken(new UserParam());
+        if (_user.getRoleParam().getId() != 1) {
+            return JSONResult.fail("彻底删除商品信息，需要超级管理员权限；");
+        }
+
+        if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
+            return JSONResult.fail(MSG);
+        }
+        return baseHandle(shopProductService.destroy(data.getLongs()), TIP_PRODUCT, BATCH, DELETE);
     }
 
-    // 批量上|下架商品
+    // 2. 批量上|下架商品
     @Token
     @Valid
     @PostMapping("/manager/upisshow")
     public JSONResult<?> batchIsShow(FormData data) {
+
         String _msg = "批量操作";
         try {
             List<Long> ids = data.getLongs();
@@ -180,13 +222,14 @@ public class ShopProductController extends PcController<ShopProductParam>
         } catch (Exception e) {
             LogUtils.error(e.getMessage());
         }
-        return JSONResult.fail(_msg+FAIL);
+        return JSONResult.fail(_msg + FAIL);
     }
 
+    // 9. 查找商品(多类型)
     @Token
     @Valid
     @PostMapping("/manager/one")
-    public JSONResult<?> one(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id,String type) {
+    public JSONResult<?> one(@NotBlank(message = "商品 Id 不能为空;") @Min(value = 1,message = V_MIN_VALUE_1)Long id, String type) {
         ShopProductParam _param = null;
        if("slideshow".equals(type)){
            _param = shopProductService.selectBySlideshow(id);
@@ -204,21 +247,22 @@ public class ShopProductController extends PcController<ShopProductParam>
         return JSONResult.fail("没找到相应的商品");
     }
 
+    @Token
+    @Valid
+    @PostMapping("/manager/recommend")
+    public JSONResult<?> recommend(@NotBlank(message = "分类 Id 不能为空;") @Min(value = 1,message = "最小值为1")Integer categoryId) {
+        List<ShopProductParam> result = shopProductService.findByIdAndJoin(categoryId);
+        if (null != result) {
+            return JSONResult.success(result);
+        }
+        return JSONResult.fail(JSONResult.Props.NO_DATA, NO_DATA);
+    }
+
     @Override
     public void initProps(ShopProductParam param) {
-        param.setBrowse(null);
-        param.setFicti(null);
-        param.setIsShow(1);
-        param.setIsHot(0);
-        param.setIsBenefit(0);
-        param.setIsBest(null);
-        param.setIsNew(null);
-        param.setPostage(null);
         param.setIsDel(null);
-        param.setIsGood(null);
-        param.setIsSub(null);
-        param.setIsIntegral(null);
         param.setIsCheck(null);
+        param.setIsSub(null);
     }
 
     private ShopProductParam convert(ProductSingle single) {
@@ -228,15 +272,14 @@ public class ShopProductController extends PcController<ShopProductParam>
         param.setSpecType(single.getSpecType());
         param.setMinPrice(single.getMinPrice());
         param.setPrice(single.getPrice());
-        param.setVipPrice(single.getVipPrice());
-        param.setOtPrice(single.getOtPrice());
-        param.setCostPrice(single.getCostPrice());
-        param.setVolume(single.getVolume());
-        param.setWeight(single.getWeight());
         param.setOperate(single.getOperate());
         param.setSkus(JSON.toJSONString(single));
         return param;
     }
 
+    @Override
+    public JSONResult<?> delete(Long id) {
+        return null;
+    }
 
 }

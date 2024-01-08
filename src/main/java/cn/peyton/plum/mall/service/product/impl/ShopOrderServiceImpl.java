@@ -11,6 +11,8 @@ import cn.peyton.plum.mall.service.product.ShopOrderService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <h3> 订单 Service 实现类</h3>
  * <pre>
@@ -38,5 +40,23 @@ public class ShopOrderServiceImpl extends AbstractRealizeService<Long, ShopOrder
     public ShopOrderServiceImpl() {
         enabledCache = true;
         keyPrefix = this.getClass().getName();
+    }
+
+    @Override
+    public Boolean updateIsDel(List<Long> list) {
+        if(shopOrderMapper.updateIsDel(list)>0){
+            if(enabledCache){
+                System.out.println("删除操作数据,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<ShopOrderParam> findSimpleByCondition(ShopOrderParam record, Integer start, Integer end) {
+
+        return initBo().adapter(shopOrderMapper.selectSimpleByCondition(record.convert(),start,end));
     }
 }

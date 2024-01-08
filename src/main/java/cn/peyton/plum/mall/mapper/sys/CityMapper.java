@@ -2,88 +2,88 @@ package cn.peyton.plum.mall.mapper.sys;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.sys.City;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
- * <h3> 城市 Mapper 接口</h3>
+ * <h3> 城市表 Mapper 接口</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2023年11月10日 14:53:23
+ * @date 2023年12月27日 09:58:27
  * @version 1.0.0
  * </pre>
- */
-public interface CityMapper extends IBaseMapper<Integer, City> {
-    ///**
-    // * <h4>插入 对象[根据属性是否有值 插入]</h4>
-    // * @param record 对象
-    // * @return 受影响的行数;大于 0  表示插入成功
-    // */
-    //Integer insertSelective(City record);
-    //
-    ///**
-    // * <h4>更新 对象[根据属性是否有值 更新]</h4>
-    // * @param record 对象
-    // * @return 受影响的行数;大于 0  表示更新成功
-    // */
-    //Integer updateSelective(City record);
-    //
-    ///**
-    // * <h4>根据 主键 删除 对象</h4>
-    // * @param id 主键
-    // * @return 受影响的行数;大于 0  表示删除成功
-    // */
-    //Integer deleteByPrimaryKey(Integer id);
-    //
-    ///**
-    // * <h4>判断是否重名</h4>
-    // * @param record 对象
-    // * @return 大于 0 表示重名
-    // */
-    //Integer isRename(City record);
-    //
-    ///**
-    // * <h4>根据 主键 查找 对象</h4>
-    // * @param id 主键
-    // * @return 对象
-    // */
-    //City selectByPrimaryKey(Integer id);
-    //
-    //
-    ///**
-    // * <h4>根据对象 分页查询(关键字模糊查找)</h4>
-    // * @param record 对象关键字, 当record = null 时为全部查询
-    // * @param page 分页对象
-    // * @return 对象集合
-    // */
-    //List<City> selectByLiekAndObj(@Param("record") City record, @Param("page") PageQuery page);
-    //
-    //
-    ///**
-    // * <h4>根据对象 分页查找</h4>
-    // * @param record 对象
-    // * @param page 分页对象
-    // * @return 对象集合
-    // */
-    //List<City> selectByObj(@Param("record") City record,@Param("page") PageQuery page);
-    //
-    //
-    ///**
-    // * <h4>查找全部数量(模糊Like查找)</h4>
-    // * @param record 对象关键字, record = null 时为全部查询
-    // * @return 总条数
-    // */
-    //Integer countByLike(@Param("record") City record);
-    //
-    //
-    ///**
-    // * <h4>查找全部数量</h4>
-    // * @param record 对象, record = null 时为全部查询
-    // * @return 总条数
-    // */
-    //Integer count(@Param("record") City record);
+*/
+public interface CityMapper extends IBaseMapper<Integer,City> {
 
+    /**
+     * <h4>菜单树型查找</h4>
+     * @return 集合
+     */
+    List<City> selectByTree();
 
-    // ==================================== new create method ==================================== //
+    /**
+     * <h4>根据 pid 查找</h4>
+     * @param pid 父级Id
+     * @param status 状态 1 可用 0 不可用
+     * @return 集合
+     */
+    List<City> selectByPid(Integer pid,Integer status);
+
+    /**
+     * <h4>多级下拉框</h4>
+     * @param level 下拉框层级 0 省 1 市 2 县|区
+     * @return 集合
+     */
+    List<City> selectByDown(Integer level);
+
+    /**
+     * <4>根据 pid 查找集合</4>
+     * <pre>查找 level 1</pre>
+     * @param pid 父级Id
+     * @return 集合
+     */
+    List<City> selectLevelByObj1(Integer pid);
+
+    /**
+     * <4>根据 pid 查找集合</4>
+     * <pre>查找 level 2</pre>
+     * @param pid 父级Id
+     * @return 集合
+     */
+    List<City> selectLevelByObj2(Integer pid);
+
+    /**
+     * <h4>批量更新</h4>
+     * @param ids 主键集合
+     * @param status 状态 1 可用 0 禁用
+     * @return 受影响的行数 > 0 成功
+     */
+    int batchUpdate(List<Integer> ids, Integer status);
+
+    /**
+     * <h4>批量删除</h4>
+     * @param ids 主键集合
+     * @return 受影响的行数 > 0 成功
+     */
+    int batchDelete(List<Integer> ids);
+
+    /**
+     * <h4>查找 省级以下所有子类的 Id </h4>
+     * @param pid 省级pid
+     * @return id集合
+     */
+    @Select("SELECT id FROM sys_city where (pid in(SELECT id FROM sys_city where pid=#{pid})) or pid=#{pid}")
+    List<Integer> selectLevel1(Integer pid);
+
+    /**
+     * <h4>查找 市级以下所有子类的 Id </h4>
+     * @param pid 省级pid
+     * @return id集合
+     */
+    @Select("select id FROM sys_city where pid= #{pid}")
+    List<Integer> selectLevel2(Integer pid);
 
 
 }

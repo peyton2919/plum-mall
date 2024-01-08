@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.controller.pc.manager.sys;
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.inf.controller.IBasePCController;
 import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
@@ -38,39 +39,32 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class RoleController extends PcController<RoleParam>
         implements IBasePCController<Long, RoleParam> {
-    String TIP_NAME = "公告";
+    String TIP_NAME = "角色";
 
     @Resource
     private RoleService roleService;
     @Resource
     private RoleMenuService roleMenuService;
 
-    /**
-     * <h4>分页查找</h4>
-     * @param keyword 关键字
-     * @param pageNo 分页数
-     * @return
-     */
-    @Token
-    @Valid
-    @PostMapping("/manager/all")
-    @Override
-    public JSONResult<?> all(String keyword, @NotBlank(message = "pageNo 不能为空;")
-            @Min(message = "当前页码要大于0的数！")Integer pageNo) {
-        PageQuery _page = new PageQuery(pageNo);
-        RoleParam _param = new RoleParam();
-        _param.setName(keyword);
-        return baseFindBykeywordAll(_param, _page, roleService,null);
-    }
+    //@Token
+    //@Valid
+    //@PostMapping("/manager/all")
+    //public JSONResult<?> all(String keyword, @NotBlank(message = "pageNo 不能为空;")
+    //        @Min(message = "当前页码要大于0的数！")Integer pageNo) {
+    //    PageQuery _page = new PageQuery(pageNo);
+    //    RoleParam _param = new RoleParam();
+    //    _param.setName(keyword);
+    //    return baseFindBykeywordAll(_param, _page, roleService,null);
+    //}
 
     @Token
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         RoleParam _param = new RoleParam();
         _param.setName(query.getKeyword());
-        return baseFindBykeywordAll(_param,new PageQuery(query.getPageNo()),roleService,null);
+        return baseHandleList(_param,new PageQuery(query.getPageNo()),roleService,null);
     }
 
     @Token
@@ -81,7 +75,7 @@ public class RoleController extends PcController<RoleParam>
         initProps(param);
         RoleParam _repeat = new RoleParam();
         _repeat.setName(param.getName());
-        return baseCreate(param, _repeat, roleService, TIP_NAME);
+        return baseHandleCreate(param, _repeat, roleService, TIP_NAME);
     }
 
     @Token
@@ -90,51 +84,70 @@ public class RoleController extends PcController<RoleParam>
     @Override
     public JSONResult<?> edit(RoleParam param) {
         initProps(param);
+        if (null != param.getId() && param.getId() == 1L) {
+            return JSONResult.fail("角色为超级管理员,不能被修改!!!");
+        }
         RoleParam _repeat = new RoleParam();
         _repeat.setName(param.getName());
         _repeat.setId(param.getId());
-        return baseEdit(param, _repeat, roleService, TIP_NAME);
+        return baseHandleEdit(param, _repeat, roleService, TIP_NAME);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/upstatus")
-    public JSONResult<?> editStatus(@Min(message = "要大于0的数！")long id,
+    public JSONResult<?> editStatus(@NotBlank(message = "角色 ID 不能为空;")@Min(message = "要大于0的数！")long id,
                   @Size(min = 0,max = 1) Integer status) {
+        if (id == 1L) {
+            return JSONResult.fail("角色为超级管理员,状态不能被修改!!!");
+        }
         RoleParam _param = new RoleParam();
         _param.setStatus(status);
         _param.setId(id);
-        return baseEdit(_param, null, roleService, TIP_NAME);
+        return baseHandleEdit(_param, null, roleService, TIP_NAME);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@Min(value = 1,message = "最小值为1") Long id) {
+    public JSONResult<?> delete(@NotBlank(message = "角色 ID 不能为空;")@Min(value = 1,message = "最小值为1") Long id) {
+        if (id == 1L) {
+            return JSONResult.fail("角色为超级管理员,不能被删除!!!");
+        }
         RoleParam _param = new RoleParam();
         _param.setIsDel(0);
         _param.setId(id);
-        return baseEdit(_param, null, roleService, null);
+        return baseHandleEdit(_param, null, roleService, null);
     }
 
     // @Min(value = 1,message = "最小值为1") Long id,
+    // 配置权限
     @Token
     @Valid
     @PostMapping("/manager/rules")
-    public JSONResult<?> rules(@Min(value = 1, message = "最小值为1") @RequestMultiple("id") Long id, @RequestMultiple("ids") Long[] ids) {
-        if (null != ids && ids.length > 0) {
-            List<RoleMenuParam> _lists = new ArrayList<>();
-            RoleMenuParam _param = null;
-            for (Long _menuId : ids) {
-                _param = new RoleMenuParam();
-                _param.setRoleId(id);
-                _param.setMenuId(_menuId);
-                _lists.add(_param);
-            }
-            if (roleMenuService.batchAdd(_lists)) {
-                return JSONResult.success("菜单规则添加成功");
-            }
+    public JSONResult<?> rules(@RequestMultiple FormData data) {
+        Long id = data.getKeyLong();
+        if (null == id || id < 1) {
+            JSONResult.fail("角色 ID 不能为空;");
+        }
+        if (id == 1L) {
+            return JSONResult.fail("角色为超级管理员,无需权限配置!!!");
+        }
+        List<Long> ids = data.getLongs();
+        if (null == ids || ids.size() == 0) {
+            JSONResult.fail("没有选择权限信息;");
+        }
+        List<RoleMenuParam> _lists = new ArrayList<>();
+        RoleMenuParam _param = null;
+        for (Long _menuId : ids) {
+            _param = new RoleMenuParam();
+            _param.setRoleId(id);
+            _param.setMenuId(_menuId);
+            _lists.add(_param);
+        }
+        if (roleMenuService.batchAdd(_lists)) {
+            return JSONResult.success("菜单规则添加成功");
         }
         return JSONResult.fail("菜单规则添加失败");
     }

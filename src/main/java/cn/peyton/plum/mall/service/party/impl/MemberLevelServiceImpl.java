@@ -43,8 +43,8 @@ public class MemberLevelServiceImpl extends AbstractRealizeService<Integer, Memb
     }
 
     @Override
-    public List<MemberLevelParam> select(Integer type) {
-        String key = keyPrefix + "_select_" + type;
+    public List<MemberLevelParam> findByDownList() {
+        String key = keyPrefix + "_202312251930";
         if(enabledCache){
             Object list = cache.get(key);
             if (null != list) {
@@ -52,7 +52,7 @@ public class MemberLevelServiceImpl extends AbstractRealizeService<Integer, Memb
                 return (List<MemberLevelParam>)list;
             }
         }
-        List<MemberLevelParam> pList = initBo().adapter(memberLevelMapper.selectBySelect(type));
+        List<MemberLevelParam> pList = initBo().adapter(memberLevelMapper.selectByDownList());
         if (null != pList && pList.size() > 0 && enabledCache) {
             System.out.printf("添加对象到缓存: key= %s;\n",key);
             cache.put(key,pList);

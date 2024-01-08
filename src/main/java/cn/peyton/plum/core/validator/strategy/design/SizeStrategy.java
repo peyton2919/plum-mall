@@ -23,7 +23,6 @@ public class SizeStrategy extends AbstractValidator {
     public void compare(Annotation annotation, String name, String type, Object value, Map<String, String> map) {
         Size size = (Size) annotation;
         message = size.message();
-        String _type = size.type();
         long min = size.min();
         long max = size.max();
         if (min > max) {

@@ -17,6 +17,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,10 +57,130 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
     }
 
     @Override
+    public List<ShopProductSkuDetailParam> findByProductId(Long productId) {
+        String key = keyPrefix + "_find_product_id_" + productId;
+        if (enabledCache) {
+            Object obj = cache.get(key);
+            if (null != obj) {
+                return (List<ShopProductSkuDetailParam>) obj;
+            }
+        }
+        List<ShopProductSkuDetailParam> result = initBo().adapter(shopProductSkuDetailMapper.selectByProductId(productId));
+        if(enabledCache){
+            if (null != result && result.size() > 0) {
+                System.out.println("添加数据到缓存, key= " + key);
+                cache.put(key,result);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Boolean updateWarehouse(Long id, Integer warehouseId, String warehouseExplain) {
+        int res = shopProductSkuDetailMapper.updateWarehouse(id,warehouseId,warehouseExplain);
+        if (res > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // 单规格创建与更新
+    @Override
+    @Transactional
+    public Boolean joinCreateAndEdit(ShopProductSkuDetailParam reocrd, String skus, Boolean bool) {
+        int res = 0;
+
+        ShopProductSkuDetail ssd = reocrd.convert();
+        ssd.setSkus(skus);
+        if (bool) { // 更新
+            res = shopProductSkuDetailMapper.updateSelective(ssd);
+            res = shopProductMapper.updateOperateAndSpecType(reocrd.getProductId(), null, null, skus);
+        }else { // 新增
+            res = shopProductSkuDetailMapper.insertSelective(ssd);
+            // 规格与 skus
+            String operate = shopProductMapper.selectByOperate(reocrd.getProductId());
+            String[] strs = convertStrToArr(operate);
+            strs[0] = "1";
+            operate = convertArrToStr(strs);
+            res = shopProductMapper.updateOperateAndSpecType(reocrd.getProductId(), operate, PROS.MULTI_SKU_0, skus);
+        }
+        // 更新 商品最低价格与市场价格
+        shopProductMapper.updatePrice(reocrd.getProductId(), reocrd.getMinPrice(), reocrd.getPrice());
+        if (res > 0) {
+            if(!bool) {reocrd.setId(ssd.getId());}
+            if (enabledCache) {
+                System.out.println("新增操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public Boolean joinMultiCrateAndEdit(List<ShopProductSkuDetailParam> reocrds, String skus, Boolean bool) {
+        Long productId = 0L;
+
+        BigDecimal minPrice = new BigDecimal(0);
+        BigDecimal price = new BigDecimal(0);
+        int index = 0;
+        // 更新商品最低价格
+        for (ShopProductSkuDetailParam param : reocrds) {
+            if(index ==0){
+                minPrice= param.getMinPrice();
+                price = param.getPrice();
+            }else {
+                if(param.getMinPrice().doubleValue() < minPrice.doubleValue()){
+                    minPrice= param.getMinPrice();
+                }
+                if (param.getPrice().doubleValue() < price.doubleValue()) {
+                    price= param.getPrice();
+                }
+            }
+            index ++;
+        }
+        // 更新商品最低价格
+        shopProductMapper.updatePrice(productId, minPrice, price);
+
+        // 判断是 更新|新增
+        if(bool){ // 更新
+            if (batchEdit(reocrds, skus)) {
+                if (enabledCache) {
+                    System.out.println("更新操作,清空缓存");
+                    removeCache();
+                }
+                return true;
+            }
+        }else { // 新增
+            productId = reocrds.get(0).getProductId();
+            String operate = shopProductMapper.selectByOperate(productId);
+            String[] strs = convertStrToArr(operate);
+            strs[0] = "1";
+            operate = convertArrToStr(strs);
+            if (shopProductMapper.updateOperateAndSpecType(productId, operate,PROS.MULTI_SKU_1,skus) > 0) {  // 更新 操作信息
+                if (batchCreate(reocrds, skus)) {
+                    if (enabledCache) {
+                        System.out.println("新增操作,清空缓存");
+                        removeCache();
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     @Transactional
     public Boolean batchCreate(List<ShopProductSkuDetailParam> list, String skus) {
+        int res = 0;
         // 更新 商品规格 和 skus(shopSkus集合) spceType = 1
-        int res = shopProductMapper.updateSpecType(list.get(0).getProductId(), MULTI_SKU, skus);
+        res = shopProductMapper.updateSpecType(list.get(0).getProductId(), PROS.MULTI_SKU_1, skus);
         // 批量创建 商品规格明细
         List<ShopProductSkuDetail> _params = initBo().reverse(list);
         // 调用创建方法
@@ -70,7 +191,8 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
     @Transactional
     public Boolean batchEdit(List<ShopProductSkuDetailParam> list, String skus) {
         // 更新 商品规格 和 skus(shopSkus集合) spceType = 1
-        int res = shopProductMapper.updateSpecType(list.get(0).getProductId(), MULTI_SKU, skus);
+        int res = 0;
+        res = shopProductMapper.updateOperateAndSpecType(list.get(0).getProductId(), null, PROS.MULTI_SKU_1, skus);
         List<ShopProductSkuDetail> _params = initBo().reverse(list);
         List<ShopProductSkuDetail> _insert = new ArrayList<>();
         List<ShopProductSkuDetail> _update = new ArrayList<>();
@@ -135,10 +257,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
         }
         return false;
     }
-    /**
-     * 多规格
-     */
-    int MULTI_SKU = 1;
+
 
     // 删除ArrayList中重复元素，保持顺序
     @Transactional
@@ -157,4 +276,19 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
         return list1;
     }
 
+    @Override
+    public Boolean isWarehouse(Integer warehouseId) {
+        return shopProductSkuDetailMapper.isWarehouse(warehouseId) > 0;
+    }
+
+    static class PROS{
+        /**
+         * 多规格
+         */
+        static int MULTI_SKU_1 = 1;
+        /**
+         * 单规格
+         */
+        static int MULTI_SKU_0 = 0;
+    }
 }

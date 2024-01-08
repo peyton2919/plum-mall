@@ -62,6 +62,8 @@ public class User implements Serializable {
      * 性别：默认 0{0 保密 1 男 2 女}
      */
     private Integer sex;
+    /** 每登录一次加1 */
+    private Integer loc;
     /** 最后登录IP  */
     private String lastIp;
     /** 最后登录时间  */
@@ -248,6 +250,20 @@ public class User implements Serializable {
      */
     public Integer getSex() {
         return sex;
+    }
+
+    /**
+     * @return 每登录一次加1
+     */
+    public Integer getLoc() {
+        return loc;
+    }
+
+    /**
+     * @param loc 每登录一次加1
+     */
+    public void setLoc(Integer loc) {
+        this.loc = loc;
     }
     /**
      * @param lastIp 最后登录IP

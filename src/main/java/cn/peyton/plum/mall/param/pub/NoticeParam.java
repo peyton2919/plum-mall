@@ -44,7 +44,7 @@ public class NoticeParam implements Serializable {
     /**
      * 公告内容
      */
-    @NotBlank(message = "公告标题不能为空")
+    @NotBlank(message = "公告内容不能为空")
     @Length(min = 3,max = 25500)
     private String content;
     /**

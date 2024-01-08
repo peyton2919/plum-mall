@@ -37,7 +37,6 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     @Token
     @Valid
     @PostMapping("/manager/all")
-    @Override
     public JSONResult<?> all(String keyword,
              @NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
         return null;
@@ -47,10 +46,10 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     @Valid
     @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
 
         // 其他处理判断
-        return baseFindBykeywordAll(new ShopProductReplyParam(), new PageQuery(query.getPageNo()), shopProductReplyService,null);
+        return baseHandleList(new ShopProductReplyParam(), new PageQuery(query.getPageNo()), shopProductReplyService,null);
     }
 
     @Token
@@ -59,7 +58,7 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     @Override
     public JSONResult<?> create(@RequestMultiple ShopProductReplyParam record) {
 
-        return baseCreate(record, null, shopProductReplyService, "评论");
+        return baseHandleCreate(record, null, shopProductReplyService, "评论");
     }
 
     @Token
@@ -67,7 +66,7 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(@RequestMultiple ShopProductReplyParam record) {
-        return baseEdit(record, null, shopProductReplyService, "评论",UPDATE);
+        return baseHandleEdit(record, null, shopProductReplyService, "评论",UPDATE);
     }
     @Token
     @Valid
@@ -80,5 +79,14 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
         return JSONResult.fail("评论删除失败;");
     }
 
-
+    @Token
+    @Valid
+    @PostMapping("/manager/review")
+    public JSONResult<?> review(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id,
+                @NotBlank(message = "回复内容 不能为空;") String content) {
+        if(shopProductReplyService.updateReview(id,content)){
+            return JSONResult.success("评论回复成功");
+        }
+        return JSONResult.fail("评论回复失败;");
+    }
 }

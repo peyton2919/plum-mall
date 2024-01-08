@@ -15,4 +15,11 @@ import cn.peyton.plum.mall.pojo.party.SupplierInfo;
  */
 public interface SupplierInfoService extends IBaseService<Long, SupplierInfo, SupplierInfoParam> {
 
+    /**
+     * <h4>创建 供应商基础信息</h4>
+     * @param param 供应商基础信息 对象
+     * @param id 供应商Id
+     * @return 成功 true
+     */
+    Boolean createJoin(SupplierInfoParam param,Long id);
 }

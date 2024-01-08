@@ -8,7 +8,8 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * <h3>被注解的元素的大小必须在指定的范围内(int short long类型)</h3>
+ * <h3>被注解的元素的大小必须在指定的范围内</h3>
+ * <pre>int short long</pre>
  * <pre>
  * @email <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
  * @date 2018/11/16 16:05
@@ -24,11 +25,6 @@ public @interface Size {
      * @return 错误信息提示
      */
     String message() default "";
-    /**
-     * @return 数值类型 int short long
-     */
-    String type() default "int";
-
     /**
      * @return 值元素必须大于或等于
      */

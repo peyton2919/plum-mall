@@ -127,7 +127,7 @@ public final class BaseValidator implements Serializable {
     public Map<String, String> validateProperty(Object obj, String[] ignores) {
 
         ERROR = false;
-        return _validate(obj,ignores, true);
+        return _validate(obj, ignores, true);
     }
 
     /**
@@ -140,6 +140,10 @@ public final class BaseValidator implements Serializable {
     private Map<String, String> _validate(Object obj, String[] ignores, boolean single) {
 
         Map<String, String> map = new LinkedHashMap<>();
+        if (null == obj) {
+            map.put("obj", "验证异常: 对象为空");
+            return map;
+        }
         Class<?> clazz = obj.getClass();
         Field[] fields = clazz.getDeclaredFields();
         if (factory == null) {
@@ -152,12 +156,16 @@ public final class BaseValidator implements Serializable {
                 break;
             }
             try {
-                if (field.getType().getTypeName().contains("cn.peyton") ||
-                        field.getType().getTypeName().contains("Object")) {
+                String name = field.getName();
+                if(isIgnores(ignores,name)){continue;}
+                // 获取 Field 类型名称
+                String typeName = field.getType().getTypeName();
+
+                if (typeName.contains("cn.peyton") || typeName.contains("Object")) {
                     Object childObj = field.get(obj);
                     if (null == childObj) continue;
                     objValid(childObj,ignores, map, single);
-                } else if (field.getType().getTypeName().contains("List")) {
+                } else if (typeName.contains("List")) {
                     List<?> list = (List<?>) field.get(obj);
                     if (null == list || list.size() == 0) continue;
                     for (Object childObj : list) {
@@ -166,8 +174,6 @@ public final class BaseValidator implements Serializable {
                         if (map.size() > 0) break;
                     }
                 } else {
-                    String name = field.getName();
-                    if(isIgnores(ignores,name)){continue;}
                     //获取字段类型 field.getType().getName();
                     String type = field.getGenericType().toString();
                     Object value = field.get(obj);
@@ -193,7 +199,7 @@ public final class BaseValidator implements Serializable {
      * @return true 表示不需要验证
      */
     private Boolean isIgnores(String[] ignores, String fieldName) {
-        if (null == ignores || ignores.length == 0) {return true;}
+        if (null == ignores || ignores.length == 0) {return false;}
         for (int i = 0; i < ignores.length; i++) {
             if(fieldName.equals(ignores[i])){
                 return true;

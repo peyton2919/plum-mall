@@ -40,14 +40,16 @@ public class MaterialGroupController extends PcController<MaterialGroupParam>
     @Valid
     @Token
     @PostMapping("/all")
-    @Override
     public JSONResult<?> all(String keyword,@NotBlank(message = "pageNo 不能为空;") @Min(message = "当前页码要大于0的数！") Integer pageNo) {
-        return baseFindBykeywordAll(new MaterialGroupParam(), new PageQuery(pageNo, ORDER_BY_FILED), materialGroupService,null);
+        return baseHandleList(new MaterialGroupParam(), new PageQuery(pageNo, ORDER_BY_FILED), materialGroupService,null);
     }
 
+    @Valid
+    @Token
+    @PostMapping("/manager/search")
     @Override
-    public JSONResult<?> search(Query query) {
-        return null;
+    public JSONResult<?> list(Query query) {
+        return baseHandleList(new MaterialGroupParam(), new PageQuery(query.getPageNo(), ORDER_BY_FILED), materialGroupService,null);
     }
 
     @Token
@@ -61,7 +63,7 @@ public class MaterialGroupController extends PcController<MaterialGroupParam>
 
         MaterialGroupParam _repeat = new MaterialGroupParam();
         _repeat.setName(record.getName());
-        return baseCreate(record,_repeat,materialGroupService,TIP_NAME);
+        return baseHandleCreate(record,_repeat,materialGroupService,TIP_NAME);
     }
 
 
@@ -76,7 +78,7 @@ public class MaterialGroupController extends PcController<MaterialGroupParam>
         MaterialGroupParam _repeat = new MaterialGroupParam();
         _repeat.setName(param.getName());
         _repeat.setId(param.getId());
-        return baseEdit(param, _repeat, materialGroupService, TIP_NAME);
+        return baseHandleEdit(param, _repeat, materialGroupService, TIP_NAME);
     }
 
     @Token
@@ -86,6 +88,6 @@ public class MaterialGroupController extends PcController<MaterialGroupParam>
         if (materialService.joinGroup(id)) {
             return JSONResult.fail("与素材库有关联,不能直接删除。");
         }
-        return baseDelete(id, materialGroupService, TIP_NAME);
+        return baseHandleDelete(id, materialGroupService, TIP_NAME);
     }
 }

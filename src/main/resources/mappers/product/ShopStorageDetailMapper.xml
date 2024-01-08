@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.product.ShopStorageDetailMapper">
+	<resultMap id="ResultShopStorageDetailMap" type="cn.peyton.plum.mall.pojo.product.ShopStorageDetail">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="stock_id" property="stockId" jdbcType="BIGINT"/>
+		<result column="quantity" property="quantity" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_shop_storage_detail_List">
+		`id`,`stock_id`,`quantity`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopStorageDetail" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_storage_detail`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="stockId != null">`stock_id`,</if>
+			<if test="quantity != null">`quantity`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="stockId != null">#{stockId},</if>
+			<if test="quantity != null">#{quantity},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopStorageDetail">
+		update `tb_shop_storage_detail`
+		<set>
+			<if test="stockId != null">`stock_id` = #{stockId},</if>
+			<if test="quantity != null">`quantity` = #{quantity},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_storage_detail`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopStorageDetail">
+		select
+		count(`id`)
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="stockId != null">
+				and `stock_id` = #{stockId}
+			</if>
+			<if test="quantity != null">
+				and `quantity` = #{quantity}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopStorageDetailMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_storage_detail_List"/>
+		from `tb_shop_storage_detail`
+		where `id` = #{id}
+	</select>
+
+
+	<!-- 根据库存Id 查找入库明细 -->
+	<select id="selectByStockId" resultMap="ResultShopStorageDetailMap"  parameterType="map">
+		select
+			<include refid="Column_tb_shop_storage_detail_List"/>
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="stockId != null">
+				and `stock_id` = #{stockId}
+			</if>
+			<if test="startTime != null">
+				and `create_time` &gt;= #{startTime}
+			</if>
+			<if test="endTime != null">
+				and `create_time` &lt;= #{endTime}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByStockId" resultType = "java.lang.Integer"  parameterType="map">
+		select
+			count(id)
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="stockId != null">
+				and `stock_id` = #{stockId}
+			</if>
+			<if test="startTime != null">
+				and `create_time` &gt;= #{startTime}
+			</if>
+			<if test="endTime != null">
+				and `create_time` &lt;= #{endTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultShopStorageDetailMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_storage_detail_List"/>
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="record.stockId != null">
+				and `stock_id` = #{record.stockId}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopStorageDetailMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_storage_detail_List"/>
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.stockId != null">
+				and `stock_id` = #{record.stockId}
+			</if>
+			<if test="record.quantity != null">
+				and `quantity` = #{record.quantity}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopStorageDetail">
+		select
+		count(`id`)
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="stockId != null">
+				and `stock_id` = #{stockId}
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopStorageDetail">
+		select
+		count(`id`)
+		from `tb_shop_storage_detail`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="stockId != null">
+				and `stock_id` = #{stockId}
+			</if>
+			<if test="quantity != null">
+				and `quantity` = #{quantity}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -7,7 +7,6 @@ import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.pub.AdvertParam;
 import cn.peyton.plum.mall.service.pub.AdvertService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
  * </pre>
  */
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/pc/advert")
 public class AdvertController extends PcController<AdvertParam> implements IBasePCController<Long,AdvertParam> {
 
@@ -30,13 +28,7 @@ public class AdvertController extends PcController<AdvertParam> implements IBase
 
 
     @Override
-    public JSONResult<?> all(String keyword, Integer pageNo) {
-
-        return null;
-    }
-
-    @Override
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         return null;
     }
 

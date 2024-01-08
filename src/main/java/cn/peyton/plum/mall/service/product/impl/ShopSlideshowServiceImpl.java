@@ -54,22 +54,23 @@ public class ShopSlideshowServiceImpl extends AbstractRealizeService<Long, ShopS
     @Transactional(rollbackFor = {ValidationException.class, GlobalException.class, RuntimeException.class, Exception.class},
             propagation = Propagation.REQUIRED)
     @AutoWriteTimestamp
-    public Boolean batchInsertSelective(Long productId, List<ShopSlideshowParam> slideshows) {
-        int res = shopSlideshowMapper.batchDelete(productId);
-        res = shopSlideshowMapper.batchInsertSelective(initBo().reverse(slideshows));
-        String operate = shopProductMapper.selectByOperate(productId);
-        String[] strs = operate.split(",");
-        strs[1] = "1";
-        res = shopProductMapper.updateOperate(productId, toStr(strs));
-        if (res > 0) {
-            if (enabledCache) {
-                System.out.println("批量添加数据,清空缓存");
-                removeCache();
-            }
-            return true;
+    public Boolean batchInsertSelective(Long productId, List<ShopSlideshowParam> slideshows,Boolean bool) {
+        int res = 0;
+        if(!bool){ // 新增才更新 商品信息
+            String operate = shopProductMapper.selectByOperate(productId);
+            String[] strs = operate.split(",");
+            strs[1] = "1";
+            shopProductMapper.updateOperate(productId, convertArrToStr(strs));
+        }else {
+            res= shopSlideshowMapper.batchDelete(productId);
         }
-        if (res <= 0) {
-            throw new GlobalException("[ShopSlideshowServiceImpl-- 65 行] [轮播图批量插入错误!!!]");
+        res = shopSlideshowMapper.batchInsertSelective(initBo().reverse(slideshows));
+        if (enabledCache) {
+            System.out.println("批量添加数据,清空缓存");
+            removeCache();
+        }
+        if (res > 0) {
+            return true;
         }
         return false;
     }

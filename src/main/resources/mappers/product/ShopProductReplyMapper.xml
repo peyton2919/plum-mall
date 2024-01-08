@@ -91,6 +91,14 @@
 		where `id` = #{id}
 	</update>
 
+	<update id="updateReview" parameterType="map">
+		update `tb_shop_product_reply`
+		set `merchant_reply_content` = #{content},
+			`merchant_reply_time` = #{time},
+			`is_reply` = 1
+		where `id` = #{id} and `is_del`= 1
+	</update>
+
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply">
 		select
 		count(`id`)
@@ -148,7 +156,7 @@
 		where `id` = #{id}  and `is_del` = 1
 	</select>
 
-	<select id="selectByLiekAndObj" resultMap="ResultShopProductReplyMap"  parameterType="map">
+	<select id="selectByLikeAndObj" resultMap="ResultShopProductReplyMap" parameterType="map">
 		select
 		<include refid="Column_tb_shop_product_reply_List"/>
 		from `tb_shop_product_reply`
@@ -172,11 +180,11 @@
 			and `merchant_reply_content` like concat('%',#{record.merchantReplyContent},'%')
 		</if>
 
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}
@@ -232,11 +240,11 @@
 				and `merchant_reply_time` = #{record.merchantReplyTime}
 			</if>
 		</where>
-		<if test="page.orderByColumuName != null">
-			order by `${page.orderByColumuName}`  ${page.orderByMode}
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
 		</if>
-		<if test="page.orderByColumuName == null">
-			order by `id` desc
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
 		</if>
 		<if test="page.enablePaging">
 			limit #{page.offset},#{page.pageSize}

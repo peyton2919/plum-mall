@@ -18,6 +18,22 @@ import java.io.IOException;
  */
 public class TransactionalException extends RuntimeException {
 
+    public TransactionalException() {
+        super();
+    }
+
+    public TransactionalException(String message) {
+        super(message);
+    }
+
+    public TransactionalException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public TransactionalException(Throwable cause) {
+        super(cause);
+    }
+
     /**
      * <h4>验证异常 PrintWriter 写出信息</h4>
      *

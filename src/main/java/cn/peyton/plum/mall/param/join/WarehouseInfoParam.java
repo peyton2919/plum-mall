@@ -1,6 +1,10 @@
 package cn.peyton.plum.mall.param.join;
 
 
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Length;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Phone;
 import cn.peyton.plum.mall.pojo.join.WarehouseInfo;
 
 import java.io.Serializable;
@@ -22,27 +26,33 @@ public class WarehouseInfoParam implements Serializable {
     /**
      * 名称
      */
+    @NotBlank(message = "名称不能为空;")
+    @Length(min = 1,max = 30)
     private String name;
     /**
      * 手机号
      */
+    @Phone
     private String phone;
     /**
      * 地址
      */
+    @Length(min = 1,max = 120)
     private String address;
     /**
      * 位置
      */
+    @Length(max = 40)
     private String loaction;
     /**
      * 说明
      */
+    @Length(max = 90)
     private String explain;
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
 
     //================================== Constructor =======================================//
 
@@ -138,14 +148,14 @@ public class WarehouseInfoParam implements Serializable {
     /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -164,7 +174,7 @@ public class WarehouseInfoParam implements Serializable {
         warehouseInfo.setAddress(address);
         warehouseInfo.setLoaction(loaction);
         warehouseInfo.setExplain(explain);
-        warehouseInfo.setCreateTime(createTime);
+        warehouseInfo.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return warehouseInfo;
     }
 
@@ -185,7 +195,7 @@ public class WarehouseInfoParam implements Serializable {
         this.setAddress(warehouseInfo.getAddress());
         this.setLoaction(warehouseInfo.getLoaction());
         this.setExplain(warehouseInfo.getExplain());
-        this.setCreateTime(warehouseInfo.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(warehouseInfo.getCreateTime()));
         return this;
     }
 }

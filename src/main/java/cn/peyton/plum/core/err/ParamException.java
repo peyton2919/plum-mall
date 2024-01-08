@@ -18,6 +18,22 @@ import java.io.IOException;
  */
 public class ParamException extends RuntimeException {
 
+    public ParamException() {
+        super();
+    }
+
+    public ParamException(String message) {
+        super(message);
+    }
+
+    public ParamException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ParamException(Throwable cause) {
+        super(cause);
+    }
+
     /**
      * <h4>验证异常 PrintWriter 写出信息</h4>
      *

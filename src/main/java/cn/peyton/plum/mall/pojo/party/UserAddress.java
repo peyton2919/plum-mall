@@ -20,11 +20,11 @@ public class UserAddress implements Serializable {
     /**
      * 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    private Long shaerId;
+    private Long shareId;
     /**
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    private Integer shaerType;
+    private Integer shareType;
     /**
      * 省
      */
@@ -84,31 +84,31 @@ public class UserAddress implements Serializable {
     }
 
     /**
-     * @param shaerId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
+     * @param shareId 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    public void setShaerId(Long shaerId) {
-        this.shaerId = shaerId;
+    public void setShareId(Long shareId) {
+        this.shareId = shareId;
     }
 
     /**
      * @return 用户ID(包含 : 会员Id 、 供应商Id 、 员工Id等, 配合share_type一起使用)
      */
-    public Long getShaerId() {
-        return shaerId;
+    public Long getShareId() {
+        return shareId;
     }
 
     /**
-     * @param shaerType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
+     * @param shareType 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    public void setShaerType(Integer shaerType) {
-        this.shaerType = shaerType;
+    public void setShareType(Integer shareType) {
+        this.shareType = shareType;
     }
 
     /**
      * @return 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    public Integer getShaerType() {
-        return shaerType;
+    public Integer getShareType() {
+        return shareType;
     }
 
     /**

@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.param.pub;
 
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.mall.pojo.pub.Advert;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
+@ImageHostPath(name = "src")
 public class AdvertParam implements Serializable {
     /**
      * 编号

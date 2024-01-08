@@ -41,9 +41,12 @@ public class ShopCouponMember implements Serializable {
      * 创建时间
      */
     private Integer createTime;
-
+    /** 优惠券对象 */
+    private ShopCoupon shopCoupon;
     //================================== Constructor =======================================//
-
+    public ShopCouponMember() {
+        if (null == shopCoupon) {shopCoupon = new ShopCoupon(); }
+    }
     //================================== Method =======================================//
 
 
@@ -147,4 +150,17 @@ public class ShopCouponMember implements Serializable {
         return createTime;
     }
 
+    /**
+     * @return 优惠券对象
+     */
+    public ShopCoupon getShopCoupon() {
+        return shopCoupon;
+    }
+
+    /**
+     * @param shopCoupon 优惠券对象
+     */
+    public void setShopCoupon(ShopCoupon shopCoupon) {
+        this.shopCoupon = shopCoupon;
+    }
 }

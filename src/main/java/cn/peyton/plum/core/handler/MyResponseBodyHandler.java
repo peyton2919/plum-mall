@@ -36,12 +36,13 @@ import java.util.List;
  */
 @ControllerAdvice
 public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
+
     //@Value("${web.host}")   // 在application.yml 中配置 web.host
     //private String HOST;
     /**
      * 根目录
      */
-    private String basePath;
+    private String baseSiteRootPath;
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -49,9 +50,7 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
     }
 
     @Override
-    public Object beforeBodyWrite(Object body,
-                                  MethodParameter returnType,
-                                  MediaType selectedContentType,
+    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest _request, ServerHttpResponse response) {
 
@@ -60,9 +59,9 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
         //String basePath = request.getScheme()+"://" +
         //        request.getServerName() + ":" + request.getServerPort() +
         //        request.getContextPath() + "/";
-        basePath = request.getScheme() + "://" +
+        baseSiteRootPath = request.getScheme() + "://" +
                 request.getServerName() + ":" + request.getServerPort();
-        System.out.println("basePath  " + basePath);
+        System.out.println("basePath  " + baseSiteRootPath);
 
         // 遇到feign接口之类的请求, 不应该再次包装,应该直接返回
         // 上述问题的解决方案: 可以在feign拦截器中,给feign请求头中添加一个标识字段, 表示是feign请求
@@ -181,7 +180,7 @@ public class MyResponseBodyHandler implements ResponseBodyAdvice<Object> {
                     _field.setAccessible(true);
                     String _tmp = (String) _field.get(_obj);
                     if ((null != _tmp) && !_tmp.startsWith("http")) {
-                        _field.set(_obj, basePath + _tmp);
+                        _field.set(_obj, baseSiteRootPath + _tmp);
                     }
                 } catch (NoSuchFieldException e) {
                     LogUtils.error(e.getMessage());

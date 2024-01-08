@@ -1,10 +1,7 @@
 package cn.peyton.plum.mall.param.product;
 
 import cn.peyton.plum.core.utils.DateUtils;
-import cn.peyton.plum.core.validator.constraints.Length;
-import cn.peyton.plum.core.validator.constraints.Min;
-import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.core.validator.constraints.Size;
+import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.pojo.product.ShopCoupon;
 
 import java.io.Serializable;
@@ -38,7 +35,7 @@ public class ShopCouponParam implements Serializable {
     /**
      * 折扣值，根据 type 不同 含义不同
      */
-    @Min(message = "金额不能小于0")
+    @MinDecimal(value = 0.01, message = "金额不能小于0.01")
     private BigDecimal value;
     /**
      * 备注
@@ -57,7 +54,7 @@ public class ShopCouponParam implements Serializable {
     /**
      * 最低价格
      */
-    @Min(message = "金额不能小于0")
+    @MinDecimal(value = 0.01, message = "金额不能小于0.01")
     private BigDecimal minPrice;
     /**
      * 最低价格
@@ -66,10 +63,12 @@ public class ShopCouponParam implements Serializable {
     /**
      * 开始时间
      */
+    @Datetime
     private String startTime;
     /**
      * 结束时间
      */
+    @Datetime
     private String endTime;
     /**
      * 优惠券是否生效:默认 1 {0不生效 1生效 2删除}
@@ -84,6 +83,7 @@ public class ShopCouponParam implements Serializable {
     /**
      * 创建时间
      */
+    @Date
     private String createTime;
 
     //================================== Constructor =======================================//

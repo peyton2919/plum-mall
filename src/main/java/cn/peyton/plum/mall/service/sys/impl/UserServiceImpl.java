@@ -35,6 +35,8 @@ import java.util.List;
 public class UserServiceImpl extends AbstractRealizeService<Long, User, UserParam> implements UserService {
 
     private final String CACHE_KEY = "USERSERVICEIMPL-ALL";
+    /** 表名 */
+    private String TABLE_NAME = "sys_user";
 
     @Resource
     private UserMapper userMapper;
@@ -75,16 +77,6 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
         return (result > 0) ? param.compat(user) : null;
     }
 
-    @Override
-    public boolean checkStatus(String keyword, String type, Integer status) {
-        return userMapper.checkStatus(keyword, type, status) > 0;
-    }
-
-    @Override
-    public UserParam login(String keyword, String password, String loginType) {
-        User user = userMapper.login(keyword, password, loginType);
-        return (null == user) ? null : new UserParam().compat(user);
-    }
 
     @Override
     public UserParam findJoinById(Long shareId, Integer shareType) {
@@ -98,7 +90,13 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
         }
         User user = userMapper.selectByPrimaryKey(shareId);
         if (null != user) {
-            List<Menu> menus = menuMapper.selectMenuListByShareIdAndType(shareId, shareType);
+            List<Menu> menus = new ArrayList<>();
+           if( user.getRole().getId() == 1){
+               menus = menuMapper.selectMenuListBySuperAdmin();
+           }else {
+               menus = menuMapper.selectMenuListByShareIdAndType(shareId, shareType);
+           }
+
             // 递归查找赋值
             user.setMenuList(MenuUtils.reorganize(menus));
             UserParam _param = new UserParam().compat(user);
@@ -122,12 +120,78 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
     }
 
     @Override
-    public Boolean condition(String known) {
-        return userMapper.condition(known) > 0;
+    public Boolean upStatus(Long id, Integer status) {
+        int res = userMapper.upStatus(id, status);
+        if (res > 0) {
+            if(enabledCache){
+                System.out.println("更新状态操作清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Boolean isPassword(Long id, String password) {
-        return userMapper.isPassword(id, password) > 0;
+    public boolean checkStatus(String keyword, String type, Integer status) {
+
+        return userMapper.checkStatus(TABLE_NAME,keyword, type, status) > 0;
     }
+
+    @Override
+    public UserParam login(String keyword, String password, String loginType) {
+        User user = userMapper.login(keyword, password, loginType);
+        return (null == user) ? null : new UserParam().compat(user);
+    }
+
+
+    @Override
+    public Boolean isPassword(Long id, String password) {
+        return userMapper.isPassword(TABLE_NAME, id, password) > 0;
+    }
+
+    @Override
+    public  Boolean updateLastLogin(UserParam param) {
+        int res = userMapper.updateLastLogin(TABLE_NAME, param.convert());
+        if (res > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean updatePassword(Long id, String pwd) {
+        int res = userMapper.updatePassword(TABLE_NAME, id, pwd);
+        if (res > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Integer isPhone(String phone) {
+        return userMapper.isPhone(TABLE_NAME, phone);
+    }
+
+    @Override
+    public Boolean updateAvatar(Long id, String avatar) {
+        int res = userMapper.updateAvatar(TABLE_NAME, id, avatar);
+        if (res > 0) {
+            if (enabledCache) {
+                System.out.println("更新操作,清空缓存");
+                removeCache();
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

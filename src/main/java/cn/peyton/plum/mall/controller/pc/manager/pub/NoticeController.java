@@ -38,21 +38,20 @@ public class NoticeController extends PcController<NoticeParam>
     @Token
     @Valid
     @PostMapping("/manager/all")
-    @Override
     public JSONResult<?> all(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         NoticeParam _param = new NoticeParam();
         _param.setTitle(keyword);
-        return baseFindBykeywordAll(_param, new PageQuery(pageNo, "seq"), noticeService,null);
+        return baseHandleList(_param, new PageQuery(pageNo, "seq"), noticeService,null);
     }
 
     @Token
     @Valid
     @Override
     @PostMapping("/manager/search")
-    public JSONResult<?> search(Query query) {
+    public JSONResult<?> list(Query query) {
         NoticeParam _param = new NoticeParam();
         _param.setTitle(query.getKeyword());
-        return baseFindBykeywordAll(_param, new PageQuery(query.getPageNo()), noticeService,null);
+        return baseHandleList(_param, new PageQuery(query.getPageNo()), noticeService,null);
     }
 
     @Token
@@ -65,7 +64,7 @@ public class NoticeController extends PcController<NoticeParam>
         param.setCreateType(_user.getUserType());
         NoticeParam _repeat = new NoticeParam();
         _repeat.setTitle(param.getTitle());
-        return baseCreate(param, _repeat, noticeService, TIP_NAME);
+        return baseHandleCreate(param, _repeat, noticeService, TIP_NAME);
     }
 
     @Token
@@ -77,7 +76,7 @@ public class NoticeController extends PcController<NoticeParam>
         NoticeParam _repeat = new NoticeParam();
         _repeat.setId(param.getId());
        _repeat.setTitle(param.getTitle());
-        return baseEdit(param, _repeat, noticeService, TIP_NAME);
+        return baseHandleEdit(param, _repeat, noticeService, TIP_NAME);
     }
 
     @Token
@@ -88,7 +87,7 @@ public class NoticeController extends PcController<NoticeParam>
         NoticeParam _param = new NoticeParam();
         _param.setId(id);
         _param.setIsDel(IS_DEL_0);
-        return baseEdit(_param,null,noticeService,null);
+        return baseHandleEdit(_param,null,noticeService,null);
     }
 
     /**
@@ -112,7 +111,7 @@ public class NoticeController extends PcController<NoticeParam>
         if (type == 0){
             _param = new NoticeParam();
             _param.setCategoryId(Integer.parseInt(keyword));
-            return baseFindByAll(_param, _page, noticeService);
+            return baseHandleListPageReulst(_param, _page, noticeService);
         }else{
             if(type == 1){
                 _param = new NoticeParam();
@@ -122,7 +121,7 @@ public class NoticeController extends PcController<NoticeParam>
                 _param.setContent(keyword);
             }
         }
-        return baseFindBykeywordAll(_param, _page, noticeService,null);
+        return baseHandleList(_param, _page, noticeService,null);
     }
 
 

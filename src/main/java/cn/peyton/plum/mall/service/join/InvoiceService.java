@@ -14,5 +14,10 @@ import cn.peyton.plum.mall.pojo.join.Invoice;
  * </pre>
  */
 public interface InvoiceService extends IBaseService<Long, Invoice, InvoiceParam> {
-
+    /**
+     *  <h4>删除</h4>
+     * @param id 对象ID
+     * @return
+     */
+    Boolean upDelete(Long id);
 }
