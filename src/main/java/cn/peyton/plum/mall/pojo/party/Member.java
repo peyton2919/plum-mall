@@ -60,6 +60,9 @@ public class Member implements Serializable {
      * 每登录一次加1
      */
     private Integer loc;
+    /** 积分 */
+    private Integer integral;
+
     /**
      * 最后登录时间
      */
@@ -340,6 +343,20 @@ public class Member implements Serializable {
      */
     public Integer getCreateTime() {
         return createTime;
+    }
+
+    /**
+     * @return 积分
+     */
+    public Integer getIntegral() {
+        return integral;
+    }
+
+    /**
+     * @param integral 积分
+     */
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
     }
 
     /**

@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.param.party;
 
 import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Datetime;
 import cn.peyton.plum.core.validator.constraints.Length;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
@@ -65,6 +66,7 @@ public class ShareBindParam implements Serializable {
      * 创建时间
      */
     @Length(max = 40)
+    @Datetime
     private String  createTime;
 
     //================================== Constructor =======================================//

@@ -95,7 +95,7 @@ public final class Regulation implements Serializable {
      *      样式 {130(到139)12345678 150(到159不含154)12345678 180(到189)12345678}
      * </pre>
      */
-    public static final String REGEX_PHONE = "^((13[0-9])|(14[0-9])|(15[^4,\\D])|(18[0-9])|(17[0-9]))+(\\d{8})$";
+    public static final String REGEX_PHONE = "^(1[3-9])+(\\d{9})$";
 
     /**
      * <pre>
@@ -116,8 +116,8 @@ public final class Regulation implements Serializable {
      *      }
      * </pre>
      */
-    public static final String REGEX_TEL_PHONE = "^(((([0]\\d{2,3}[\\-\\s*])|([0]\\d{2,3}))(\\d{7,8}))|" +
-            "(((13[0-9])|(14[0-9])|(15[^4,\\D])|(18[0-9])|(17[0-9]))+(\\d{8})))$";
+    public static final String REGEX_TEL_PHONE = "^(((([0]\\d{2,3}[\\-\\s*])|([0]\\d{2,3}))(\\d{7,8}))|(\\d{7,8})|" +
+            "((1[3-9])+(\\d{9})))$";
 
     /**
      * <pre>

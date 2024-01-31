@@ -1,12 +1,15 @@
 package cn.peyton.plum.mall.controller.pc.manager.party;
 
+import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.inf.controller.IBasePCController;
 import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.mall.controller.base.IMappingMessages;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.SupplierInfoParam;
 import cn.peyton.plum.mall.param.party.SupplierParam;
@@ -38,16 +41,27 @@ public class SupplierInfoController extends PcController<SupplierInfoParam>
         return null;
     }
 
-    @Token
-    @Valid
-    @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(SupplierInfoParam record) {
         SupplierParam _param = handleToken(new SupplierParam());
         if(supplierInfoService.createJoin(record,_param.getId())){
-            return JSONResult.success("基础信息添加成功;");
+            return JSONResult.success(TIP_SUPPLIER_INFO + CREATE + SUCCESS);
         }
-        return JSONResult.fail("基础信息添加失败;");
+        return JSONResult.fail(TIP_SUPPLIER_INFO + CREATE + FAIL);
+    }
+
+    @Token
+    @Valid
+    @PostMapping(IMappingMessages.MANAGER_CREEATE)
+    public JSONResult<?> joinCreate(@RequestMultiple FormData<SupplierInfoParam> data) {
+        Long supplierId = data.getKeyLong();
+        if (supplierId < 1) {
+            return JSONResult.fail(ERROR);
+        }
+        if(supplierInfoService.createJoin(data.getRecord(),supplierId)){
+            return JSONResult.success(TIP_SUPPLIER_INFO + CREATE + SUCCESS);
+        }
+        return JSONResult.fail(TIP_SUPPLIER_INFO + CREATE + FAIL);
     }
 
     @Token
@@ -63,7 +77,14 @@ public class SupplierInfoController extends PcController<SupplierInfoParam>
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
-        return baseHandleDelete(id,supplierInfoService, TIP_SUPPLIER_INFO);
+    public JSONResult<?> delete(@NotBlank(message = "id 不能为空") @Min(value = 1, message = "最小值为1") Long id) {
+
+        return baseHandleDelete(id, supplierInfoService, TIP_SUPPLIER_INFO);
+    }
+
+    @Token
+    @PostMapping("/manager/one")
+    public JSONResult<?> one(@NotBlank(message = "id 不能为空") @Min(value = 1, message = "最小值为1") Long id) {
+        return JSONResult.success(supplierInfoService.findById(id));
     }
 }

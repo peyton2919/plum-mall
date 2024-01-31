@@ -42,8 +42,7 @@ public class MemberController extends UserOperationController
     /** session中的 手机号码 key */
     public final static String KEY_SESSION_PHONE = "MEM_SESSION_PHONE_202312261601";
 
-    /** MD5 加密 key */
-    private final static String KEY_PASSWORD_ENCODER = "member_controller_password_202312112140";
+
     @Resource
     private MemberService memberService;
     @Resource
@@ -75,7 +74,8 @@ public class MemberController extends UserOperationController
         _repeat.setUsername(record.getUsername());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
-        record.setPassword(BaseCipher.encoderMD5(record.getPassword(),KEY_PASSWORD_ENCODER));
+        record.setAvatar(convertImgPath(record.getAvatar()));
+        record.setPassword(BaseCipher.encoderMD5(record.getPassword(), KEY_MEMBER_PASSWORD_ENCODER));
         return baseHandleCreate(record, _repeat, memberService, TIP_MEMBER);
     }
 
@@ -92,6 +92,7 @@ public class MemberController extends UserOperationController
         _repeat.setUsername(record.getUsername());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
+        record.setAvatar(convertImgPath(record.getAvatar()));
         return baseHandleEdit(record, _repeat, memberService, TIP_MEMBER,UPDATE);
     }
 
@@ -134,7 +135,7 @@ public class MemberController extends UserOperationController
                                @NotBlank(message = "密码不能为空！") String password,
                                HttpServletRequest request) {
 
-        return super.login(keyword, password, new MemberParam(), KEY_PASSWORD_ENCODER, IUser.TYPE_USER, memberService, request);
+        return super.login(keyword, password, new MemberParam(), KEY_MEMBER_PASSWORD_ENCODER, IUser.TYPE_USER, memberService, request);
     }
 
     // 用户退出
@@ -160,7 +161,7 @@ public class MemberController extends UserOperationController
         // 从 token 获取 对象
         MemberParam _param = handleToken(new MemberParam());
 
-        return super.editPassword(_param.getId(),oldPassword,newPassword,confirmPassword,KEY_PASSWORD_ENCODER,memberService);
+        return super.editPassword(_param.getId(),oldPassword,newPassword,confirmPassword, KEY_MEMBER_PASSWORD_ENCODER,memberService);
     }
 
 

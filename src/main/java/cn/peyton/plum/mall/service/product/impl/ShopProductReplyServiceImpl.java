@@ -3,7 +3,9 @@ package cn.peyton.plum.mall.service.product.impl;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.utils.LogUtils;
 import cn.peyton.plum.mall.bo.ShopProductReplyBo;
 import cn.peyton.plum.mall.mapper.product.ShopProductReplyMapper;
 import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
@@ -12,7 +14,9 @@ import cn.peyton.plum.mall.service.product.ShopProductReplyService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <h3> 商品评论 Service 实现类</h3>
@@ -65,5 +69,33 @@ public class ShopProductReplyServiceImpl extends AbstractRealizeService<Long, Sh
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ShopProductReplyParam> findByProductId(Long productId, PageQuery page,String tab) {
+        String key = keyPrefix + tab + productId + createKey(null, page, false);
+        if (enabledCache) {
+            Object obj = cache.get(key);
+            if (null != obj) {
+                System.out.println("从缓存中获取数据; key =" + key);
+                return (List<ShopProductReplyParam>) obj;
+            }
+        }
+        List<ShopProductReply> result = shopProductReplyMapper.selectByProductId(productId, page,tab);
+        if (null != result) {
+            List<ShopProductReplyParam> adapter = initBo().adapter(result);
+            if (enabledCache) {
+                LogUtils.info("查找到数据,添加到缓存; key=",key);
+                System.out.println("查找到数据,添加到缓存; key=" + key);
+                cache.put(key,adapter);
+            }
+            return adapter;
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int countByProductId(Long productId) {
+        return shopProductReplyMapper.countByProductId(productId);
     }
 }

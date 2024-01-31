@@ -86,8 +86,8 @@
 		<if test="record.title != null">
 			and `title` like concat('%',#{record.title},'%')
 		</if>
-		<if test="record.content != null">
-			and `content` like concat('%',#{record.content},'%')
+		<if test="record.categoryId != null">
+			and `category_id` = #{record.categoryId}
 		</if>
 		<if test="page.orderColumnName != null">
 			order by ${page.orderColumnName} ${page.orderMode}
@@ -139,8 +139,8 @@
 		<if test="title != null">
 			and `title` like concat('%',#{title},'%')
 		</if>
-		<if test="content != null">
-			and `content` like concat('%',#{content},'%')
+		<if test="categoryId != null">
+			and `category_id` = #{categoryId}
 		</if>
 	</select>
 
@@ -166,11 +166,11 @@
 		</if>
 	</select>
 
-	<select id="joinGroup" resultType = "int" parameterType="int">
-		select
-			count(`id`)
-		from `tb_notice`
-		where caregory_id = #{cateId}
-	</select>
+	<!--<select id="joinGroup" resultType = "int" parameterType="int">-->
+	<!--	select-->
+	<!--		count(`id`)-->
+	<!--	from `tb_notice`-->
+	<!--	where caregory_id = #{cateId}-->
+	<!--</select>-->
 
 </mapper>

@@ -44,8 +44,7 @@ public class UserController extends UserOperationController
     /** session中的 手机号码 key */
     public final static String KEY_SESSION_PHONE = "USER_SESSION_PHONE_220324";
 
-    /** MD5 加密 key */
-    private final static String KEY_PASSWORD_ENCODER = "userControllerPassword202312120011";
+
 
     @Resource
     private UserService userService;
@@ -78,7 +77,8 @@ public class UserController extends UserOperationController
         if (userService.checkStatus(param.getUsername(), IUser.LOGIN_TYPE_ACCOUNT, STATUS_MINUS)) {
             return JSONResult.fail("该用户名称已经存在,请重新输入。");
         }
-        param.setPassword(BaseCipher.encoderMD5(param.getPassword(),KEY_PASSWORD_ENCODER));
+        param.setPassword(BaseCipher.encoderMD5(param.getPassword(), KEY_USER_PASSWORD_ENCODER));
+        param.setAvatar(convertImgPath(param.getAvatar()));
         UserParam _result = userService.add(param);
         if (null != _result) {
             RoleUserParam _urp = new RoleUserParam();
@@ -106,6 +106,7 @@ public class UserController extends UserOperationController
             return JSONResult.fail("修改的名称重名,请重新输入。");
         }
         param.setPassword(null);
+        param.setAvatar(convertImgPath(param.getAvatar()));
         if (userService.update(param)){
             // 更新角色
             RoleUserParam _urpParam = new RoleUserParam();
@@ -163,7 +164,7 @@ public class UserController extends UserOperationController
                                @NotBlank(message = "密码不能为空！") String password,
                                HttpServletRequest request) {
 
-        return super.login(keyword, password, new UserParam(), KEY_PASSWORD_ENCODER, IUser.TYPE_USER, userService, request);
+        return super.login(keyword, password, new UserParam(), KEY_USER_PASSWORD_ENCODER, IUser.TYPE_USER, userService, request);
     }
 
     // 用户退出
@@ -189,7 +190,7 @@ public class UserController extends UserOperationController
         // 从 token 获取 对象
         UserParam _user = handleToken(new UserParam());
 
-        return super.editPassword(_user.getId(),oldPassword,newPassword,confirmPassword,KEY_PASSWORD_ENCODER,userService);
+        return super.editPassword(_user.getId(),oldPassword,newPassword,confirmPassword, KEY_USER_PASSWORD_ENCODER,userService);
     }
 
 

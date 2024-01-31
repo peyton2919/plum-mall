@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.param.join;
 
 import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Datetime;
 import cn.peyton.plum.core.validator.constraints.Length;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
@@ -60,6 +61,7 @@ public class BrandParam implements Serializable {
     /**
      * 创建时间
      */
+    @Datetime
     private String  createTime;
     /**
      * 供应商对象

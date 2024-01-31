@@ -79,10 +79,14 @@
 		<association property="shopStock" javaType="cn.peyton.plum.mall.pojo.product.ShopStock"
 					 column="stock_id" select="cn.peyton.plum.mall.mapper.product.ShopStockMapper.selectByPrimaryKey" />
 	</resultMap>
+	<!-- 后端 平台获取 -->
 	<sql id="column_spsd_st_list">
 		`id`,`product_id`,`stock_id`,`skus`,`cover`,`unique_code`,`bar_code`,`min_price`,`price`,`cost_price`,`weight`,`volume`,`warehouse_id`,`warehouse_explain`
 	</sql>
-
+	<!-- 前端 平台获取 -->
+	<sql id="column_spsd_st_platform_list">
+		`id`,`product_id`,`stock_id`,`skus`,`cover`,`unique_code`,`bar_code`,`min_price`,`price`,`weight`,`volume`,`warehouse_id`,`warehouse_explain`
+	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductSkuDetail" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `tb_shop_product_sku_detail`
@@ -604,11 +608,13 @@
 		where `id` = #{id}
 	</select>
 
-	<!-- 根据商品Id 查找商品规格列表 -->
+	<!-- 根据商品Id 查找商品规格列表 后端-->
 	<select id="selectByProductId" resultMap="result_spsd_st_map"  parameterType="java.lang.Long">
 		select
 		<include refid="column_spsd_st_list"/>
 		from `tb_shop_product_sku_detail`
 		where `product_id` = #{productId}
 	</select>
+
+
 </mapper>

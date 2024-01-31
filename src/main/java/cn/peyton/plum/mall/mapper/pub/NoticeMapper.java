@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.mapper.pub;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.pub.Notice;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <h3> 公告 Mapper 接口</h3>
@@ -21,6 +22,7 @@ public interface NoticeMapper extends IBaseMapper<Long, Notice> {
      * @param cateId 分类Id
      * @return 受影响的行数 有关联 大于 0
      */
-    int joinGroup(Integer cateId);
-
+    @Select("select count(id) from tb_notice where category_id = #{cateId}")
+    int isNoticeCategory(Integer cateId);
+    
 }

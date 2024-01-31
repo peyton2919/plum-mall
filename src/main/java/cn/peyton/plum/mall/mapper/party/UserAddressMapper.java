@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.mapper.party;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.pojo.party.UserAddress;
 import org.apache.ibatis.annotations.Update;
 
@@ -34,5 +35,13 @@ public interface UserAddressMapper extends IBaseMapper<Long, UserAddress> {
     int upLastUsedTime(Long id, Integer lastUsedTime);
     // ==================================== new create method ==================================== //
 
+    /**
+     * <h4>根据主键Id和类型查找到对象</h4>
+     * @param shareId 主键Id
+     * @param shareType 类型 {用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员}
+     * @param page 分页对象
+     * @return 对象集合
+     */
+    List<UserAddress> selectAndroidByShareId(Long shareId, Integer shareType, PageQuery page);
 
 }

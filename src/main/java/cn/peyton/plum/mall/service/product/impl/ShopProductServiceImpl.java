@@ -1,9 +1,12 @@
 package cn.peyton.plum.mall.service.product.impl;
 
+import cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.bo.ShopProductBo;
+import cn.peyton.plum.mall.dto.ProductDto;
 import cn.peyton.plum.mall.mapper.product.ShopProductCategoryMapper;
 import cn.peyton.plum.mall.mapper.product.ShopProductMapper;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
@@ -162,7 +165,6 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
 
     @Override
     public Boolean updateSpecType(Long id, Integer specType, String skus) {
-
         int res = shopProductMapper.updateSpecType(id, specType, skus);
         if (res > 0) {
             if (enabledCache) {
@@ -175,6 +177,7 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
     }
 
     @Transactional
+    @AutoWriteTimestamp
     public Boolean createAndBatchCategories(ShopProductParam record) {
         ShopProduct _sp = record.convert();
         int res = shopProductMapper.insertSelective(_sp);
@@ -201,7 +204,9 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
         }
         return false;
     }
+
     @Transactional
+    @AutoWriteTimestamp("updateTime")
     public Boolean updateAndBatchCategories(ShopProductParam record) {
         int res = shopProductMapper.updateSelective(initBo().convert(record));
         if (res > 0) {
@@ -282,5 +287,52 @@ public class ShopProductServiceImpl extends AbstractRealizeService<Long, ShopPro
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ShopProductParam> findAndroidByList(PageQuery page, String type) {
+        //String key = keyPrefix + type + createKey(null, page, false);
+        //if (enabledCache) {
+        //    Object obj = cache.get(key);
+        //    if (null != obj) {
+        //        System.out.println("从缓存中获取数据, key = " + key);
+        //        return (List<ShopProductParam>) obj;
+        //    }
+        //}
+        List<ShopProduct> result = shopProductMapper.selectAndroidByList(page, type);
+        if (null == result) {
+            return null;
+        }
+        return initBo().adapter(result);
+    }
+
+    @Override
+    public BigDecimal findProductByGoodRate(Long id) {
+        return shopProductMapper.selectProductByGoodRate(id);
+    }
+
+    @Override
+    public List<ShopProductParam> findAndroidByMulti(ProductDto product, PageQuery page) {
+        StringBuffer sb = new StringBuffer();
+        createKeySuffix(product,sb);
+        String key = keyPrefix+ createKey(null, page, true) + sb;
+        if (enabledCache) {
+            Object obj = cache.get(key);
+            if (null != obj) {
+                System.out.println("从缓存中获取到数据; key=" + key);
+                return (List<ShopProductParam>) obj;
+            }
+        }
+        List<ShopProduct> products = shopProductMapper.selectAndroidByMulti(product, page);
+        if (null != products && products.size() > 0) {
+            List<ShopProductParam> result = initBo().adapter(products);
+            if (enabledCache) {
+                System.out.println("查找到数据添加到缓存中; key=" + key);
+                cache.put(key,result);
+            }
+            return result;
+        }
+        return new ArrayList<>();
+        //return initBo().adapter(shopProductMapper.selectAndroidByMulti(keyword, product, page));
     }
 }

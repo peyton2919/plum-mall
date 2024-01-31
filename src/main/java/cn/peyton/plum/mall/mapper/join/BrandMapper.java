@@ -26,6 +26,23 @@ public interface BrandMapper extends IBaseMapper<Long, Brand> {
      * @return 品牌对象集合
      */
     List<Brand> selectByDownList();
+
+    /**
+     * <h4>根据主键查找对象 {外键}</h4>
+     * <pre>
+     *     `id`,`sup_id`,`logo`,`name`,`area`
+     * </pre>
+     * @param id 主键
+     * @return 对象
+     */
+    Brand selectByForeignKey(Long id);
+
+    /**
+     * <h4>随机获取品牌</h4>
+     * @param limit 需要返回的记录数
+     * @return 集合
+     */
+    List<Brand> selectAndroidRandom(Integer limit);
     // ==================================== new create method ==================================== //
 
 

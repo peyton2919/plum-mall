@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.app.AppCategoryMapper">
+	<resultMap id="ResultAppCategoryMap" type="cn.peyton.plum.mall.pojo.app.AppCategory">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="template" property="template" jdbcType="VARCHAR"/>
+		<result column="genre" property="genre" jdbcType="TINYINT"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Column_tb_app_category_List">
+		`id`,`name`,`seq`,`status`,`template`,`genre`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.app.AppCategory" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_app_category`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="seq != null">`seq`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="template != null">`template`,</if>
+			<if test="genre != null">`genre`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="seq != null">#{seq},</if>
+			<if test="status != null">#{status},</if>
+			<if test="template != null">#{template},</if>
+			<if test="genre != null">#{genre},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.app.AppCategory">
+		update `tb_app_category`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="seq != null">`seq` = #{seq},</if>
+			<if test="template != null">`template` = #{template},</if>
+			<if test="genre != null">`genre` = #{genre},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_app_category`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.app.AppCategory">
+		select
+		count(`id`)
+		from `tb_app_category`
+		<where>
+			<if test="id != null">
+				and `id` != #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultAppCategoryMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_app_category_List"/>
+		from `tb_app_category`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByTabBars" resultMap="ResultAppCategoryMap">
+		select
+			<include refid="Column_tb_app_category_List"/>
+		from `tb_app_category`
+		where `status`=1
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultAppCategoryMap"  parameterType="map">
+		select
+		<include refid="Column_tb_app_category_List"/>
+		from `tb_app_category`
+		<where>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+			<if test="record.template != null">
+				and `template` like concat('%',#{record.template},'%')
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultAppCategoryMap"  parameterType="map">
+		select
+		<include refid="Column_tb_app_category_List"/>
+		from `tb_app_category`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.name != null">
+				and `name` = #{record.name}
+			</if>
+			<if test="record.seq != null">
+				and `seq` = #{record.seq}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+			<if test="record.template != null">
+				and `template` = #{record.template}
+			</if>
+			<if test="record.genre != null">
+				and `genre` = #{record.genre}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.app.AppCategory">
+		select
+		count(`id`)
+		from `tb_app_category`
+		<where>
+			<if test="name != null">
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="template != null">
+				and `template` like concat('%',#{template},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.app.AppCategory">
+		select
+		count(`id`)
+		from `tb_app_category`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="seq != null">
+				and `seq` = #{seq}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="template != null">
+				and `template` = #{template}
+			</if>
+			<if test="genre != null">
+				and `genre` = #{genre}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

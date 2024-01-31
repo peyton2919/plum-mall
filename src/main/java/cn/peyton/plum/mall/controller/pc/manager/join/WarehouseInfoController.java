@@ -72,11 +72,12 @@ public class WarehouseInfoController extends PcController<WarehouseInfoParam>
         _repeat.setName(record.getName());
         return baseHandleEdit(record, _repeat, warehouseInfoService, TIP_WAREHOUSE,UPDATE);
     }
+
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@NotBlank(message = "仓库 ID 不能为空;") @Min(value = 1,message = "最小为1")Integer id) {
+    public JSONResult<?> delete(@NotBlank(message = "仓库 ID 不能为空;") @Min(value = 1,message = "最小值为1")Integer id) {
         // 判断
         if (shopProductSkuDetailService.isWarehouse(id)) {
             return JSONResult.fail("仓库关联商品信息,无法删除;如需要删除先清除相应的数据");

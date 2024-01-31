@@ -58,6 +58,8 @@ public interface ITipMessages {
     String SPEC_MULTI = "多规格";
     String CATEGORY = "分类";
     String NAME = "名称";
+    String TELPHONE = "电话|手机号码";
+    String INCORRECT = "不正确";
 
     String TIP_PRODUCT = "商品";
     String TIP_SHOP_SKU = "规格";
@@ -78,6 +80,9 @@ public interface ITipMessages {
     String TIP_BRAND = "品牌";
     String TIP_INVOICE = "发票";
     String TIP_WAREHOUSE = "仓库";
+    String TIP_ADVERT = "广告";
+    String TIP_NOTICE = "公告";
+    String TIP_NOTICE_CATEGORY = "公告分类";
 
     String TIP_MEMBER = "会员";
     String TIP_MEMBER_LEVEL = "请选择会员等级";
@@ -85,12 +90,13 @@ public interface ITipMessages {
     String TIP_SUPPLIER = "供应商";
     String TIP_SUPPLIER_INFO = "供应商基础信息";
     String TIP_USER_ADDRESS = "地址信息";
+    String TIP_GROUP = "分组";
+    String TIP_CONTACT = "通讯录";
 
+    String TIP_ARREARS = "欠款";
 
-    interface ProductStatus {
-        String NEW = "";
-    }
+    String TIP_APP_CATEGORY = "APP分类";
 
-
+    String TIP_APP_NAV = "APP导航栏";
 
 }

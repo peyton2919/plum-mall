@@ -1,8 +1,12 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.product.ShopProductRelationParam;
+import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductRelation;
+
+import java.util.List;
 
 /**
  * <h3> 商品点赞和收藏 Service 接口</h3>
@@ -14,5 +18,6 @@ import cn.peyton.plum.mall.pojo.product.ShopProductRelation;
  * </pre>
  */
 public interface ShopProductRelationService extends IBaseService<Long, ShopProductRelation, ShopProductRelationParam> {
+
 
 }

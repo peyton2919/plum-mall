@@ -32,7 +32,7 @@ public class WarehouseInfo implements Serializable {
     /**
      * 位置
      */
-    private String loaction;
+    private String location;
     /**
      * 说明
      */
@@ -106,17 +106,17 @@ public class WarehouseInfo implements Serializable {
     }
 
     /**
-     * @param loaction 位置
+     * @param location 位置
      */
-    public void setLoaction(String loaction) {
-        this.loaction = loaction;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     /**
      * @return 位置
      */
-    public String getLoaction() {
-        return loaction;
+    public String getLocation() {
+        return location;
     }
 
     /**

@@ -11,9 +11,18 @@
 		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 	</resultMap>
-
 	<sql id="Column_tb_shop_category_List">
 		`id`,`pid`,`name`,`seq`,`icon`,`is_show`,`create_time`
+	</sql>
+
+	<resultMap id="result_shop_category_simple_map" type="cn.peyton.plum.mall.pojo.product.ShopCategory">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="pid" property="pid" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="icon" property="icon" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="column_shop_category_simple_list">
+		`id`,`pid`,`name`,`icon`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopCategory" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -210,5 +219,14 @@
 		from `tb_shop_category`
 		where `is_del`=1
 		order by seq desc
+	</select>
+
+	<!-- 常用分类 -->
+	<select id="selectAndroidByRand" resultMap="result_shop_category_simple_map">
+		select
+			<include refid="column_shop_category_simple_list"/>
+		from `tb_shop_category`
+		where `is_del`=1 and `pid` != 0
+		ORDER BY RAND() LIMIT #{limit}
 	</select>
 </mapper>

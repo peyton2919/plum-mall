@@ -1,8 +1,11 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductReply;
+
+import java.util.List;
 
 /**
  * <h3> 商品评论 Service 接口</h3>
@@ -29,5 +32,21 @@ public interface ShopProductReplyService extends IBaseService<Long, ShopProductR
      * @return 受影响的行数 > 0 成功
      */
     Boolean updateReview(Long id, String content);
+
+    /**
+     * <h4>根据商品Id 查找</h4>
+     * @param productId 商品Id
+     * @param page 分页对象
+     * @param tab 选项内容 "" 全部; good 好评; middle 中评; bad 差评;
+     * @return
+     */
+    List<ShopProductReplyParam> findByProductId(Long productId, PageQuery page,String tab);
+
+    /**
+     * <h4>根据商品Id 获取评论数量</h4>
+     * @param productId 商品Id
+     * @return
+     */
+    int countByProductId(Long productId);
 
 }

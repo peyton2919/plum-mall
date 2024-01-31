@@ -4,6 +4,8 @@ import cn.peyton.plum.core.inf.service.IBaseService;
 import cn.peyton.plum.mall.param.join.InvoiceParam;
 import cn.peyton.plum.mall.pojo.join.Invoice;
 
+import java.util.List;
+
 /**
  * <h3> 发票 Service 接口</h3>
  * <pre>
@@ -20,4 +22,10 @@ public interface InvoiceService extends IBaseService<Long, Invoice, InvoiceParam
      * @return
      */
     Boolean upDelete(Long id);
+
+    /**
+     * <h4>发票 下拉框</h4>
+     * @return 集合
+     */
+    List<InvoiceParam> findByDownList();
 }

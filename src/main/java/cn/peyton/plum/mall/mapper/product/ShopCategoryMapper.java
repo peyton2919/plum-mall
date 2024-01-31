@@ -48,6 +48,13 @@ public interface ShopCategoryMapper extends IDeleteService<Integer>, IBaseMapper
      */
     List<ShopCategory> selectByOutside();
 
+    /**
+     * <h>随机查找分类</h>
+     * @param limit 需要返回的记录数
+     * @return 集合
+     */
+    List<ShopCategory> selectAndroidByRand(int limit);
+
     // ==================================== 注解方式 ==================================== //
     /**
      * <h4>更新推荐</h4>

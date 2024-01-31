@@ -12,7 +12,6 @@ import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.controller.base.UserOperationController;
 import cn.peyton.plum.mall.param.party.SupplierParam;
 import cn.peyton.plum.mall.service.party.SupplierService;
-import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,8 +39,7 @@ public class SupplierController extends UserOperationController
     public final static String KEY_SESSION_PHONE_CODE = "SUP_SESSION_PHONE_CODE_202312261602";
     /** session中的 手机号码 key */
     public final static String KEY_SESSION_PHONE = "SUP_SESSION_PHONE_202312261602";
-    /** MD5 加密 key */
-    private final static String KEY_PASSWORD_ENCODER = "suppliers_controller_password_20231226135300";
+
 
     @Resource
     private SupplierService supplierService;
@@ -52,11 +50,9 @@ public class SupplierController extends UserOperationController
     @PostMapping("/manager/search")
     @Override
     public JSONResult<?> list(Query query) {
-        query.getComplexValue();
+
         SupplierParam _param = new SupplierParam();
-        if(null !=query.getComplexValue()&& !"".equals(query.getComplexValue())){
-            _param = JSON.parseObject(query.getComplexValue(), SupplierParam.class);
-        }
+        _param.setUsername(query.getKeyword());
         return baseHandleList(_param, new PageQuery(query.getPageNo()), supplierService,null);
     }
 
@@ -69,7 +65,8 @@ public class SupplierController extends UserOperationController
         _repeat.setLoginName(record.getLoginName());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
-        record.setPassword(BaseCipher.encoderMD5(record.getPassword(),KEY_PASSWORD_ENCODER));
+        record.setAvatar(convertImgPath(record.getAvatar()));
+        record.setPassword(BaseCipher.encoderMD5(record.getPassword(), KEY_SUPPLIERS_PASSWORD_ENCODER));
         return baseHandleCreate(record, _repeat, supplierService, TIP_SUPPLIER);
     }
 
@@ -83,6 +80,7 @@ public class SupplierController extends UserOperationController
         _repeat.setLoginName(record.getLoginName());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
+        record.setAvatar(convertImgPath(record.getAvatar()));
         return baseHandleEdit(record, _repeat, supplierService, TIP_SUPPLIER,UPDATE);
     }
     @Token
@@ -104,10 +102,7 @@ public class SupplierController extends UserOperationController
                                       @Min(value = 1,message = "最小为1")Long id,
                                       @NotBlank(message = "status 不能为空;")@Size(min = 0,max = 1) Integer status) {
 
-        if(supplierService.upStatus(id,status)){
-            return JSONResult.success("供应商状态更新成功;");
-        }
-        return JSONResult.fail("供应商状态更新失败;");
+        return baseHandle(supplierService.upStatus(id, status), TIP_SUPPLIER + STATUS + UPDATE);
     }
 
     @Token
@@ -123,7 +118,7 @@ public class SupplierController extends UserOperationController
                                @NotBlank(message = "密码不能为空！") String password,
                                HttpServletRequest request) {
 
-        return super.login(keyword, password, new SupplierParam(), KEY_PASSWORD_ENCODER, IUser.TYPE_USER, supplierService, request);
+        return super.login(keyword, password, new SupplierParam(), KEY_SUPPLIERS_PASSWORD_ENCODER, IUser.TYPE_USER, supplierService, request);
     }
 
     // 用户退出
@@ -149,7 +144,7 @@ public class SupplierController extends UserOperationController
         // 从 token 获取 对象
         SupplierParam _param = handleToken(new SupplierParam());
 
-        return super.editPassword(_param.getId(), oldPassword, newPassword, confirmPassword, KEY_PASSWORD_ENCODER, supplierService);
+        return super.editPassword(_param.getId(), oldPassword, newPassword, confirmPassword, KEY_SUPPLIERS_PASSWORD_ENCODER, supplierService);
     }
 
 

@@ -96,10 +96,11 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
 
         ShopProductSkuDetail ssd = reocrd.convert();
         ssd.setSkus(skus);
-        if (bool) { // 更新
+        int exitsId = shopProductSkuDetailMapper.existId(ssd.getId());
+        if (exitsId > 0) { // 更新
             res = shopProductSkuDetailMapper.updateSelective(ssd);
-            res = shopProductMapper.updateOperateAndSpecType(reocrd.getProductId(), null, null, skus);
-        }else { // 新增
+            //res = shopProductMapper.updateOperateAndSpecType(reocrd.getProductId(), null, null, skus);
+        } else { // 新增
             res = shopProductSkuDetailMapper.insertSelective(ssd);
             // 规格与 skus
             String operate = shopProductMapper.selectByOperate(reocrd.getProductId());
@@ -125,7 +126,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
     @Transactional
     public Boolean joinMultiCrateAndEdit(List<ShopProductSkuDetailParam> reocrds, String skus, Boolean bool) {
         Long productId = 0L;
-
+        productId = reocrds.get(0).getProductId();
         BigDecimal minPrice = new BigDecimal(0);
         BigDecimal price = new BigDecimal(0);
         int index = 0;

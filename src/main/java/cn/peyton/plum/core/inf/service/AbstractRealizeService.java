@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -161,22 +162,39 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return 对象集合
      */
     public List<P> like(P param, PageQuery page) {
-        String key = createKey(param, page, null, true);
+        return like(param, page, null);
+    }
+
+    /**
+     * <h4>查询(模糊查找)</h4>
+     * @param param 关键字, 当 param = null 时为全部查询
+     * @param page  分页对象
+     * @param key    缓存区分key{用在扩展查找}
+     * @return 对象集合
+     */
+    public List<P> like(P param, PageQuery page,String key) {
+        String tKey = createKey(param, page, key, true);
         if (enabledCache){
-            Object list = cache.get(key);
+            Object list = cache.get(tKey);
             if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                LogUtils.info("从缓存获取到对象: key= ",key);
+                System.out.printf("从缓存获取到对象: key= %s;\n",tKey);
+                LogUtils.info("从缓存获取到对象: key= ",tKey);
                 return (List<P>)list;
             }
         }
-        List<P> pList = initBo().adapter(initMapper().selectByLikeAndObj(initBo().convert(param), page));
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            LogUtils.info("添加对象到缓存: key= ",key);
-            cache.put(key,pList);
+        List<T> result = initMapper().selectByLikeAndObj(initBo().convert(param), page);
+
+        if (null != result) {
+            List<P> pList = initBo().adapter(result);
+            if (enabledCache) {
+                System.out.println("查找到数据添加到缓存; key=" + tKey);
+                LogUtils.info("添加对象到缓存: key= ",tKey);
+                cache.put(key,pList);
+            }
+            return pList;
         }
-        return pList;
+
+        return new ArrayList<>();
     }
 
     /**
@@ -373,6 +391,20 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
         }
         return sb.toString();
     }
+
+    /**
+     * <h4>创建 缓存 key 值</h4>
+     * @param objs 多个字段拼接
+     * @return 字符串
+     */
+    protected StringBuffer createKeyObjs(Object... objs){
+        StringBuffer sb = new StringBuffer();
+        for (Object o : objs) {
+            sb.append("_" + o);
+        }
+        return sb;
+
+    }
     // -----------------------------------------   protected 方法 结束   ----------------------------------------- //
 
     // -----------------------------------------   private 方法 开始   ----------------------------------------- //
@@ -412,6 +444,7 @@ public abstract class AbstractRealizeService<K, T, P> implements IBaseService<K,
      * @return key的后缀字段
      */
     public void createKeySuffix(Object param, StringBuffer sb){
+        if(null == param){return;}
         Field[] fields = param.getClass().getDeclaredFields();
         for (Field field : fields) {
             try {

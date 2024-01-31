@@ -2,7 +2,6 @@ package cn.peyton.plum.mall.pojo.join;
 
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * <h3> 发票 实体类</h3>
@@ -19,10 +18,6 @@ public class Invoice implements Serializable {
      */
     private Long id;
     /**
-     * 订单id
-     */
-    private Long orderId;
-    /**
      * 名称/公司名称
      */
     private String name;
@@ -34,23 +29,6 @@ public class Invoice implements Serializable {
      * 邮箱
      */
     private String email;
-    /** 开票金额 */
-    private BigDecimal money;
-
-    /**
-     * @return 开票金额
-     */
-    public BigDecimal getMoney() {
-        return money;
-    }
-
-    /**
-     * @param money 开票金额
-     */
-    public void setMoney(BigDecimal money) {
-        this.money = money;
-    }
-
     /**
      * 税号
      */
@@ -67,10 +45,6 @@ public class Invoice implements Serializable {
      * 银行账号
      */
     private String bankno;
-    /**
-     * 开票状态: 默认0 {0未开票1已开票}
-     */
-    private Integer status;
     /**
      * 类型：0个人1企业
      */
@@ -103,20 +77,6 @@ public class Invoice implements Serializable {
      */
     public Long getId() {
         return id;
-    }
-
-    /**
-     * @param orderId 订单id
-     */
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    /**
-     * @return 订单id
-     */
-    public Long getOrderId() {
-        return orderId;
     }
 
     /**
@@ -215,20 +175,6 @@ public class Invoice implements Serializable {
      */
     public String getBankno() {
         return bankno;
-    }
-
-    /**
-     * @param status 开票状态: 默认0 {0未开票1已开票}
-     */
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    /**
-     * @return 开票状态: 默认0 {0未开票1已开票}
-     */
-    public Integer getStatus() {
-        return status;
     }
 
     /**

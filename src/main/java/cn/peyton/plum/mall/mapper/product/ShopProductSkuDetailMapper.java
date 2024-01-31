@@ -44,7 +44,7 @@ public interface ShopProductSkuDetailMapper extends IBaseMapper<Long, ShopProduc
     ShopProductSkuDetail selectSimpleById(Long id);
 
     /**
-     * <h4>根据商品Id 查找商品规格列表</h4>
+     * <h4>根据商品Id 查找商品规格列表{后端}</h4>
      * @param productId 商品Id
      * @return 商品规格详细对象集合
      */
@@ -77,4 +77,12 @@ public interface ShopProductSkuDetailMapper extends IBaseMapper<Long, ShopProduc
      */
     @Update("update tb_shop_product_sku_detail set stock_id = #{stockId} where id = #{id}")
     int updateStockId(Long id, Long stockId);
+
+    /**
+     * <h4>判断Id 是否存在</h4>
+     * @param id 商品规格明细Id
+     * @return 记录数 > 0 表示 存在
+     */
+    @Select("select count(id) from tb_shop_product_sku_detail where id = #{id}")
+    int existId(Long id);
 }

@@ -62,6 +62,14 @@ create_time between #{startTime} and #{endTime}
         #{id}
     </foreach>
 </update>
+
+<update id="batchUpdateSaleCount" parameterType="list">
+    <foreach collection="products" index="index" separator=";" item="item">
+        update tb_shop_product
+        set `sale_count` = #{item.saleCount}
+        where `id`=#{item.id} and `is_del` = 1
+    </foreach>
+</update>
  */
 
 // 批量删除
@@ -81,3 +89,8 @@ create_time between #{startTime} and #{endTime}
 </delete>
 
  */
+
+/*
+* 随机获取数据
+* SELECT * from sys_city ORDER BY RAND() LIMIT 10;
+* */

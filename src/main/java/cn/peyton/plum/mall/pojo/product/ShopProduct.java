@@ -1,5 +1,7 @@
 package cn.peyton.plum.mall.pojo.product;
 
+import cn.peyton.plum.mall.pojo.join.Brand;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -71,10 +73,21 @@ public class ShopProduct implements Serializable {
 	private Integer isGood;
 	/** 是否单独分佣, 默认 0 没有 1 有  */
 	private Integer isSub;
+	/** 商品的好评率(评论时操作该字段) */
+	private BigDecimal goodRate;
+	/** 商品评论数量 */
+	private Integer commentCount;
+	/** 总销量(订单操作该字段) */
+	private Integer saleCount;
+
 	/** 添加时间  */
 	private Integer createTime;
 	/** 更新时间  */
 	private Integer updateTime;
+	/** 品牌 Id */
+	private Long brandId;
+	/** 品牌 对象 */
+	private Brand brand;
 
 	/** 商品分类集合 */
 	private List<ShopCategory> categories;
@@ -86,12 +99,24 @@ public class ShopProduct implements Serializable {
 	/** 商品多规格 提示列表 */
 	private List<ShopSku> shopSkus;
 
+
+	/** 评论集合 */
+	private List<ShopProductReply> hotComments;
+
+	/** 热门推荐集合 */
+	private List<ShopProduct> hotList;
+
+
+
 	//================================== Constructor =======================================//
 	public ShopProduct() {
 		if (null == categories) {categories = new ArrayList<>();}
 		if (null == slideshows) {slideshows = new ArrayList<>();}
 		if (null == productSkus) {productSkus = new ArrayList<>();}
 		if (null == shopSkus) { shopSkus = new ArrayList<>();}
+		if (null == hotComments) {hotComments = new ArrayList<>();}
+		if (null == hotList) {hotList = new ArrayList<>();}
+		if (null == brand) { brand = new Brand();}
 	}
 	//================================== Method =======================================//
 
@@ -490,6 +515,48 @@ public class ShopProduct implements Serializable {
 		return isSub;
 	}
 
+	/**
+	 * @return 商品的好评率(评论时操作该字段)
+	 */
+	public BigDecimal getGoodRate() {
+		return goodRate;
+	}
+
+	/**
+	 * @param goodRate 商品的好评率(评论时操作该字段)
+	 */
+	public void setGoodRate(BigDecimal goodRate) {
+		this.goodRate = goodRate;
+	}
+
+	/**
+	 * @return 商品评论数量
+	 */
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+
+	/**
+	 * @param commentCount 商品评论数量
+	 */
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	/**
+	 * @return 总销量(订单操作该字段)
+	 */
+	public Integer getSaleCount() {
+		return saleCount;
+	}
+
+	/**
+	 * @param saleCount 总销量(订单操作该字段)
+	 */
+	public void setSaleCount(Integer saleCount) {
+		this.saleCount = saleCount;
+	}
+
 	/** 
 	 * @param createTime 添加时间 
 	 */ 
@@ -517,6 +584,35 @@ public class ShopProduct implements Serializable {
 	public Integer getUpdateTime(){
 		return updateTime;
 	}
+
+	/**
+	 * @return 品牌 Id
+	 */
+	public Long getBrandId() {
+		return brandId;
+	}
+
+	/**
+	 * @param brandId 品牌 Id
+	 */
+	public void setBrandId(Long brandId) {
+		this.brandId = brandId;
+	}
+
+	/**
+	 * @return 品牌 对象
+	 */
+	public Brand getBrand() {
+		return brand;
+	}
+
+	/**
+	 * @param brand 品牌 对象
+	 */
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
 	/**
 	 * @return 商品分类集合
 	 */
@@ -572,5 +668,33 @@ public class ShopProduct implements Serializable {
 	 */
 	public void setShopSkus(List<ShopSku> shopSkus) {
 		this.shopSkus = shopSkus;
+	}
+
+	/**
+	 * @return 评论集合
+	 */
+	public List<ShopProductReply> getHotComments() {
+		return hotComments;
+	}
+
+	/**
+	 * @param hotComments 评论集合
+	 */
+	public void setHotComments(List<ShopProductReply> hotComments) {
+		this.hotComments = hotComments;
+	}
+
+	/**
+	 * @return 热门推荐集合
+	 */
+	public List<ShopProduct> getHotList() {
+		return hotList;
+	}
+
+	/**
+	 * @param hotList 热门推荐集合
+	 */
+	public void setHotList(List<ShopProduct> hotList) {
+		this.hotList = hotList;
 	}
 }

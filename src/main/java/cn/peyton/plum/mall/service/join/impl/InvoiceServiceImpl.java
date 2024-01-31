@@ -12,6 +12,8 @@ import cn.peyton.plum.mall.service.join.InvoiceService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <h3> 发票 Service 实现类</h3>
  * <pre>
@@ -52,5 +54,24 @@ public class InvoiceServiceImpl extends AbstractRealizeService<Long, Invoice, In
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<InvoiceParam> findByDownList() {
+        String key = keyPrefix + "_find_down_202401102038";
+        if (enabledCache) {
+            Object obj = cache.get(key);
+            if (null != obj) {
+                return (List<InvoiceParam>) obj;
+            }
+        }
+        List<InvoiceParam> result = initBo().adapter(invoiceMapper.selectByDownList());
+        if (null != result) {
+            if (enabledCache) {
+                System.out.println("添加数据到缓存, key=" + key);
+                cache.put(key, result);
+            }
+        }
+        return result;
     }
 }

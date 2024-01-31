@@ -65,6 +65,7 @@ public final class JSONResult<T> implements Serializable {
     private Integer httpStatusCode = -1;
 
 
+
     // ====================================== external method begin ====================================== //
 
     /**

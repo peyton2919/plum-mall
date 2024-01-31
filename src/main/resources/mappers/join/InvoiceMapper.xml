@@ -3,51 +3,50 @@
 <mapper namespace="cn.peyton.plum.mall.mapper.join.InvoiceMapper">
 	<resultMap id="ResultInvoiceMap" type="cn.peyton.plum.mall.pojo.join.Invoice">
 		<id column="id" property="id" jdbcType="BIGINT"/>
-		<result column="order_id" property="orderId" jdbcType="BIGINT"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
 		<result column="phone" property="phone" jdbcType="VARCHAR"/>
 		<result column="email" property="email" jdbcType="VARCHAR"/>
-		<result column="money" property="money" jdbcType="DECIMAL"/>
 		<result column="code" property="code" jdbcType="VARCHAR"/>
 		<result column="path" property="path" jdbcType="VARCHAR"/>
 		<result column="bankname" property="bankname" jdbcType="VARCHAR"/>
 		<result column="bankno" property="bankno" jdbcType="VARCHAR"/>
-		<result column="status" property="status" jdbcType="TINYINT"/>
 		<result column="type" property="type" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 	</resultMap>
-
 	<sql id="Column_sys_invoice_List">
-		`id`,`order_id`,`name`,`phone`,`email`,`money`,`code`,`path`,`bankname`,`bankno`,`status`,`type`,`create_time`
+		`id`,`name`,`phone`,`email`,`code`,`path`,`bankname`,`bankno`,`type`,`create_time`
+	</sql>
+
+	<resultMap id="result_invoice_down_map" type="cn.peyton.plum.mall.pojo.join.Invoice">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="column_invoice_down_list">
+		`id`,`name`,`phone`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.join.Invoice" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `sys_invoice`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="orderId != null">`order_id`,</if>
 			<if test="name != null">`name`,</if>
 			<if test="phone != null">`phone`,</if>
 			<if test="email != null">`email`,</if>
-			<if test="money != null">`money`,</if>
 			<if test="code != null">`code`,</if>
 			<if test="path != null">`path`,</if>
 			<if test="bankname != null">`bankname`,</if>
 			<if test="bankno != null">`bankno`,</if>
-			<if test="status != null">`status`,</if>
 			<if test="type != null">`type`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="orderId != null">#{orderId},</if>
 			<if test="name != null">#{name},</if>
 			<if test="phone != null">#{phone},</if>
 			<if test="email != null">#{email},</if>
-			<if test="money != null">#{money},</if>
 			<if test="code != null">#{code},</if>
 			<if test="path != null">#{path},</if>
 			<if test="bankname != null">#{bankname},</if>
 			<if test="bankno != null">#{bankno},</if>
-			<if test="status != null">#{status},</if>
 			<if test="type != null">#{type},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
@@ -56,16 +55,13 @@
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.join.Invoice">
 		update `sys_invoice`
 		<set>
-			<if test="orderId != null">`order_id` = #{orderId},</if>
 			<if test="name != null">`name` = #{name},</if>
 			<if test="phone != null">`phone` = #{phone},</if>
 			<if test="email != null">`email` = #{email},</if>
-			<if test="money != null">`money` = #{money},</if>
 			<if test="code != null">`code` = #{code},</if>
 			<if test="path != null">`path` = #{path},</if>
 			<if test="bankname != null">`bankname` = #{bankname},</if>
 			<if test="bankno != null">`bankno` = #{bankno},</if>
-			<if test="status != null">`status` = #{status},</if>
 			<if test="type != null">`type` = #{type},</if>
 		</set>
 		where id = #{id} and `is_del` = 1
@@ -80,7 +76,11 @@
 		select
 		count(`id`)
 		from `sys_invoice`
-		where id = 0  and `is_del` = 1
+		where `is_del` = 1
+		and `name`=#{name}
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="ResultInvoiceMap"  parameterType="java.lang.Long">
@@ -90,14 +90,18 @@
 		where `id` = #{id}  and `is_del` = 1
 	</select>
 
+	<select id="selectByDownList" resultMap="result_invoice_down_map">
+		select
+		<include refid="column_invoice_down_list"/>
+		from `sys_invoice`
+		where `is_del` = 1
+	</select>
+
 	<select id="selectByLikeAndObj" resultMap="ResultInvoiceMap" parameterType="map">
 		select
 		<include refid="Column_sys_invoice_List"/>
 		from `sys_invoice`
 		where `is_del` = 1
-		<if test="record.orderId != null">
-			and `order_id` like concat('%',#{record.orderId},'%')
-		</if>
 		<if test="record.name != null">
 			and `name` like concat('%',#{record.name},'%')
 		</if>
@@ -119,9 +123,6 @@
 		<if test="record.bankno != null">
 			and `bankno` like concat('%',#{record.bankno},'%')
 		</if>
-		<if test="record.status != null">
-			and `status` = #{record.status}
-		</if>
 		<if test="record.type != null">
 			and `type` = #{record.type}
 		</if>
@@ -141,9 +142,6 @@
 		<include refid="Column_sys_invoice_List"/>
 		from `sys_invoice`
 		where `is_del` = 1
-		<if test="record.orderId != null">
-			and `order_id` = #{record.orderId}
-		</if>
 		<if test="record.name != null">
 			and `name` = #{record.name}
 		</if>
@@ -165,9 +163,6 @@
 		<if test="record.bankno != null">
 			and `bankno` = #{record.bankno}
 		</if>
-		<if test="record.status != null">
-			and `status` = #{record.status}
-		</if>
 		<if test="record.type != null">
 			and `type` = #{record.type}
 		</if>
@@ -187,9 +182,6 @@
 		count(`id`)
 		from `sys_invoice`
 		where `is_del` = 1
-		<if test="orderId != null">
-			and `order_id` like concat('%',#{orderId},'%')
-		</if>
 		<if test="name != null">
 			and `name` like concat('%',#{name},'%')
 		</if>
@@ -211,9 +203,6 @@
 		<if test="bankno != null">
 			and `bankno` like concat('%',#{bankno},'%')
 		</if>
-		<if test="status != null">
-			and `status` = #{status}
-		</if>
 		<if test="type != null">
 			and `type` = #{type}
 		</if>
@@ -224,9 +213,6 @@
 		count(`id`)
 		from `sys_invoice`
 		where `is_del`=1
-		<if test="orderId != null">
-			and `order_id` = #{orderId}
-		</if>
 		<if test="name != null">
 			and `name` = #{name}
 		</if>
@@ -247,9 +233,6 @@
 		</if>
 		<if test="bankno != null">
 			and `bankno` = #{bankno}
-		</if>
-		<if test="status != null">
-			and `status` = #{status}
 		</if>
 		<if test="type != null">
 			and `type` = #{type}

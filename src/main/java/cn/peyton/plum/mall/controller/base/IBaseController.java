@@ -71,6 +71,10 @@ public interface IBaseController {
 
     /** 用来存储和获取 Token 的 key */
     String KEY_TOKEN = "GETTOKENKEYVALUE20231111";
+
+    /** 用来存储和获取 Token 的 key */
+    String KEY_TOKEN_ANDROID = "GETTOKENKEYVALUE2024202401250919ANDROID";
+
     /** Token 存放在 header 头部的 key,要与前端约定好 */
     String ACCESS_TOKEN = "token";
     /** is_del 值 `可用的` */

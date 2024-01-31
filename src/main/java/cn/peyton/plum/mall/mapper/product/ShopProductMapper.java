@@ -1,6 +1,9 @@
 package cn.peyton.plum.mall.mapper.product;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
+import cn.peyton.plum.core.page.PageQuery;
+import cn.peyton.plum.mall.DO.ProductDo;
+import cn.peyton.plum.mall.dto.ProductDto;
 import cn.peyton.plum.mall.pojo.product.ShopProduct;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -92,6 +95,35 @@ public interface ShopProductMapper extends IBaseMapper<Long, ShopProduct> {
      */
     ShopProduct selectForeignKeyById(Long id);
 
+    /**
+     * <h4>android分页查找</h4>
+     * @param page 分页对象
+     * @param type 类型 {推荐 is_good, 热门 is_hot, 新品 is_new}
+     * @return 对象集合
+     */
+    List<ShopProduct> selectAndroidByList(PageQuery page,String type);
+
+    /**
+     * <h4>热门推荐</h4>
+     * @param id 商品Id
+     * @return
+     */
+    List<ShopProduct> selectForeignKeyByList(Long id);
+
+    /**
+     * <h4>多条件查找{android}</h4>
+     * @param product 商品条件对象
+     * @param page 分页对象
+     * @return 集合
+     */
+    List<ShopProduct> selectAndroidByMulti(@Param("product") ProductDto product, @Param("page") PageQuery page);
+
+    /**
+     * <h4>批量更新销售量</h4>
+     * @param products 商品对象集合
+     * @return 受影响行数 > 0 成功
+     */
+    int batchUpdateSaleCount(List<ProductDo> products);
     // ==================================== 注解方式 ==================================== //
 
     /**
@@ -163,4 +195,21 @@ public interface ShopProductMapper extends IBaseMapper<Long, ShopProduct> {
      */
     @Update("update tb_shop_product set min_price = #{minPrice},price = #{price} where id= #{id} and is_del = 1")
     int updatePrice(Long id, BigDecimal minPrice, BigDecimal price);
+
+    /**
+     * <h4>获取商品的好评率</h4>
+     * @param id 主键
+     * @return
+     */
+    @Select("select good_rate from tb_shop_product where id=#{id} and is_del=1")
+    BigDecimal selectProductByGoodRate(Long id);
+
+    /**
+     * <h4>更新商品好评率</h4>
+     * @param id 主键
+     * @param goodRate 好评率
+     * @return
+     */
+    @Update("update tb_shop_product set good_rate = #{goodRate} where id= #{id} and is_del=1")
+    int updatePrductByGoodRate(Long id, BigDecimal goodRate);
 }

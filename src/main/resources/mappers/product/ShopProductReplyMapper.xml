@@ -11,22 +11,21 @@
 		<result column="product_score" property="productScore" jdbcType="TINYINT"/>
 		<result column="service_score" property="serviceScore" jdbcType="TINYINT"/>
 		<result column="reply_comment" property="replyComment" jdbcType="VARCHAR"/>
-		<result column="is_del" property="isDel" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<result column="is_reply" property="isReply" jdbcType="TINYINT"/>
 		<result column="merchant_reply_content" property="merchantReplyContent" jdbcType="VARCHAR"/>
 		<result column="merchant_reply_time" property="merchantReplyTime" jdbcType="INTEGER"/>
 		<association property="member" javaType="cn.peyton.plum.mall.pojo.party.Member"
 					 column="u_id" select="cn.peyton.plum.mall.mapper.party.MemberMapper.selectSimpleById" />
-		<association property="product" javaType="cn.peyton.plum.mall.pojo.product.ShopProduct"
-					 column="product_id" select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectSimpleById"/>
-		<collection property="replyImgs" javaType="cn.peyton.plum.mall.pojo.product.ShopProductReplyImg"
+		<!--<association property="product" javaType="cn.peyton.plum.mall.pojo.product.ShopProduct"-->
+		<!--			 column="product_id" select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectSimpleById"/>-->
+		<collection property="replyImgs" javaType="list"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopProductReplyImgMapper.selectByReplyId"/>
 	</resultMap>
 
 	<sql id="Column_tb_shop_product_reply_List">
 		`id`,`u_id`,`o_id`,`unique_code`,`product_id`,`reply_type`,`product_score`,`service_score`,`reply_comment`,
-		    `is_del`,`create_time`,`is_reply`,`merchant_reply_content`,`merchant_reply_time`
+		    `create_time`,`is_reply`,`merchant_reply_content`,`merchant_reply_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProductReply" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -326,5 +325,46 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="selectForeignKeyByProductId" resultMap="ResultShopProductReplyMap" parameterType="long">
+		select
+			<include refid="Column_tb_shop_product_reply_List"/>
+		from `tb_shop_product_reply`
+		where `is_del` = 1 and `product_id` = #{productId}
+		limit 10
+	</select>
+
+	<select id="selectByProductId" resultMap="ResultShopProductReplyMap" parameterType="map">
+		select
+			<include refid="Column_tb_shop_product_reply_List"/>
+		from `tb_shop_product_reply`
+		where `is_del` = 1 and `product_id` = #{productId}
+		<if test="tab=='good'">
+			and `product_score` &gt; 3
+		</if>
+		<if test="tab=='middle'">
+			and `product_score` = 3
+		</if>
+		<if test="tab=='bad'">
+			and `product_score` &lt; 3
+		</if>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByProductId" resultType = "java.lang.Integer" parameterType="long">
+		select
+		count(`id`)
+		from `tb_shop_product_reply`
+		where `is_del` = 1 and `product_id` = #{productId}
+	</select>
+
 
 </mapper>

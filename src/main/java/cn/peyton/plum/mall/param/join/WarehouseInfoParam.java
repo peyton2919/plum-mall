@@ -43,7 +43,7 @@ public class WarehouseInfoParam implements Serializable {
      * 位置
      */
     @Length(max = 40)
-    private String loaction;
+    private String location;
     /**
      * 说明
      */
@@ -118,17 +118,17 @@ public class WarehouseInfoParam implements Serializable {
     }
 
     /**
-     * @param loaction 位置
+     * @param location 位置
      */
-    public void setLoaction(String loaction) {
-        this.loaction = loaction;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     /**
      * @return 位置
      */
-    public String getLoaction() {
-        return loaction;
+    public String getLocation() {
+        return location;
     }
 
     /**
@@ -172,7 +172,7 @@ public class WarehouseInfoParam implements Serializable {
         warehouseInfo.setName(name);
         warehouseInfo.setPhone(phone);
         warehouseInfo.setAddress(address);
-        warehouseInfo.setLoaction(loaction);
+        warehouseInfo.setLocation(location);
         warehouseInfo.setExplain(explain);
         warehouseInfo.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return warehouseInfo;
@@ -193,7 +193,7 @@ public class WarehouseInfoParam implements Serializable {
         this.setName(warehouseInfo.getName());
         this.setPhone(warehouseInfo.getPhone());
         this.setAddress(warehouseInfo.getAddress());
-        this.setLoaction(warehouseInfo.getLoaction());
+        this.setLocation(warehouseInfo.getLocation());
         this.setExplain(warehouseInfo.getExplain());
         this.setCreateTime(DateUtils.timestampToStrDate(warehouseInfo.getCreateTime()));
         return this;

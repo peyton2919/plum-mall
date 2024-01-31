@@ -43,7 +43,7 @@ public class MemberParam extends BaseUser implements Serializable {
     @Length(min = 6,max = 40)
     private String password;
     /** 确认密码 */
-    @Alike(fieldName = "pwd")
+    @Alike(fieldName = "password")
     private String confirmPwd;
     /**
      * 会员头像
@@ -88,6 +88,9 @@ public class MemberParam extends BaseUser implements Serializable {
     @Date
     @Past
     private String birthday;
+    /** 积分 */
+    private Integer integral;
+
     /**
      * 加密串
      */
@@ -95,6 +98,7 @@ public class MemberParam extends BaseUser implements Serializable {
     /**
      * 创建时间
      */
+    @Datetime
     private String createTime;
     /**
      * 用户地址
@@ -374,6 +378,21 @@ public class MemberParam extends BaseUser implements Serializable {
         return createTime;
     }
 
+
+    /**
+     * @return 积分
+     */
+    public Integer getIntegral() {
+        return integral;
+    }
+
+    /**
+     * @param integral 积分
+     */
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
+    }
+
     /**
      * <h4>对象转成Member对象<h4>
      * <pre>
@@ -398,6 +417,7 @@ public class MemberParam extends BaseUser implements Serializable {
         member.setSex(sex);
         member.setBirthday(birthday);
         member.setEncrypted(encrypted);
+        member.setIntegral(integral);
         member.setCreateTime(DateUtils.dateToTimestamp(createTime));
         member.setUserAddresses(new UserAddressBo().reverse(userAddresses));
         //member.setBill(bill.convert());
@@ -432,6 +452,7 @@ public class MemberParam extends BaseUser implements Serializable {
         this.setSex(member.getSex());
         this.setBirthday(member.getBirthday());
         this.setEncrypted(member.getEncrypted());
+        this.setIntegral(member.getIntegral());
         this.setCreateTime(DateUtils.timestampToStrDate(member.getCreateTime()));
         this.setUserAddresses(new UserAddressBo().adapter(member.getUserAddresses()));
         //this.setBill(new UserBillBo().compat(member.getBill()));

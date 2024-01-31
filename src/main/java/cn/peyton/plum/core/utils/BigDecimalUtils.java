@@ -27,6 +27,7 @@ public final class BigDecimalUtils implements Serializable {
      */
     public static String getString(BigDecimal decimal) {
         if (null == decimal) return null;
+
         return decimal.setScale(2, RoundingMode.HALF_UP).toString();
     }
 
@@ -64,6 +65,92 @@ public final class BigDecimalUtils implements Serializable {
     public static BigDecimal format(BigDecimal value, Integer scaleLength) {
         if (null == value || "".equals(value)) return value;
         return value.setScale((null == scaleLength) ? 2 : scaleLength, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * <h4>判断二个数是否相等</h4>
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static boolean exist(BigDecimal num1, BigDecimal num2) {
+        if (null != num1 && null != num2) {
+            return num1.doubleValue() == num2.doubleValue();
+        }
+        return false;
+    }
+
+    /**
+     * <h4>二数相加</h4>
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static BigDecimal add(BigDecimal num1, BigDecimal num2) {
+        if (null != num1 && null != num2) {
+            return num1.add(num2);
+        }
+        if (null == num1 && null != num2) {
+            return num2;
+        }
+        if (null != num1 && null == num2) {
+            return num1;
+        }
+        return null;
+    }
+
+    /**
+     * <h4>二数相减</h4>
+     * @param minuend 被减数
+     * @param sub 减数
+     * @return
+     */
+    public static BigDecimal subtract(BigDecimal minuend, BigDecimal sub) {
+        if (null != minuend && null != sub) {
+            return minuend.subtract(sub);
+        }
+        if (null == minuend && null != sub) {
+            minuend = new BigDecimal(0);
+            return minuend.subtract(sub);
+        }
+        if (null != minuend && null == sub) {
+            return minuend;
+        }
+        return null;
+    }
+
+    /**
+     * <h4>二数相乘</h4>
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public static BigDecimal multiply(BigDecimal num1, BigDecimal num2) {
+        if (null != num1 && null != num2) {
+            return num1.multiply(num2);
+        }
+        if (null == num1 && null != num2) {
+            return num2;
+        }
+        if (null != num1 && null == num2) {
+            return num1;
+        }
+        return null;
+    }
+
+    /**
+     * <h4>二数相乘</h4>
+     * @param dividend 被除数
+     * @param  divisor 除数
+     * @param  scale 小数位
+     * @return
+     */
+    public static BigDecimal divide(BigDecimal  dividend, BigDecimal divisor,int scale) {
+        if (null != dividend && null != dividend) {
+
+            return dividend.divide(divisor,scale,BigDecimal.ROUND_HALF_UP);
+        }
+        return null;
     }
 
 }

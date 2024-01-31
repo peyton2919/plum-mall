@@ -6,13 +6,22 @@
 		<result column="name" property="name" jdbcType="VARCHAR"/>
 		<result column="phone" property="phone" jdbcType="VARCHAR"/>
 		<result column="address" property="address" jdbcType="VARCHAR"/>
-		<result column="loaction" property="loaction" jdbcType="VARCHAR"/>
+		<result column="location" property="location" jdbcType="VARCHAR"/>
 		<result column="explain" property="explain" jdbcType="VARCHAR"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 	</resultMap>
-
 	<sql id="Column_tb_warehouse_info_List">
-		`id`,`name`,`phone`,`address`,`loaction`,`explain`,`create_time`
+		`id`,`name`,`phone`,`address`,`location`,`explain`,`create_time`
+	</sql>
+
+	<!--  下拉框 -->
+	<resultMap id="result_warehouse_down_map" type="cn.peyton.plum.mall.pojo.join.WarehouseInfo">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="column_warehouse_down_list">
+		`id`,`name`,`phone`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.join.WarehouseInfo" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -21,7 +30,7 @@
 			<if test="name != null">`name`,</if>
 			<if test="phone != null">`phone`,</if>
 			<if test="address != null">`address`,</if>
-			<if test="loaction != null">`loaction`,</if>
+			<if test="location != null">`location`,</if>
 			<if test="explain != null">`explain`,</if>
 			<if test="createTime != null">`create_time`,</if>
 		</trim>
@@ -29,7 +38,7 @@
 			<if test="name != null">#{name},</if>
 			<if test="phone != null">#{phone},</if>
 			<if test="address != null">#{address},</if>
-			<if test="loaction != null">#{loaction},</if>
+			<if test="location != null">#{location},</if>
 			<if test="explain != null">#{explain},</if>
 			<if test="createTime != null">#{createTime},</if>
 		</trim>
@@ -41,9 +50,8 @@
 			<if test="name != null">`name` = #{name},</if>
 			<if test="phone != null">`phone` = #{phone},</if>
 			<if test="address != null">`address` = #{address},</if>
-			<if test="loaction != null">`loaction` = #{loaction},</if>
+			<if test="location != null">`location` = #{location},</if>
 			<if test="explain != null">`explain` = #{explain},</if>
-			<if test="createTime != null">`create_time` = #{createTime},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -74,9 +82,9 @@
 		where `id` = #{id}
 	</select>
 
-	<select id="selectByDownList" resultMap="ResultWarehouseInfoMap">
+	<select id="selectByDownList" resultMap="result_warehouse_down_map">
 		select
-			<include refid="Column_tb_warehouse_info_List"/>
+			<include refid="column_warehouse_down_list"/>
 		from `tb_warehouse_info`
 	</select>
 
@@ -94,8 +102,8 @@
 			<if test="record.address != null">
 				and `address` like concat('%',#{record.address},'%')
 			</if>
-			<if test="record.loaction != null">
-				and `loaction` like concat('%',#{record.loaction},'%')
+			<if test="record.location != null">
+				and `location` like concat('%',#{record.location},'%')
 			</if>
 			<if test="record.explain != null">
 				and `explain` like concat('%',#{record.explain},'%')
@@ -126,8 +134,8 @@
 			<if test="record.address != null">
 				and `address` = #{record.address}
 			</if>
-			<if test="record.loaction != null">
-				and `loaction` = #{record.loaction}
+			<if test="record.location != null">
+				and `location` = #{record.location}
 			</if>
 			<if test="record.explain != null">
 				and `explain` = #{record.explain}
@@ -158,8 +166,8 @@
 			<if test="address != null">
 				and `address` like concat('%',#{address},'%')
 			</if>
-			<if test="loaction != null">
-				and `loaction` like concat('%',#{loaction},'%')
+			<if test="location != null">
+				and `location` like concat('%',#{location},'%')
 			</if>
 			<if test="explain != null">
 				and `explain` like concat('%',#{explain},'%')
@@ -181,8 +189,8 @@
 			<if test="address != null">
 				and `address` = #{address}
 			</if>
-			<if test="loaction != null">
-				and `loaction` = #{loaction}
+			<if test="location != null">
+				and `location` = #{location}
 			</if>
 			<if test="explain != null">
 				and `explain` = #{explain}

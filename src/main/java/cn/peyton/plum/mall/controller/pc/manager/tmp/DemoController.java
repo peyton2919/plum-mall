@@ -8,6 +8,7 @@ import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.join.BrandParam;
 import cn.peyton.plum.mall.service.join.BrandService;
@@ -30,18 +31,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/pc/demo")
 public class DemoController extends PcController<BrandParam>
         implements IBasePCController<Long, BrandParam> {
+
     private String TIP_NAME = "品牌";
     @Resource
     private BrandService brandService;
-
-    @Token
-    @Valid
-    @PostMapping("/manager/all")
-    public JSONResult<?> all(String keyword,
-         @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
-
-        return null;
-    }
 
     @Token
     @Valid
@@ -86,7 +79,7 @@ public class DemoController extends PcController<BrandParam>
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
+    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小值为1")Long id) {
         return baseHandleDelete(id,brandService,"品牌");
     }
 
@@ -95,7 +88,7 @@ public class DemoController extends PcController<BrandParam>
     @PostMapping("/manager/upstatus")
     public JSONResult<?> updateStatus(@NotBlank(message = "Id 不能为空;")
             @Min(value = 1,message = "最小为1")Long id,
-            @NotBlank(message = "status 不能为空;")Integer status) {
+          @Size(min = 0,max = 1)  @NotBlank(message = "status 不能为空;")Integer status) {
         BrandParam _param = new BrandParam();
         _param.setId(id);
         return baseHandleEdit(_param,null,brandService,"品牌",DELETE);
@@ -114,5 +107,15 @@ public class DemoController extends PcController<BrandParam>
     @PostMapping("/manager/down")
     public JSONResult<?> down(){
         return JSONResult.success(brandService.findByDownList());
+    }
+
+
+    @Token
+    @Valid
+    @PostMapping("/manager/all")
+    public JSONResult<?> all(String keyword,
+                             @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
+
+        return null;
     }
 }

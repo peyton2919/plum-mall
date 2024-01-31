@@ -1,12 +1,18 @@
 package cn.peyton.plum.mall.controller.pc.manager.pub;
 
+import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.inf.controller.IBasePCController;
 import cn.peyton.plum.core.json.JSONResult;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.validator.anno.Valid;
+import cn.peyton.plum.core.validator.constraints.Min;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.pub.AdvertParam;
 import cn.peyton.plum.mall.service.pub.AdvertService;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,29 +27,46 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/advert")
-public class AdvertController extends PcController<AdvertParam> implements IBasePCController<Long,AdvertParam> {
+public class AdvertController extends PcController<AdvertParam>
+        implements IBasePCController<Long,  AdvertParam> {
 
     @Resource
     private AdvertService advertService;
 
-
+    @Token
+    @Valid
+    @PostMapping("/manager/search")
     @Override
     public JSONResult<?> list(Query query) {
-        return null;
+        AdvertParam _param = new AdvertParam();
+        _param.setTitle(query.getKeyword());
+        // 其他处理判断
+        return baseHandleList(_param, new PageQuery(query.getPageNo()), advertService,null);
     }
 
+    @Token
+    @Valid
+    @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(AdvertParam record) {
-        return null;
+        record.setSrc(convertImgPath(record.getSrc()));
+        return baseHandleCreate(record, null, advertService, TIP_ADVERT);
     }
 
+    @Token
+    @Valid
+    @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(AdvertParam record) {
-        return null;
+        record.setSrc(convertImgPath(record.getSrc()));
+        return baseHandleEdit(record, null, advertService, TIP_ADVERT,UPDATE);
     }
 
+    @Token
+    @Valid
+    @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(Long id) {
-        return null;
+    public JSONResult<?> delete(@NotBlank(message = "广告 ID 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
+        return baseHandle(advertService.upDelete(id), TIP_ADVERT, DELETE);
     }
 }

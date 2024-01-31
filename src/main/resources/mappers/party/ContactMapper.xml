@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.party.ContactMapper">
+	<resultMap id="ResultContactMap" type="cn.peyton.plum.mall.pojo.party.Contact">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="phone" property="phone" jdbcType="VARCHAR"/>
+		<result column="explain" property="explain" jdbcType="VARCHAR"/>
+		<result column="group_id" property="groupId" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="contactGroup" column="group_id"
+					 select="cn.peyton.plum.mall.mapper.party.ContactGroupMapper.selectByPrimaryKey" />
+	</resultMap>
+
+	<sql id="Column_tb_contact_List">
+		`id`,`name`,`phone`,`explain`,`group_id`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.party.Contact" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_contact`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">`name`,</if>
+			<if test="phone != null">`phone`,</if>
+			<if test="explain != null">`explain`,</if>
+			<if test="groupId != null">`group_id`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">#{name},</if>
+			<if test="phone != null">#{phone},</if>
+			<if test="explain != null">#{explain},</if>
+			<if test="groupId != null">#{groupId},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.party.Contact">
+		update `tb_contact`
+		<set>
+			<if test="name != null">`name` = #{name},</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="explain != null">`explain` = #{explain},</if>
+			<if test="groupId != null">`group_id` = #{groupId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from `tb_contact`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.Contact">
+		select
+		count(`id`)
+		from `tb_contact`
+		<where>
+			<if test="id != null">
+				and `id` != #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="phone != null">
+				and `phone` like concat('%',#{phone},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultContactMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Column_tb_contact_List"/>
+		from `tb_contact`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultContactMap"  parameterType="map">
+		select
+		<include refid="Column_tb_contact_List"/>
+		from `tb_contact`
+		<where>
+			<if test="record.name != null">
+				and `name` like concat('%',#{record.name},'%')
+			</if>
+			<if test="record.phone != null">
+				and `phone` like concat('%',#{record.phone},'%')
+			</if>
+			<if test="record.groupId != null">
+				and `group_id` like concat('%',#{record.groupId},'%')
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultContactMap"  parameterType="map">
+		select
+		<include refid="Column_tb_contact_List"/>
+		from `tb_contact`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.name != null">
+				and `name` = #{record.name}
+			</if>
+			<if test="record.phone != null">
+				and `phone` = #{record.phone}
+			</if>
+			<if test="record.explain != null">
+				and `explain` = #{record.explain}
+			</if>
+			<if test="record.groupId != null">
+				and `group_id` = #{record.groupId}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.Contact">
+		select
+		count(`id`)
+		from `tb_contact`
+		<where>
+			<if test="name != null">
+				and `name` like concat('%',#{name},'%')
+			</if>
+			<if test="phone != null">
+				and `phone` like concat('%',#{phone},'%')
+			</if>
+			<if test="groupId != null">
+				and `group_id` like concat('%',#{groupId},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.party.Contact">
+		select
+		count(`id`)
+		from `tb_contact`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="name != null">
+				and `name` = #{name}
+			</if>
+			<if test="phone != null">
+				and `phone` = #{phone}
+			</if>
+			<if test="explain != null">
+				and `explain` = #{explain}
+			</if>
+			<if test="groupId != null">
+				and `group_id` = #{groupId}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>

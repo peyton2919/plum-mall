@@ -66,4 +66,11 @@ public interface ShopCategoryService extends IDeleteService<Integer>, IBaseServi
      */
     List<ShopCategoryParam> findByTree();
 
+    /**
+     * <h>随机查找分类</h>
+     * @param limit 需要返回的记录数
+     * @return 集合
+     */
+    List<ShopCategoryParam> findAndroidByRand(int limit);
+
 }

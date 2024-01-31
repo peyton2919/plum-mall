@@ -26,7 +26,7 @@ public class NoticeCategoryParam implements Serializable {
      * 名称
      */
     @NotBlank(message = "名称不能为空")
-    @Length(min = 4,max=20)
+    @Length(min = 2,max=28)
     private String name;
     /**
      * 排序取值范围0~9999，默认为0; 按大到小排序

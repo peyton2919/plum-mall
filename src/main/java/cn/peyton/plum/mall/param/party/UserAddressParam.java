@@ -23,13 +23,10 @@ public class UserAddressParam implements Serializable {
     /**
      * 用户ID(包含: 会员Id、供应商Id、员工Id等,配合share_type一起使用)
      */
-    @NotBlank(message = "当前用户ID不能为空;")
     private Long shareId;
     /**
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
-    @NotBlank(message = "类型不能为空;")
-    @Size(min = 0,max = 5)
     private Integer shareType;
     /**
      * 省
@@ -56,25 +53,33 @@ public class UserAddressParam implements Serializable {
      */
     @Length(max = 6)
     private String zip;
+
+    /** 选择器值  */
+    @Length(max = 50)
+    private String pickerValue;
+
+
     /**
      * 联系人
      */
+    @NotBlank(message = "收货人名称不能为空")
     @Length(max = 30)
     private String name;
     /**
      * 联系电话
      */
     @Phone
+    @NotBlank(message = "收货人手机号码不能为空")
     private String phone;
     /**
      * 最后一次使用
      */
-    @Date
+    @Datetime(message = "最后使用时间格式不正确")
     private String lastUsedTime;
     /**
      * 创建时间
      */
-    @Date
+    @Datetime(message = "时间格式不正确")
     private String createTime;
 
     //================================== Constructor =======================================//
@@ -253,6 +258,20 @@ public class UserAddressParam implements Serializable {
     }
 
     /**
+     * @return 选择器值
+     */
+    public String getPickerValue() {
+        return pickerValue;
+    }
+
+    /**
+     * @param pickerValue 选择器值
+     */
+    public void setPickerValue(String pickerValue) {
+        this.pickerValue = pickerValue;
+    }
+
+    /**
      * <h4>对象转成MemberAddress对象<h4>
      * <pre>
      * 	 转换字段如下:
@@ -271,6 +290,7 @@ public class UserAddressParam implements Serializable {
         userAddress.setZip(zip);
         userAddress.setName(name);
         userAddress.setPhone(phone);
+        userAddress.setPickerValue(pickerValue);
         userAddress.setLastUsedTime(DateUtils.dateToTimestamp(lastUsedTime));
         userAddress.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return userAddress;
@@ -297,6 +317,7 @@ public class UserAddressParam implements Serializable {
         this.setZip(userAddress.getZip());
         this.setName(userAddress.getName());
         this.setPhone(userAddress.getPhone());
+        this.setPickerValue(userAddress.getPickerValue());
         this.setLastUsedTime(DateUtils.timestampToStrDate(userAddress.getLastUsedTime()));
         this.setCreateTime(DateUtils.timestampToStrDate(userAddress.getCreateTime()));
         return this;

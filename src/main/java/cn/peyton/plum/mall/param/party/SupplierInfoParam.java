@@ -31,7 +31,7 @@ public class SupplierInfoParam implements Serializable {
     /**
      * 电话
      */
-    @Phone
+    @Telephone
     private String tel;
     /**
      * QQ号
@@ -82,6 +82,13 @@ public class SupplierInfoParam implements Serializable {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return 编号
+     */
+    public Long getId() {
+        return id;
     }
 
     /**

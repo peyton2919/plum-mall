@@ -1,6 +1,8 @@
 package cn.peyton.plum.mall.service.product;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.page.PageQuery;
+import cn.peyton.plum.mall.dto.ProductDto;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
 import cn.peyton.plum.mall.pojo.product.ShopProduct;
 
@@ -135,4 +137,29 @@ public interface ShopProductService extends IBaseService<Long, ShopProduct, Shop
      * @return true 成功
      */
     Boolean updatePrice(Long id, BigDecimal minPrice, BigDecimal price);
+
+    /***  ------------- android ------------   */
+
+    /**
+     * <h4>android分页查找</h4>
+     * @param page 分页对象
+     * @param type 类型 {推荐 is_good, 热门 is_hot, 新品 is_new}
+     * @return 对象集合
+     */
+    List<ShopProductParam> findAndroidByList(PageQuery page, String type);
+
+    /**
+     * <h4>获取商品的好评率</h4>
+     * @param id 主键
+     * @return
+     */
+    BigDecimal findProductByGoodRate(Long id);
+
+    /**
+     * <h4>多条件查找{android}</h4>
+     * @param product 商品条件对t
+     * @param page 分页对象
+     * @return 集合
+     */
+    List<ShopProductParam> findAndroidByMulti(ProductDto product, PageQuery page);
 }

@@ -63,6 +63,7 @@ public class ShopStockController extends PcController<ShopStockParam>
 		return null;
 	}
 
+	// 更新库存预警 editStock id 主键,isShow 是否显示库存,minStock  库存预警
 	@Token
 	@Valid
 	@PostMapping("/manager/edit")

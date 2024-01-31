@@ -41,6 +41,9 @@ public class UserAddress implements Serializable {
      * 具体地址
      */
     private String address;
+    /** 选择器值  */
+    private String pickerValue;
+
     /**
      * 邮编
      */
@@ -237,4 +240,17 @@ public class UserAddress implements Serializable {
         return createTime;
     }
 
+    /**
+     * @return 选择器值
+     */
+    public String getPickerValue() {
+        return pickerValue;
+    }
+
+    /**
+     * @param pickerValue 选择器值
+     */
+    public void setPickerValue(String pickerValue) {
+        this.pickerValue = pickerValue;
+    }
 }

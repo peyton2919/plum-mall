@@ -130,7 +130,7 @@ public class ShopProductController extends PcController<ShopProductParam>
 
     // 3. 新增商品
     @Token
-    @Valid(ignore = {"price","minPrice","categories","slideshows","productSkus","shopSkus"})
+    @Valid(ignore = {"price","minPrice","categories","slideshows","productSkus","shopSkus","brand"})
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(@RequestMultiple ShopProductParam record) {
@@ -139,12 +139,13 @@ public class ShopProductController extends PcController<ShopProductParam>
         }
         initProps(record);
         record.setOperate("0,0,0");
+        record.setCover(convertImgPath(record.getCover()));
         return baseHandle(shopProductService.createAndBatchCategories(record), TIP_PRODUCT, CREATE);
     }
 
     // 4. 修改商品
     @Token
-    @Valid(ignore = {"price","minPrice","categories","slideshows","productSkus","shopSkus"})
+    @Valid(ignore = {"price","minPrice","categories","slideshows","productSkus","shopSkus","brand"})
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(@RequestMultiple ShopProductParam record) {
@@ -152,6 +153,7 @@ public class ShopProductController extends PcController<ShopProductParam>
             return JSONResult.fail(SELECT + TIP_PRODUCT + CATEGORY);
         }
         initProps(record);
+        record.setCover(convertImgPath(record.getCover()));
         return baseHandle(shopProductService.updateAndBatchCategories(record), TIP_PRODUCT, MODIFY);
     }
 
@@ -210,7 +212,6 @@ public class ShopProductController extends PcController<ShopProductParam>
     @Valid
     @PostMapping("/manager/upisshow")
     public JSONResult<?> batchIsShow(FormData data) {
-
         String _msg = "批量操作";
         try {
             List<Long> ids = data.getLongs();

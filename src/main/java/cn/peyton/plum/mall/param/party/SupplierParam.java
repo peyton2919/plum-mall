@@ -52,6 +52,7 @@ public class SupplierParam extends BaseUser implements Serializable {
     /**
      * 手机
      */
+    @NotBlank(message = "手机号码不能为空")
     @Phone
     private String phone;
     /**
@@ -72,6 +73,7 @@ public class SupplierParam extends BaseUser implements Serializable {
     /**
      * 创建时间
      */
+    @Datetime
     private String createTime;
     /** 供应商基础信息 对象 */
     private SupplierInfoParam supplierInfo;

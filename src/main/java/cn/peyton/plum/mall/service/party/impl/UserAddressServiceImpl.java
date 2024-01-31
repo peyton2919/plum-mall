@@ -3,9 +3,11 @@ package cn.peyton.plum.mall.service.party.impl;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.bo.UserAddressBo;
 import cn.peyton.plum.mall.mapper.party.UserAddressMapper;
 import cn.peyton.plum.mall.param.party.UserAddressParam;
+import cn.peyton.plum.mall.pojo.party.UserAddress;
 import cn.peyton.plum.mall.service.party.UserAddressService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -70,5 +72,27 @@ public class UserAddressServiceImpl extends AbstractRealizeService<Long, cn.peyt
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<UserAddressParam> findAndroidByShareId(Long shareId, Integer shareType, PageQuery page) {
+        String key = keyPrefix + shareId + shareType + createKey(null, page, false);
+        if (enabledCache) {
+            Object obj = cache.get(key);
+            if (null != obj) {
+                System.out.println("从缓存中获取到数据; key="+key);
+                return (List<UserAddressParam>) obj;
+            }
+        }
+        List<UserAddress> userAddresses = userAddressMapper.selectAndroidByShareId(shareId, shareType, page);
+        if (null != userAddresses && userAddresses.size() > 0) {
+            List<UserAddressParam> result = initBo().adapter(userAddresses);
+            if (enabledCache) {
+                System.out.println("找到数据添加到缓存; key=" + key);
+                cache.put(key, result);
+            }
+            return result;
+        }
+        return null;
     }
 }

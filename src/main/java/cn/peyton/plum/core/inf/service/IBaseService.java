@@ -91,6 +91,16 @@ public interface IBaseService<K, T, P> {
      *
      * @param record 关键字, 当 record = null 时为全部查询
      * @param page   分页对象
+     * @param key    缓存区分key{用在扩展查找}
+     * @return 对象集合
+     */
+    List<P> like(P record, PageQuery page,String key);
+
+    /**
+     * <h4>分页查询(全部或关键字模糊查找)</h4>
+     *
+     * @param record 关键字, 当 record = null 时为全部查询
+     * @param page   分页对象
      * @return 对象集合
      */
     PageResult<?> likeByPage(P record, PageQuery page);

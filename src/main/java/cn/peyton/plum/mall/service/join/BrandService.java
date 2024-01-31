@@ -33,4 +33,10 @@ public interface BrandService extends IBaseService<Long, Brand, BrandParam> {
      */
     List<BrandParam> findByDownList();
 
+    /**
+     * <h4>随机获取品牌</h4>
+     * @param limit 需要返回的记录数
+     * @return 集合
+     */
+    List<BrandParam> findAndroidRandom(Integer limit);
 }

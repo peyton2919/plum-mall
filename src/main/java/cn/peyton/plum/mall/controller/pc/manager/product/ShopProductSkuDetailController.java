@@ -51,11 +51,11 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
         //strs[0] = "1";
         //product.setOperate(toStr(strs));
         //return baseEdit(convert(product),null,shopProductService,"单规格设置");
-        if (null == data || null == data.getRecord() || null == data.getStr() || null == data.getBool()) {
+        if (null == data || null == data.getRecord() || null == data.getBool()) {
             return JSONResult.fail(MSG);
         }
         data.getRecord().setCover(convertImgPath(data.getRecord().getCover()));
-        return baseHandle(shopProductSkuDetailService.joinCreateAndEdit(data.getRecord(), data.getStr(), data.getBool()),
+        return baseHandle(shopProductSkuDetailService.joinCreateAndEdit(data.getRecord(), null, data.getBool()),
                 TIP_PRODUCT,SPEC_SINGLE,OPERATE);
     }
 

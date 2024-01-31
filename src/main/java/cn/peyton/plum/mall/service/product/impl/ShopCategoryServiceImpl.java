@@ -147,4 +147,9 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
         }
         return pList;
     }
+
+    @Override
+    public List<ShopCategoryParam> findAndroidByRand(int limit) {
+        return initBo().adapter(shopCategoryMapper.selectAndroidByRand(limit));
+    }
 }

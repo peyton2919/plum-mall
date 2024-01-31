@@ -1,11 +1,10 @@
 package cn.peyton.plum.mall.param.product;
 
+import cn.peyton.plum.core.anno.img.ImageHostPath;
 import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.constraints.*;
-import cn.peyton.plum.mall.bo.ShopCategoryBo;
-import cn.peyton.plum.mall.bo.ShopProductSkuDetailBo;
-import cn.peyton.plum.mall.bo.ShopSkuBo;
-import cn.peyton.plum.mall.bo.ShopSlideshowBo;
+import cn.peyton.plum.mall.bo.*;
+import cn.peyton.plum.mall.param.join.BrandParam;
 import cn.peyton.plum.mall.pojo.product.ShopProduct;
 
 import java.io.Serializable;
@@ -22,6 +21,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
 */
+@ImageHostPath(name = "cover")
 public class ShopProductParam implements Serializable {
 	/** 商品Id  */
 	private Long id;
@@ -114,6 +114,18 @@ public class ShopProductParam implements Serializable {
 	/** 更新时间  */
 	@Date
 	private String updateTime;
+	/** 商品的好评率(评论时操作该字段) */
+	private BigDecimal goodRate;
+	/** 商品评论数量 */
+	private Integer commentCount;
+	/** 总销量(订单操作该字段) */
+	private Integer saleCount;
+
+	/** 品牌 Id */
+	@Min(value = 1,message = "请选择品牌")
+	private Long brandId;
+	/** 品牌 对象 */
+	private BrandParam brand;
 
 	/** 商品分类集合 */
 	private List<ShopCategoryParam> categories;
@@ -123,6 +135,10 @@ public class ShopProductParam implements Serializable {
 	private List<ShopProductSkuDetailParam> productSkus;
 	/** 商品多规格 提示列表 */
 	private List<ShopSkuParam> shopSkus;
+	/** 评论集合 */
+	private List<ShopProductReplyParam> hotComments;
+	/** 热门推荐集合 */
+	private List<ShopProductParam> hotList;
 
 	//================================== Constructor =======================================//
 	public ShopProductParam(){
@@ -130,6 +146,9 @@ public class ShopProductParam implements Serializable {
 		if (null == slideshows) {slideshows = new ArrayList<>();}
 		if (null == productSkus) {productSkus = new ArrayList<>();}
 		if (null == shopSkus) { shopSkus = new ArrayList<>();}
+		if (null == hotComments) {hotComments = new ArrayList<>();}
+		if (null == hotList) {hotList = new ArrayList<>();}
+		if (null == brand) { brand = new BrandParam();}
 	}
 	//================================== Method =======================================//
 
@@ -553,6 +572,74 @@ public class ShopProductParam implements Serializable {
 	public String getUpdateTime(){
 		return updateTime;
 	}
+	/**
+	 * @return 品牌 Id
+	 */
+	public Long getBrandId() {
+		return brandId;
+	}
+
+	/**
+	 * @param brandId 品牌 Id
+	 */
+	public void setBrandId(Long brandId) {
+		this.brandId = brandId;
+	}
+
+	/**
+	 * @return 品牌 对象
+	 */
+	public BrandParam getBrand() {
+		return brand;
+	}
+
+	/**
+	 * @param brand 品牌 对象
+	 */
+	public void setBrand(BrandParam brand) {
+		this.brand = brand;
+	}
+	/**
+	 * @return 商品的好评率(评论时操作该字段)
+	 */
+	public BigDecimal getGoodRate() {
+		return goodRate;
+	}
+
+	/**
+	 * @param goodRate 商品的好评率(评论时操作该字段)
+	 */
+	public void setGoodRate(BigDecimal goodRate) {
+		this.goodRate = goodRate;
+	}
+
+	/**
+	 * @return 商品评论数量
+	 */
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+
+	/**
+	 * @param commentCount 商品评论数量
+	 */
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	/**
+	 * @return 总销量(订单操作该字段)
+	 */
+	public Integer getSaleCount() {
+		return saleCount;
+	}
+
+	/**
+	 * @param saleCount 总销量(订单操作该字段)
+	 */
+	public void setSaleCount(Integer saleCount) {
+		this.saleCount = saleCount;
+	}
 
 	/**
 	 * @return 商品分类集合
@@ -608,6 +695,34 @@ public class ShopProductParam implements Serializable {
 	public void setShopSkus(List<ShopSkuParam> shopSkus) {
 		this.shopSkus = shopSkus;
 	}
+	/**
+	 * @return 评论集合
+	 */
+	public List<ShopProductReplyParam> getHotComments() {
+		return hotComments;
+	}
+
+	/**
+	 * @param hotComments 评论集合
+	 */
+	public void setHotComments(List<ShopProductReplyParam> hotComments) {
+		this.hotComments = hotComments;
+	}
+
+	/**
+	 * @return 热门推荐集合
+	 */
+	public List<ShopProductParam> getHotList() {
+		return hotList;
+	}
+
+	/**
+	 * @param hotList 热门推荐集合
+	 */
+	public void setHotList(List<ShopProductParam> hotList) {
+		this.hotList = hotList;
+	}
+
 
 	/**
 	 * <h4>对象转成ShopProduct对象<h4> 
@@ -646,12 +761,19 @@ public class ShopProductParam implements Serializable {
 		shopProduct.setIsGood(isGood);
 		shopProduct.setIsSub(isSub);
 		shopProduct.setIsDel(isDel);
+		shopProduct.setGoodRate(goodRate);
+		shopProduct.setCommentCount(commentCount);
+		shopProduct.setSaleCount(saleCount);
+		shopProduct.setBrandId(brandId);
+		shopProduct.setBrand(brand.convert());
 		shopProduct.setCreateTime(DateUtils.dateToTimestamp(createTime));
 		shopProduct.setUpdateTime(DateUtils.dateToTimestamp(updateTime));
 		shopProduct.setCategories(new ShopCategoryBo().reverse(categories));
 		shopProduct.setSlideshows(new ShopSlideshowBo().reverse(slideshows));
 		shopProduct.setProductSkus(new ShopProductSkuDetailBo().reverse(productSkus));
 		shopProduct.setShopSkus(new ShopSkuBo().reverse(shopSkus));
+		shopProduct.setHotComments(new ShopProductReplyBo().reverse(hotComments));
+		shopProduct.setHotList(new ShopProductBo().reverse(hotList));
 		return shopProduct;
 	} 
 	/**
@@ -693,12 +815,19 @@ public class ShopProductParam implements Serializable {
 		this.setIsGood(shopProduct.getIsGood());
 		this.setIsSub(shopProduct.getIsSub());
 		this.setIsDel(shopProduct.getIsDel());
+		this.setGoodRate(shopProduct.getGoodRate());
+		this.setCommentCount(shopProduct.getCommentCount());
+		this.setSaleCount(shopProduct.getSaleCount());
+		this.setBrandId(shopProduct.getBrandId());
+		this.setBrand(new BrandBo().compat(shopProduct.getBrand()));
 		this.setCreateTime(DateUtils.timestampToStrDate(shopProduct.getCreateTime()));
 		this.setUpdateTime(DateUtils.timestampToStrDate(shopProduct.getUpdateTime()));
 		this.setCategories(new ShopCategoryBo().adapter(shopProduct.getCategories()));
 		this.setSlideshows(new ShopSlideshowBo().adapter(shopProduct.getSlideshows()));
 		this.setProductSkus(new ShopProductSkuDetailBo().adapter(shopProduct.getProductSkus()));
 		this.setShopSkus(new ShopSkuBo().adapter(shopProduct.getShopSkus()));
+		this.setHotComments(new ShopProductReplyBo().adapter(shopProduct.getHotComments()));
+		this.setHotList(new ShopProductBo().adapter(shopProduct.getHotList()));
 		return this;
 	} 
 }

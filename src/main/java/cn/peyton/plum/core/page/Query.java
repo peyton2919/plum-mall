@@ -36,6 +36,8 @@ public class Query<P> implements Serializable {
     @NotBlank(message = "分页页码不能为空")
     @Min(value = 1,message = "分页页码最小为1")
     private Integer pageNo;
+    /** 每页显示记录数 */
+    private Integer limit;
     /** 扩展对象 */
     private P record;
     /** 扩展数据 */
@@ -167,6 +169,19 @@ public class Query<P> implements Serializable {
         this.pageNo = pageNo;
     }
 
+    /**
+     * @return 每页显示记录数
+     */
+    public Integer getLimit() {
+        return limit;
+    }
+
+    /**
+     * @param limit 每页显示记录数
+     */
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
     /**
      * @return 扩展对象
      */

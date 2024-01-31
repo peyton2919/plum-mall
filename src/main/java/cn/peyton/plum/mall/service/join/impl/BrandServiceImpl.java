@@ -76,4 +76,8 @@ public class BrandServiceImpl extends AbstractRealizeService<Long, Brand, BrandP
         return res;
     }
 
+    @Override
+    public List<BrandParam> findAndroidRandom(Integer limit) {
+        return initBo().adapter(brandMapper.selectAndroidRandom(limit));
+    }
 }

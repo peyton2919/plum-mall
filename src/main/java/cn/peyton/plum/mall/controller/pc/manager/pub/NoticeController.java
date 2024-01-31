@@ -7,10 +7,12 @@ import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.pub.NoticeParam;
 import cn.peyton.plum.mall.param.sys.UserParam;
+import cn.peyton.plum.mall.service.pub.NoticeCategoryService;
 import cn.peyton.plum.mall.service.pub.NoticeService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,10 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/pc/notice")
 public class NoticeController extends PcController<NoticeParam>
         implements IBasePCController<Long,NoticeParam> {
-    String TIP_NAME = "公告";
 
     @Resource
     private NoticeService noticeService;
+    @Resource
+    private NoticeCategoryService noticeCategoryService;
 
     @Token
     @Valid
@@ -41,7 +44,9 @@ public class NoticeController extends PcController<NoticeParam>
     public JSONResult<?> all(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         NoticeParam _param = new NoticeParam();
         _param.setTitle(keyword);
-        return baseHandleList(_param, new PageQuery(pageNo, "seq"), noticeService,null);
+
+        return baseHandleList(_param, new PageQuery(pageNo, ORDER_BY_FILED),
+                noticeService, null);
     }
 
     @Token
@@ -49,9 +54,26 @@ public class NoticeController extends PcController<NoticeParam>
     @Override
     @PostMapping("/manager/search")
     public JSONResult<?> list(Query query) {
+        if (null == query || null == query.getIntValue() || query.getIntValue() < 1) {
+            return JSONResult.fail(ERROR);
+        }
         NoticeParam _param = new NoticeParam();
         _param.setTitle(query.getKeyword());
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), noticeService,null);
+        _param.setCategoryId(query.getIntValue());
+
+        return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED),
+                noticeService, null);
+    }
+
+    @Token
+    @PostMapping("/manager/findkeyword")
+    public JSONResult<?> findBykeyword(String keyword,
+                                       @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小值为1")Integer pageNo) {
+        NoticeParam _param = new NoticeParam();
+        _param.setTitle(keyword);
+
+        // 其他处理判断
+        return baseHandleList(_param, new PageQuery(pageNo), noticeService,null);
     }
 
     @Token
@@ -64,7 +86,7 @@ public class NoticeController extends PcController<NoticeParam>
         param.setCreateType(_user.getUserType());
         NoticeParam _repeat = new NoticeParam();
         _repeat.setTitle(param.getTitle());
-        return baseHandleCreate(param, _repeat, noticeService, TIP_NAME);
+        return baseHandleCreate(param, _repeat, noticeService, TIP_NOTICE);
     }
 
     @Token
@@ -76,7 +98,7 @@ public class NoticeController extends PcController<NoticeParam>
         NoticeParam _repeat = new NoticeParam();
         _repeat.setId(param.getId());
        _repeat.setTitle(param.getTitle());
-        return baseHandleEdit(param, _repeat, noticeService, TIP_NAME);
+        return baseHandleEdit(param, _repeat, noticeService, TIP_NOTICE);
     }
 
     @Token
@@ -87,7 +109,7 @@ public class NoticeController extends PcController<NoticeParam>
         NoticeParam _param = new NoticeParam();
         _param.setId(id);
         _param.setIsDel(IS_DEL_0);
-        return baseHandleEdit(_param,null,noticeService,null);
+        return baseHandleEdit(_param, null, noticeService, TIP_NOTICE + DELETE);
     }
 
     /**

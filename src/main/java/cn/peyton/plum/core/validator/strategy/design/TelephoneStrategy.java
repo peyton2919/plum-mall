@@ -25,7 +25,7 @@ public class TelephoneStrategy extends AbstractValidator {
         Telephone telephone = (Telephone) annotation;
         message = telephone.message();
         if (StrUtils.isEmpty(value)) {
-            if (regex(value.toString(), Regulation.REGEX_TEL)) {
+            if (regex(value.toString(), Regulation.REGEX_TEL_PHONE)) {
                 map.put(name, message);
             }
         }

@@ -50,6 +50,16 @@ public interface MemberMapper extends IBaseMapper<Long, Member>, IUserMapper<Mem
      */
     Member selectByForeignKey(Long id);
     /**
+     * <h4>根据Id 查找 简单对象</h4>
+     * <pre>
+     *     `id`,`username`,`avatar`,`nickname`,`phone`,`email`
+     * </pre>
+     * @param id 会员Id
+     * @return 会员对象
+     */
+    Member selectJoinById(Long id);
+
+    /**
      * <h4>下拉框查找</h4>
      * <pre>
      *     `id`,`username`,`avatar`,`nickname`,`phone`,`email`,`level_id`

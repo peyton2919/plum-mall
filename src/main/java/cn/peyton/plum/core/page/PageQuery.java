@@ -24,12 +24,12 @@ public final class PageQuery implements Serializable {
     @Min(value = 1, message = "当前页码不合法")
     private Integer pageNo = 1;
     /**
-     * 每页大小
+     * 每页显示记录数
      */
     @Min(value = 1, message = "每页展示数量不合法")
     private Integer pageSize = 10;
     /**
-     * 偏移量 {当前页 * 每页大小}
+     * 偏移量 {当前页 * 每页显示记录数}
      */
     private Integer offset;
     /** 排序列字段名称(数据库的字段) */
@@ -64,7 +64,7 @@ public final class PageQuery implements Serializable {
     /**
      * 构造函数
      * @param pageNo   当前页数
-     * @param pageSize 每页大小
+     * @param pageSize 每页显示记录数
      */
     public PageQuery(Integer pageNo, Integer pageSize) {
         this.pageNo = pageNo;
@@ -108,7 +108,7 @@ public final class PageQuery implements Serializable {
     /**
      * 构造函数
      * @param pageNo   当前页数
-     * @param pageSize 每页大小
+     * @param pageSize 每页显示记录数
      * @param orderColumnName 排序列字段名称(数据库的字段)
      * @param orderMode 排序方式 [ASC|DESC]
      */
@@ -135,28 +135,28 @@ public final class PageQuery implements Serializable {
     }
 
     /**
-     * @return 每页大小
+     * @return 每页显示记录数
      */
     public Integer getPageSize() {
         return pageSize;
     }
 
     /**
-     * @param pageSize 每页大小
+     * @param pageSize 每页显示记录数
      */
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
 
     /**
-     * @return 偏移量 {当前页 * 每页大小}
+     * @return 偏移量 {当前页 * 每页显示记录数}
      */
     public Integer getOffset() {
         return (pageNo - 1) * pageSize;
     }
 
     /**
-     * @param offset 偏移量 {当前页 * 每页大小}
+     * @param offset 偏移量 {当前页 * 每页显示记录数}
      */
     public void setOffset(Integer offset) {
         this.offset = offset;

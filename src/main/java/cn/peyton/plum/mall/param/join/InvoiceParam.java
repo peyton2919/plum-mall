@@ -6,7 +6,6 @@ import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.pojo.join.Invoice;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * <h3> 发票 参数 传递类[用来展示数据]类</h3>
@@ -23,14 +22,10 @@ public class InvoiceParam implements Serializable {
      */
     private Long id;
     /**
-     * 订单id
-     */
-    private Long orderId;
-    /**
      * 名称/公司名称
      */
     @NotBlank(message = "名称/公司名称不能为空;")
-    @Length(min = 1,max = 90)
+    @Length(min = 2,max = 90)
     private String name;
     /**
      * 手机
@@ -44,14 +39,9 @@ public class InvoiceParam implements Serializable {
     @Email
     private String email;
 
-    /** 开票金额 */
-    @MinDecimal(value = 0.01, message = "开票金额要大于0.01元")
-    private BigDecimal money;
-
     /**
      * 税号
      */
-    @NotBlank(message = "税号不能为空;")
     @Length(max = 90)
     private String code;
     /**
@@ -69,11 +59,6 @@ public class InvoiceParam implements Serializable {
      */
     @Length(max = 49)
     private String bankno;
-    /**
-     * 开票状态: 默认0 {0未开票1已开票}
-     */
-    @Size(min = 0,max = 1)
-    private Integer status;
     /**
      * 类型：0个人1企业
      */
@@ -105,19 +90,6 @@ public class InvoiceParam implements Serializable {
         return id;
     }
 
-    /**
-     * @param orderId 订单id
-     */
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    /**
-     * @return 订单id
-     */
-    public Long getOrderId() {
-        return orderId;
-    }
     /**
      * @param name 名称/公司名称
      */
@@ -160,19 +132,6 @@ public class InvoiceParam implements Serializable {
         return email;
     }
 
-    /**
-     * @return 开票金额
-     */
-    public BigDecimal getMoney() {
-        return money;
-    }
-
-    /**
-     * @param money 开票金额
-     */
-    public void setMoney(BigDecimal money) {
-        this.money = money;
-    }
     /**
      * @param code 税号
      */
@@ -230,20 +189,6 @@ public class InvoiceParam implements Serializable {
     }
 
     /**
-     * @param status 开票状态: 默认0 {0未开票1已开票}
-     */
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    /**
-     * @return 开票状态: 默认0 {0未开票1已开票}
-     */
-    public Integer getStatus() {
-        return status;
-    }
-
-    /**
      * @param type 类型：0个人1企业
      */
     public void setType(Integer type) {
@@ -281,16 +226,13 @@ public class InvoiceParam implements Serializable {
     public Invoice convert() {
         Invoice invoice = new Invoice();
         invoice.setId(id);
-        invoice.setOrderId(orderId);
         invoice.setName(name);
         invoice.setPhone(phone);
         invoice.setEmail(email);
-        invoice.setMoney(money);
         invoice.setCode(code);
         invoice.setPath(path);
         invoice.setBankname(bankname);
         invoice.setBankno(bankno);
-        invoice.setStatus(status);
         invoice.setType(type);
         invoice.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return invoice;
@@ -308,16 +250,13 @@ public class InvoiceParam implements Serializable {
             return new InvoiceParam();
         }
         this.setId(invoice.getId());
-        this.setOrderId(invoice.getOrderId());
         this.setName(invoice.getName());
         this.setPhone(invoice.getPhone());
         this.setEmail(invoice.getEmail());
-        this.setMoney(invoice.getMoney());
         this.setCode(invoice.getCode());
         this.setPath(invoice.getPath());
         this.setBankname(invoice.getBankname());
         this.setBankno(invoice.getBankno());
-        this.setStatus(invoice.getStatus());
         this.setType(invoice.getType());
         this.setCreateTime(DateUtils.timestampToStrDate(invoice.getCreateTime()));
         return this;

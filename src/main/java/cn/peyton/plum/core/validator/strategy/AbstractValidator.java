@@ -42,6 +42,7 @@ public abstract class AbstractValidator implements IValidator {
      *
      * @param value 值
      * @param rule  正则规则
+     * @return 验证没通过 为 true
      */
     protected boolean regex(String value, String rule) {
         String[] splits = value.split(",");

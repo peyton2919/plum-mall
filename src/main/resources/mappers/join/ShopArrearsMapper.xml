@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.peyton.plum.mall.mapper.join.ShopArrearsMapper">
+	<resultMap id="ResultShopArrearsMap" type="cn.peyton.plum.mall.pojo.join.ShopArrears">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="oid" property="oid" jdbcType="BIGINT"/>
+		<result column="debt" property="debt" jdbcType="DECIMAL"/>
+		<result column="repay_debt" property="repayDebt" jdbcType="DECIMAL"/>
+		<result column="actual_payment" property="actualPayment" jdbcType="DECIMAL"/>
+		<result column="status" property="status" jdbcType="TINYINT"/>
+		<result column="is_multi" property="isMulti" jdbcType="TINYINT"/>
+		<result column="repay_type" property="repayType" jdbcType="TINYINT"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="correlation" property="correlation" jdbcType="LONGVARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="reserve" property="reserve" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+		<association property="member" column="member_id" javaType="cn.peyton.plum.mall.pojo.party.Member"
+					 select="cn.peyton.plum.mall.mapper.party.MemberMapper.selectJoinById"/>
+	</resultMap>
+	<sql id="Column_tb_shop_arrears_List">
+		`id`,`oid`,`debt`,`repay_debt`,`actual_payment`,`status`,`is_multi`,`repay_type`,`member_id`,`correlation`,
+		    `remark`,`reserve`,`create_time`,`update_time`
+	</sql>
+
+	<resultMap id="result_arrear_simple_map" type="cn.peyton.plum.mall.pojo.join.ShopArrears">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="oid" property="oid" jdbcType="BIGINT"/>
+		<result column="debt" property="debt" jdbcType="DECIMAL"/>
+		<result column="repay_debt" property="repayDebt" jdbcType="DECIMAL"/>
+		<result column="member_id" property="memberId" jdbcType="BIGINT"/>
+		<result column="correlation" property="correlation" jdbcType="LONGVARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+	</resultMap>
+	<sql id="column_arrears_simple_list">
+		`id`,`oid`,`debt`,`repay_debt`,`member_id`,`correlation`,`remark`,`create_time`
+	</sql>
+
+	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.join.ShopArrears" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_arrears`
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="oid != null">`oid`,</if>
+			<if test="debt != null">`debt`,</if>
+			<if test="repayDebt != null">`repay_debt`,</if>
+			<if test="actualPayment != null">`actual_payment`,</if>
+			<if test="status != null">`status`,</if>
+			<if test="isMulti != null">`is_multi`,</if>
+			<if test="repayType != null">`repay_type`,</if>
+			<if test="memberId != null">`member_id`,</if>
+			<if test="correlation != null">`correlation`,</if>
+			<if test="remark != null">`remark`,</if>
+			<if test="reserve != null">`reserve`,</if>
+			<if test="createTime != null">`create_time`,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="oid != null">#{oid},</if>
+			<if test="debt != null">#{debt},</if>
+			<if test="repayDebt != null">#{repayDebt},</if>
+			<if test="actualPayment != null">#{actualPayment},</if>
+			<if test="status != null">#{status},</if>
+			<if test="isMulti != null">#{isMulti},</if>
+			<if test="repayType != null">#{repayType},</if>
+			<if test="memberId != null">#{memberId},</if>
+			<if test="correlation != null">#{correlation},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="reserve != null">#{reserve},</if>
+			<if test="createTime != null">#{createTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.join.ShopArrears">
+		update `tb_shop_arrears`
+		<set>
+			<if test="oid != null">`oid` = #{oid},</if>
+			<if test="debt != null">`debt` = #{debt},</if>
+			<if test="repayDebt != null">`repay_debt` = #{repayDebt},</if>
+			<if test="actualPayment != null">`actual_payment` = #{actualPayment},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="isMulti != null">`is_multi` = #{isMulti},</if>
+			<if test="repayType != null">`repay_type` = #{repayType},</if>
+			<if test="memberId != null">`member_id` = #{memberId},</if>
+			<if test="correlation != null">`correlation` = #{correlation},</if>
+			<if test="remark != null">`remark` = #{remark},</if>
+			<if test="reserve != null">`reserve` = #{reserve},</if>
+			<if test="updateTime != null">`update_time` = #{updateTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from `tb_shop_arrears`
+		where `id` = #{id}
+	</delete>
+
+	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.ShopArrears">
+		select
+		count(`id`)
+		from `tb_shop_arrears`
+		where `status`= 0
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
+		<if test="oid != null">
+			and `oid` = #{oid}
+		</if>
+		<if test="memberId != null">
+			and `member_id` = #{memberId}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultShopArrearsMap"  parameterType="java.lang.Long">
+		select
+		<include refid="Column_tb_shop_arrears_List"/>
+		from `tb_shop_arrears`
+		where `id` = #{id}
+	</select>
+
+	<select id="selectByLikeAndObj" resultMap="ResultShopArrearsMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_arrears_List"/>
+		from `tb_shop_arrears`
+		<where>
+			<if test="record.debt != null">
+				and `debt` like concat('%',#{record.debt},'%')
+			</if>
+			<if test="record.actualPayment != null">
+				and `actual_payment` like concat('%',#{record.actualPayment},'%')
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+			<if test="record.isMulti != null">
+				and `is_multi` = #{record.isMulti}
+			</if>
+			<if test="record.repayType != null">
+				and `repay_type` = #{record.repayType}
+			</if>
+			<if test="record.memberId != null">
+				and `member_id` = #{record.memberId}
+			</if>
+			<if test="record.oid != null">
+				and `oid` = #{record.oid}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByObj" resultMap="ResultShopArrearsMap"  parameterType="map">
+		select
+		<include refid="Column_tb_shop_arrears_List"/>
+		from `tb_shop_arrears`
+		<where>
+			<if test="record.id != null">
+				and `id` = #{record.id}
+			</if>
+			<if test="record.debt != null">
+				and `debt` = #{record.debt}
+			</if>
+			<if test="record.repayDebt != null">
+				and `repay_debt` = #{record.repayDebt}
+			</if>
+			<if test="record.actualPayment != null">
+				and `actual_payment` = #{record.actualPayment}
+			</if>
+			<if test="record.status != null">
+				and `status` = #{record.status}
+			</if>
+			<if test="record.isMulti != null">
+				and `is_multi` = #{record.isMulti}
+			</if>
+			<if test="record.repayType != null">
+				and `repay_type` = #{record.repayType}
+			</if>
+			<if test="record.memberId != null">
+				and `member_id` = #{record.memberId}
+			</if>
+			<if test="record.correlation != null">
+				and `correlation` = #{record.correlation}
+			</if>
+			<if test="record.remark != null">
+				and `remark` = #{record.remark}
+			</if>
+			<if test="record.reserve != null">
+				and `reserve` = #{record.reserve}
+			</if>
+			<if test="record.createTime != null">
+				and `create_time` = #{record.createTime}
+			</if>
+			<if test="record.updateTime != null">
+				and `update_time` = #{record.updateTime}
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="countByLike" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.ShopArrears">
+		select
+		count(`id`)
+		from `tb_shop_arrears`
+		<where>
+			<if test="debt != null">
+				and `debt` like concat('%',#{debt},'%')
+			</if>
+			<if test="actualPayment != null">
+				and `actual_payment` like concat('%',#{actualPayment},'%')
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="isMulti != null">
+				and `is_multi` = #{isMulti}
+			</if>
+			<if test="repayType != null">
+				and `repay_type` = #{repayType}
+			</if>
+			<if test="memberId != null">
+				and `member_id` = #{memberId}
+			</if>
+			<if test="oid != null">
+				and `oid` = #{oid}
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.ShopArrears">
+		select
+		count(`id`)
+		from `tb_shop_arrears`
+		<where>
+			<if test="id != null">
+				and `id` = #{id}
+			</if>
+			<if test="debt != null">
+				and `debt` = #{debt}
+			</if>
+			<if test="repayDebt != null">
+				and `repay_debt` = #{repayDebt}
+			</if>
+			<if test="actualPayment != null">
+				and `actual_payment` = #{actualPayment}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="isMulti != null">
+				and `is_multi` = #{isMulti}
+			</if>
+			<if test="repayType != null">
+				and `repay_type` = #{repayType}
+			</if>
+			<if test="memberId != null">
+				and `member_id` = #{memberId}
+			</if>
+			<if test="correlation != null">
+				and `correlation` = #{correlation}
+			</if>
+			<if test="remark != null">
+				and `remark` = #{remark}
+			</if>
+			<if test="reserve != null">
+				and `reserve` = #{reserve}
+			</if>
+			<if test="createTime != null">
+				and `create_time` = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				and `update_time` = #{updateTime}
+			</if>
+		</where>
+	</select>
+
+	<!-- memberId, status, repayType, debt, actualPayment, page, timeInterval, mode -->
+	<select id="selectMulti" resultMap="result_arrear_simple_map"  parameterType="map">
+		select
+		<include refid="column_arrears_simple_list"/>
+		from `tb_shop_arrears`
+		<where>
+			<if test="memberId != null">
+				and `member_id` = #{memberId}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="repayType != null">
+				and `repay_type` = #{repayType}
+			</if>
+			<if test="debt != null">
+				and `debt` like concat('%',#{debt},'%')
+			</if>
+			<if test="actualPayment != null">
+				and `actual_payment` like concat('%',#{actualPayment},'%')
+			</if>
+			<if test="timeInterval == 'today'">
+				and DATE(${mode}) = CURDATE()
+			</if>
+			<if test="timeInterval == 'week'">
+				and YEARWEEK(${mode}) = YEARWEEK(CURDATE())
+			</if>
+			<if test="timeInterval == 'month'">
+				and MONTH(${mode}) = MONTH(CURDATE()) AND YEAR(${mode}) = YEAR(CURDATE())
+			</if>
+			<if test="timeInterval == 'quarter'">
+				and QUARTER(${mode}) = QUARTER(CURDATE())
+			</if>
+			<if test="timeInterval == 'half_year'">
+				and TIMESTAMPDIFF(MONTH,${mode},CURDATE()) &lt;= 6
+			</if>
+			<if test="timeInterval == 'year'">
+				and TIMESTAMPDIFF(YEAR,data_column,CURDATE()) &lt;= 1
+			</if>
+		</where>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectByMemberId" resultMap="result_arrear_simple_map"  parameterType="map">
+		select
+			<include refid="column_arrears_simple_list"/>
+		from `tb_shop_arrears`
+		where `member_id` = #{memberId}
+		<if test="status != null">
+			and `status` = #{status}
+		</if>
+	</select>
+
+	<select id="countMulti" resultType = "java.lang.Integer" parameterType="map">
+		select
+			count(`id`)
+		from `tb_shop_arrears`
+		<where>
+			<if test="memberId != null">
+				and `member_id` = #{memberId}
+			</if>
+			<if test="status != null">
+				and `status` = #{status}
+			</if>
+			<if test="repayType != null">
+				and `repay_type` = #{repayType}
+			</if>
+			<if test="debt != null">
+				and `debt` like concat('%',#{debt},'%')
+			</if>
+			<if test="actualPayment != null">
+				and `actual_payment` like concat('%',#{actualPayment},'%')
+			</if>
+			<if test="timeInterval == 'today'">
+				and DATE(${mode}) = CURDATE()
+			</if>
+			<if test="timeInterval == 'week'">
+				and YEARWEEK(${mode}) = YEARWEEK(CURDATE())
+			</if>
+			<if test="timeInterval == 'month'">
+				and MONTH(${mode}) = MONTH(CURDATE()) AND YEAR(${mode}) = YEAR(CURDATE())
+			</if>
+			<if test="timeInterval == 'quarter'">
+				and QUARTER(${mode}) = QUARTER(CURDATE())
+			</if>
+			<if test="timeInterval == 'half_year'">
+				and TIMESTAMPDIFF(MONTH,${mode},CURDATE()) &lt;= 6
+			</if>
+			<if test="timeInterval == 'year'">
+				and TIMESTAMPDIFF(YEAR,data_column,CURDATE()) &lt;= 1
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -60,7 +60,7 @@ public final class StrUtils implements Serializable {
      * @return 不为空返回true
      */
     public static boolean isEmpty(Object obj) {
-        if (null != obj && !"".equals(obj.toString().trim())) {
+        if (null != obj && !"".equals(obj.toString().trim())&&!"null".equals(obj.toString().trim())) {
             return true;
         }
         return false;

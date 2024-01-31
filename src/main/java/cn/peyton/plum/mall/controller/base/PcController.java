@@ -4,7 +4,6 @@ import cn.peyton.plum.core.inf.service.IBaseService;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
-import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.utils.HttpServletRequestUtils;
 import cn.peyton.plum.core.utils.TokenUtils;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ import java.util.List;
  */
 @Controller
 @CrossOrigin(origins = "*")
-public class PcController<P> implements IBaseController,ITipMessages,IValidMessages {
+public class PcController<P> extends CommonController implements IBaseController,ITipMessages,IValidMessages {
     /**
      * Token 过期时间 1 天
      */
@@ -235,8 +234,7 @@ public class PcController<P> implements IBaseController,ITipMessages,IValidMessa
     public <K, T, P> JSONResult<?> baseHandleList(P param, PageQuery page, IBaseService<K, T, P> service, Object expand, String key) {
         PageResult<?> result = service.likeByPage(param, page, key);
         if (result.isSuccess) {
-            result.setExpand(expand);
-            return JSONResult.success(DATA_LOADING_SUCCESS, result);
+            return JSONResult.success(DATA_LOADING_SUCCESS, result,expand);
         }
         return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
     }
@@ -258,6 +256,19 @@ public class PcController<P> implements IBaseController,ITipMessages,IValidMessa
             return JSONResult.success(result);
         }
         return JSONResult.fail(JSONResult.Props.NO_DATA, NO_DATA);
+    }
+
+    /**
+     * <h4>返回简单封装</h4>
+     * @param list 要返回数据
+     * @param expand 要返回扩展数据
+     * @return
+     */
+    public JSONResult<?> baseHandleList(List<P> list, Object expand) {
+        if (null != list && list.size() > 0) {
+            return JSONResult.success(DATA_LOADING_SUCCESS, list, expand);
+        }
+        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
     }
 
     /**
@@ -299,68 +310,5 @@ public class PcController<P> implements IBaseController,ITipMessages,IValidMessa
     }
 
 
-    /**
-     * <h4>图片完整路径 转成 简单路径{储放在数据库}</h4>
-     * <pre>
-     *     替换网站图片根路径
-     * </pre>
-     * @param path 完整图片地址
-     * @return 转换成以 `/images...` 开头字符串
-     */
-    public String convertImgPath(String path) {
-        return (null != path && (!"".equals(path))) ? path.replace(HttpServletRequestUtils.getSiteRootPath(), "") : "";
-    }
-
-    /**
-     * <h>字符串转成时间格式</h>
-     * <pre>
-     *     用在时间之间的查找
-     *     字符串格式为{"2022-01-01 12:12:00,2022-01-08 15:00:00"} 或 {"2022-01-01 12:12:00"}
-     * </pre>
-     * @param str
-     * @return
-     */
-    public Integer[] convertStrToBetweenIntArray(String str) {
-        Integer[] times = new Integer[2];
-        if (null != str && !"".equals(str)) {
-            String[] strs = str.split(",");
-            try {
-                for (int i = 0; i < strs.length; i++) {
-                    if (i == 2) { break;}
-                    times[i] = DateUtils.dateToTimestamp(strs[i]);
-                }
-            } catch (Exception e) {
-
-            }
-        }
-        return times;
-    }
-
-    /**
-     * <h4>字符串转数组</h4>
-     *
-     * @param operate 字符串
-     * @return
-     */
-    public String[] convertStrToArr(String operate) {
-        return operate.split(",");
-    }
-
-    /**
-     * <h4>数组转字符串</h4>
-     *
-     * @param opearate 数组
-     * @return
-     */
-    public String convertArrToStr(String[] opearate) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < opearate.length; i++) {
-            sb.append(opearate[i]);
-            if ((opearate.length - 1 != i)) {
-                sb.append(",");
-            }
-        }
-        return sb.toString();
-    }
 
 }

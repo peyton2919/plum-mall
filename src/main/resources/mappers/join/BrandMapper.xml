@@ -13,20 +13,33 @@
 		<association property="supplier" javaType="cn.peyton.plum.mall.pojo.party.Supplier"
 					 column="sup_id" select="cn.peyton.plum.mall.mapper.party.SupplierMapper.selectByForeignKey" />
 	</resultMap>
-
 	<sql id="Column_tb_brand_List">
 		`id`,`sup_id`,`logo`,`name`,`area`,`seq`,`explain`,`create_time`
 	</sql>
 
-	<resultMap id="result_brand_simple_list" type="cn.peyton.plum.mall.pojo.join.Brand">
+	<!-- 下拉 -->
+	<resultMap id="result_brand_simple_map" type="cn.peyton.plum.mall.pojo.join.Brand">
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="logo" property="logo" jdbcType="VARCHAR"/>
 		<result column="name" property="name" jdbcType="VARCHAR"/>
 		<result column="area" property="area" jdbcType="VARCHAR"/>
 	</resultMap>
-
 	<sql id="column_brand_simple_list">
 		`id`,`logo`,`name`,`area`
+	</sql>
+
+	<!-- 外键 -->
+	<resultMap id="result_brand_foreign_key_map" type="cn.peyton.plum.mall.pojo.join.Brand">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="sup_id" property="supId" jdbcType="BIGINT"/>
+		<result column="logo" property="logo" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="area" property="area" jdbcType="VARCHAR"/>
+		<association property="supplier" javaType="cn.peyton.plum.mall.pojo.party.Supplier"
+					 column="sup_id" select="cn.peyton.plum.mall.mapper.party.SupplierMapper.selectByForeignKey" />
+	</resultMap>
+	<sql id="column_brand_foreign_key_list">
+		`id`,`sup_id`,`logo`,`name`,`area`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.join.Brand" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -69,7 +82,6 @@
 		where `id` = #{id}
 	</delete>
 
-
 	<select id="repeat" resultType = "java.lang.Integer" parameterType="cn.peyton.plum.mall.pojo.join.Brand">
 		select
 		count(`id`)
@@ -90,11 +102,26 @@
 		where `id` = #{id} and `is_del` = 1
 	</select>
 
-	<select id="selectByDownList" resultMap="result_brand_simple_list">
+	<select id="selectByForeignKey" resultMap="result_brand_foreign_key_map"  parameterType="java.lang.Long">
+		select
+		<include refid="column_brand_foreign_key_list"/>
+		from `tb_brand`
+		where `id` = #{id} and `is_del` = 1
+	</select>
+
+	<select id="selectByDownList" resultMap="result_brand_simple_map">
 		select
 			<include refid="column_brand_simple_list"/>
 		from `tb_brand`
 		where `is_del` = 1
+	</select>
+
+	<select id="selectAndroidRandom" resultMap="result_brand_simple_map" parameterType="int">
+		select
+		<include refid="column_brand_simple_list"/>
+		from `tb_brand`
+		where `is_del` = 1
+		order by rand() limit #{limit}
 	</select>
 
 	<select id="selectByLikeAndObj" resultMap="ResultBrandMap" parameterType="map">
@@ -178,5 +205,7 @@
 			and `area` = #{area}
 		</if>
 	</select>
+	
+	
 
 </mapper>

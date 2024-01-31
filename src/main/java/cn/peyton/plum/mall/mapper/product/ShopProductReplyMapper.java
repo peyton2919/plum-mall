@@ -1,8 +1,11 @@
 package cn.peyton.plum.mall.mapper.product;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.pojo.product.ShopProductReply;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <h3> 商品评论 Mapper 接口</h3>
@@ -14,6 +17,31 @@ import org.apache.ibatis.annotations.Param;
  * </pre>
  */
 public interface ShopProductReplyMapper extends IBaseMapper<Long, ShopProductReply> {
+
+
+    /**
+     * <h4>根据商品Id 外键 查找</h4>
+     * @param productId 商品Id
+     * @return
+     */
+    List<ShopProductReply> selectForeignKeyByProductId(Long productId);
+
+    /**
+     * <h4>根据商品Id 查找</h4>
+     * @param productId 商品Id
+     * @param page 分页对象
+     * @param tab 选项内容 "" 全部; good 好评; middle 中评; bad 差评;
+     * @return
+     */
+    List<ShopProductReply> selectByProductId(Long productId, PageQuery page,String tab);
+
+    /**
+     * <h4>根据商品Id 获取评论数量</h4>
+     * @param productId 商品Id
+     * @return
+     */
+    int countByProductId(Long productId);
+
     /**
      * <h4>删除 对象 {更新 is_del=0}</h4>
      * @param id 主键

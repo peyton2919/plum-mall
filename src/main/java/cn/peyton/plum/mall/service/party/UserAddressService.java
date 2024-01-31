@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.service.party;
 
 import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.party.UserAddressParam;
 
 import java.util.List;
@@ -32,4 +33,13 @@ public interface UserAddressService extends IBaseService<Long, cn.peyton.plum.ma
      * @return 受影响的行数 > 0 成功
      */
     boolean upLastUsedTime(Long id, Integer lastUsedTime);
+
+    /**
+     * <h4>根据主键Id和类型查找到对象</h4>
+     * @param shareId 主键Id
+     * @param shareType 类型 {用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员}
+     * @param page 分页对象
+     * @return 对象集合
+     */
+    List<UserAddressParam> findAndroidByShareId(Long shareId, Integer shareType, PageQuery page);
 }

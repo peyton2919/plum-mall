@@ -77,7 +77,7 @@ public class ShopProductReplyParam implements Serializable {
     /**
      * 管理员回复时间
      */
-    private Integer merchantReplyTime;
+    private String merchantReplyTime;
     /** 会员对象 */
     private MemberParam member;
     /** 商品对象 */
@@ -284,14 +284,14 @@ public class ShopProductReplyParam implements Serializable {
     /**
      * @param merchantReplyTime 管理员回复时间
      */
-    public void setMerchantReplyTime(Integer merchantReplyTime) {
+    public void setMerchantReplyTime(String merchantReplyTime) {
         this.merchantReplyTime = merchantReplyTime;
     }
 
     /**
      * @return 管理员回复时间
      */
-    public Integer getMerchantReplyTime() {
+    public String getMerchantReplyTime() {
         return merchantReplyTime;
     }
 
@@ -359,7 +359,7 @@ public class ShopProductReplyParam implements Serializable {
         shopProductReply.setCreateTime(DateUtils.dateToTimestamp(createTime));
         shopProductReply.setIsReply(isReply);
         shopProductReply.setMerchantReplyContent(merchantReplyContent);
-        shopProductReply.setMerchantReplyTime(merchantReplyTime);
+        shopProductReply.setMerchantReplyTime(DateUtils.dateToTimestamp(merchantReplyTime));
         shopProductReply.setMember(member.convert());
         shopProductReply.setProduct(product.convert());
         shopProductReply.setReplyImgs(new ShopProductReplyImgBo().reverse(replyImgs));
@@ -390,7 +390,7 @@ public class ShopProductReplyParam implements Serializable {
         this.setCreateTime(DateUtils.timestampToStrDate(shopProductReply.getCreateTime()));
         this.setIsReply(shopProductReply.getIsReply());
         this.setMerchantReplyContent(shopProductReply.getMerchantReplyContent());
-        this.setMerchantReplyTime(shopProductReply.getMerchantReplyTime());
+        this.setMerchantReplyTime(DateUtils.timestampToStrDate(shopProductReply.getMerchantReplyTime()));
         this.setMember(new MemberBo().compat(shopProductReply.getMember()));
         this.setProduct(new ShopProductBo().compat(shopProductReply.getProduct()));
         this.setReplyImgs(new ShopProductReplyImgBo().adapter(shopProductReply.getReplyImgs()));

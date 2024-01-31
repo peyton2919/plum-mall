@@ -41,7 +41,7 @@ public class NoticeServiceImpl extends AbstractRealizeService<Long, Notice, Noti
     }
 
     @Override
-    public Boolean joinGroup(Integer cateId) {
-        return noticeMapper.joinGroup(cateId) > 0;
+    public Boolean isNoticeCategory(Integer cateId) {
+        return noticeMapper.isNoticeCategory(cateId) > 0;
     }
 }

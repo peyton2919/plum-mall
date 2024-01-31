@@ -2,6 +2,10 @@ package cn.peyton.plum.mall.param.pub;
 
 
 import cn.peyton.plum.core.anno.img.ImageHostPath;
+import cn.peyton.plum.core.utils.DateUtils;
+import cn.peyton.plum.core.validator.constraints.Length;
+import cn.peyton.plum.core.validator.constraints.NotBlank;
+import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.pojo.pub.Advert;
 
 import java.io.Serializable;
@@ -24,22 +28,29 @@ public class AdvertParam implements Serializable {
     /**
      * 标题: 可用于导航栏
      */
+    @NotBlank(message = "标题不能为空")
+    @Length(max = 50)
     private String title;
+
     /**
      * 广告图片地址
      */
+    @Length(max = 510)
     private String src;
     /**
      * 广告图片点击跳转链接
      */
+    @Length(max = 510)
     private String url;
     /**
      * 类型: 0:one 单图; 1:three 三图; 2:swiper: 轮播图; 3:导航：nav;
      */
+    @Size(min = 0,max = 3)
     private Integer imgType;
     /**
      * 图片位置默认: 0; 类型为三图用：0: 左边: left; 1:上边: up; 2:下边: down;
      */
+    @Size(min = 0,max = 2)
     private Integer location;
     /**
      * 热度: 值越大越靠前
@@ -49,14 +60,11 @@ public class AdvertParam implements Serializable {
      * 点击数,每点击一次加1
      */
     private Integer clickCount;
-    /**
-     * 是否删除: 默认1(1：可用;0已删除)
-     */
-    private Integer isDel;
+
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
 
     //================================== Constructor =======================================//
 
@@ -178,30 +186,16 @@ public class AdvertParam implements Serializable {
     }
 
     /**
-     * @param isDel 是否删除: 默认1(1：可用;0已删除)
-     */
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
-    }
-
-    /**
-     * @return 是否删除: 默认1(1：可用;0已删除)
-     */
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    /**
      * @param createTime 创建时间
      */
-    public void setCreateTime(Integer createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     /**
      * @return 创建时间
      */
-    public Integer getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
@@ -222,8 +216,7 @@ public class AdvertParam implements Serializable {
         advert.setLocation(location);
         advert.setHot(hot);
         advert.setClickCount(clickCount);
-        advert.setIsDel(isDel);
-        advert.setCreateTime(createTime);
+        advert.setCreateTime(DateUtils.dateToTimestamp(createTime));
         return advert;
     }
 
@@ -246,8 +239,7 @@ public class AdvertParam implements Serializable {
         this.setLocation(advert.getLocation());
         this.setHot(advert.getHot());
         this.setClickCount(advert.getClickCount());
-        this.setIsDel(advert.getIsDel());
-        this.setCreateTime(advert.getCreateTime());
+        this.setCreateTime(DateUtils.timestampToStrDate(advert.getCreateTime()));
         return this;
     }
 }

@@ -46,6 +46,7 @@ public class ShopSlideshowController extends PcController<ShopSlideshowParam>
         List<ShopSlideshowParam> objs = data.getObjs();
         for (int i = 0; i < objs.size(); i++) {
             objs.get(i).setSrc(convertImgPath(objs.get(i).getSrc()));
+            objs.get(i).setUrl(convertImgPath(objs.get(i).getUrl()));
         }
 
         return baseHandle(shopSlideshowService.batchInsertSelective(data.getKeyLong(), objs, data.getBool()), BATCH, OPERATE);

@@ -19,6 +19,6 @@ public interface NoticeService extends IBaseService<Long, Notice, NoticeParam> {
      * @param cateId 分类Id
      * @return 有关联为 true
      */
-    Boolean joinGroup(Integer cateId);
+    Boolean isNoticeCategory(Integer cateId);
 
 }

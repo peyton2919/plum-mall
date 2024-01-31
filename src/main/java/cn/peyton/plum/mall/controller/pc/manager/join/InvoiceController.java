@@ -11,7 +11,6 @@ import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.join.InvoiceParam;
 import cn.peyton.plum.mall.service.join.InvoiceService;
-import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,16 +32,13 @@ public class InvoiceController extends PcController<InvoiceParam>
     @Resource
     private InvoiceService invoiceService;
 
-    // complexValue 为 InvoiceParam 对象的字符串
     @Token
     @Valid
     @PostMapping("/manager/search")
     @Override
     public JSONResult<?> list(Query query) {
         InvoiceParam _param = new InvoiceParam();
-        if (null != query.getComplexValue() && !"".equals(query.getComplexValue())) {
-            _param = JSON.parseObject(query.getComplexValue(), InvoiceParam.class);
-        }
+        _param.setName(query.getKeyword());
         return baseHandleList(_param, new PageQuery(query.getPageNo()), invoiceService,null);
     }
 
@@ -51,7 +47,9 @@ public class InvoiceController extends PcController<InvoiceParam>
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(InvoiceParam record) {
-        return baseHandleCreate(record, null, invoiceService, TIP_INVOICE);
+        InvoiceParam _param = new InvoiceParam();
+        _param.setName(record.getName());
+        return baseHandleCreate(record, _param, invoiceService, TIP_INVOICE);
     }
 
     @Token
@@ -59,7 +57,10 @@ public class InvoiceController extends PcController<InvoiceParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(InvoiceParam record) {
-        return baseHandleEdit(record, null, invoiceService, TIP_INVOICE,UPDATE);
+        InvoiceParam _param = new InvoiceParam();
+        _param.setName(record.getName());
+        _param.setId(record.getId());
+        return baseHandleEdit(record, _param, invoiceService, TIP_INVOICE,UPDATE);
     }
 
     @Token
@@ -69,5 +70,12 @@ public class InvoiceController extends PcController<InvoiceParam>
     public JSONResult<?> delete(@NotBlank(message = "发票 Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
 
         return baseHandle(invoiceService.upDelete(id), TIP_INVOICE);
+    }
+
+    // 下拉框
+    @Token
+    @PostMapping("/manager/down")
+    public JSONResult<?> down(){
+        return JSONResult.success(invoiceService.findByDownList());
     }
 }

@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * </pre>
  */
-@ImageHostPath(name = "src")
+@ImageHostPath(name = "src,url")
 public class ShopSlideshowParam implements Serializable {
     /**
      *

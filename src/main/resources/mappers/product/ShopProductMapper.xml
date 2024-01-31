@@ -13,6 +13,7 @@
 		<result column="postage" property="postage" jdbcType="DECIMAL"/>
 		<result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
 		<result column="seq" property="seq" jdbcType="SMALLINT"/>
+		<result column="brand_id" property="brandId" jdbcType="BIGINT"/>
 		<result column="ficti" property="ficti" jdbcType="INTEGER"/>
 		<result column="code_path" property="codePath" jdbcType="VARCHAR"/>
 		<result column="explain" property="explain" jdbcType="LONGVARCHAR"/>
@@ -32,14 +33,20 @@
 		<result column="is_sub" property="isSub" jdbcType="TINYINT"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
-		<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"
+		<association property="brand" column="brand_id" javaType="cn.peyton.plum.mall.pojo.join.Brand"
+					 select="cn.peyton.plum.mall.mapper.join.BrandMapper.selectByForeignKey"/>
+		<collection property="categories" javaType="list"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>
-		<collection property="slideshows" ofType="cn.peyton.plum.mall.pojo.product.ShopSlideshow"
+		<collection property="slideshows" javaType="list"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopSlideshowMapper.selectByProductId"/>
-		<collection property="productSkus" ofType="cn.peyton.plum.mall.pojo.product.ShopProductSkuDetail"
+		<collection property="productSkus" javaType="list"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopProductSkuDetailMapper.selectByProductId"/>
 		<!--<collection property="shopSkus" ofType="cn.peyton.plum.mall.pojo.product.ShopSku"-->
 		<!--			column="id" select="cn.peyton.plum.mall.mapper.product.ShopSkuMapper.selectByProductId"/>-->
+		<collection property="hotComments" javaType="list" column="id"
+					select="cn.peyton.plum.mall.mapper.product.ShopProductReplyMapper.selectForeignKeyByProductId"/>
+		<collection property="hotList" javaType="list" column="id"
+					select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectForeignKeyByList"/>
 	</resultMap>
 
 	<sql id="Column_tb_shop_product_List">
@@ -100,12 +107,14 @@
 		<result column="is_good" property="isGood" jdbcType="TINYINT"/>
 		<result column="postage" property="postage" jdbcType="DECIMAL"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
+		<association property="brand" column="brand_id" javaType="cn.peyton.plum.mall.pojo.join.Brand"
+					 select="cn.peyton.plum.mall.mapper.join.BrandMapper.selectByForeignKey"/>
 		<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"
 					column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>
 	</resultMap>
 	<sql id="column_simple_product_list">
 		`id`,`cover`,`title`,`info`,`keyword`,`unit_name`,`price`,`min_price`, `operate`,`seq`,`code_path`,`is_show`,
-		    `is_check`,`is_hot`,`is_benefit`,`is_best`,`is_new`,`is_postage`,`is_good`,`postage`,`create_time`
+		    `is_check`,`is_hot`,`is_benefit`,`is_best`,`is_new`,`is_postage`,`is_good`,`postage`,`create_time`,`brand_id`
 	</sql>
 
 	<resultMap id="result_foreign_key_product_map" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
@@ -125,6 +134,39 @@
 		`id`,`cover`,`title`,`info`,`keyword`,`unit_name`,`spec_type`,`skus`
 	</sql>
 
+	<!--android-->
+	<resultMap id="result_android_product_map" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="cover" property="cover" jdbcType="VARCHAR"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="info" property="info" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+		<!--<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"-->
+		<!--			column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>-->
+	</resultMap>
+	<sql id="column_android_product_list">
+		`id`,`cover`,`title`,`info`,`price`,`min_price`
+	</sql>
+
+	<!--android search-->
+	<resultMap id="result_android_product_search_map" type="cn.peyton.plum.mall.pojo.product.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="cover" property="cover" jdbcType="VARCHAR"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="info" property="info" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+		<result column="good_rate" property="goodRate" jdbcType="DECIMAL"/>
+		<result column="comment_count" property="commentCount" jdbcType="INTEGER"/>
+		<!--<collection property="categories" ofType="cn.peyton.plum.mall.pojo.product.ShopCategory"-->
+		<!--			column="id" select="cn.peyton.plum.mall.mapper.product.ShopCategoryMapper.selectByProductId"/>-->
+	</resultMap>
+	<sql id="column_android_product_search_list">
+		`id`,`cover`,`title`,`info`,`price`,`min_price`,`good_rate`,`comment_count`
+	</sql>
+
+	<!---->
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopProduct" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
 		insert into `tb_shop_product`
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -497,6 +539,14 @@
 		  where `id`= #{id} and is_del = 1
 	</update>
 
+	<update id="batchUpdateSaleCount" parameterType="list">
+		<foreach collection="products" index="index" separator=";" item="item">
+			update tb_shop_product
+			set `sale_count` = #{item.saleCount}
+			where `id`=#{item.id} and `is_del` = 1
+		</foreach>
+	</update>
+
 	<!-- 彻底删除 -->
 	<delete id="destroy" parameterType="list">
 		delete  from `tb_shop_product`
@@ -567,6 +617,83 @@
 		from `tb_shop_product`
 		where `id` = #{id} and `is_del` = 1
 	</select>
+
+	<!-- android -->
+	<select id="selectAndroidByList" resultMap="result_android_product_map"  parameterType="java.lang.Long">
+		select
+			<include refid="column_android_product_list"/>
+		from `tb_shop_product`
+		where `is_check` = 1 and `is_show` = 1 and `is_del`=1
+		<if test="type=='is_good'">
+			and `is_good` = 1
+		</if>
+		<if test="type=='is_hot'">
+			and `is_hot` = 1
+		</if>
+		<if test="type=='is_new'">
+			and `is_new` = 1
+		</if>
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectAndroidByMulti" resultMap="result_android_product_search_map"  parameterType="map">
+		<if test="product.type !='categoryId'">
+			select
+				<include refid="column_android_product_search_list"/>
+			from `tb_shop_product`
+			where `is_check` = 1 and `is_show` = 1 and `is_del`=1
+		  	<if test="product.type == 'keyword'">
+			  	<if test="product.keyword != null">
+				  	and `title` like concat('%',#{product.keyword},'%')
+			  	</if>
+		  	</if>
+			<if test="product.type == 'brandId'">
+				<if test="product.brandId != null">
+			  		and `brand_id` = #{product.brandId}
+				</if>
+			</if>
+			<if test="product.rule == 'bt'">
+				and (`min_price` between #{product.min} and #{product.max})
+			</if>
+			<if test="product.rule == 'gt'">
+				and `min_price` &gt; #{product.min}
+			</if>
+			order by ${product.tab} ${page.orderMode}
+			limit #{page.offset},#{page.pageSize}
+		</if>
+		<if test="product.type =='categoryId'">
+			select
+				sp.id,sp.cover,sp.title,sp.info,sp.price,sp.min_price,sp.good_rate,sp.comment_count
+			from tb_shop_product as sp , tb_shop_product_category as spc
+			where sp.is_check = 1 and sp.is_show = 1 and sp.is_del = 1
+			and spc.category_id = #{product.categoryId}
+			<if test="product.rule == 'bt'">
+				and (sp.min_price between #{product.min} and #{product.max})
+			</if>
+			<if test="product.rule == 'gt'">
+				and sp.min_price &gt; #{product.min}
+			</if>
+			order by ${product.tab} ${page.orderMode}
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<select id="selectForeignKeyByList" resultMap="result_android_product_map"  parameterType="java.lang.Long">
+		select
+		<include refid="column_android_product_list"/>
+		from `tb_shop_product`
+		where `is_check` = 1 and `is_show` = 1 and `is_del`=1 and `id` != #{id}
+		order by RAND() LIMIT 6
+	</select>
+
 
 
 </mapper>
