@@ -1,4 +1,4 @@
-package cn.peyton.plum.core.inf.service;
+package cn.peyton.plum.core.inf.service.base;
 
 /**
  * <h4>{规范} 删除基础类{更新 `is_del` = 0} 服务接口</h4>

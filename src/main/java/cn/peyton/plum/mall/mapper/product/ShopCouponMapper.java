@@ -1,6 +1,7 @@
 package cn.peyton.plum.mall.mapper.product;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.pojo.product.ShopCoupon;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -51,7 +52,47 @@ public interface ShopCouponMapper extends IBaseMapper<Long, ShopCoupon> {
      * @return
      */
     List<ShopCoupon> selectByUsable(Integer currentTime);
+
+    /**
+     * <h4>获取当前可用优惠券</h4>
+     * @param memberId 用户主键
+     * @param total 金额
+     * @param status 优惠券是否生效:默认 1 {0未开始 1生效 2领取中 3 已失效 4 已结束 删除}
+     * @param used 是否已使用 默认: 0未使用 1已使用
+     * @param currentDatetime 当前时间
+     * @param condition 条件 （与 memberId 相连）
+     * @param page 分页对象
+     * @return
+     */
+    List<ShopCoupon> selectCurrentUsableCoupon(Long memberId, BigDecimal total, Integer status, Integer used, Integer currentDatetime,String condition, PageQuery page);
+
+    /**
+     * <h4>根据用户Id 查找可用的优惠卷</h4>
+     * @param memberId 用户Id
+     * @param page 分页
+     * @return 对象
+     */
+    List<ShopCoupon> selectUsableCouponByMemberId(Long memberId, PageQuery page);
+
+    /**
+     * <h4>根据用户Id 查找 失效优惠卷</h4>
+     * @param memberId 用户Id
+     * @param status 优惠券状态: 0未开始 1生效 2领取中 3 已失效 4 已结束 删除
+     * @param page 分页
+     * @return 对象
+     */
+    List<ShopCoupon> selectUnusableCouponByMemberId(Long memberId, Integer status, PageQuery page);
+
+    /**
+     * <h4>根据用户Id 查找 已使用的优惠卷</h4>
+     * @param memberId 用户Id
+     * @param page 分页
+     * @return 对象
+     */
+    List<ShopCoupon> selectUseCouponByMemberId(Long memberId, PageQuery page);
     // ==================================== new create method ==================================== //
+
+
     /**
      * <h4>判断可领取的优惠券数量</h4>
      * @param id 主键
@@ -76,4 +117,20 @@ public interface ShopCouponMapper extends IBaseMapper<Long, ShopCoupon> {
      */
     @Select("SELECT COUNT(id) from tb_shop_coupon where id=#{id} and #{currentTime} > start_time and #{currentTime} < end_time")
     int isEffective(Long id, Integer currentTime);
+
+    /**
+     * <h4>获取当前可用的优惠券</h4>
+     * @param memberId 用户主键
+     * @param total 当前金额
+     * @param status 状态
+     * @param used 是否可用
+     * @param currentDatetime 当前时间
+     * @return
+     */
+    @Select("SELECT count(sc.id) from tb_shop_coupon sc,tb_shop_coupon_member scm where sc.id = scm.coupon_id and share_id = #{memberId} " +
+            "and share_type= 0 and scm.status = #{status} and scm.used=#{used} and sc.min_price <= #{total} " +
+            "and sc.start_time <= #{currentDatetime} and sc.end_time >=#{currentDatetime}")
+    int selectCurrentUsableCouponCount(Long memberId, BigDecimal total, int status, int used, int currentDatetime);
+
+
 }

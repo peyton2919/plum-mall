@@ -2,8 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
-import cn.peyton.plum.core.utils.LogUtils;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopCartBo;
 import cn.peyton.plum.mall.mapper.product.ShopCartMapper;
 import cn.peyton.plum.mall.param.product.ShopCartParam;
@@ -22,18 +21,18 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shopCartService")
-public class ShopCartServiceImpl extends AbstractRealizeService<Long, ShopCart, ShopCartParam> implements ShopCartService {
+public class ShopCartServiceImpl extends RealizeService<Long, ShopCart, ShopCartParam> implements ShopCartService {
     private String TABLE_NAME = "tb_shop_cart";
     @Resource
     private ShopCartMapper shopCartMapper;
 
     @Override
-    public BaseConvertBo<ShopCart, ShopCartParam> initBo() {
+    public BaseConvertBo<ShopCart, ShopCartParam> bo() {
         return new ShopCartBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopCart> initMapper() {
+    public IBaseMapper<Long, ShopCart> mapper() {
         return shopCartMapper;
     }
 
@@ -46,10 +45,7 @@ public class ShopCartServiceImpl extends AbstractRealizeService<Long, ShopCart, 
     public Boolean upDelete(Long id) {
         int res = shopCartMapper.updateDeleteStatus(TABLE_NAME, id);
         if (res > 0) {
-            if (enabledCache) {
-                LogUtils.info("购物车删除操作清空缓存");
-                removeCache();
-            }
+            clearCache("删除购物车");
             return true;
         }
         return false;
@@ -58,22 +54,22 @@ public class ShopCartServiceImpl extends AbstractRealizeService<Long, ShopCart, 
     @Override
     public ShopCartParam findByShareId(Long shareId, Integer shareType) {
         String key = keyPrefix + "_" + shareId + "_" + shareType;
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.println("从缓存中获取到值, key=" + key);
-                return (ShopCartParam) obj;
-            }
-        }
-        ShopCart result = shopCartMapper.selectByShareId(shareId, shareType);
-        if (null != result) {
-            ShopCartParam param = initBo().compat(result);
-            if (enabledCache) {
-                System.out.println("获取到的数据存入缓存,key=" + key);
-                cache.put(key,param);
-            }
+        Object obj = getCache(key);
+        if (null == obj) {
+            ShopCartParam param = bo().compat(shopCartMapper.selectByShareId(shareId, shareType));
+            saveCache(key,param);
             return param;
         }
-        return new ShopCartParam();
+        return (ShopCartParam) obj;
+    }
+
+    @Override
+    public Boolean updateCart(Long shareId, Integer shareType, String expand) {
+        int result = shopCartMapper.updateCart(shareId, shareType, expand);
+        if (result > 0) {
+            clearCache("更新购物车");
+            return true;
+        }
+        return false;
     }
 }

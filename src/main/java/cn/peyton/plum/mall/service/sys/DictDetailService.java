@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.DictDetailParam;
 import cn.peyton.plum.mall.pojo.sys.DictDetail;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.sys.DictDetail;
  * @version 1.0.0
  * </pre>
  */
-public interface DictDetailService extends IBaseService<Long, DictDetail, DictDetailParam> {
+public interface DictDetailService extends IRealizeService<Long, DictDetail, DictDetailParam> {
 
 }

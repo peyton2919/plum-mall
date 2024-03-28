@@ -13,7 +13,7 @@ import cn.peyton.plum.core.page.Query;
  * @version 1.0.0
  * </pre>
  */
-public interface IBasePCController<K,P> {
+public interface IController<K,P> {
     /**
      * <h4>分页|搜索(简单)  查找全部</h4>
      * @param keyword 关键字

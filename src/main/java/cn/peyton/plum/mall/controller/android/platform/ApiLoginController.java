@@ -2,6 +2,7 @@ package cn.peyton.plum.mall.controller.android.platform;
 
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.cipher.BaseCipher;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.users.IUser;
 import cn.peyton.plum.core.utils.DateUtils;
@@ -9,7 +10,6 @@ import cn.peyton.plum.core.utils.IpUtils;
 import cn.peyton.plum.core.validator.Regulation;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.AndroidController;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.service.party.MemberService;
 import jakarta.annotation.Resource;
@@ -32,7 +32,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/api")
-public class ApiLoginController extends AndroidController {
+public class ApiLoginController extends RealizeController {
 
 
     @Resource

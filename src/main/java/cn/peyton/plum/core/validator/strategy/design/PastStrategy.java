@@ -32,7 +32,9 @@ public class PastStrategy extends AbstractValidator {
         }
         message = future.message();
         if (StrUtils.isEmpty(value)) {
-            if (regex(value.toString(), reg)) {
+            int len = format.length();
+            String val = value.toString().substring(0, len);
+            if (regex(val, reg)) {
                 map.put(name, "日期格式匹配出错了!");
                 return;
             }

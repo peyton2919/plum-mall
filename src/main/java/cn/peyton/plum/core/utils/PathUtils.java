@@ -14,6 +14,7 @@ import java.io.Serializable;
  * </pre>
  */
 public final class PathUtils implements Serializable {
+
     static String seperator = System.getProperty("file.separator");
 
     /**

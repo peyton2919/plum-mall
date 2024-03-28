@@ -2,14 +2,14 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
 import cn.peyton.plum.mall.service.product.ShopProductReplyService;
 import jakarta.annotation.Resource;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/productreply")
-public class ShopProductReplyController extends PcController<ShopProductReplyParam>
-        implements IBasePCController<Long, ShopProductReplyParam> {
+public class ShopProductReplyController extends RealizeController
+        implements IController<Long, ShopProductReplyParam> {
 
     @Resource
     private ShopProductReplyService shopProductReplyService;
@@ -49,7 +49,7 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     public JSONResult<?> list(Query query) {
 
         // 其他处理判断
-        return baseHandleList(new ShopProductReplyParam(), new PageQuery(query.getPageNo()), shopProductReplyService,null);
+        return page(new ShopProductReplyParam(), new PageQuery(query.getPageNo()), shopProductReplyService,true);
     }
 
     @Token
@@ -58,7 +58,7 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     @Override
     public JSONResult<?> create(@RequestMultiple ShopProductReplyParam record) {
 
-        return baseHandleCreate(record, null, shopProductReplyService, "评论");
+        return handle(record, null, false,shopProductReplyService, TIP_COMMENT,CREATE);
     }
 
     @Token
@@ -66,27 +66,23 @@ public class ShopProductReplyController extends PcController<ShopProductReplyPar
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(@RequestMultiple ShopProductReplyParam record) {
-        return baseHandleEdit(record, null, shopProductReplyService, "评论",UPDATE);
+        return handle(record, null, true, shopProductReplyService, TIP_COMMENT, UPDATE);
     }
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
-        if(shopProductReplyService.updateIsDel(id)){
-            return JSONResult.success("评论删除成功");
-        }
-        return JSONResult.fail("评论删除失败;");
+    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "Id最小值为1")Long id) {
+
+        return handle(shopProductReplyService.updateIsDel(id), TIP_COMMENT, DELETE);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/review")
-    public JSONResult<?> review(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id,
+    public JSONResult<?> review(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "Id最小值为1")Long id,
                 @NotBlank(message = "回复内容 不能为空;") String content) {
-        if(shopProductReplyService.updateReview(id,content)){
-            return JSONResult.success("评论回复成功");
-        }
-        return JSONResult.fail("评论回复失败;");
+
+        return handle(shopProductReplyService.updateReview(id, content), TIP_COMMENT, TIP_REPLY);
     }
 }

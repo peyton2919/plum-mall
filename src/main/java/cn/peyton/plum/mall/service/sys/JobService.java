@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.JobParam;
 import cn.peyton.plum.mall.pojo.sys.Job;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.sys.Job;
  * @version 1.0.0
  * </pre>
  */
-public interface JobService extends IBaseService<Integer, Job, JobParam> {
+public interface JobService extends IRealizeService<Integer, Job, JobParam> {
 
 }

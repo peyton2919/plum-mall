@@ -1,4 +1,4 @@
-package cn.peyton.plum.mall.controller.base;
+package cn.peyton.plum.core.inf.controller;
 
 /**
  * <h4>基础的controller 接口</h4>
@@ -69,14 +69,8 @@ public interface IBaseController {
     /** 是否删除  1 为可用  */
     Integer IS_DEL_1 = 1;
 
-    /** 用来存储和获取 Token 的 key */
-    String KEY_TOKEN = "GETTOKENKEYVALUE20231111";
 
-    /** 用来存储和获取 Token 的 key */
-    String KEY_TOKEN_ANDROID = "GETTOKENKEYVALUE2024202401250919ANDROID";
 
-    /** Token 存放在 header 头部的 key,要与前端约定好 */
-    String ACCESS_TOKEN = "token";
     /** is_del 值 `可用的` */
     Integer USABLE = 1;
     /** is_del 值 `不可用的` */

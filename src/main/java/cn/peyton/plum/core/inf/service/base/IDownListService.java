@@ -1,4 +1,4 @@
-package cn.peyton.plum.core.inf.service;
+package cn.peyton.plum.core.inf.service.base;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.bo.ShopCouponMemberBo;
 import cn.peyton.plum.mall.mapper.product.ShopCouponMemberMapper;
@@ -25,17 +25,17 @@ import java.util.List;
  * </pre>
  */
 @Service("shopCouponMemberService")
-public class ShopCouponMemberServiceImpl extends AbstractRealizeService<Long, ShopCouponMember, ShopCouponMemberParam> implements ShopCouponMemberService {
+public class ShopCouponMemberServiceImpl extends RealizeService<Long, ShopCouponMember, ShopCouponMemberParam> implements ShopCouponMemberService {
     @Resource
     private ShopCouponMemberMapper shopCouponMemberMapper;
 
     @Override
-    public BaseConvertBo<ShopCouponMember, ShopCouponMemberParam> initBo() {
+    public BaseConvertBo<ShopCouponMember, ShopCouponMemberParam> bo() {
         return new ShopCouponMemberBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopCouponMember> initMapper() {
+    public IBaseMapper<Long, ShopCouponMember> mapper() {
         return shopCouponMemberMapper;
     }
 
@@ -47,7 +47,7 @@ public class ShopCouponMemberServiceImpl extends AbstractRealizeService<Long, Sh
     @Override
     public List<ShopCouponMemberParam> findByUseableOrAll(Long shareId, Integer shareType, BigDecimal price, Integer currentTime, PageQuery page) {
         // 特殊: 不做缓存处理
-        return initBo().adapter(shopCouponMemberMapper.selectByUseableOrAll(shareId, shareType, price, currentTime, page));
+        return bo().adapter(shopCouponMemberMapper.selectByUseableOrAll(shareId, shareType, price, currentTime, page));
     }
 
     @Override
@@ -64,10 +64,7 @@ public class ShopCouponMemberServiceImpl extends AbstractRealizeService<Long, Sh
     public Boolean upUsed(Long couponId, Long shareId, Integer shareType) {
         int res = shopCouponMemberMapper.upUsed(couponId, shareId, shareType);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新优惠券使用状态");
             return true;
         }
         return false;

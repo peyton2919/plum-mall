@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.PageQuery;
@@ -12,7 +13,6 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Datetime;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopOrderParam;
 import cn.peyton.plum.mall.service.product.ShopOrderService;
 import jakarta.annotation.Resource;
@@ -38,8 +38,8 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/pc/order")
-public class ShopOrderController extends PcController<ShopOrderParam>
-        implements IBasePCController<Long, ShopOrderParam> {
+public class ShopOrderController extends RealizeController
+        implements IController<Long, ShopOrderParam> {
 
 
     @Resource
@@ -65,6 +65,11 @@ public class ShopOrderController extends PcController<ShopOrderParam>
         // finish: status = 3
         // closed: status = 9
         // refunding: status = -1
+        // no 订单号
+        // startTime 开始时间
+        // endTime 结束时间
+        // name 收货人
+        // phone 手机号
 
         ShopOrderParam _param = new ShopOrderParam();
         if (null != query || null != query.getTab() || !"".equals(query.getTab())) {
@@ -77,21 +82,23 @@ public class ShopOrderController extends PcController<ShopOrderParam>
         }
         //_param.setName(query.getKeyword());
         // 其他处理判断
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), shopOrderService,null);
+        return page(_param, new PageQuery(query.getPageNo()), shopOrderService,true);
     }
+
     @Token
     @Valid
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(ShopOrderParam record) {
-        return baseHandleCreate(record, null, shopOrderService, TIP_SHOP_ORDER);
+        return handle(record, null,false, shopOrderService, TIP_SHOP_ORDER,CREATE);
     }
+
     @Token
     @Valid
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(ShopOrderParam record) {
-        return baseHandleEdit(record, null, shopOrderService, TIP_SHOP_ORDER,UPDATE);
+        return handle(record, null, true, shopOrderService, TIP_SHOP_ORDER, UPDATE);
     }
 
     @Override
@@ -106,10 +113,7 @@ public class ShopOrderController extends PcController<ShopOrderParam>
         if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
             return JSONResult.fail(ERROR);
         }
-        if (shopOrderService.updateIsDel(data.getLongs())) {
-            return JSONResult.success(BATCH + DELETE + TIP_SHOP_ORDER + SUCCESS);
-        }
-        return JSONResult.fail(BATCH + DELETE + TIP_SHOP_ORDER + FAIL);
+        return handle(shopOrderService.updateIsDel(data.getLongs()), TIP_SHOP_ORDER, BATCH, DELETE);
     }
 
     @Token

@@ -2,17 +2,18 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.utils.HttpServletRequestUtils;
 import cn.peyton.plum.core.utils.LogUtils;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ProductSingle;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
 import cn.peyton.plum.mall.param.product.ShopSkuParam;
@@ -38,8 +39,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/product")
-public class ShopProductController extends PcController<ShopProductParam>
-        implements IBasePCController<Long,ShopProductParam> {
+public class ShopProductController extends RealizeController
+        implements IController<Long,ShopProductParam> {
 
     @Resource
     private ShopProductService shopProductService;
@@ -90,7 +91,8 @@ public class ShopProductController extends PcController<ShopProductParam>
                 _param.setIsGood(1);
             }
         }
-        return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), shopProductService, null, key);
+
+        return page(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), shopProductService, null, key, true);
     }
 
     // 单规格 specType, skus
@@ -100,10 +102,10 @@ public class ShopProductController extends PcController<ShopProductParam>
     public JSONResult<?> single(ProductSingle product) {
         // todo 单规格逻辑处理
         String operate = shopProductService.findByOperate(product.getId());
-        String[] strs = convertStrToArr(operate);
+        String[] strs = new CtrlUtils().convertStrToArr(operate);
         strs[0] = "1";
-        product.setOperate(convertArrToStr(strs));
-        return baseHandleEdit(convert(product),null,shopProductService,"单规格设置");
+        product.setOperate(new CtrlUtils().convertArrToStr(strs));
+        return handle(convert(product), null, false, shopProductService, "单规格设置");
     }
 
     // 审核
@@ -125,7 +127,7 @@ public class ShopProductController extends PcController<ShopProductParam>
             return JSONResult.fail("商品 [详情] 未设置!");
         }
 
-        return baseHandle(shopProductService.updateCheck(id), TIP_PRODUCT, VERIFY);
+        return handle(shopProductService.updateCheck(id), TIP_PRODUCT, VERIFY);
     }
 
     // 3. 新增商品
@@ -137,10 +139,10 @@ public class ShopProductController extends PcController<ShopProductParam>
         if (null == record || null == record.getCategories() || record.getCategories().size() == 0) {
             return JSONResult.fail(SELECT + TIP_PRODUCT + CATEGORY);
         }
-        initProps(record);
+        props(record);
         record.setOperate("0,0,0");
-        record.setCover(convertImgPath(record.getCover()));
-        return baseHandle(shopProductService.createAndBatchCategories(record), TIP_PRODUCT, CREATE);
+        record.setCover(new CtrlUtils().convertImgPath(record.getCover()));
+        return handle(shopProductService.createAndBatchCategories(record), TIP_PRODUCT, CREATE);
     }
 
     // 4. 修改商品
@@ -152,9 +154,9 @@ public class ShopProductController extends PcController<ShopProductParam>
         if (record.getCategories().size() == 0) {
             return JSONResult.fail(SELECT + TIP_PRODUCT + CATEGORY);
         }
-        initProps(record);
-        record.setCover(convertImgPath(record.getCover()));
-        return baseHandle(shopProductService.updateAndBatchCategories(record), TIP_PRODUCT, MODIFY);
+        props(record);
+        record.setCover(new CtrlUtils().convertImgPath(record.getCover()));
+        return handle(shopProductService.updateAndBatchCategories(record), TIP_PRODUCT, MODIFY);
     }
 
     //  5. 更新商品详情
@@ -165,7 +167,7 @@ public class ShopProductController extends PcController<ShopProductParam>
             return JSONResult.fail(OPERATE + PARAM + NULL);
         }
 
-        return baseHandle(shopProductService.updateExplain(record), TIP_PRODUCT, DETAIL, MODIFY);
+        return handle(shopProductService.updateExplain(record), TIP_PRODUCT, DETAIL, MODIFY);
     }
 
     // 6. 删除||批量删除 商品
@@ -176,7 +178,7 @@ public class ShopProductController extends PcController<ShopProductParam>
         if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
             return JSONResult.fail(MSG);
         }
-        return baseHandle(shopProductService.batchDelete(data.getLongs()), TIP_PRODUCT, BATCH, DELETE);
+        return handle(shopProductService.batchDelete(data.getLongs()), TIP_PRODUCT, BATCH, DELETE);
     }
 
     // 7. 批量恢复商品
@@ -187,7 +189,7 @@ public class ShopProductController extends PcController<ShopProductParam>
         if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
             return JSONResult.fail(MSG);
         }
-        return baseHandle(shopProductService.batchRestore(data.getLongs()), TIP_PRODUCT, BATCH, RESTORE);
+        return handle(shopProductService.batchRestore(data.getLongs()), TIP_PRODUCT, BATCH, RESTORE);
     }
 
     // 8. 彻底删除商品
@@ -196,7 +198,7 @@ public class ShopProductController extends PcController<ShopProductParam>
     @PostMapping("/manager/destroy")
     public JSONResult<?> destroy(@RequestMultiple FormData data) {
         // todo 需要超级管理员权限
-        UserParam _user = handleToken(new UserParam());
+        UserParam _user = getToken(new UserParam());
         if (_user.getRoleParam().getId() != 1) {
             return JSONResult.fail("彻底删除商品信息，需要超级管理员权限；");
         }
@@ -204,7 +206,7 @@ public class ShopProductController extends PcController<ShopProductParam>
         if (null == data || null == data.getLongs() || data.getLongs().size() == 0) {
             return JSONResult.fail(MSG);
         }
-        return baseHandle(shopProductService.destroy(data.getLongs()), TIP_PRODUCT, BATCH, DELETE);
+        return handle(shopProductService.destroy(data.getLongs()), TIP_PRODUCT, BATCH, DELETE);
     }
 
     // 2. 批量上|下架商品
@@ -230,7 +232,7 @@ public class ShopProductController extends PcController<ShopProductParam>
     @Token
     @Valid
     @PostMapping("/manager/one")
-    public JSONResult<?> one(@NotBlank(message = "商品 Id 不能为空;") @Min(value = 1,message = V_MIN_VALUE_1)Long id, String type) {
+    public JSONResult<?> one(@NotBlank(message = "商品 Id 不能为空;") @Min(value = 1,message = "Id 最小值为1")Long id, String type) {
         ShopProductParam _param = null;
        if("slideshow".equals(type)){
            _param = shopProductService.selectBySlideshow(id);
@@ -246,21 +248,19 @@ public class ShopProductController extends PcController<ShopProductParam>
             return JSONResult.success("商品加载成功", _param);
         }
         return JSONResult.fail("没找到相应的商品");
+
     }
 
     @Token
     @Valid
     @PostMapping("/manager/recommend")
     public JSONResult<?> recommend(@NotBlank(message = "分类 Id 不能为空;") @Min(value = 1,message = "最小值为1")Integer categoryId) {
-        List<ShopProductParam> result = shopProductService.findByIdAndJoin(categoryId);
-        if (null != result) {
-            return JSONResult.success(result);
-        }
-        return JSONResult.fail(JSONResult.Props.NO_DATA, NO_DATA);
+
+        return list(shopProductService.findByIdAndJoin(categoryId), null);
+        //todo
     }
 
-    @Override
-    public void initProps(ShopProductParam param) {
+    public void props(ShopProductParam param) {
         param.setIsDel(null);
         param.setIsCheck(null);
         param.setIsSub(null);

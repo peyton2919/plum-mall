@@ -1,14 +1,15 @@
 package cn.peyton.plum.mall.controller.pc.manager.join;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.join.BrandParam;
 import cn.peyton.plum.mall.service.join.BrandService;
 import jakarta.annotation.Resource;
@@ -27,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/brand")
-public class BrandController extends PcController<BrandParam>
-    implements IBasePCController<Long, BrandParam> {
+public class BrandController extends RealizeController
+    implements IController<Long, BrandParam> {
 
 
     @Resource
@@ -45,7 +46,7 @@ public class BrandController extends PcController<BrandParam>
         _param.setName(query.getKeyword());
         _param.setSupId(query.getLongValue());
         _param.setArea(query.getSimpleValue());
-        return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), brandService,null);
+        return page(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), brandService,true);
     }
 
     @Token
@@ -56,8 +57,8 @@ public class BrandController extends PcController<BrandParam>
         BrandParam _repeat = new BrandParam();
         _repeat.setName(record.getName());
         // 完整路径转成 简单路径
-        record.setLogo(convertImgPath(record.getLogo()));
-        return baseHandleCreate(record, _repeat, brandService, TIP_BRAND);
+        record.setLogo(new CtrlUtils().convertImgPath(record.getLogo()));
+        return handle(record, _repeat,false, brandService, TIP_BRAND,CREATE);
     }
 
     @Token
@@ -69,8 +70,8 @@ public class BrandController extends PcController<BrandParam>
         BrandParam _repeat = new BrandParam();
         _repeat.setId(record.getId());
         _repeat.setName(record.getName());
-        record.setLogo(convertImgPath(record.getLogo()));
-        return baseHandleEdit(record, _repeat, brandService, TIP_BRAND,UPDATE);
+        record.setLogo(new CtrlUtils().convertImgPath(record.getLogo()));
+        return handle(record, _repeat, true, brandService, TIP_BRAND, UPDATE);
     }
     @Token
     @Valid
@@ -78,7 +79,8 @@ public class BrandController extends PcController<BrandParam>
     @Override
     public JSONResult<?> delete(@NotBlank(message = "品牌Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
 
-        return baseHandle(brandService.upDelete(id), TIP_BRAND);
+        //return delete(brandService.upDelete(id), TIP_BRAND);
+        return delete(id, brandService, TIP_BRAND);
     }
     @Token
     @Valid
@@ -95,7 +97,4 @@ public class BrandController extends PcController<BrandParam>
     }
 
 
-
-    @Override
-    public void initProps(BrandParam record) { }
 }

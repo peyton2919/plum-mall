@@ -2,12 +2,13 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopSlideshowParam;
 import cn.peyton.plum.mall.service.product.ShopSlideshowService;
 import jakarta.annotation.Resource;
@@ -28,8 +29,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/productslideshow")
-public class ShopSlideshowController extends PcController<ShopSlideshowParam>
-        implements IBasePCController<Long,ShopSlideshowParam> {
+public class ShopSlideshowController extends RealizeController
+        implements IController<Long,ShopSlideshowParam> {
 
     @Resource
     private ShopSlideshowService shopSlideshowService;
@@ -45,11 +46,11 @@ public class ShopSlideshowController extends PcController<ShopSlideshowParam>
         if (null == data.getBool()) { return JSONResult.fail(PARAM+NULL);}
         List<ShopSlideshowParam> objs = data.getObjs();
         for (int i = 0; i < objs.size(); i++) {
-            objs.get(i).setSrc(convertImgPath(objs.get(i).getSrc()));
-            objs.get(i).setUrl(convertImgPath(objs.get(i).getUrl()));
+            objs.get(i).setSrc(new CtrlUtils().convertImgPath(objs.get(i).getSrc()));
+            objs.get(i).setUrl(new CtrlUtils().convertImgPath(objs.get(i).getUrl()));
         }
 
-        return baseHandle(shopSlideshowService.batchInsertSelective(data.getKeyLong(), objs, data.getBool()), BATCH, OPERATE);
+        return handle(shopSlideshowService.batchInsertSelective(data.getKeyLong(), objs, data.getBool()), BATCH, OPERATE);
     }
 
     @Override

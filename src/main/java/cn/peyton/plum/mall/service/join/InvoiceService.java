@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.join;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.join.InvoiceParam;
 import cn.peyton.plum.mall.pojo.join.Invoice;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface InvoiceService extends IBaseService<Long, Invoice, InvoiceParam> {
+public interface InvoiceService extends IRealizeService<Long, Invoice, InvoiceParam> {
     /**
      *  <h4>删除</h4>
      * @param id 对象ID

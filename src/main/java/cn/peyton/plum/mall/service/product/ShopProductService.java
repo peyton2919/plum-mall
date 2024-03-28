@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.dto.ProductDto;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
@@ -18,7 +18,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopProductService extends IBaseService<Long, ShopProduct, ShopProductParam> {
+public interface ShopProductService extends IRealizeService<Long, ShopProduct, ShopProductParam> {
 
 
     /**
@@ -162,4 +162,11 @@ public interface ShopProductService extends IBaseService<Long, ShopProduct, Shop
      * @return 集合
      */
     List<ShopProductParam> findAndroidByMulti(ProductDto product, PageQuery page);
+
+    /**
+     * <h4>热门推荐</h4>
+     * @param id 商品Id
+     * @return
+     */
+    List<ShopProductParam> findForeignKeyByList(Long id);
 }

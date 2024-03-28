@@ -2,15 +2,14 @@ package cn.peyton.plum.mall.controller.pc.manager.party;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.IMappingMessages;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.SupplierInfoParam;
 import cn.peyton.plum.mall.param.party.SupplierParam;
 import cn.peyton.plum.mall.service.party.SupplierInfoService;
@@ -30,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/supplierinfo")
-public class SupplierInfoController extends PcController<SupplierInfoParam>
-        implements IBasePCController<Long, SupplierInfoParam> {
+public class SupplierInfoController extends RealizeController
+        implements IController<Long, SupplierInfoParam> {
 
     @Resource
     private SupplierInfoService supplierInfoService;
@@ -43,25 +42,21 @@ public class SupplierInfoController extends PcController<SupplierInfoParam>
 
     @Override
     public JSONResult<?> create(SupplierInfoParam record) {
-        SupplierParam _param = handleToken(new SupplierParam());
-        if(supplierInfoService.createJoin(record,_param.getId())){
-            return JSONResult.success(TIP_SUPPLIER_INFO + CREATE + SUCCESS);
-        }
-        return JSONResult.fail(TIP_SUPPLIER_INFO + CREATE + FAIL);
+        SupplierParam _param = getToken(new SupplierParam());
+
+        return handle(supplierInfoService.createJoin(record, _param.getId()), TIP_SUPPLIER_INFO, CREATE);
     }
 
     @Token
     @Valid
-    @PostMapping(IMappingMessages.MANAGER_CREEATE)
+    @PostMapping("/manager/create")
     public JSONResult<?> joinCreate(@RequestMultiple FormData<SupplierInfoParam> data) {
         Long supplierId = data.getKeyLong();
         if (supplierId < 1) {
             return JSONResult.fail(ERROR);
         }
-        if(supplierInfoService.createJoin(data.getRecord(),supplierId)){
-            return JSONResult.success(TIP_SUPPLIER_INFO + CREATE + SUCCESS);
-        }
-        return JSONResult.fail(TIP_SUPPLIER_INFO + CREATE + FAIL);
+
+        return handle(supplierInfoService.createJoin(data.getRecord(), supplierId), TIP_SUPPLIER_INFO, CREATE);
     }
 
     @Token
@@ -70,7 +65,7 @@ public class SupplierInfoController extends PcController<SupplierInfoParam>
     @Override
     public JSONResult<?> edit(SupplierInfoParam record) {
 
-        return baseHandleEdit(record, null, supplierInfoService, TIP_SUPPLIER_INFO,UPDATE);
+        return handle(record, null,true, supplierInfoService, TIP_SUPPLIER_INFO,UPDATE);
     }
 
     @Token
@@ -79,7 +74,7 @@ public class SupplierInfoController extends PcController<SupplierInfoParam>
     @Override
     public JSONResult<?> delete(@NotBlank(message = "id 不能为空") @Min(value = 1, message = "最小值为1") Long id) {
 
-        return baseHandleDelete(id, supplierInfoService, TIP_SUPPLIER_INFO);
+        return delete(id, supplierInfoService, TIP_SUPPLIER_INFO);
     }
 
     @Token

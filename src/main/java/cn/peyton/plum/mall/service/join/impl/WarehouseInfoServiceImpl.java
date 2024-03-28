@@ -2,8 +2,7 @@ package cn.peyton.plum.mall.service.join.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
-import cn.peyton.plum.core.utils.LogUtils;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.WarehouseInfoBo;
 import cn.peyton.plum.mall.mapper.join.WarehouseInfoMapper;
 import cn.peyton.plum.mall.param.join.WarehouseInfoParam;
@@ -24,17 +23,17 @@ import java.util.List;
  * </pre>
  */
 @Service("warehouseInfoService")
-public class WarehouseInfoServiceImpl extends AbstractRealizeService<Integer, WarehouseInfo, WarehouseInfoParam> implements WarehouseInfoService {
+public class WarehouseInfoServiceImpl extends RealizeService<Integer, WarehouseInfo, WarehouseInfoParam> implements WarehouseInfoService {
     @Resource
     private WarehouseInfoMapper warehouseInfoMapper;
 
     @Override
-    public BaseConvertBo<WarehouseInfo, WarehouseInfoParam> initBo() {
+    public BaseConvertBo<WarehouseInfo, WarehouseInfoParam> bo() {
         return new WarehouseInfoBo();
     }
 
     @Override
-    public IBaseMapper<Integer, WarehouseInfo> initMapper() {
+    public IBaseMapper<Integer, WarehouseInfo> mapper() {
         return warehouseInfoMapper;
     }
     public WarehouseInfoServiceImpl() {
@@ -46,18 +45,12 @@ public class WarehouseInfoServiceImpl extends AbstractRealizeService<Integer, Wa
     @Override
     public List<WarehouseInfoParam> findByDownList() {
         String key = keyPrefix + "_202312251535";
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n", key);
-                return (List<WarehouseInfoParam>) obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<WarehouseInfoParam> res = bo().adapter(warehouseInfoMapper.selectByDownList());
+            saveCache(key, res);
+            return res;
         }
-        List<WarehouseInfoParam> res = initBo().adapter(warehouseInfoMapper.selectByDownList());
-        if (null != res && enabledCache) {
-            LogUtils.info(key);
-            cache.put(key, res);
-        }
-        return res;
+        return (List<WarehouseInfoParam>) objs;
     }
 }

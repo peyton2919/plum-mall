@@ -1,7 +1,7 @@
 package cn.peyton.plum.mall.service.app;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.core.inf.service.IStatusService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
+import cn.peyton.plum.core.inf.service.base.IStatusService;
 import cn.peyton.plum.mall.param.app.AppNavParam;
 import cn.peyton.plum.mall.pojo.app.AppNav;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
 */
-public interface AppNavService extends IStatusService<Integer>,IBaseService<Integer, AppNav, cn.peyton.plum.mall.param.app.AppNavParam> {
+public interface AppNavService extends IStatusService<Integer>, IRealizeService<Integer, AppNav, AppNavParam> {
 
     /**
      * <h4>查找导航栏</h4>

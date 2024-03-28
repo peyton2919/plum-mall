@@ -1,14 +1,14 @@
 package cn.peyton.plum.mall.controller.pc.manager.party;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.ContactGroupParam;
 import cn.peyton.plum.mall.service.party.ContactGroupService;
 import cn.peyton.plum.mall.service.party.ContactService;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/pc/contactgroup")
-public class ContactGroupController extends PcController<ContactGroupParam>
-		implements IBasePCController<Integer, ContactGroupParam> {
+public class ContactGroupController extends RealizeController
+		implements IController<Integer, ContactGroupParam> {
 
 	@Resource
 	private ContactGroupService contactGroupService;
@@ -44,7 +44,7 @@ public class ContactGroupController extends PcController<ContactGroupParam>
 		ContactGroupParam _param = new ContactGroupParam();
 		_param.setName(query.getKeyword());
 		// 其他处理判断
-		return baseHandleList(_param, new PageQuery(query.getPageNo(),ORDER_BY_FILED), contactGroupService,null);
+		return page(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), contactGroupService, true);
 	}
 
 	@Token
@@ -54,7 +54,7 @@ public class ContactGroupController extends PcController<ContactGroupParam>
 	public JSONResult<?> create(ContactGroupParam record) {
 		ContactGroupParam _param = new ContactGroupParam();
 		_param.setName(record.getName());
-		return baseHandleCreate(record, _param, contactGroupService, TIP_GROUP);
+		return handle(record, _param, false, contactGroupService, TIP_GROUP, CREATE);
 	}
 
 	@Token
@@ -65,7 +65,7 @@ public class ContactGroupController extends PcController<ContactGroupParam>
 		ContactGroupParam _param = new ContactGroupParam();
 		_param.setName(record.getName());
 		_param.setId(record.getId());
-		return baseHandleEdit(record, _param, contactGroupService, TIP_GROUP,UPDATE);
+		return handle(record, _param, true, contactGroupService, TIP_GROUP, UPDATE);
 	}
 
 	@Token
@@ -76,6 +76,6 @@ public class ContactGroupController extends PcController<ContactGroupParam>
 		if(contactService.isContactGroup(id)){
 			return JSONResult.fail(JOIN_DATA + DELETE);
 		}
-		return baseHandleDelete(id, contactGroupService, TIP_GROUP);
+		return delete(id, contactGroupService, TIP_GROUP);
 	}
 }

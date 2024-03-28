@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopProductSkuParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductSku;
 
@@ -13,7 +13,7 @@ import cn.peyton.plum.mall.pojo.product.ShopProductSku;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopProductSkuService extends IBaseService<Long, ShopProductSku, ShopProductSkuParam> {
+public interface ShopProductSkuService extends IRealizeService<Long, ShopProductSku, ShopProductSkuParam> {
 
     /**
      * <h4>判断是否存在 skuValue </h4>

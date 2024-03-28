@@ -1,7 +1,7 @@
 package cn.peyton.plum.mall.controller.pc.manager.tmp;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/pc/demo")
 public class DemoController extends PcController<BrandParam>
-        implements IBasePCController<Long, BrandParam> {
+        implements IController<Long, BrandParam> {
 
     private String TIP_NAME = "品牌";
     @Resource
@@ -67,7 +67,7 @@ public class DemoController extends PcController<BrandParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(BrandParam record) {
-        initProps(record);
+
         // 判断重名 _repeat 为空不做重名判断
         BrandParam _repeat = new BrandParam();
         _repeat.setId(record.getId());

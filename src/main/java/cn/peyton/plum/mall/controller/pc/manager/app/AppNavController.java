@@ -2,15 +2,16 @@ package cn.peyton.plum.mall.controller.pc.manager.app;
 
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.app.AppNavParam;
 import cn.peyton.plum.mall.service.app.AppNavService;
 import jakarta.annotation.Resource;
@@ -29,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/pc/appnav")
-public class AppNavController extends PcController<AppNavParam>
-		implements IBasePCController<Integer, AppNavParam> {
+public class AppNavController extends RealizeController
+		implements IController<Integer, AppNavParam> {
 
 	@Resource
 	private AppNavService appNavService;
@@ -44,7 +45,7 @@ public class AppNavController extends PcController<AppNavParam>
 
 		_param.setTitle(query.getKeyword());
 		// 其他处理判断
-		return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), appNavService,null);
+		return page(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), appNavService,true);
 	}
 
 	@Token
@@ -53,9 +54,9 @@ public class AppNavController extends PcController<AppNavParam>
 	@Override
 	public JSONResult<?> create(AppNavParam record) {
 		AppNavParam _repeat = new AppNavParam();
-		_repeat.setSrc(convertImgPath(_repeat.getSrc()));
+		_repeat.setSrc(new CtrlUtils().convertImgPath(_repeat.getSrc()));
 		_repeat.setTitle(record.getTitle());
-		return baseHandleCreate(record, _repeat, appNavService, TIP_APP_NAV);
+		return handle(record, _repeat,false, appNavService, TIP_APP_NAV,CREATE);
 	}
 
 	@Token
@@ -66,8 +67,8 @@ public class AppNavController extends PcController<AppNavParam>
 		AppNavParam _repeat = new AppNavParam();
 		_repeat.setId(record.getId());
 		_repeat.setTitle(record.getTitle());
-		_repeat.setSrc(convertImgPath(_repeat.getSrc()));
-		return baseHandleEdit(record, _repeat, appNavService, TIP_APP_NAV,UPDATE);
+		_repeat.setSrc(new CtrlUtils().convertImgPath(_repeat.getSrc()));
+		return handle(record, _repeat,true, appNavService, TIP_APP_NAV,UPDATE);
 	}
 
 	@Token
@@ -75,7 +76,7 @@ public class AppNavController extends PcController<AppNavParam>
 	@PostMapping("/manager/delete")
 	@Override
 	public JSONResult<?> delete(@NotBlank(message = "APP分类Id 不能为空;") @Min(value = 1,message = "最小值为1")Integer id) {
-		return baseHandleDelete(id,appNavService,TIP_APP_NAV);
+		return delete(id,appNavService,TIP_APP_NAV);
 	}
 
 	@Token
@@ -86,6 +87,6 @@ public class AppNavController extends PcController<AppNavParam>
 		AppNavParam _param = new AppNavParam();
 		_param.setId(id);
 		_param.setStatus(status);
-		return baseHandle(appNavService.upStatus(id, status), TIP_APP_NAV, STATUS, UPDATE);
+		return handle(appNavService.upStatus(id, status), TIP_APP_NAV, STATUS, UPDATE);
 	}
 }

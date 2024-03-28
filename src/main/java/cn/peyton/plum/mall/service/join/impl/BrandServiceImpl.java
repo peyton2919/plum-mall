@@ -2,8 +2,7 @@ package cn.peyton.plum.mall.service.join.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
-import cn.peyton.plum.core.utils.LogUtils;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.BrandBo;
 import cn.peyton.plum.mall.mapper.join.BrandMapper;
 import cn.peyton.plum.mall.param.join.BrandParam;
@@ -24,19 +23,20 @@ import java.util.List;
  * </pre>
  */
 @Service("brandService")
-public class BrandServiceImpl extends AbstractRealizeService<Long, Brand, BrandParam>
+public class BrandServiceImpl extends RealizeService<Long, Brand, BrandParam>
         implements BrandService {
+
     private String TABLE_NAME = "tb_brand";
     @Resource
     private BrandMapper brandMapper;
 
     @Override
-    public BaseConvertBo<Brand, BrandParam> initBo() {
+    public BaseConvertBo<Brand, BrandParam> bo() {
         return new BrandBo();
     }
 
     @Override
-    public IBaseMapper<Long, Brand> initMapper() {
+    public IBaseMapper<Long, Brand> mapper() {
         return brandMapper;
     }
 
@@ -49,10 +49,7 @@ public class BrandServiceImpl extends AbstractRealizeService<Long, Brand, BrandP
     public Boolean upDelete(Long id) {
         int res = brandMapper.updateDeleteStatus(TABLE_NAME, id);
         if (res > 0) {
-            if (enabledCache) {
-                LogUtils.info("品牌删除操作清空缓存");
-                removeCache();
-            }
+            clearCache("品牌删除");
             return true;
         }
         return false;
@@ -61,23 +58,18 @@ public class BrandServiceImpl extends AbstractRealizeService<Long, Brand, BrandP
     @Override
     public List<BrandParam> findByDownList() {
         String key = keyPrefix + "_202312251339";
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n", key);
-                return (List<BrandParam>) obj;
-            }
+
+        if (null == getCache(key)) {
+            List<BrandParam> res = bo().adapter(brandMapper.selectByDownList());
+            saveCache(key, res);
+            return res;
         }
-        List<BrandParam> res = initBo().adapter(brandMapper.selectByDownList());
-        if (null != res && enabledCache) {
-            LogUtils.info(key);
-            cache.put(key, res);
-        }
-        return res;
+        return (List<BrandParam>) getCache(key);
+
     }
 
     @Override
     public List<BrandParam> findAndroidRandom(Integer limit) {
-        return initBo().adapter(brandMapper.selectAndroidRandom(limit));
+        return bo().adapter(brandMapper.selectAndroidRandom(limit));
     }
 }

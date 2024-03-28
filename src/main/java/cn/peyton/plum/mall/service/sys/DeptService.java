@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.DeptParam;
 import cn.peyton.plum.mall.pojo.sys.Dept;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.sys.Dept;
  * @version 1.0.0
  * </pre>
  */
-public interface DeptService extends IBaseService<Integer, Dept, DeptParam> {
+public interface DeptService extends IRealizeService<Integer, Dept, DeptParam> {
 
 }

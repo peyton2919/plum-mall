@@ -38,10 +38,6 @@ public class ShopCart implements Serializable {
      */
     private Integer isDel;
     /**
-     * 是否为立即购买,默认0 未立即购买 1购买
-     */
-    private Integer isNew;
-    /**
      * 拼团id
      */
     private Long pinkId;
@@ -154,20 +150,6 @@ public class ShopCart implements Serializable {
      */
     public Integer getIsDel() {
         return isDel;
-    }
-
-    /**
-     * @param isNew 是否为立即购买,默认0 未立即购买 1购买
-     */
-    public void setIsNew(Integer isNew) {
-        this.isNew = isNew;
-    }
-
-    /**
-     * @return 是否为立即购买, 默认0 未立即购买 1购买
-     */
-    public Integer getIsNew() {
-        return isNew;
     }
 
     /**

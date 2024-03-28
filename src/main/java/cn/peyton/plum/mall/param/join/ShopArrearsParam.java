@@ -3,17 +3,21 @@ package cn.peyton.plum.mall.param.join;
 import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.bo.MemberBo;
+import cn.peyton.plum.mall.bo.ShopRepaymentBo;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.pojo.join.ShopArrears;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <h3> 欠款信息 参数 传递类[用来展示数据]类</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2024年01月16日 21:12:27
+ * @date 2024年02月06日 22:33:31
  * @version 1.0.0
  * </pre>
 */
@@ -22,52 +26,36 @@ public class ShopArrearsParam implements Serializable {
 	private Long id;
 	/** 订单Id  */
 	private Long oid;
+	/** 还款Id  */
+	private Long repId;
 	/** 欠款金额  */
 	@NotBlank(message = "欠款金额不能为空")
 	@MinDecimal(value = 0.01,message = "最小欠款金额不能为0")
-	private BigDecimal debt;
-	/** 还款金额  */
-	@NotBlank(message = "还款金额不能为空")
-	@MinDecimal(value = 0.01,message = "最小还款金额不能为0")
-	private BigDecimal repayDebt;
-	/** 实际付款金额  */
-	private BigDecimal actualPayment;
+	private BigDecimal money;
 	/** 付款状态 默认 0 未清 1 已清  */
 	@Size(min = 0,max = 1)
 	private Integer status;
-	/**
-	 * 欠还多种对充;默认 0 不启用 1 欠1还N 2 欠N还N 3 欠N还1
-	 */
-	@Size(min = 0, max = 3)
-	private Integer isMulti;
-	/** 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他  */
-	@Size(min = 0, max = 4)
-	private Integer repayType;
 	/** 客户Id  */
 	@NotBlank(message = "会员Id不能为空")
 	@Min(value = 1,message = "最小值为1")
 	private Long memberId;
-	/** 关联欠款与还款对象集合(JSON格式)  */
-	private String correlation;
 	/** 备注  */
 	@Length(min = 0,max = 255)
 	private String remark;
-	/** 备用  */
-	@Length(min = 0,max = 100)
-	private String reserve;
 	/** 欠款时间  */
 	@Datetime
 	@Past
 	private String createTime;
-	/** 还款时间  */
-	@Datetime
-	@Past
-	private String updateTime;
-	/** 会员对象*/
+	/** 会员对象 */
 	private MemberParam member;
+	/** 还款集合 */
+	private List<ShopRepaymentParam> shopRepayments;
+
+
 	//================================== Constructor =======================================//
 	public ShopArrearsParam(){
 		if (null == member) {member = new MemberParam();}
+		if (null == shopRepayments) { shopRepayments = new ArrayList<>();}
 	}
 	//================================== Method =======================================//
 
@@ -88,60 +76,46 @@ public class ShopArrearsParam implements Serializable {
 		return id;
 	}
 
-	/**
-	 * @return 订单Id
-	 */
-	public Long getOid() {
-		return oid;
-	}
-
-	/**
-	 * @param oid 订单Id
-	 */
-	public void setOid(Long oid) {
+	/** 
+	 * @param oid 订单Id 
+	 */ 
+	public void setOid(Long oid){
 		this.oid = oid;
 	}
 
 	/** 
-	 * @param debt 欠款金额 
+	 * @return 订单Id 
 	 */ 
-	public void setDebt(BigDecimal debt){
-		this.debt = debt;
+	public Long getOid(){
+		return oid;
+	}
+
+	/** 
+	 * @param repId 还款Id 
+	 */ 
+	public void setRepId(Long repId){
+		this.repId = repId;
+	}
+
+	/** 
+	 * @return 还款Id 
+	 */ 
+	public Long getRepId(){
+		return repId;
+	}
+
+	/** 
+	 * @param money 欠款金额 
+	 */ 
+	public void setMoney(BigDecimal money){
+		this.money = money;
 	}
 
 	/** 
 	 * @return 欠款金额 
 	 */ 
-	public BigDecimal getDebt(){
-		return debt;
-	}
-
-	/** 
-	 * @param repayDebt 还款金额 
-	 */ 
-	public void setRepayDebt(BigDecimal repayDebt){
-		this.repayDebt = repayDebt;
-	}
-
-	/** 
-	 * @return 还款金额 
-	 */ 
-	public BigDecimal getRepayDebt(){
-		return repayDebt;
-	}
-
-	/** 
-	 * @param actualPayment 实际付款金额 
-	 */ 
-	public void setActualPayment(BigDecimal actualPayment){
-		this.actualPayment = actualPayment;
-	}
-
-	/** 
-	 * @return 实际付款金额 
-	 */ 
-	public BigDecimal getActualPayment(){
-		return actualPayment;
+	public BigDecimal getMoney(){
+		return money;
 	}
 
 	/** 
@@ -159,34 +133,6 @@ public class ShopArrearsParam implements Serializable {
 	}
 
 	/** 
-	 * @param isMulti 欠还多种对充;默认 0 不启用 1 欠1还N 2 欠N还N 3 欠N还1 
-	 */ 
-	public void setIsMulti(Integer isMulti){
-		this.isMulti = isMulti;
-	}
-
-	/** 
-	 * @return 欠还多种对充;默认 0 不启用 1 欠1还N 2 欠N还N 3 欠N还1 
-	 */ 
-	public Integer getIsMulti(){
-		return isMulti;
-	}
-
-	/** 
-	 * @param repayType 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他 
-	 */ 
-	public void setRepayType(Integer repayType){
-		this.repayType = repayType;
-	}
-
-	/** 
-	 * @return 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他 
-	 */ 
-	public Integer getRepayType(){
-		return repayType;
-	}
-
-	/** 
 	 * @param memberId 客户Id 
 	 */ 
 	public void setMemberId(Long memberId){
@@ -198,20 +144,6 @@ public class ShopArrearsParam implements Serializable {
 	 */ 
 	public Long getMemberId(){
 		return memberId;
-	}
-
-	/** 
-	 * @param correlation 关联欠款与还款对象集合(JSON格式) 
-	 */ 
-	public void setCorrelation(String correlation){
-		this.correlation = correlation;
-	}
-
-	/** 
-	 * @return 关联欠款与还款对象集合(JSON格式) 
-	 */ 
-	public String getCorrelation(){
-		return correlation;
 	}
 
 	/** 
@@ -229,20 +161,6 @@ public class ShopArrearsParam implements Serializable {
 	}
 
 	/** 
-	 * @param reserve 备用 
-	 */ 
-	public void setReserve(String reserve){
-		this.reserve = reserve;
-	}
-
-	/** 
-	 * @return 备用 
-	 */ 
-	public String getReserve(){
-		return reserve;
-	}
-
-	/** 
 	 * @param createTime 欠款时间 
 	 */ 
 	public void setCreateTime(String createTime){
@@ -254,20 +172,6 @@ public class ShopArrearsParam implements Serializable {
 	 */ 
 	public String getCreateTime(){
 		return createTime;
-	}
-
-	/** 
-	 * @param updateTime 还款时间 
-	 */ 
-	public void setUpdateTime(String updateTime){
-		this.updateTime = updateTime;
-	}
-
-	/** 
-	 * @return 还款时间 
-	 */ 
-	public String getUpdateTime(){
-		return updateTime;
 	}
 	/**
 	 * @return 会员对象
@@ -284,36 +188,45 @@ public class ShopArrearsParam implements Serializable {
 	}
 
 	/**
+	 * @return 还款集合
+	 */
+	public List<ShopRepaymentParam> getShopRepayments() {
+		return shopRepayments;
+	}
+
+	/**
+	 * @param shopRepayments 还款集合
+	 */
+	public void setShopRepayments(List<ShopRepaymentParam> shopRepayments) {
+		this.shopRepayments = shopRepayments;
+	}
+
+	/**
 	 * <h4>对象转成ShopArrears对象<h4> 
 	 * <pre>
 	 * 	 转换字段如下:
-	 * 	 [id,debt,repayDebt,actualPayment,status,isMulti,repayType,memberId,correlation,remark,reserve,createTime,updateTime]
+	 * 	 [id,oid,repId,money,status,memberId,remark,createTime]
 	 * </pre>
 	 */
-	public ShopArrears convert(){
-		ShopArrears shopArrears = new ShopArrears(); 
+	public ShopArrears convert(){ 
+		ShopArrears shopArrears = new ShopArrears();
 		shopArrears.setId(id);
 		shopArrears.setOid(oid);
-		shopArrears.setDebt(debt);
-		shopArrears.setRepayDebt(repayDebt);
-		shopArrears.setActualPayment(actualPayment);
+		shopArrears.setRepId(repId);
+		shopArrears.setMoney(money);
 		shopArrears.setStatus(status);
-		shopArrears.setIsMulti(isMulti);
-		shopArrears.setRepayType(repayType);
 		shopArrears.setMemberId(memberId);
-		shopArrears.setCorrelation(correlation);
 		shopArrears.setRemark(remark);
-		shopArrears.setReserve(reserve);
 		shopArrears.setCreateTime(DateUtils.dateToTimestamp(createTime));
-		shopArrears.setUpdateTime(DateUtils.dateToTimestamp(updateTime));
 		shopArrears.setMember(member.convert());
+		shopArrears.setShopRepayments(new ShopRepaymentBo().reverse(shopRepayments));
 		return shopArrears;
 	} 
 	/**
 	 * <h4>ShopArrears对象转成ShopArrearsParam对象<h4> 
 	 * <pre>
 	 * 	 转换字段如下:
-	 * 	 [id,debt,repayDebt,actualPayment,status,isMulti,repayType,memberId,correlation,remark,reserve,createTime,updateTime]
+	 * 	 [id,oid,repId,money,status,memberId,remark,createTime]
 	 * </pre>
 	 */
 	public ShopArrearsParam compat(ShopArrears shopArrears){ 
@@ -322,19 +235,14 @@ public class ShopArrearsParam implements Serializable {
 		}
 		this.setId(shopArrears.getId());
 		this.setOid(shopArrears.getOid());
-		this.setDebt(shopArrears.getDebt());
-		this.setRepayDebt(shopArrears.getRepayDebt());
-		this.setActualPayment(shopArrears.getActualPayment());
+		this.setRepId(shopArrears.getRepId());
+		this.setMoney(shopArrears.getMoney());
 		this.setStatus(shopArrears.getStatus());
-		this.setIsMulti(shopArrears.getIsMulti());
-		this.setRepayType(shopArrears.getRepayType());
 		this.setMemberId(shopArrears.getMemberId());
-		this.setCorrelation(shopArrears.getCorrelation());
 		this.setRemark(shopArrears.getRemark());
-		this.setReserve(shopArrears.getReserve());
 		this.setCreateTime(DateUtils.timestampToStrDate(shopArrears.getCreateTime()));
-		this.setUpdateTime(DateUtils.timestampToStrDate(shopArrears.getUpdateTime()));
 		this.setMember(new MemberBo().compat(shopArrears.getMember()));
+		this.setShopRepayments(new ShopRepaymentBo().adapter(shopArrears.getShopRepayments()));
 		return this;
 	} 
 }

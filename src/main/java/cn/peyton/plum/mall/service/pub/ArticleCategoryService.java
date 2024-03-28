@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.pub;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.pub.ArticleCategoryParam;
 import cn.peyton.plum.mall.pojo.pub.ArticleCategory;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.pub.ArticleCategory;
  * @version 1.0.0
  * </pre>
  */
-public interface ArticleCategoryService extends IBaseService<Integer, ArticleCategory, ArticleCategoryParam> {
+public interface ArticleCategoryService extends IRealizeService<Integer, ArticleCategory, ArticleCategoryParam> {
 
 }

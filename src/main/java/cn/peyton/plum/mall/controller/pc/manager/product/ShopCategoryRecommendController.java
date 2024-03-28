@@ -2,7 +2,8 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
@@ -10,7 +11,6 @@ import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopCategoryRecommendParam;
 import cn.peyton.plum.mall.service.product.ShopCategoryRecommendService;
 import jakarta.annotation.Resource;
@@ -33,8 +33,8 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/pc/categoryrecommend")
-public class ShopCategoryRecommendController extends PcController<ShopCategoryRecommendParam>
-        implements IBasePCController<Long, ShopCategoryRecommendParam> {
+public class ShopCategoryRecommendController extends RealizeController
+        implements IController<Long, ShopCategoryRecommendParam> {
 
 	@Resource
 	private ShopCategoryRecommendService shopCategoryRecommendService;
@@ -70,7 +70,7 @@ public class ShopCategoryRecommendController extends PcController<ShopCategoryRe
 	public JSONResult<?> joinDelete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long productId,
 				@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer categoryId) {
 
-		return baseHandle(shopCategoryRecommendService.deleteByJoinId(productId, categoryId), DATA, DELETE);
+		return handle(shopCategoryRecommendService.deleteByJoinId(productId, categoryId), DATA, DELETE);
 	}
 
 	//category_id 分类Id,cover 商品封面,create_time 创建时间,product_id 商品Id,id,name 商品名称,seq 排序,
@@ -91,7 +91,7 @@ public class ShopCategoryRecommendController extends PcController<ShopCategoryRe
 		Integer categoryId = data.getKeyInt();
 		List<Long> longs = data.getLongs();
 		if (categoryId < 1 || null == longs || longs.size() < 1) {
-			return JSONResult.fail("没有关联数据");
+			return JSONResult.fail(NO_DATA);
 		}
 		List<ShopCategoryRecommendParam> _params = new ArrayList<>();
 		ShopCategoryRecommendParam _p = null;
@@ -103,9 +103,6 @@ public class ShopCategoryRecommendController extends PcController<ShopCategoryRe
 			_p.setCreateTime(DateUtils.dateToTimestamp(new Date()));
 			_params.add(_p);
 		}
-		if (shopCategoryRecommendService.batchCreate(_params)) {
-			return JSONResult.success("推荐商品关联成功");
-		}
-		return JSONResult.fail("推荐商品关联失败");
+		return handle(shopCategoryRecommendService.batchCreate(_params), RECOMMEND, TIP_PRODUCT, JOIN);
 	}
 }

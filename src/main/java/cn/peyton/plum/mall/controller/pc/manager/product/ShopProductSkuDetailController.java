@@ -2,14 +2,15 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopProductSkuDetailParam;
 import cn.peyton.plum.mall.service.product.ShopProductService;
 import cn.peyton.plum.mall.service.product.ShopProductSkuDetailService;
@@ -32,8 +33,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/productskudetail")
-public class ShopProductSkuDetailController extends PcController<ShopProductSkuDetailParam>
-        implements IBasePCController<Long,ShopProductSkuDetailParam> {
+public class ShopProductSkuDetailController extends RealizeController
+        implements IController<Long,ShopProductSkuDetailParam> {
 
     @Resource
     private ShopProductSkuDetailService shopProductSkuDetailService;
@@ -54,8 +55,8 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
         if (null == data || null == data.getRecord() || null == data.getBool()) {
             return JSONResult.fail(MSG);
         }
-        data.getRecord().setCover(convertImgPath(data.getRecord().getCover()));
-        return baseHandle(shopProductSkuDetailService.joinCreateAndEdit(data.getRecord(), null, data.getBool()),
+        data.getRecord().setCover(new CtrlUtils().convertImgPath(data.getRecord().getCover()));
+        return handle(shopProductSkuDetailService.joinCreateAndEdit(data.getRecord(), null, data.getBool()),
                 TIP_PRODUCT,SPEC_SINGLE,OPERATE);
     }
 
@@ -72,13 +73,10 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
         }
         List<ShopProductSkuDetailParam> objs = data.getObjs();
         for (int i = 0; i < objs.size(); i++) {
-            objs.get(i).setCover(convertImgPath(objs.get(i).getCover()));
+            objs.get(i).setCover(new CtrlUtils().convertImgPath(objs.get(i).getCover()));
         }
 
-        if (shopProductSkuDetailService.joinMultiCrateAndEdit(objs, data.getStr(), data.getBool())) {
-            return JSONResult.success(BATCH + OPERATE + TIP_PRODUCT + SPEC_MULTI + SUCCESS);
-        }
-        return JSONResult.fail(BATCH + OPERATE + TIP_PRODUCT + SPEC_MULTI + FAIL);
+        return handle(shopProductSkuDetailService.joinMultiCrateAndEdit(objs, data.getStr(), data.getBool()), BATCH, OPERATE, TIP_PRODUCT, SPEC_MULTI);
     }
 
 
@@ -88,7 +86,7 @@ public class ShopProductSkuDetailController extends PcController<ShopProductSkuD
     @PostMapping("/manager/upwarehouse")
     public JSONResult<?> upWarehouse(Long id, Integer warehouseId,String explain) {
 
-        return baseHandle(shopProductSkuDetailService.updateWarehouse(id,warehouseId,explain),TIP_WAREHOUSE,UPDATE);
+        return handle(shopProductSkuDetailService.updateWarehouse(id,warehouseId,explain),TIP_WAREHOUSE,UPDATE);
     }
 
     @Override

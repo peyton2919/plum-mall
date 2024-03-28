@@ -41,6 +41,13 @@ public interface ShopOrderItemMapper extends IBaseMapper<Long, ShopOrderItem> {
      * @return 总条数
      */
     int countByPsdId(Long psdId, Integer startTime, Integer endTime);
+
+    /**
+     * <h4>批量添加</h4>
+     * @param items
+     * @return
+     */
+    int batchInsert(List<ShopOrderItem> items);
     // ==================================== new create method ==================================== //
 
     /**

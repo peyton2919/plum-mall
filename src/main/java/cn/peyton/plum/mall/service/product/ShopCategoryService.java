@@ -1,7 +1,7 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.core.inf.service.IDeleteService;
+import cn.peyton.plum.core.inf.service.base.IDeleteService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
 import cn.peyton.plum.mall.pojo.product.ShopCategory;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopCategoryService extends IDeleteService<Integer>, IBaseService<Integer, ShopCategory, ShopCategoryParam> {
+public interface ShopCategoryService extends IDeleteService<Integer>, IRealizeService<Integer, ShopCategory, ShopCategoryParam> {
 
     /**
      * <h4>删除时判断是否有子类</h4>

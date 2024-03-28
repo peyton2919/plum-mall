@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.RoleBo;
 import cn.peyton.plum.mall.mapper.sys.RoleMapper;
 import cn.peyton.plum.mall.param.sys.RoleParam;
@@ -23,17 +23,17 @@ import java.util.List;
  * </pre>
  */
 @Service("roleService")
-public class RoleServiceImpl extends AbstractRealizeService<Long, Role, RoleParam> implements RoleService {
+public class RoleServiceImpl extends RealizeService<Long, Role, RoleParam> implements RoleService {
     @Resource
     private RoleMapper roleMapper;
 
     @Override
-    public BaseConvertBo<Role, RoleParam> initBo() {
+    public BaseConvertBo<Role, RoleParam> bo() {
         return new RoleBo();
     }
 
     @Override
-    public IBaseMapper<Long, Role> initMapper() {
+    public IBaseMapper<Long, Role> mapper() {
         return roleMapper;
     }
 
@@ -45,20 +45,15 @@ public class RoleServiceImpl extends AbstractRealizeService<Long, Role, RolePara
     @Override
     public List<RoleParam> findBySelect() {
         String key = keyPrefix + "find_select_all";
-        if (enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<RoleParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<RoleParam> adapter = bo().adapter(roleMapper.selectByAll());
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<RoleParam> pList = initBo().adapter(roleMapper.selectByAll());
+        return (List<RoleParam>) objs;
 
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+
     }
 
 }

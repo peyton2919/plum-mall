@@ -5,7 +5,6 @@
 		<id column="id" property="id" jdbcType="BIGINT"/>
 		<result column="o_id" property="oId" jdbcType="BIGINT"/>
 		<result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
-		<result column="cart_id" property="cartId" jdbcType="BIGINT"/>
 		<result column="psd_id" property="psdId" jdbcType="BIGINT"/>
 		<result column="product_id" property="productId" jdbcType="BIGINT"/>
 		<result column="spec_type" property="specType" jdbcType="TINYINT"/>
@@ -21,7 +20,7 @@
 					 column="product_id" select="cn.peyton.plum.mall.mapper.product.ShopProductMapper.selectSimpleById" />
 	</resultMap>
 	<sql id="Column_tb_shop_order_item_List">
-		`id`,`o_id`,`order_no`,`cart_id`,`psd_id`,`product_id`,`spec_type`,`num`,`refund_num`,`price`,`is_after_sales`,`is_show`,`create_time`
+		`id`,`o_id`,`order_no`,`psd_id`,`product_id`,`spec_type`,`num`,`refund_num`,`price`,`is_after_sales`,`is_show`,`create_time`
 	</sql>
 
 	<!-- 用在销售明细查找 根据 psd_id -->
@@ -41,7 +40,6 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="oId != null">`o_id`,</if>
 			<if test="orderNo != null">`order_no`,</if>
-			<if test="cartId != null">`cart_id`,</if>
 			<if test="psdId != null">`psd_id`,</if>
 			<if test="productId != null">`product_id`,</if>
 			<if test="specType != null">`psd_id`,</if>
@@ -55,7 +53,6 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="oId != null">#{oId},</if>
 			<if test="orderNo != null">#{orderNo},</if>
-			<if test="cartId != null">#{cartId},</if>
 			<if test="psdId != null">#{psdId},</if>
 			<if test="productId != null">#{productId},</if>
 			<if test="specType != null">#{specType},</if>
@@ -68,12 +65,21 @@
 		</trim>
 	</insert>
 
+	<!-- 批量插入 -->
+	<insert id="batchInsert" parameterType="list" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into `tb_shop_order_item`
+		(`o_id`,`psd_id`,`product_id`,`spec_type`,`num`,`price`,`create_time`)
+		values
+		<foreach collection="items" item="item" separator=",">
+			(#{item.oId},#{item.psdId},#{item.productId},#{item.specType},#{item.num},#{item.price},#{item.createTime})
+		</foreach>
+	</insert>
+
 	<update id="updateSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopOrderItem">
 		update `tb_shop_order_item`
 		<set>
 			<if test="oId != null">`o_id` = #{oId},</if>
 			<if test="orderNo != null">`order_no` = #{orderNo},</if>
-			<if test="cartId != null">`cart_id` = #{cartId},</if>
 			<if test="psdId != null">`psd_id` = #{psdId},</if>
 			<if test="productId != null">`product_id` =#{productId},</if>
 			<if test="specType != null">`spec_type` =#{specType},</if>
@@ -104,9 +110,6 @@
 			</if>
 			<if test="orderNo != null">
 				and `order_no` = #{orderNo}
-			</if>
-			<if test="cartId != null">
-				and `cart_id` = #{cartId}
 			</if>
 			<if test="psdId != null">
 				and `psd_id` = #{psdId}
@@ -166,6 +169,7 @@
 			limit #{page.offset},#{page.pageSize}
 		</if>
 	</select>
+
 	<!-- 用在销售明细查找 根据 psd_id 分页 -->
 	<select id="countByPsdId" resultType="int"  parameterType="java.lang.Long">
 		select
@@ -198,9 +202,6 @@
 			</if>
 			<if test="record.orderNo != null">
 				and `order_no` like concat('%',#{record.orderNo},'%')
-			</if>
-			<if test="record.cartId != null">
-				and `cart_id` like concat('%',#{record.cartId},'%')
 			</if>
 			<if test="record.psdId != null">
 				and `psd_id` like concat('%',#{record.psdId},'%')
@@ -243,9 +244,6 @@
 			<if test="record.orderNo != null">
 				and `order_no` = #{record.orderNo}
 			</if>
-			<if test="record.cartId != null">
-				and `cart_id` = #{record.cartId}
-			</if>
 			<if test="record.psdId != null">
 				and `psd_id` = #{record.psdId}
 			</if>
@@ -287,9 +285,6 @@
 			<if test="orderNo != null">
 				and `order_no` like concat('%',#{orderNo},'%')
 			</if>
-			<if test="cartId != null">
-				and `cart_id` like concat('%',#{cartId},'%')
-			</if>
 			<if test="psdId != null">
 				and `psd_id` like concat('%',#{psdId},'%')
 			</if>
@@ -321,9 +316,6 @@
 			</if>
 			<if test="orderNo != null">
 				and `order_no` = #{orderNo}
-			</if>
-			<if test="cartId != null">
-				and `cart_id` = #{cartId}
 			</if>
 			<if test="psdId != null">
 				and `psd_id` = #{psdId}

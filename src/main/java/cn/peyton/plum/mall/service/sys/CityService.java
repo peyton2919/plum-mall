@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.CityParam;
 import cn.peyton.plum.mall.pojo.sys.City;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
 */
-public interface CityService extends IBaseService<Integer, City, CityParam> {
+public interface CityService extends IRealizeService<Integer, City, CityParam> {
 
     /**
      * <h4>菜单树型查找</h4>

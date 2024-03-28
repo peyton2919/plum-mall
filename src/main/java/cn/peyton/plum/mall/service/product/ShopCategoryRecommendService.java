@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopCategoryRecommendParam;
 import cn.peyton.plum.mall.pojo.product.ShopCategoryRecommend;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
 */
-public interface ShopCategoryRecommendService extends IBaseService<Long, ShopCategoryRecommend, ShopCategoryRecommendParam> {
+public interface ShopCategoryRecommendService extends IRealizeService<Long, ShopCategoryRecommend, ShopCategoryRecommendParam> {
 
     /**
      * <h4>根据商品分类Id 查找</h4>

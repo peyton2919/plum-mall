@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.pub;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.pub.ShopCanvasParam;
 import cn.peyton.plum.mall.pojo.pub.ShopCanvas;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.pub.ShopCanvas;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopCanvasService extends IBaseService<Long, ShopCanvas, ShopCanvasParam> {
+public interface ShopCanvasService extends IRealizeService<Long, ShopCanvas, ShopCanvasParam> {
 
 }

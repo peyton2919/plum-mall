@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.party.ContactParam;
 import cn.peyton.plum.mall.pojo.party.Contact;
 
@@ -13,7 +13,7 @@ import cn.peyton.plum.mall.pojo.party.Contact;
  * @version 1.0.0
  * </pre>
 */
-public interface ContactService extends IBaseService<Integer, Contact, ContactParam> {
+public interface ContactService extends IRealizeService<Integer, Contact, ContactParam> {
 
     /**
      * <h4>根据分组Id 判断是否被使用</h4>

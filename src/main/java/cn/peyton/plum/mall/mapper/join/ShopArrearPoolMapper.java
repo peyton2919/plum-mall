@@ -3,6 +3,7 @@ package cn.peyton.plum.mall.mapper.join;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.mall.pojo.join.ShopArrearPool;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.math.BigDecimal;
 
@@ -30,4 +31,12 @@ public interface ShopArrearPoolMapper extends IBaseMapper<Long, ShopArrearPool> 
      */
     @Select("select sum(balance) from tb_shop_arrear_pool where status=0")
     BigDecimal calcBalance();
+
+    /**
+     * <h4>更新欠款金额</h4>
+     * @param memberId 会员Id
+     * @return 欠款金额
+     */
+    @Update("UPDATE tb_shop_arrear_pool set total = (SELECT SUM(money) FROM tb_shop_arrears WHERE member_id =#{memberId} and status=0) where member_id =#{memberId}")
+    int updateArrearTotal(Long memberId);
 }

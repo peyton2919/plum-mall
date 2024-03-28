@@ -6,6 +6,8 @@ import cn.peyton.plum.mall.pojo.product.ShopStock;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * <h3> 商品库存汇总 Mapper 接口</h3>
  * <pre>
@@ -23,6 +25,13 @@ public interface ShopStockMapper extends IBaseMapper<Long, ShopStock> {
      * @return 库存对象 或 空
      */
     ShopStock isExist(Long psdId);
+
+    /**
+     * <h4>根据商品明细Id 集合查找</h4>
+     * @param ids 商品明细Id集合
+     * @return 库存集合
+     */
+    List<ShopStock> selectByIds(List<Long> ids);
 
     /**
      * <h4>购买商品时,判断库存商品数量够不够</h4>
@@ -62,10 +71,9 @@ public interface ShopStockMapper extends IBaseMapper<Long, ShopStock> {
     /**
      * <h4>更新 总销量</h4>
      *
-     * @param id    库存主键
      * @param psdId 商品规格明细主键
      * @return 受影响的行数 > 0 成功
      */
-    @Update("UPDATE tb_shop_stock set pay_count =(select SUM(num-refund_num) FROM tb_shop_order_item  where psd_id=#{psdId}) where id = #{id}")
-    int updatePayCount(Long id, Long psdId);
+    @Update("UPDATE tb_shop_stock set pay_count =(select SUM(num-refund_num) FROM tb_shop_order_item  where psd_id=#{psdId}) where psd_id = #{psdId}")
+    int updatePayCount(Long psdId);
 }

@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopProductSkuJoinParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.product.ShopProductSkuJoin;
  * @version 1.0.0
  * </pre>
 */
-public interface ShopProductSkuJoinService extends IBaseService<Long, ShopProductSkuJoin, ShopProductSkuJoinParam> {
+public interface ShopProductSkuJoinService extends IRealizeService<Long, ShopProductSkuJoin, ShopProductSkuJoinParam> {
 
 }

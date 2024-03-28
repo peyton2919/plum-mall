@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.party.ContactGroupParam;
 import cn.peyton.plum.mall.pojo.party.ContactGroup;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.party.ContactGroup;
  * @version 1.0.0
  * </pre>
 */
-public interface ContactGroupService extends IBaseService<Integer, ContactGroup, ContactGroupParam> {
+public interface ContactGroupService extends IRealizeService<Integer, ContactGroup, ContactGroupParam> {
 
 }

@@ -1,14 +1,18 @@
 package cn.peyton.plum.mall.controller.base;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.controller.CommonController;
+import cn.peyton.plum.core.inf.controller.IBaseController;
+import cn.peyton.plum.core.inf.controller.ITipMessages;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
-import cn.peyton.plum.core.utils.HttpServletRequestUtils;
-import cn.peyton.plum.core.utils.TokenUtils;
+import cn.peyton.plum.core.page.ResponseStatus;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +28,8 @@ import java.util.Map;
  */
 @Controller
 @CrossOrigin(origins = "*")
-public class AndroidController<K,P> extends CommonController implements IBaseController,ITipMessages {
-    /**
-     * Token 过期时间 1 天
-     */
-    protected long expireTime = 24 * 60 * 60 * 1000L;
+public class AndroidController<K,P> extends CommonController implements IBaseController, ITipMessages {
+
 
 
     /**
@@ -38,12 +39,12 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
      * @param expand 需要返回的扩展数据
      * @return 对象
      */
-    public JSONResult<?> one(K id, IBaseService<K, T,P> service, Object expand) {
+    public JSONResult<?> one(K id, IRealizeService<K, T,P> service, Object expand) {
         P result = service.findById(id);
         if (null != result) {
             return JSONResult.success(DATA_LOADING_SUCCESS, result, expand);
         }
-        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
+        return JSONResult.success(NO_DATA, null, expand, JSONResult.Props.NO_DATA);
     }
 
     /**
@@ -55,12 +56,12 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
      * @param key 区分的key值
      * @return
      */
-    public JSONResult<?> list(P param, PageQuery page, IBaseService<K, T, P> service, Object expand, String key) {
-        List<P> result = service.like(param, page,key);
+    public JSONResult<?> list(P param, PageQuery page, IRealizeService<K, T, P> service, Object expand, String key) {
+        List<P> result = service.list(param, page,key,true);
         if (null != result) {
             return JSONResult.success(DATA_LOADING_SUCCESS,result,expand);
         }
-        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
+        return JSONResult.success(NO_DATA, new ArrayList<>(), expand, JSONResult.Props.NO_DATA);
     }
 
     /**
@@ -73,7 +74,7 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
         if (null != list && list.size() > 0) {
             return JSONResult.success(DATA_LOADING_SUCCESS,list,expand);
         }
-        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
+        return JSONResult.success(NO_DATA, new ArrayList<>(), expand, JSONResult.Props.NO_DATA);
     }
 
     /**
@@ -86,7 +87,7 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
         if (null != param) {
             return JSONResult.success(DATA_LOADING_SUCCESS, param, expand);
         }
-        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
+        return JSONResult.success(NO_DATA, null, expand, JSONResult.Props.NO_DATA);
     }
 
     /**
@@ -99,7 +100,7 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
         if (null != map) {
             return JSONResult.success(DATA_LOADING_SUCCESS, map, expand);
         }
-        return JSONResult.fail(expand, NO_DATA, JSONResult.Props.NO_DATA);
+        return JSONResult.success(NO_DATA, new HashMap<>(), expand, JSONResult.Props.NO_DATA);
     }
 
     /**
@@ -111,7 +112,7 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
      * @param tip 提示名称 (类的中文名称)
      * @return
      */
-    public JSONResult<?> handleObject(P param, P repeat, IBaseService<K, T, P> service, Boolean mode,String... tip) {
+    public JSONResult<?> handleObject(P param, P repeat, IRealizeService<K, T, P> service, Boolean mode,String... tip) {
         if (null != repeat) {
             if (service.repeat(repeat)) {
                 return JSONResult.fail(REPEAT);
@@ -125,12 +126,16 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
                 _msg.append(t);
             }
         }
+
         P res = null;
         boolean bool = false;
         if(mode){
             bool = service.update(param);
+            if(bool){
+                res = param;
+            }
         }else{
-            res = service.add(param);
+            res = service.insert(param);
             if (null != res) {
                 bool = true;
             }
@@ -143,70 +148,41 @@ public class AndroidController<K,P> extends CommonController implements IBaseCon
     }
 
     /**
+     * <h4>返回处理对象</h4>
+     * @param bool true 成功 false 失败
+     * @param expand 扩展对象
+     * @param tip 提示信息集合
+     * @return
+     */
+    public JSONResult<?> handle(boolean bool,Object expand,String... tip){
+        StringBuffer _msg = new StringBuffer();
+        int len = 0;
+        if (null != tip) {
+            len = tip.length;
+            for (String t : tip) {
+                _msg.append(t);
+            }
+        }
+        if(bool){
+            return JSONResult.success(_msg.append(SUCCESS).toString(),null,expand);
+        }
+        return JSONResult.fail(expand, _msg.append(FAIL).toString(), ResponseStatus.FAIL.getCode());
+    }
+
+    /**
      * <h4>删除 对象</h4>
      * @param id 对象 主键
      * @param service 编辑|更新 对应服务层
      * @param tip 提示名称 (类的中文名称)
      * @return
      */
-    public JSONResult<?> handleDelete(K id, IBaseService<K, T, P> service, String tip) {
+    public JSONResult<?> handleDelete(K id, IRealizeService<K, T, P> service, String tip) {
         if (service.delete(id)) {
             return JSONResult.success(tip + DELETE + SUCCESS);
         }
         return JSONResult.fail(tip + DELETE + FAIL);
     }
 
-    /**
-     * <h4>保存 Token</h4>
-     *
-     * @param record 要保存的对象
-     * @return 对象转换成加密后的字符串
-     */
-    protected String saveToken(P record) {
-        return new TokenUtils<P>().sign(KEY_TOKEN_ANDROID, record, expireTime);
-    }
 
-    /**
-     * <h4>获取 Token</h4>
-     *
-     * @param record 保存token内的对象
-     * @param <P>
-     * @return null 表示 非法 token
-     */
-    protected <P> P handleToken(P record) {
-        String _tokenValue = HttpServletRequestUtils.getRequest().getHeader(ACCESS_TOKEN);
-        if (null != _tokenValue) {
-            return new TokenUtils<P>().getObject(KEY_TOKEN_ANDROID, _tokenValue, record);
-        }
-        return null;
-    }
-
-    /**
-     * <h4>验证 Token 是否合法</h4>
-     *
-     * @param <P>
-     * @return 返回 true 表示 没被篡改 ; false 表示 被篡改过;
-     */
-    protected <P> Boolean verifyToken() {
-        String _tokenValue = HttpServletRequestUtils.getRequest().getHeader(ACCESS_TOKEN);
-        if (null != _tokenValue) {
-            return new TokenUtils<P>().verify(_tokenValue);
-        }
-        return false;
-    }
-
-    protected String getSiteRootPath(String simplePath) {
-        return HttpServletRequestUtils.getSiteRootPath() + simplePath;
-    }
-
-    /**
-     * <h>赋值转换</h>
-     *
-     * @param record
-     * @return
-     */
-    protected P assign(P record) {
-        return record;
-    }
 
 }

@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.join;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.join.BrandParam;
 import cn.peyton.plum.mall.pojo.join.Brand;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface BrandService extends IBaseService<Long, Brand, BrandParam> {
+public interface BrandService extends IRealizeService<Long, Brand, BrandParam> {
     /**
      *  <h4>删除</h4>
      * @param id 对象ID

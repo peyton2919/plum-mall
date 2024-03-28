@@ -2,7 +2,8 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.PageQuery;
@@ -10,7 +11,6 @@ import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopProductRuleParam;
 import cn.peyton.plum.mall.service.product.ShopProductRuleService;
 import jakarta.annotation.Resource;
@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/skus")
-public class ShopProductRuleController extends PcController<ShopProductRuleParam>
-        implements IBasePCController<Integer,ShopProductRuleParam> {
+public class ShopProductRuleController extends RealizeController
+        implements IController<Integer,ShopProductRuleParam> {
 
     @Resource
     private ShopProductRuleService shopProductRuleService;
@@ -43,7 +43,7 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
     public JSONResult<?> list(Query query) {
         ShopProductRuleParam _param = new ShopProductRuleParam();
         _param.setRuleName(query.getKeyword());
-        return baseHandleList(_param,new PageQuery(query.getPageNo(),"hot"),shopProductRuleService,null);
+        return page(_param,new PageQuery(query.getPageNo(),"hot"),shopProductRuleService,true);
     }
 
     @Token
@@ -53,7 +53,7 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
     public JSONResult<?> create(ShopProductRuleParam record) {
         ShopProductRuleParam _repeat = new ShopProductRuleParam();
         _repeat.setRuleName(record.getRuleName());
-        return baseHandleCreate(record, _repeat, shopProductRuleService, TIP_SHOP_SKU_RULE);
+        return handle(record, _repeat, false, shopProductRuleService, TIP_SHOP_SKU_RULE, CREATE);
     }
     @Token
     @Valid
@@ -64,7 +64,7 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
         ShopProductRuleParam _repeat = new ShopProductRuleParam();
         _repeat.setRuleName(record.getRuleName());
         _repeat.setId(record.getId());
-        return baseHandleEdit(record, _repeat, shopProductRuleService, TIP_SHOP_SKU_RULE);
+        return handle(record, _repeat, true, shopProductRuleService, TIP_SHOP_SKU_RULE, UPDATE);
     }
 
     @Token
@@ -75,7 +75,7 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
         ShopProductRuleParam _param = new ShopProductRuleParam();
         _param.setStatus(status);
         _param.setId(id);
-        return baseHandleEdit(_param, null, shopProductRuleService, TIP_SHOP_SKU_RULE);
+        return handle(_param, null,true, shopProductRuleService, TIP_SHOP_SKU_RULE,STATUS);
     }
 
     @Override
@@ -90,10 +90,8 @@ public class ShopProductRuleController extends PcController<ShopProductRuleParam
         if (null == data || null == data.getInts() || data.getInts().size() < 1) {
             return JSONResult.fail(ERROR);
         }
-        if(shopProductRuleService.batchDelete(data.getInts())){
-            return JSONResult.success("批量删除规格成功");
-        }
-        return JSONResult.fail("批量删除规格失败");
+
+        return handle(shopProductRuleService.batchDelete(data.getInts()), BATCH, DELETE);
     }
 
 

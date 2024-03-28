@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.pub.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.NoticeCategoryBo;
 import cn.peyton.plum.mall.mapper.pub.NoticeCategoryMapper;
 import cn.peyton.plum.mall.param.pub.NoticeCategoryParam;
@@ -23,17 +23,17 @@ import java.util.List;
  * </pre>
  */
 @Service("noticeCategoryService")
-public class NoticeCategoryServiceImpl extends AbstractRealizeService<Integer, NoticeCategory, NoticeCategoryParam> implements NoticeCategoryService {
+public class NoticeCategoryServiceImpl extends RealizeService<Integer, NoticeCategory, NoticeCategoryParam> implements NoticeCategoryService {
     @Resource
     private NoticeCategoryMapper noticeCategoryMapper;
 
     @Override
-    public BaseConvertBo<NoticeCategory, NoticeCategoryParam> initBo() {
+    public BaseConvertBo<NoticeCategory, NoticeCategoryParam> bo() {
         return new NoticeCategoryBo();
     }
 
     @Override
-    public IBaseMapper<Integer, NoticeCategory> initMapper() {
+    public IBaseMapper<Integer, NoticeCategory> mapper() {
         return noticeCategoryMapper;
     }
 
@@ -45,19 +45,12 @@ public class NoticeCategoryServiceImpl extends AbstractRealizeService<Integer, N
     @Override
     public List<NoticeCategoryParam> findBySelect() {
         String key = keyPrefix + "find_select_all";
-        if (enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<NoticeCategoryParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<NoticeCategoryParam> adapter = bo().adapter(noticeCategoryMapper.selectByAll());
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<NoticeCategoryParam> pList = initBo().adapter(noticeCategoryMapper.selectByAll());
-
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+        return (List<NoticeCategoryParam>) objs;
     }
 }

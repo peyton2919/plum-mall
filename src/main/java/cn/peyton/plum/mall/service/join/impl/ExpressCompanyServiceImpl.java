@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.join.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ExpressCompanyBo;
 import cn.peyton.plum.mall.mapper.join.ExpressCompanyMapper;
 import cn.peyton.plum.mall.param.join.ExpressCompanyParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("expressCompanyService")
-public class ExpressCompanyServiceImpl extends AbstractRealizeService<Integer, ExpressCompany, ExpressCompanyParam> implements ExpressCompanyService {
+public class ExpressCompanyServiceImpl extends RealizeService<Integer, ExpressCompany, ExpressCompanyParam> implements ExpressCompanyService {
     @Resource
     private ExpressCompanyMapper expressCompanyMapper;
 
     @Override
-    public BaseConvertBo<ExpressCompany, ExpressCompanyParam> initBo() {
+    public BaseConvertBo<ExpressCompany, ExpressCompanyParam> bo() {
         return new ExpressCompanyBo();
     }
 
     @Override
-    public IBaseMapper<Integer, ExpressCompany> initMapper() {
+    public IBaseMapper<Integer, ExpressCompany> mapper() {
         return expressCompanyMapper;
     }
 

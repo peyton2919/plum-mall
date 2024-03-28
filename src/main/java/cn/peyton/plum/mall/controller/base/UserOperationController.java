@@ -3,7 +3,8 @@ package cn.peyton.plum.mall.controller.base;
 import cn.peyton.plum.core.cache.LocalCache;
 import cn.peyton.plum.core.cipher.BaseCipher;
 import cn.peyton.plum.core.imgs.ImageProcessing;
-import cn.peyton.plum.core.inf.service.IUserService;
+import cn.peyton.plum.core.inf.controller.RealizeController;
+import cn.peyton.plum.core.inf.service.base.IUserService;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.users.BaseUser;
 import cn.peyton.plum.core.users.IUser;
@@ -27,7 +28,7 @@ import java.util.Date;
  * </pre>
  */
 @Controller
-public class UserOperationController extends PcController<BaseUser> {
+public class UserOperationController extends RealizeController {
 
     // 用户账户登录"content-type":"application/x-www-form-urlencoded;charset=utf-8"
     /**

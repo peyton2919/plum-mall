@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.pc.manager.party;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -9,7 +10,6 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.UserAddressParam;
 import cn.peyton.plum.mall.service.party.UserAddressService;
 import com.alibaba.fastjson.JSON;
@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/address")
-public class UserAddressController extends PcController<UserAddressParam>
-        implements IBasePCController<Long, UserAddressParam> {
+public class UserAddressController extends RealizeController
+        implements IController<Long, UserAddressParam> {
 
     @Resource
     private UserAddressService userAddressService;
@@ -45,7 +45,7 @@ public class UserAddressController extends PcController<UserAddressParam>
         if (null != query.getComplexValue()) {
             _param = JSON.parseObject(query.getComplexValue(), UserAddressParam.class);
         }
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), userAddressService,null);
+        return page(_param, new PageQuery(query.getPageNo()), userAddressService,true);
     }
 
     @Token
@@ -54,7 +54,7 @@ public class UserAddressController extends PcController<UserAddressParam>
     @Override
     public JSONResult<?> create(UserAddressParam record) {
 
-        return baseHandleCreate(record, assign(record), userAddressService, TIP_USER_ADDRESS);
+        return handle(record, assign(record), false, userAddressService, TIP_USER_ADDRESS, CREATE);
     }
 
     @Token
@@ -63,7 +63,7 @@ public class UserAddressController extends PcController<UserAddressParam>
     @Override
     public JSONResult<?> edit(UserAddressParam record) {
 
-        return baseHandleEdit(record, assign(record), userAddressService, TIP_USER_ADDRESS,UPDATE);
+        return handle(record, assign(record), true, userAddressService, TIP_USER_ADDRESS, UPDATE);
     }
 
     @Token
@@ -72,7 +72,7 @@ public class UserAddressController extends PcController<UserAddressParam>
     @Override
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
 
-        return baseHandleDelete(id,userAddressService, TIP_USER_ADDRESS);
+        return delete(id,userAddressService, TIP_USER_ADDRESS);
     }
 
     @Token
@@ -85,7 +85,6 @@ public class UserAddressController extends PcController<UserAddressParam>
     }
 
     // 赋值
-    @Override
     protected UserAddressParam assign(UserAddressParam record) {
         UserAddressParam _repeat = new UserAddressParam();
         _repeat.setShareId(record.getShareId());

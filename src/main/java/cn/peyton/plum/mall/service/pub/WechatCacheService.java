@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.pub;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.pub.WechatCacheParam;
 import cn.peyton.plum.mall.pojo.pub.WechatCache;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.pub.WechatCache;
  * @version 1.0.0
  * </pre>
  */
-public interface WechatCacheService extends IBaseService<String, WechatCache, WechatCacheParam> {
+public interface WechatCacheService extends IRealizeService<String, WechatCache, WechatCacheParam> {
 
 }

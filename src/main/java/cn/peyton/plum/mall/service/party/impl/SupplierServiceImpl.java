@@ -2,8 +2,7 @@ package cn.peyton.plum.mall.service.party.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
-import cn.peyton.plum.core.utils.LogUtils;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.SupplierBo;
 import cn.peyton.plum.mall.mapper.party.SupplierMapper;
 import cn.peyton.plum.mall.param.party.SupplierParam;
@@ -24,18 +23,18 @@ import java.util.List;
  * </pre>
  */
 @Service("supplierService")
-public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, SupplierParam> implements SupplierService {
+public class SupplierServiceImpl extends RealizeService<Long, Supplier, SupplierParam> implements SupplierService {
     private String TABLE_NAME = "tb_supplier";
     @Resource
     private SupplierMapper supplierMapper;
 
     @Override
-    public BaseConvertBo<Supplier, SupplierParam> initBo() {
+    public BaseConvertBo<Supplier, SupplierParam> bo() {
         return new SupplierBo();
     }
 
     @Override
-    public IBaseMapper<Long, Supplier> initMapper() {
+    public IBaseMapper<Long, Supplier> mapper() {
         return supplierMapper;
     }
 
@@ -47,29 +46,20 @@ public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, 
     @Override
     public List<SupplierParam> findByDownList() {
         String key = keyPrefix + "_202312251328";
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n", key);
-                return (List<SupplierParam>) obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<SupplierParam> res = bo().adapter(supplierMapper.selectByDownList());
+            saveCache(key, res);
+            return res;
         }
-        List<SupplierParam> res = initBo().adapter(supplierMapper.selectByDownList());
-        if (null != res && enabledCache) {
-            LogUtils.info(key);
-            cache.put(key, res);
-        }
-        return res;
+        return (List<SupplierParam>) objs;
     }
 
     @Override
     public Boolean upDelete(Long id) {
         if (supplierMapper.updateDeleteStatus(TABLE_NAME, id) > 0) {
 
-            if (enabledCache) {
-                System.out.println("删除操作, 清空缓存;");
-                removeCache();
-            }
+            clearCache("删除供应商");
             return true;
         }
         return false;
@@ -78,10 +68,7 @@ public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, 
     @Override
     public Boolean updateInfo(Long id, Long infoId) {
         if (supplierMapper.updateInfo(id, infoId) > 0) {
-            if (enabledCache) {
-                System.out.println("删除操作, 清空缓存;");
-                removeCache();
-            }
+            clearCache("更新供应商信息");
             return true;
         }
         return false;
@@ -91,10 +78,7 @@ public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, 
     public Boolean upStatus(Long id, Integer status) {
         int res = supplierMapper.upStatus(id, status);
         if (res > 0) {
-            if(enabledCache){
-                System.out.println("更新状态操作清空缓存");
-                removeCache();
-            }
+            clearCache("更新状态");
             return true;
         }
         return false;
@@ -122,10 +106,7 @@ public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, 
     public  Boolean updateLastLogin(SupplierParam param) {
         int res = supplierMapper.updateLastLogin(TABLE_NAME, param.convert());
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新供应商最后登录");
             return true;
         }
         return false;
@@ -135,10 +116,7 @@ public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, 
     public Boolean updatePassword(Long id, String pwd) {
         int res = supplierMapper.updatePassword(TABLE_NAME, id, pwd);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新供应商密码");
             return true;
         }
         return false;
@@ -153,10 +131,7 @@ public class SupplierServiceImpl extends AbstractRealizeService<Long, Supplier, 
     public Boolean updateAvatar(Long id, String avatar) {
         int res = supplierMapper.updateAvatar(TABLE_NAME, id, avatar);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新供应商头像");
             return true;
         }
         return false;

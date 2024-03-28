@@ -2,11 +2,12 @@ package cn.peyton.plum.mall.controller.pc.manager.party;
 
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.cipher.BaseCipher;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.users.IUser;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.controller.base.UserOperationController;
@@ -31,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/pc/supplier")
 public class SupplierController extends UserOperationController
-        implements IBasePCController<Long, SupplierParam> {
+        implements IController<Long, SupplierParam> {
 
     /** 验证码 在缓存中的时间 */
     public final static String KEY_PHONE_CODE_CACHE_TIME = "SUP_PHONE_TIME_202312261602";
@@ -53,7 +54,7 @@ public class SupplierController extends UserOperationController
 
         SupplierParam _param = new SupplierParam();
         _param.setUsername(query.getKeyword());
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), supplierService,null);
+        return page(_param, new PageQuery(query.getPageNo()), supplierService,true);
     }
 
     @Token
@@ -65,9 +66,9 @@ public class SupplierController extends UserOperationController
         _repeat.setLoginName(record.getLoginName());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
-        record.setAvatar(convertImgPath(record.getAvatar()));
+        record.setAvatar(new CtrlUtils().convertImgPath(record.getAvatar()));
         record.setPassword(BaseCipher.encoderMD5(record.getPassword(), KEY_SUPPLIERS_PASSWORD_ENCODER));
-        return baseHandleCreate(record, _repeat, supplierService, TIP_SUPPLIER);
+        return handle(record, _repeat,false, supplierService, TIP_SUPPLIER,CREATE);
     }
 
     @Token
@@ -80,8 +81,8 @@ public class SupplierController extends UserOperationController
         _repeat.setLoginName(record.getLoginName());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
-        record.setAvatar(convertImgPath(record.getAvatar()));
-        return baseHandleEdit(record, _repeat, supplierService, TIP_SUPPLIER,UPDATE);
+        record.setAvatar(new CtrlUtils().convertImgPath(record.getAvatar()));
+        return handle(record, _repeat, true, supplierService, TIP_SUPPLIER, UPDATE);
     }
     @Token
     @Valid
@@ -89,10 +90,8 @@ public class SupplierController extends UserOperationController
     @Override
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;")
                                     @Min(value = 1,message = "最小为1")Long id) {
-        if(supplierService.upDelete(id)){
-            return JSONResult.success("供应商删除成功;");
-        }
-        return JSONResult.fail("供应商删除失败;");
+
+        return handle(supplierService.upDelete(id), TIP_SUPPLIER, DELETE);
     }
 
     @Token
@@ -102,7 +101,7 @@ public class SupplierController extends UserOperationController
                                       @Min(value = 1,message = "最小为1")Long id,
                                       @NotBlank(message = "status 不能为空;")@Size(min = 0,max = 1) Integer status) {
 
-        return baseHandle(supplierService.upStatus(id, status), TIP_SUPPLIER + STATUS + UPDATE);
+        return handle(supplierService.upStatus(id, status), TIP_SUPPLIER, STATUS, UPDATE);
     }
 
     @Token
@@ -142,7 +141,7 @@ public class SupplierController extends UserOperationController
             String newPassword,
             @NotBlank(message = "确认密码不能为空！")String confirmPassword) {
         // 从 token 获取 对象
-        SupplierParam _param = handleToken(new SupplierParam());
+        SupplierParam _param = getToken(new SupplierParam());
 
         return super.editPassword(_param.getId(), oldPassword, newPassword, confirmPassword, KEY_SUPPLIERS_PASSWORD_ENCODER, supplierService);
     }
@@ -163,7 +162,7 @@ public class SupplierController extends UserOperationController
     @PostMapping("/manager/edituseravatar")
     @Token
     public JSONResult<?> editAvatar(MultipartFile file) {
-        SupplierParam _param = handleToken(new SupplierParam());
+        SupplierParam _param = getToken(new SupplierParam());
 
         return super.editAvatar(file, _param.getId(), supplierService);
     }

@@ -3,7 +3,8 @@ package cn.peyton.plum.mall.controller.pc.manager.sys;
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.err.GlobalException;
 import cn.peyton.plum.core.imgs.MultipartFileImageOperation;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -12,7 +13,6 @@ import cn.peyton.plum.core.utils.LogUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.sys.MaterialParam;
 import cn.peyton.plum.mall.param.sys.UserParam;
 import cn.peyton.plum.mall.service.sys.MaterialService;
@@ -36,8 +36,8 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/pc/material")
-public class MaterialController extends PcController<MaterialParam>
-        implements IBasePCController<Long, MaterialParam> {
+public class MaterialController extends RealizeController
+        implements IController<Long, MaterialParam> {
     @Resource
     private MaterialService materialService;
 
@@ -61,7 +61,7 @@ public class MaterialController extends PcController<MaterialParam>
         }
         _param.setCategory(category);
 
-        return baseHandleList(_param,new PageQuery(query.getPageNo()),materialService,null);
+        return page(_param,new PageQuery(query.getPageNo()),materialService,true);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MaterialController extends PcController<MaterialParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(MaterialParam record) {
-        return baseHandleEdit(record,null,materialService,TIP_MATERIAL,NAME);
+        return handle(record, null, false, materialService, TIP_MATERIAL, NAME, UPDATE);
     }
 
     // 根据 分组Id 查找
@@ -86,7 +86,7 @@ public class MaterialController extends PcController<MaterialParam>
 
         MaterialParam _param = new MaterialParam();
         _param.setGroupId(groupId);
-        return baseHandleList(_param,new PageQuery(pageNo),materialService,null);
+        return page(_param,new PageQuery(pageNo),materialService,true);
     }
 
     @Token
@@ -133,7 +133,7 @@ public class MaterialController extends PcController<MaterialParam>
     @Token
     @PostMapping("/manager/upload")
     public JSONResult uploadImages(MultipartFile file, HttpServletRequest request) {
-        UserParam _user = handleToken(new UserParam());
+        UserParam _user = getToken(new UserParam());
         Long groupId = null;
         String type = request.getHeader("type");
         int category = convert(type);
@@ -205,7 +205,7 @@ public class MaterialController extends PcController<MaterialParam>
             _param.setSrc(simplePath + _imgName);
             _param.setUrl(_param.getSrc());
 
-            MaterialParam _add = materialService.add(_param);
+            MaterialParam _add = materialService.insert(_param);
             if (null != _add) {
                 _ub = false;
                 return JSONResult.success(_add);

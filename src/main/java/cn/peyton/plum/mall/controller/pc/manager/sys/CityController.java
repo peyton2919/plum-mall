@@ -1,14 +1,14 @@
 package cn.peyton.plum.mall.controller.pc.manager.sys;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.sys.CityParam;
 import cn.peyton.plum.mall.service.sys.CityService;
 import jakarta.annotation.Resource;
@@ -30,8 +30,8 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/pc/city")
-public class CityController extends PcController<CityParam>
-		implements IBasePCController<Integer, CityParam> {
+public class CityController extends RealizeController
+		implements IController<Integer, CityParam> {
 
 	@Resource
 	private CityService cityService;
@@ -96,7 +96,7 @@ public class CityController extends PcController<CityParam>
 		CityParam _param = new CityParam();
 		_param.setPid(record.getPid());
 		_param.setName(record.getName());
-		return baseHandleCreate(record, _param,cityService, TIP_AREA);
+		return handle(record, _param, false, cityService, TIP_AREA, CREATE);
 	}
 
 
@@ -125,7 +125,7 @@ public class CityController extends PcController<CityParam>
 		_param.setId(record.getId());
 		_param.setPid(record.getPid());
 		_param.setName(record.getName());
-		return baseHandleEdit(record,_param, cityService, TIP_AREA);
+		return handle(record, _param, true, cityService, TIP_AREA, UPDATE);
 	}
 
 	@Token
@@ -134,7 +134,7 @@ public class CityController extends PcController<CityParam>
 	@Override
 	public JSONResult<?> delete(@NotBlank(message = "菜单Id不能为空") @Min(value = 1,message = "最小值为1") Integer id) {
 		// todo 要用到批量删除
-		return baseHandleDelete(id, cityService, TIP_AREA);
+		return delete(id, cityService, TIP_AREA);
 	}
 
 	@Token
@@ -159,7 +159,7 @@ public class CityController extends PcController<CityParam>
 		}
 		//level = 2 关闭当前对象
 		// 判断子类关闭与开启
-		return baseHandle(cityService.batchUpdate(ids, status), STATUS + BATCH + MODIFY);
+		return handle(cityService.batchUpdate(ids, status), STATUS, BATCH, MODIFY);
 	}
 
 	/**

@@ -6,6 +6,7 @@ import cn.peyton.plum.mall.bo.ShopOrderItemBo;
 import cn.peyton.plum.mall.bo.ShopOrderRefundBo;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.pojo.product.ShopOrder;
+import cn.peyton.plum.mall.vo.OrderVo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -42,6 +43,8 @@ public class ShopOrderParam implements Serializable {
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     private Integer shareType;
+    /** 用户地址Id */
+    private Long userAddrId;
     /**
      * 备注
      */
@@ -266,7 +269,19 @@ public class ShopOrderParam implements Serializable {
     public Integer getShareType() {
         return shareType;
     }
+    /**
+     * @return 用户地址Id
+     */
+    public Long getUserAddrId() {
+        return userAddrId;
+    }
 
+    /**
+     * @param userAddrId 用户地址Id
+     */
+    public void setUserAddrId(Long userAddrId) {
+        this.userAddrId = userAddrId;
+    }
     /**
      * @param explain 备注
      */
@@ -801,6 +816,7 @@ public class ShopOrderParam implements Serializable {
         shopOrder.setExtendOrderNo(extendOrderNo);
         shopOrder.setShareId(shareId);
         shopOrder.setShareType(shareType);
+        shopOrder.setUserAddrId(userAddrId);
         shopOrder.setExplain(explain);
         shopOrder.setClosed(closed);
         shopOrder.setCartId(cartId);
@@ -860,6 +876,7 @@ public class ShopOrderParam implements Serializable {
         this.setExtendOrderNo(shopOrder.getExtendOrderNo());
         this.setShareId(shopOrder.getShareId());
         this.setShareType(shopOrder.getShareType());
+        this.setUserAddrId(shopOrder.getUserAddrId());
         this.setExplain(shopOrder.getExplain());
         this.setClosed(shopOrder.getClosed());
         this.setCartId(shopOrder.getCartId());
@@ -897,6 +914,24 @@ public class ShopOrderParam implements Serializable {
         this.setMember(new MemberBo().compat(shopOrder.getMember()));
         this.setOrderRefund(new ShopOrderRefundBo().compat(shopOrder.getOrderRefund()));
         this.setItems(new ShopOrderItemBo().adapter(shopOrder.getItems()));
+        return this;
+    }
+
+    public ShopOrderParam compat(OrderVo vo) {
+        if (null == vo) {
+            return new ShopOrderParam();
+        }
+        this.setId(vo.getId());
+        this.setUserAddrId(vo.getUserAddrId());
+        this.setExplain(vo.getExplain());
+        this.setCartId(vo.getCartId());
+        this.setFreightPrice(vo.getFreightPrice());
+        this.setTotalNum(vo.getTotalNum());
+        this.setTotalPrice(vo.getTotalPrice());
+        this.setPayPrice(vo.getPayPrice());
+        this.setDeductionPrice(vo.getDeductionPrice());
+        this.setCouponId(vo.getCouponId());
+        this.setCouponPrice(vo.getCouponPrice());
         return this;
     }
 }

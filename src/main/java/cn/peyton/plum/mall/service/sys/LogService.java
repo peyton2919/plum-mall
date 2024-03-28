@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.LogParam;
 import cn.peyton.plum.mall.pojo.sys.Log;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.sys.Log;
  * @version 1.0.0
  * </pre>
  */
-public interface LogService extends IBaseService<Long, Log, LogParam> {
+public interface LogService extends IRealizeService<Long, Log, LogParam> {
 
 }

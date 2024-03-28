@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.RoleUserParam;
 import cn.peyton.plum.mall.pojo.sys.RoleUser;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface RoleUserService extends IBaseService<Long, RoleUser, RoleUserParam> {
+public interface RoleUserService extends IRealizeService<Long, RoleUser, RoleUserParam> {
 
     /**
      * <h4>根据用户ID和类型 查找 角色ID集合</h4>

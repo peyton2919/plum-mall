@@ -1,14 +1,14 @@
 package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopStockParam;
 import cn.peyton.plum.mall.service.product.ShopStockService;
 import jakarta.annotation.Resource;
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/pc/shopstock")
-public class ShopStockController extends PcController<ShopStockParam>
-		implements IBasePCController<Long, ShopStockParam> {
+public class ShopStockController extends RealizeController
+		implements IController<Long, ShopStockParam> {
 
 	@Resource
 	private ShopStockService shopStockService;
@@ -39,7 +39,7 @@ public class ShopStockController extends PcController<ShopStockParam>
 	@PostMapping("/manager/upisshow")
 	public JSONResult<?> upIsShow(@NotBlank(message = "库存Id不能为空") @Min(value = 1,message = "库存Id最小值为1") Long id,
 			@NotBlank(message = "是否显示不能为空") @Size(min = 0, max = 1) Integer isShow) {
-		return baseHandle(shopStockService.updateIsShow(id,isShow), TIP_SHOP_STOCK,OPERATE);
+		return handle(shopStockService.updateIsShow(id,isShow), TIP_SHOP_STOCK,OPERATE,UPDATE);
 	}
 
 	// 更新库存预警
@@ -48,7 +48,7 @@ public class ShopStockController extends PcController<ShopStockParam>
 	@PostMapping("/manager/upminstock")
 	public JSONResult<?> upMinStock(@NotBlank(message = "库存Id不能为空") @Min(value = 1,message = "库存Id最小值为1") Long id,
 								  @NotBlank(message = "库存预警不能为空") @Size(min = 0, max = 1) Integer minStock) {
-		return baseHandle(shopStockService.updateMinStock(id,minStock), TIP_SHOP_STOCK,OPERATE);
+		return handle(shopStockService.updateMinStock(id, minStock), TIP_SHOP_STOCK, OPERATE, UPDATE);
 	}
 
 	// 更新库存 record{id,isShow,minStock}, keyInt:warehouseId,str: warehouseExplain,keyLong:psdId
@@ -70,7 +70,7 @@ public class ShopStockController extends PcController<ShopStockParam>
 	@Override
 	public JSONResult<?> edit(ShopStockParam record) {
 
-		return baseHandleEdit(record,null,shopStockService, TIP_SHOP_STOCK,UPDATE);
+		return handle(record, null, true, shopStockService, TIP_SHOP_STOCK, UPDATE);
 	}
 
 	@Override

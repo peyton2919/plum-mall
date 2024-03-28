@@ -3,7 +3,7 @@ package cn.peyton.plum.mall.service.product.impl;
 import cn.peyton.plum.core.err.TransactionalException;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.utils.DateUtils;
@@ -31,7 +31,7 @@ import java.util.List;
  * </pre>
 */
 @Service("shopStorageDetailService")
-public class ShopStorageDetailServiceImpl  extends AbstractRealizeService<Long, ShopStorageDetail, ShopStorageDetailParam> implements ShopStorageDetailService {
+public class ShopStorageDetailServiceImpl  extends RealizeService<Long, ShopStorageDetail, ShopStorageDetailParam> implements ShopStorageDetailService {
 	@Resource
 	private ShopStorageDetailMapper shopStorageDetailMapper;
 	@Resource
@@ -40,12 +40,12 @@ public class ShopStorageDetailServiceImpl  extends AbstractRealizeService<Long, 
 	private ShopProductSkuDetailMapper shopProductSkuDetailMapper;
 
 	@Override
-	public BaseConvertBo<ShopStorageDetail, ShopStorageDetailParam> initBo() {
+	public BaseConvertBo<ShopStorageDetail, ShopStorageDetailParam> bo() {
 		return new ShopStorageDetailBo();
 	}
 
 	@Override
-	public IBaseMapper<Long, ShopStorageDetail> initMapper() {
+	public IBaseMapper<Long, ShopStorageDetail> mapper() {
 		return shopStorageDetailMapper;
 	}
 
@@ -99,10 +99,7 @@ public class ShopStorageDetailServiceImpl  extends AbstractRealizeService<Long, 
 		int res = shopStorageDetailMapper.insertSelective(ssd);
 		if (res > 0) {
 			if (shopStockMapper.updateTotal(ssd.getStockId()) > 0) {
-				if (enabledCache) {
-					System.out.println("[更新操作,清空缓存");
-					removeCache();
-				}
+				clearCache("联合新增");
 				return true;
 			}
 		}
@@ -127,10 +124,7 @@ public class ShopStorageDetailServiceImpl  extends AbstractRealizeService<Long, 
 		_ssd.setQuantity(quantity);
 		if (shopStorageDetailMapper.updateSelective(_ssd) > 0 && shopStockMapper.updateTotal(stockId) > 0) {
 
-			if (enabledCache) {
-				System.out.println("修改操作,清空缓存");
-				removeCache();
-			}
+			clearCache("联合更新");
 			return true;
 		}else {
 			throw new TransactionalException("[{ShopStorageDetailServiceImpl}-{joinEdit}] 修改入库出现了异常");

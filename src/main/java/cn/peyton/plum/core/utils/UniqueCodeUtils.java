@@ -82,7 +82,7 @@ public final class UniqueCodeUtils implements Serializable {
 
         Random random = new Random();
         String str = System.currentTimeMillis() + "";
-        int[] l = new int[exp < 0 ? 0 : exp];
+        int[] l = new int[exp < 1 ? 1 : exp];
         for (int i = 0; i < l.length; i++) {
             l[i] = random.nextInt(48);
         }

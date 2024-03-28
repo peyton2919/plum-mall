@@ -76,7 +76,7 @@ public interface ShopCouponMemberMapper extends IBaseMapper<Long, ShopCouponMemb
      * @param shareType 用户类型
      * @return 受影响的行数 > 0 表示更新成功
      */
-    @Update("update tb_shop_coupon_member set used = 1,status = 0 where coupon_id = #{couponId}" +
+    @Update("update tb_shop_coupon_member set used = 1 where coupon_id = #{couponId}" +
             " and share_id = #{shareId} and share_type = #{shareType} ")
     int upUsed(Long couponId, Long shareId, Integer shareType);
 

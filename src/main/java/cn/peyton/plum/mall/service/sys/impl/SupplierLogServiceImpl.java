@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.SupplierLogBo;
 import cn.peyton.plum.mall.mapper.sys.SupplierLogMapper;
 import cn.peyton.plum.mall.param.sys.SupplierLogParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("supplierLogService")
-public class SupplierLogServiceImpl extends AbstractRealizeService<Long, SupplierLog, SupplierLogParam> implements SupplierLogService {
+public class SupplierLogServiceImpl extends RealizeService<Long, SupplierLog, SupplierLogParam> implements SupplierLogService {
     @Resource
     private SupplierLogMapper supplierLogMapper;
 
     @Override
-    public BaseConvertBo<SupplierLog, SupplierLogParam> initBo() {
+    public BaseConvertBo<SupplierLog, SupplierLogParam> bo() {
         return new SupplierLogBo();
     }
 
     @Override
-    public IBaseMapper<Long, SupplierLog> initMapper() {
+    public IBaseMapper<Long, SupplierLog> mapper() {
         return supplierLogMapper;
     }
 

@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopProductSkuJoinBo;
 import cn.peyton.plum.mall.mapper.product.ShopProductSkuJoinMapper;
 import cn.peyton.plum.mall.param.product.ShopProductSkuJoinParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
 */
 @Service("shopProductSkuJoinService")
-public class ShopProductSkuJoinServiceImpl  extends AbstractRealizeService<Long, ShopProductSkuJoin, ShopProductSkuJoinParam> implements ShopProductSkuJoinService {
+public class ShopProductSkuJoinServiceImpl  extends RealizeService<Long, ShopProductSkuJoin, ShopProductSkuJoinParam> implements ShopProductSkuJoinService {
 	@Resource
 	private ShopProductSkuJoinMapper shopProductSkuJoinMapper;
 
 	@Override
-	public BaseConvertBo<ShopProductSkuJoin, ShopProductSkuJoinParam> initBo() {
+	public BaseConvertBo<ShopProductSkuJoin, ShopProductSkuJoinParam> bo() {
 		return new ShopProductSkuJoinBo();
 	}
 
 	@Override
-	public IBaseMapper<Long, ShopProductSkuJoin> initMapper() {
+	public IBaseMapper<Long, ShopProductSkuJoin> mapper() {
 		return shopProductSkuJoinMapper;
 	}
 

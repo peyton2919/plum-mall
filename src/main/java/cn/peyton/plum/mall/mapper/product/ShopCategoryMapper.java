@@ -1,7 +1,7 @@
 package cn.peyton.plum.mall.mapper.product;
 
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.IDeleteService;
+import cn.peyton.plum.core.inf.service.base.IDeleteService;
 import cn.peyton.plum.mall.pojo.product.ShopCategory;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

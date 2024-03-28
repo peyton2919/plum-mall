@@ -593,7 +593,7 @@
 	<!-- 根据 分类Id 查找 对象 -->
 	<select id="selectByIdAndJoin" resultMap="result_product_recommend_map"  parameterType="int">
 		SELECT
-			sp.id,sp.cover,sp.title,sp.seq,sp.create_time
+			distinct sp.id,sp.cover,sp.title,sp.seq,sp.create_time
 		from tb_shop_product as sp, tb_shop_category_recommend as scr
 		where
 			sp.id = scr.product_id
@@ -671,7 +671,7 @@
 		</if>
 		<if test="product.type =='categoryId'">
 			select
-				sp.id,sp.cover,sp.title,sp.info,sp.price,sp.min_price,sp.good_rate,sp.comment_count
+				distinct sp.id,sp.cover,sp.title,sp.info,sp.price,sp.min_price,sp.good_rate,sp.comment_count
 			from tb_shop_product as sp , tb_shop_product_category as spc
 			where sp.is_check = 1 and sp.is_show = 1 and sp.is_del = 1
 			and spc.category_id = #{product.categoryId}
@@ -690,7 +690,10 @@
 		select
 		<include refid="column_android_product_list"/>
 		from `tb_shop_product`
-		where `is_check` = 1 and `is_show` = 1 and `is_del`=1 and `id` != #{id}
+		where `is_check` = 1 and `is_show` = 1 and `is_del`=1
+		<if test="id != null">
+			and `id` != #{id}
+		</if>
 		order by RAND() LIMIT 6
 	</select>
 

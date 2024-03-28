@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.pc.manager.pub;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -9,7 +10,6 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.pub.NoticeParam;
 import cn.peyton.plum.mall.param.sys.UserParam;
 import cn.peyton.plum.mall.service.pub.NoticeCategoryService;
@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/notice")
-public class NoticeController extends PcController<NoticeParam>
-        implements IBasePCController<Long,NoticeParam> {
+public class NoticeController extends RealizeController
+        implements IController<Long,NoticeParam> {
 
     @Resource
     private NoticeService noticeService;
@@ -45,8 +45,7 @@ public class NoticeController extends PcController<NoticeParam>
         NoticeParam _param = new NoticeParam();
         _param.setTitle(keyword);
 
-        return baseHandleList(_param, new PageQuery(pageNo, ORDER_BY_FILED),
-                noticeService, null);
+        return page(_param, new PageQuery(pageNo, ORDER_BY_FILED), noticeService, true);
     }
 
     @Token
@@ -61,8 +60,7 @@ public class NoticeController extends PcController<NoticeParam>
         _param.setTitle(query.getKeyword());
         _param.setCategoryId(query.getIntValue());
 
-        return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED),
-                noticeService, null);
+        return page(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), noticeService, true);
     }
 
     @Token
@@ -73,7 +71,7 @@ public class NoticeController extends PcController<NoticeParam>
         _param.setTitle(keyword);
 
         // 其他处理判断
-        return baseHandleList(_param, new PageQuery(pageNo), noticeService,null);
+        return page(_param, new PageQuery(pageNo), noticeService,true);
     }
 
     @Token
@@ -81,12 +79,12 @@ public class NoticeController extends PcController<NoticeParam>
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(NoticeParam param) {
-        UserParam _user = handleToken(new UserParam());
+        UserParam _user = getToken(new UserParam());
         param.setCreateId(_user.getId());
         param.setCreateType(_user.getUserType());
         NoticeParam _repeat = new NoticeParam();
         _repeat.setTitle(param.getTitle());
-        return baseHandleCreate(param, _repeat, noticeService, TIP_NOTICE);
+        return handle(param, _repeat, false, noticeService, TIP_NOTICE, CREATE);
     }
 
     @Token
@@ -94,11 +92,11 @@ public class NoticeController extends PcController<NoticeParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(NoticeParam param) {
-       initProps(param);
+       props(param);
         NoticeParam _repeat = new NoticeParam();
         _repeat.setId(param.getId());
        _repeat.setTitle(param.getTitle());
-        return baseHandleEdit(param, _repeat, noticeService, TIP_NOTICE);
+        return handle(param, _repeat, true, noticeService, TIP_NOTICE, UPDATE);
     }
 
     @Token
@@ -109,7 +107,7 @@ public class NoticeController extends PcController<NoticeParam>
         NoticeParam _param = new NoticeParam();
         _param.setId(id);
         _param.setIsDel(IS_DEL_0);
-        return baseHandleEdit(_param, null, noticeService, TIP_NOTICE + DELETE);
+        return handle(_param, null, true, noticeService, TIP_NOTICE, DELETE);
     }
 
     /**
@@ -133,7 +131,7 @@ public class NoticeController extends PcController<NoticeParam>
         if (type == 0){
             _param = new NoticeParam();
             _param.setCategoryId(Integer.parseInt(keyword));
-            return baseHandleListPageReulst(_param, _page, noticeService);
+            return page(_param, _page, noticeService, true);
         }else{
             if(type == 1){
                 _param = new NoticeParam();
@@ -143,12 +141,11 @@ public class NoticeController extends PcController<NoticeParam>
                 _param.setContent(keyword);
             }
         }
-        return baseHandleList(_param, _page, noticeService,null);
+        return page(_param, _page, noticeService, true);
     }
 
 
-    @Override
-    public void initProps(NoticeParam param) {
+    public void props(NoticeParam param) {
         param.setCreateType(null);
         param.setCreateId(null);
         param.setIsDel(USABLE);

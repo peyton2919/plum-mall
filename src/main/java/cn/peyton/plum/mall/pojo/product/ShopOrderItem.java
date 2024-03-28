@@ -26,10 +26,7 @@ public class ShopOrderItem implements Serializable {
      * 订单号
      */
     private String orderNo;
-    /**
-     * 购物车id
-     */
-    private Long cartId;
+
     /**
      * 商品规格详细Id(shop_product_detail)
      */
@@ -118,19 +115,6 @@ public class ShopOrderItem implements Serializable {
         return orderNo;
     }
 
-    /**
-     * @param cartId 购物车id
-     */
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
-
-    /**
-     * @return 购物车id
-     */
-    public Long getCartId() {
-        return cartId;
-    }
 
     /**
      * @param psdId 商品规格详细Id(shop_product_detail)

@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.party.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.SupplierInfoBo;
 import cn.peyton.plum.mall.mapper.party.SupplierInfoMapper;
 import cn.peyton.plum.mall.mapper.party.SupplierMapper;
@@ -23,18 +23,18 @@ import org.springframework.transaction.annotation.Transactional;
  * </pre>
  */
 @Service("supplierInfoService")
-public class SupplierInfoServiceImpl extends AbstractRealizeService<Long, SupplierInfo, SupplierInfoParam> implements SupplierInfoService {
+public class SupplierInfoServiceImpl extends RealizeService<Long, SupplierInfo, SupplierInfoParam> implements SupplierInfoService {
     @Resource
     private SupplierInfoMapper supplierInfoMapper;
     @Resource
     private SupplierMapper supplierMapper;
     @Override
-    public BaseConvertBo<SupplierInfo, SupplierInfoParam> initBo() {
+    public BaseConvertBo<SupplierInfo, SupplierInfoParam> bo() {
         return new SupplierInfoBo();
     }
 
     @Override
-    public IBaseMapper<Long, SupplierInfo> initMapper() {
+    public IBaseMapper<Long, SupplierInfo> mapper() {
         return supplierInfoMapper;
     }
 
@@ -51,14 +51,10 @@ public class SupplierInfoServiceImpl extends AbstractRealizeService<Long, Suppli
         if (res > 0) {
             res = supplierMapper.updateInfo(id, result.getId());
             if (res > 0) {
-                if(enabledCache){
-                    System.out.println("更新操作,清空缓存");
-                    removeCache();
-                }
+               clearCache("更新供应商信息");
             }
             return true;
         }
-
         return false;
     }
 }

@@ -1,13 +1,12 @@
 package cn.peyton.plum.mall.controller.android.platform;
 
+import cn.peyton.plum.core.inf.controller.ITipMessages;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.AndroidController;
-import cn.peyton.plum.mall.controller.base.ITipMessages;
 import cn.peyton.plum.mall.dto.AdvertDto;
 import cn.peyton.plum.mall.service.app.AppCategoryService;
 import cn.peyton.plum.mall.service.app.AppNavService;
@@ -15,10 +14,13 @@ import cn.peyton.plum.mall.service.product.ShopProductService;
 import cn.peyton.plum.mall.service.pub.AdvertService;
 import cn.peyton.plum.mall.vo.IndexVo;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <h4></h4>
+ * <h4>首页 API controller</h4>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -29,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/index")
-public class ApiIndexController extends AndroidController {
+public class ApiIndexController extends RealizeController {
 
     @Resource
     private AppCategoryService appCategoryService;
@@ -40,6 +42,7 @@ public class ApiIndexController extends AndroidController {
     @Resource
     private ShopProductService shopProductService;
 
+    // 数据加载
     @Valid
     @PostMapping("/list")
     public JSONResult<?> list(@NotBlank(message = "id不能为空;") Integer id,
@@ -61,7 +64,7 @@ public class ApiIndexController extends AndroidController {
 
         return JSONResult.success(vo);
     }
-
+    // 首页 index
     //@Valid
     @GetMapping("/home")
     public JSONResult<?> index() {
@@ -79,9 +82,10 @@ public class ApiIndexController extends AndroidController {
         return JSONResult.success(vo);
     }
 
+    // 加载商品数据
     @Valid
     @PostMapping("/load")
-    public JSONResult<?> load(@NotBlank(message = "id不能为空;") @Size(min = 0,max = 2) Integer id,
+    public JSONResult<?> load(@NotBlank(message = "id不能为空;") Integer id,
                   @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
         return JSONResult.success(shopProductService.findAndroidByList(new PageQuery(pageNo),convert(id)));
     }

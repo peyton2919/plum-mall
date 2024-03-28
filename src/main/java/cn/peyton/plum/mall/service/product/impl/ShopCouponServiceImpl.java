@@ -2,7 +2,8 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
+import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.mall.bo.ShopCouponBo;
 import cn.peyton.plum.mall.mapper.product.ShopCouponMapper;
@@ -13,6 +14,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <h3> 优惠券 Service 实现类</h3>
@@ -24,18 +26,18 @@ import java.math.BigDecimal;
  * </pre>
  */
 @Service("shopCouponService")
-public class ShopCouponServiceImpl extends AbstractRealizeService<Long, ShopCoupon, ShopCouponParam> implements ShopCouponService {
+public class ShopCouponServiceImpl extends RealizeService<Long, ShopCoupon, ShopCouponParam> implements ShopCouponService {
     private String TABLE_NAME = "tb_shop_coupon";
     @Resource
     private ShopCouponMapper shopCouponMapper;
 
     @Override
-    public BaseConvertBo<ShopCoupon, ShopCouponParam> initBo() {
+    public BaseConvertBo<ShopCoupon, ShopCouponParam> bo() {
         return new ShopCouponBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopCoupon> initMapper() {
+    public IBaseMapper<Long, ShopCoupon> mapper() {
         return shopCouponMapper;
     }
 
@@ -58,10 +60,7 @@ public class ShopCouponServiceImpl extends AbstractRealizeService<Long, ShopCoup
     public Boolean upStatus(Long id, Integer status) {
         int res = shopCouponMapper.updateStatus(TABLE_NAME, id, status);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新优惠券状态");
             return true;
         }
         return false;
@@ -71,10 +70,7 @@ public class ShopCouponServiceImpl extends AbstractRealizeService<Long, ShopCoup
     public Boolean updateUsed(Long id) {
         int res = shopCouponMapper.updateUsed(id);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新优惠券使用状态");
             return true;
         }
         return false;
@@ -83,5 +79,47 @@ public class ShopCouponServiceImpl extends AbstractRealizeService<Long, ShopCoup
     @Override
     public Boolean isEffective(Long id, Integer currentTime) {
         return shopCouponMapper.isEffective(id, currentTime) > 0;
+    }
+
+    @Override
+    public int findCurrentUsableCouponCount(Long memberId, BigDecimal total, int status, int used, int currentDatetime) {
+        return shopCouponMapper.selectCurrentUsableCouponCount(memberId,total,status,used,currentDatetime);
+    }
+
+    @Override
+    public List<ShopCouponParam> findCurrentUsableCoupon(Long memberId, BigDecimal total, Integer status, Integer used, Integer currentDatetime, String condition,PageQuery page) {
+
+        List<ShopCoupon> result = shopCouponMapper.selectCurrentUsableCoupon(memberId, total, status, used, currentDatetime,condition, page);
+        if (null != result) {
+            return bo().adapter(result);
+        }
+        return null;
+    }
+
+    @Override
+    public List<ShopCouponParam> findUsableCouponByMemberId(Long memberId, PageQuery page) {
+        List<ShopCoupon> result = shopCouponMapper.selectUsableCouponByMemberId(memberId, page);
+        if (null != result) {
+            return bo().adapter(result);
+        }
+        return null;
+    }
+
+    @Override
+    public List<ShopCouponParam> findUnusableCouponByMemberId(Long memberId, Integer status, PageQuery page) {
+        List<ShopCoupon> result = shopCouponMapper.selectUnusableCouponByMemberId(memberId,status, page);
+        if (null != result) {
+            return bo().adapter(result);
+        }
+        return null;
+    }
+
+    @Override
+    public List<ShopCouponParam> findUseCouponByMemberId(Long memberId, PageQuery page) {
+        List<ShopCoupon> result = shopCouponMapper.selectUseCouponByMemberId(memberId, page);
+        if (null != result) {
+            return bo().adapter(result);
+        }
+        return null;
     }
 }

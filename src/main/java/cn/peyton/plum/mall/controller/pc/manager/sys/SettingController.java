@@ -1,11 +1,11 @@
 package cn.peyton.plum.mall.controller.pc.manager.sys;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.sys.SettingParam;
 import cn.peyton.plum.mall.service.sys.SettingService;
 import jakarta.annotation.Resource;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/setting")
-public class SettingController extends PcController<SettingParam>
-        implements IBasePCController<Long, SettingParam> {
+public class SettingController extends RealizeController
+        implements IController<Long, SettingParam> {
 
     @Resource
     private SettingService settingService;
@@ -44,7 +44,7 @@ public class SettingController extends PcController<SettingParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(SettingParam record) {
-        return baseHandleEdit(record, null, settingService, "系统",UPDATE);
+        return handle(record, null, true, settingService, TIP_STYTEM, UPDATE);
     }
 
     @Override

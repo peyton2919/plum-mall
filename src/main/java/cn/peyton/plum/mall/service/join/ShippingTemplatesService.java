@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.join;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.join.ShippingTemplatesParam;
 import cn.peyton.plum.mall.pojo.join.ShippingTemplates;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.join.ShippingTemplates;
  * @version 1.0.0
  * </pre>
  */
-public interface ShippingTemplatesService extends IBaseService<Integer, ShippingTemplates, ShippingTemplatesParam> {
+public interface ShippingTemplatesService extends IRealizeService<Integer, ShippingTemplates, ShippingTemplatesParam> {
 
 }

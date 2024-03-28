@@ -27,7 +27,7 @@ public final class PageQuery implements Serializable {
      * 每页显示记录数
      */
     @Min(value = 1, message = "每页展示数量不合法")
-    private Integer pageSize = 10;
+    private Integer pageSize = 12;
     /**
      * 偏移量 {当前页 * 每页显示记录数}
      */

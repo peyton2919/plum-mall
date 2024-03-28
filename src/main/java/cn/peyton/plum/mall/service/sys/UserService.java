@@ -1,8 +1,8 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.core.inf.service.IStatusService;
-import cn.peyton.plum.core.inf.service.IUserService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
+import cn.peyton.plum.core.inf.service.base.IStatusService;
+import cn.peyton.plum.core.inf.service.base.IUserService;
 import cn.peyton.plum.mall.param.sys.UserParam;
 import cn.peyton.plum.mall.pojo.sys.User;
 
@@ -15,7 +15,7 @@ import cn.peyton.plum.mall.pojo.sys.User;
  * @version 1.0.0
  * </pre>
  */
-public interface UserService extends IStatusService<Long>, IUserService<UserParam>,IBaseService<Long, User, UserParam> {
+public interface UserService extends IStatusService<Long>, IUserService<UserParam>, IRealizeService<Long, User, UserParam> {
 
     /**
      * <h4>用户注册</h4>

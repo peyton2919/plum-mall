@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopOrderRefundBo;
 import cn.peyton.plum.mall.mapper.product.ShopOrderRefundMapper;
 import cn.peyton.plum.mall.param.product.ShopOrderRefundParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shopOrderRefundService")
-public class ShopOrderRefundServiceImpl extends AbstractRealizeService<Long, ShopOrderRefund, ShopOrderRefundParam> implements ShopOrderRefundService {
+public class ShopOrderRefundServiceImpl extends RealizeService<Long, ShopOrderRefund, ShopOrderRefundParam> implements ShopOrderRefundService {
     @Resource
     private ShopOrderRefundMapper shopOrderRefundMapper;
 
     @Override
-    public BaseConvertBo<ShopOrderRefund, ShopOrderRefundParam> initBo() {
+    public BaseConvertBo<ShopOrderRefund, ShopOrderRefundParam> bo() {
         return new ShopOrderRefundBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopOrderRefund> initMapper() {
+    public IBaseMapper<Long, ShopOrderRefund> mapper() {
         return shopOrderRefundMapper;
     }
 

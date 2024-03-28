@@ -1,20 +1,22 @@
 package cn.peyton.plum.mall.controller.pc.manager.sys;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
-import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.sys.MenuParam;
 import cn.peyton.plum.mall.service.sys.MenuService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -29,8 +31,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/menu")
-public class MenuController extends PcController<MenuParam>
-        implements IBasePCController<Long, MenuParam> {
+public class MenuController extends RealizeController
+        implements IController<Long, MenuParam> {
 
     @Resource
     private MenuService menuService;
@@ -54,7 +56,7 @@ public class MenuController extends PcController<MenuParam>
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(MenuParam record) {
-        return baseHandleCreate(record, new MenuParam(null,record.getPid(),record.getName()),menuService, TIP_MENU);
+        return handle(record, new MenuParam(null, record.getPid(), record.getName()), false, menuService, TIP_MENU, CREATE);
     }
 
 
@@ -62,14 +64,14 @@ public class MenuController extends PcController<MenuParam>
     @Valid
     @PostMapping("/manager/edit")
     public JSONResult<?> edit(MenuParam param) {
-        return baseHandleEdit(param,new MenuParam(param.getId(),param.getPid(),param.getName()), menuService, TIP_MENU);
+        return handle(param, new MenuParam(param.getId(), param.getPid(), param.getName()), false, menuService, TIP_MENU, UPDATE);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/delete")
     public JSONResult<?> delete(@NotBlank (message = "菜单Id不能为空") @Min(value = 1,message = "最小值为1") Long id) {
-        return baseHandleDelete(id, menuService, TIP_MENU);
+        return delete(id, menuService, TIP_MENU);
     }
 
     @Token
@@ -77,7 +79,7 @@ public class MenuController extends PcController<MenuParam>
     @PostMapping("/manager/upstatus")
     public JSONResult<?> editStatus(@NotBlank(message = "菜单Id不能为空") @Min(message = "要大于0的数！")long id,
                                         @Size(min = 0,max = 1) Integer status){
-        return baseHandle(menuService.upStatus(id, status), STATUS);
+        return handle(menuService.upStatus(id, status), TIP_MENU, STATUS);
     }
 
 
@@ -90,11 +92,7 @@ public class MenuController extends PcController<MenuParam>
     public JSONResult<?> findAllByKeyword(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         MenuParam _param = new MenuParam();
         _param.setName(keyword);
-        PageResult<?> result = menuService.likeByPage(_param, new PageQuery(pageNo,ORDER_BY_FILED));
-        if (result.isSuccess){
-            return JSONResult.success(DATA_LOADING_SUCCESS,result);
-        }
-        return JSONResult.fail(JSONResult.Props.NO_DATA,NO_DATA);
+        return page(menuService.page(_param, new PageQuery(pageNo, ORDER_BY_FILED), true));
     }
 
 }

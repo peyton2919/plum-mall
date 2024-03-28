@@ -3,7 +3,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 import cn.peyton.plum.core.anno.timestamp.AutoWriteTimestamp;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.core.utils.LogUtils;
 import cn.peyton.plum.core.utils.StrUtils;
 import cn.peyton.plum.mall.bo.UserBo;
@@ -32,7 +32,7 @@ import java.util.List;
  * </pre>
  */
 @Service("userService")
-public class UserServiceImpl extends AbstractRealizeService<Long, User, UserParam> implements UserService {
+public class UserServiceImpl extends RealizeService<Long, User, UserParam> implements UserService {
 
     private final String CACHE_KEY = "USERSERVICEIMPL-ALL";
     /** 表名 */
@@ -42,12 +42,12 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
     private UserMapper userMapper;
 
     @Override
-    public BaseConvertBo<User, UserParam> initBo() {
+    public BaseConvertBo<User, UserParam> bo() {
         return new UserBo();
     }
 
     @Override
-    public IBaseMapper<Long, User> initMapper() {
+    public IBaseMapper<Long, User> mapper() {
         return userMapper;
     }
 
@@ -71,8 +71,7 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
         //判断插入数据成功，给用户参数对象赋值，其中把密码 设 空
         int result = userMapper.insertSelective(user);
         if(result > 0){
-            System.out.println("添加对象操作,清空缓存");
-            cache.removeAll();
+            clearCache("新增用户");
         }
         return (result > 0) ? param.compat(user) : null;
     }
@@ -81,52 +80,43 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
     @Override
     public UserParam findJoinById(Long shareId, Integer shareType) {
         String key = keyPrefix + "find_join_id"+ StrUtils.join(shareId,shareType);
-        if (enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (UserParam)list;
-            }
-        }
-        User user = userMapper.selectByPrimaryKey(shareId);
-        if (null != user) {
-            List<Menu> menus = new ArrayList<>();
-           if( user.getRole().getId() == 1){
-               menus = menuMapper.selectMenuListBySuperAdmin();
-           }else {
-               menus = menuMapper.selectMenuListByShareIdAndType(shareId, shareType);
-           }
-
-            // 递归查找赋值
-            user.setMenuList(MenuUtils.reorganize(menus));
-            UserParam _param = new UserParam().compat(user);
-            // 转换规则
-            List<String> rules = new ArrayList<>();
-            if (null != menus && menus.size() > 0) {
-                for (Menu menu : menus) {
-                    if(null != menu.getCondition() && !"".equals(menu.getCondition())){
-                        rules.add(menu.getCondition() + "," + menu.getRouterMethod());
-                    }
+        Object obj = getCache(key);
+        if (null == obj) {
+            User user = userMapper.selectByPrimaryKey(shareId);
+            if (null != user) {
+                List<Menu> menus = new ArrayList<>();
+                if( user.getRole().getId() == 1){
+                    menus = menuMapper.selectMenuListBySuperAdmin();
+                }else {
+                    menus = menuMapper.selectMenuListByShareIdAndType(shareId, shareType);
                 }
-                _param.setRuleNames(rules);
+
+                // 递归查找赋值
+                user.setMenuList(MenuUtils.reorganize(menus));
+                UserParam _param = new UserParam().compat(user);
+                // 转换规则
+                List<String> rules = new ArrayList<>();
+                if (null != menus && menus.size() > 0) {
+                    for (Menu menu : menus) {
+                        if(null != menu.getCondition() && !"".equals(menu.getCondition())){
+                            rules.add(menu.getCondition() + "," + menu.getRouterMethod());
+                        }
+                    }
+                    _param.setRuleNames(rules);
+                }
+
+                saveCache(key, _param);
+                return _param;
             }
-            if (enabledCache) {
-                System.out.printf("添加对象到缓存: key= %s;\n",key);
-                cache.put(key,_param);
-            }
-            return _param;
         }
-        return null;
+        return (UserParam) obj;
     }
 
     @Override
     public Boolean upStatus(Long id, Integer status) {
         int res = userMapper.upStatus(id, status);
         if (res > 0) {
-            if(enabledCache){
-                System.out.println("更新状态操作清空缓存");
-                removeCache();
-            }
+            clearCache("更新用户状态");
             return true;
         }
         return false;
@@ -154,10 +144,7 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
     public  Boolean updateLastLogin(UserParam param) {
         int res = userMapper.updateLastLogin(TABLE_NAME, param.convert());
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新用户最后登录信息");
             return true;
         }
         return false;
@@ -167,10 +154,7 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
     public Boolean updatePassword(Long id, String pwd) {
         int res = userMapper.updatePassword(TABLE_NAME, id, pwd);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新用户密码");
             return true;
         }
         return false;
@@ -185,10 +169,7 @@ public class UserServiceImpl extends AbstractRealizeService<Long, User, UserPara
     public Boolean updateAvatar(Long id, String avatar) {
         int res = userMapper.updateAvatar(TABLE_NAME, id, avatar);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新用户头像");
             return true;
         }
         return false;

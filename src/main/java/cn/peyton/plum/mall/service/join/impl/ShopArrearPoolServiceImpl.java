@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.join.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopArrearPoolBo;
 import cn.peyton.plum.mall.mapper.join.ShopArrearPoolMapper;
 import cn.peyton.plum.mall.param.join.ShopArrearPoolParam;
@@ -23,18 +23,18 @@ import java.math.BigDecimal;
  * </pre>
 */
 @Service("shopArrearPoolService")
-public class ShopArrearPoolServiceImpl extends AbstractRealizeService<Long, ShopArrearPool, ShopArrearPoolParam>
+public class ShopArrearPoolServiceImpl extends RealizeService<Long, ShopArrearPool, ShopArrearPoolParam>
 		implements ShopArrearPoolService {
 	@Resource
 	private ShopArrearPoolMapper shopArrearPoolMapper;
 
 	@Override
-	public BaseConvertBo<ShopArrearPool, ShopArrearPoolParam> initBo() {
+	public BaseConvertBo<ShopArrearPool, ShopArrearPoolParam> bo() {
 		return new ShopArrearPoolBo();
 	}
 
 	@Override
-	public IBaseMapper<Long, ShopArrearPool> initMapper() {
+	public IBaseMapper<Long, ShopArrearPool> mapper() {
 		return shopArrearPoolMapper;
 	}
 

@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.party.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.bo.UserAddressBo;
 import cn.peyton.plum.mall.mapper.party.UserAddressMapper;
@@ -24,17 +24,17 @@ import java.util.List;
  * </pre>
  */
 @Service("userAddressService")
-public class UserAddressServiceImpl extends AbstractRealizeService<Long, cn.peyton.plum.mall.pojo.party.UserAddress, UserAddressParam> implements UserAddressService {
+public class UserAddressServiceImpl extends RealizeService<Long, UserAddress, UserAddressParam> implements UserAddressService {
     @Resource
     private UserAddressMapper userAddressMapper;
 
     @Override
-    public BaseConvertBo<cn.peyton.plum.mall.pojo.party.UserAddress, UserAddressParam> initBo() {
+    public BaseConvertBo<UserAddress, UserAddressParam> bo() {
         return new UserAddressBo();
     }
 
     @Override
-    public IBaseMapper<Long, cn.peyton.plum.mall.pojo.party.UserAddress> initMapper() {
+    public IBaseMapper<Long, UserAddress> mapper() {
         return userAddressMapper;
     }
 
@@ -46,29 +46,20 @@ public class UserAddressServiceImpl extends AbstractRealizeService<Long, cn.peyt
     @Override
     public List<UserAddressParam> findByShareId(Long shareId, Integer shareType) {
         String key = keyPrefix + "_" + shareId + "_" + shareType;
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.println("从缓存中获取到的数据,KEY = " + key);
-                return (List<UserAddressParam>)obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<UserAddressParam> result = bo().adapter(userAddressMapper.selectByShareId(shareId, shareType));
+            saveCache(key, result);
+            return result;
         }
-        List<UserAddressParam> result = initBo().adapter(userAddressMapper.selectByShareId(shareId, shareType));
-        if (null != result && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,result);
-        }
-        return result;
+        return (List<UserAddressParam>) objs;
     }
 
     @Override
     public boolean upLastUsedTime(Long id, Integer lastUsedTime) {
         int res = userAddressMapper.upLastUsedTime(id, lastUsedTime);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作清空缓存");
-                removeCache();
-            }
+            clearCache("更新用户地址最后时间");
             return true;
         }
         return false;
@@ -76,23 +67,18 @@ public class UserAddressServiceImpl extends AbstractRealizeService<Long, cn.peyt
 
     @Override
     public List<UserAddressParam> findAndroidByShareId(Long shareId, Integer shareType, PageQuery page) {
-        String key = keyPrefix + shareId + shareType + createKey(null, page, false);
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.println("从缓存中获取到数据; key="+key);
-                return (List<UserAddressParam>) obj;
-            }
+        String key = keyPrefix + shareId + shareType + keywords(null, page, false);
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<UserAddressParam> adapter = bo().adapter(userAddressMapper.selectAndroidByShareId(shareId, shareType, page));
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<UserAddress> userAddresses = userAddressMapper.selectAndroidByShareId(shareId, shareType, page);
-        if (null != userAddresses && userAddresses.size() > 0) {
-            List<UserAddressParam> result = initBo().adapter(userAddresses);
-            if (enabledCache) {
-                System.out.println("找到数据添加到缓存; key=" + key);
-                cache.put(key, result);
-            }
-            return result;
-        }
-        return null;
+        return (List<UserAddressParam>) objs;
+    }
+
+    @Override
+    public void upLastUsedTimeNullByShareId(Long shareId, int shareType) {
+        userAddressMapper.upLastUsedTimeNullByShareId(shareId, shareType);
     }
 }

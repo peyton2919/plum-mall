@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopProductCategoryParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductCategory;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.product.ShopProductCategory;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopProductCategoryService extends IBaseService<Long, ShopProductCategory, ShopProductCategoryParam> {
+public interface ShopProductCategoryService extends IRealizeService<Long, ShopProductCategory, ShopProductCategoryParam> {
 
 }

@@ -1,15 +1,15 @@
 package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
-import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopStorageDetailParam;
 import cn.peyton.plum.mall.service.product.ShopStorageDetailService;
 import jakarta.annotation.Resource;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/pc/storagedetail")
-public class ShopStorageDetailController extends PcController<ShopStorageDetailParam>
-		implements IBasePCController<Long,  ShopStorageDetailParam> {
+public class ShopStorageDetailController extends RealizeController
+		implements IController<Long,  ShopStorageDetailParam> {
 
 	@Resource
 	private ShopStorageDetailService shopStorageDetailService;
@@ -45,12 +45,9 @@ public class ShopStorageDetailController extends PcController<ShopStorageDetailP
 		if (null == stockId || stockId < 1) {
 			return JSONResult.fail(PARAM + ERROR_SIMPLE);
 		}
-		Integer[] times = convertStrToBetweenIntArray(query.getKeyword());
-		PageResult<ShopStorageDetailParam> result = shopStorageDetailService.findByStockId(stockId, new PageQuery(query.getPageNo()), times[0], times[1]);
-		if(result.isSuccess){
-			return JSONResult.success(result);
-		}
-		return JSONResult.fail(JSONResult.Props.NO_DATA, NO_DATA);
+
+		int[] times = new CtrlUtils().convertStrToBetweenIntArray(query.getKeyword());
+		return page(shopStorageDetailService.findByStockId(stockId, new PageQuery(query.getPageNo()), times[0], times[1]));
 	}
 
 	@Token
@@ -59,7 +56,7 @@ public class ShopStorageDetailController extends PcController<ShopStorageDetailP
 	public JSONResult<?> joinCreate(@NotBlank(message = "商品规格明细Id不能为空") @Min(value = 1,message = "商品规格明细Id最小值为1") Long psdId,
 		@NotBlank(message = "数量不能为空") @Min(value = 1,message = "数量最小值为1")Integer quantity) {
 
-		return baseHandle(shopStorageDetailService.joinCreate(psdId, quantity), TIP_SHOP_STOCK + CREATE);
+		return handle(shopStorageDetailService.joinCreate(psdId, quantity), TIP_SHOP_STOCK, CREATE);
 	}
 
 	//Boolean joinEdit(Long id, Long psdId, Long stockId, Integer quantity);
@@ -71,7 +68,7 @@ public class ShopStorageDetailController extends PcController<ShopStorageDetailP
 			@NotBlank(message = "库存Id不能为空") @Min(value = 1,message = "库存Id最小值为1") Long stockId,
 			@NotBlank(message = "数量不能为空") @Min(value = 1,message = "数量最小值为1")Integer quantity) {
 
-		return baseHandle(shopStorageDetailService.joinEdit(id, psdId, stockId, quantity), TIP_SHOP_STOCK + MODIFY);
+		return handle(shopStorageDetailService.joinEdit(id, psdId, stockId, quantity), TIP_SHOP_STOCK, MODIFY);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.SettingParam;
 import cn.peyton.plum.mall.pojo.sys.Setting;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.sys.Setting;
  * @version 1.0.0
  * </pre>
  */
-public interface SettingService extends IBaseService<Integer, Setting, SettingParam> {
+public interface SettingService extends IRealizeService<Integer, Setting, SettingParam> {
 
 }

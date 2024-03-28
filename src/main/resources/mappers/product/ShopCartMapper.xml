@@ -7,17 +7,16 @@
 		<result column="share_type" property="shareType" jdbcType="TINYINT"/>
 		<result column="num" property="num" jdbcType="INTEGER"/>
 		<result column="is_pay" property="isPay" jdbcType="TINYINT"/>
-		<result column="is_new" property="isNew" jdbcType="TINYINT"/>
 		<result column="pink_id" property="pinkId" jdbcType="BIGINT"/>
 		<result column="seckill_id" property="seckillId" jdbcType="BIGINT"/>
 		<result column="bargain_id" property="bargainId" jdbcType="BIGINT"/>
-		<result column="expand" property="expand" jdbcType="VARCHAR"/>
+		<result column="expand" property="expand" jdbcType="LONGVARCHAR"/>
 		<result column="create_time" property="createTime" jdbcType="INTEGER"/>
 		<result column="update_time" property="updateTime" jdbcType="INTEGER"/>
 	</resultMap>
 
 	<sql id="Column_tb_shop_cart_List">
-		`id`,`share_id`,`share_type`,`num`,`is_pay`,`is_new`,`pink_id`,`seckill_id`,`bargain_id`,`expand`,`create_time`,`update_time`
+		`id`,`share_id`,`share_type`,`num`,`is_pay`,`pink_id`,`seckill_id`,`bargain_id`,`expand`,`create_time`,`update_time`
 	</sql>
 
 	<insert id="insertSelective" parameterType="cn.peyton.plum.mall.pojo.product.ShopCart" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
@@ -27,7 +26,6 @@
 			<if test="shareType != null">`share_type`,</if>
 			<if test="num != null">`num`,</if>
 			<if test="isPay != null">`is_pay`,</if>
-			<if test="isNew != null">`is_new`,</if>
 			<if test="pinkId != null">`pink_id`,</if>
 			<if test="seckillId != null">`seckill_id`,</if>
 			<if test="bargainId != null">`bargain_id`,</if>
@@ -39,7 +37,6 @@
 			<if test="shareType != null">#{shareType},</if>
 			<if test="num != null">#{num},</if>
 			<if test="isPay != null">#{isPay},</if>
-			<if test="isNew != null">#{isNew},</if>
 			<if test="pinkId != null">#{pinkId},</if>
 			<if test="seckillId != null">#{seckillId},</if>
 			<if test="bargainId != null">#{bargainId},</if>
@@ -53,7 +50,6 @@
 		<set>
 			<if test="num != null">`num` = #{num},</if>
 			<if test="isPay != null">`is_pay` = #{isPay},</if>
-			<if test="isNew != null">`is_new` = #{isNew},</if>
 			<if test="pinkId != null">`pink_id` = #{pinkId},</if>
 			<if test="seckillId != null">`seckill_id` = #{seckillId},</if>
 			<if test="bargainId != null">`bargain_id` = #{bargainId},</if>
@@ -90,9 +86,6 @@
 			</if>
 			<if test="isDel != null">
 				and `is_del` = #{isDel}
-			</if>
-			<if test="isNew != null">
-				and `is_new` = #{isNew}
 			</if>
 			<if test="pinkId != null">
 				and `pink_id` = #{pinkId}
@@ -179,9 +172,6 @@
 			<if test="record.isPay != null">
 				and `is_pay` = #{record.isPay}
 			</if>
-			<if test="record.isNew != null">
-				and `is_new` = #{record.isNew}
-			</if>
 			<if test="record.pinkId != null">
 				and `pink_id` = #{record.pinkId}
 			</if>
@@ -251,9 +241,6 @@
 			</if>
 			<if test="isDel != null">
 				and `is_del` = #{isDel}
-			</if>
-			<if test="isNew != null">
-				and `is_new` = #{isNew}
 			</if>
 			<if test="pinkId != null">
 				and `pink_id` = #{pinkId}

@@ -4,7 +4,7 @@ import cn.peyton.plum.core.err.GlobalException;
 import cn.peyton.plum.core.err.ValidationException;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopSkuBo;
 import cn.peyton.plum.mall.mapper.product.ShopProductSkuJoinMapper;
 import cn.peyton.plum.mall.mapper.product.ShopSkuMapper;
@@ -32,7 +32,7 @@ import java.util.List;
  * </pre>
  */
 @Service("shopSkuService")
-public class ShopSkuServiceImpl extends AbstractRealizeService<Long, ShopSku, ShopSkuParam> implements ShopSkuService {
+public class ShopSkuServiceImpl extends RealizeService<Long, ShopSku, ShopSkuParam> implements ShopSkuService {
     @Resource
     private ShopSkuMapper shopSkuMapper;
     @Resource
@@ -41,12 +41,12 @@ public class ShopSkuServiceImpl extends AbstractRealizeService<Long, ShopSku, Sh
     private ShopSkuValueMapper shopSkuValueMapper;
 
     @Override
-    public BaseConvertBo<ShopSku, ShopSkuParam> initBo() {
+    public BaseConvertBo<ShopSku, ShopSkuParam> bo() {
         return new ShopSkuBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopSku> initMapper() {
+    public IBaseMapper<Long, ShopSku> mapper() {
         return shopSkuMapper;
     }
 
@@ -75,10 +75,7 @@ public class ShopSkuServiceImpl extends AbstractRealizeService<Long, ShopSku, Sh
             join.setSkuId(shopSku.getId());
             res = shopProductSkuJoinMapper.insertSelective(join);
             if (res > 0) {
-                if(enabledCache){
-                    System.out.println("操作数据更新清空缓存");
-                    removeCache();
-                }
+                clearCache("新增规格");
                 return new ShopSkuBo().compat(shopSku);
             }
         }
@@ -97,10 +94,7 @@ public class ShopSkuServiceImpl extends AbstractRealizeService<Long, ShopSku, Sh
         // 删除 规格
         res = shopSkuMapper.deleteByPrimaryKey(skuId);
         if (res > 0) {
-            if(enabledCache){
-                System.out.println("操作数据更新清空缓存");
-                removeCache();
-            }
+            clearCache("删除规格");
             tip.append("数据删除成功");
             return true;
         }
@@ -112,10 +106,7 @@ public class ShopSkuServiceImpl extends AbstractRealizeService<Long, ShopSku, Sh
     public Boolean batchUpdate(List<ShopSkuParam> skus) {
         int res = shopSkuMapper.batchUpdate(new ShopSkuBo().reverse(skus));
         if (res > 0) {
-            if(enabledCache){
-                System.out.println("操作数据更新清空缓存");
-                removeCache();
-            }
+            clearCache("更新规格");
             return true;
         }
         return false;

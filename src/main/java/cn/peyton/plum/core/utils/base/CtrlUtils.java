@@ -1,26 +1,21 @@
-package cn.peyton.plum.mall.controller.base;
+package cn.peyton.plum.core.utils.base;
 
 import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.utils.HttpServletRequestUtils;
 
+import java.io.Serializable;
+
 /**
- * <h4>公共方法</h4>
+ * <h4>controller 工具类</h4>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @name cn.peyton.plum.mall.controller.base.
- * @date 2024年01月26日 19:25
+ * @name cn.peyton.plum.core.utils.base.
+ * @date 2024年03月27日 23:57
  * @version 1.0.0
  * </pre>
  */
-public abstract class CommonController {
-
-    /** 会员 MD5 加密 key */
-    protected static String KEY_MEMBER_PASSWORD_ENCODER = "member_controller_password_202312112140";
-    /** 供应商 MD5 加密 key */
-    protected static String KEY_SUPPLIERS_PASSWORD_ENCODER = "suppliers_controller_password_20231226135300";
-    /** 用户{管理者} MD5 加密 key */
-    protected static String KEY_USER_PASSWORD_ENCODER = "userControllerPassword202312120011";
+public final class CtrlUtils implements Serializable {
 
     /**
      * <h4>图片完整路径 转成 简单路径{储放在数据库}</h4>
@@ -43,8 +38,8 @@ public abstract class CommonController {
      * @param str
      * @return
      */
-    public Integer[] convertStrToBetweenIntArray(String str) {
-        Integer[] times = new Integer[2];
+    public int[] convertStrToBetweenIntArray(String str) {
+        int[] times = new int[2];
         if (null != str && !"".equals(str)) {
             String[] strs = str.split(",");
             try {
@@ -59,30 +54,53 @@ public abstract class CommonController {
         return times;
     }
 
+    // ----------------------------------------- 数组 转 字符串 | 字符串 转数组  ----------------------------------------- //
+
     /**
      * <h4>字符串转数组</h4>
-     *
-     * @param operate 字符串
+     * @param arrs 字符串
      * @return
      */
-    public String[] convertStrToArr(String operate) {
-        return operate.split(",");
+    public String[] convertStrToArr(String arrs) {
+        return arrs.split(",");
+    }
+
+    /**
+     * <h4>字符串转数组</h4>
+     * @param arrs 字符串
+     * @param operate 分隔符
+     * @return
+     */
+    public String[] convertStrToArr(String arrs,String operate) {
+        return arrs.split(operate);
     }
 
     /**
      * <h4>数组转字符串</h4>
-     *
-     * @param opearate 数组
+     * @param arrs 数组
      * @return
      */
-    public String convertArrToStr(String[] opearate) {
+    public String convertArrToStr(String[] arrs) {
+        return convertArrToStr(arrs, ",");
+    }
+
+    /**
+     * <h4>数组转字符串</h4>
+     * @param arrs 数组
+     * @param operate 分隔符
+     * @return
+     */
+    public String convertArrToStr(String[] arrs,String operate) {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < opearate.length; i++) {
-            sb.append(opearate[i]);
-            if ((opearate.length - 1 != i)) {
-                sb.append(",");
+        for (int i = 0; i < arrs.length; i++) {
+            sb.append(arrs[i]);
+            if ((arrs.length - 1 != i)) {
+                sb.append(operate);
             }
         }
         return sb.toString();
     }
+
+    // ----------------------------------------- 数组 转 字符串 | 字符串 转数组  ----------------------------------------- //
+
 }

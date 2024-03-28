@@ -123,6 +123,19 @@ public final class JSONResult<T> implements Serializable {
         return new JSONResult(Props.SUCCESS, msg, data, expand, null, null);
     }
 
+    /**
+     * <h4>成功{带回扩展数据}| 带回错误码</h4>
+     * @param msg 消息
+     * @param data 成功时要返回的数据
+     * @param expand 扩展数据
+     * @param errorCode 自定义状态码
+     * @return JSONResult对象
+     * @param <T>
+     */
+    public static <T> JSONResult<T> success(String msg, T data, Object expand,int errorCode) {
+        return new JSONResult(Props.SUCCESS, msg, data, expand, errorCode, null);
+    }
+
     // -----------------------------------------> fail begin <-----------------------------------------
 
     /**
@@ -460,41 +473,43 @@ public final class JSONResult<T> implements Serializable {
     // ====================================== private constructor end ====================================== //
     public interface Props{
         /** 成功码 200 */
-        Integer SUCCESS = 200;
+        int SUCCESS = 200;
         /** 通用错误码 600 */
-        Integer FAIL = 600;
+        int FAIL = 600;
         /** 没找到数据 601 */
-        Integer NO_DATA = 601;
+        int NO_DATA = 601;
         /** 参数错误 602 */
-        Integer PARAMETER = 602;
+        int PARAMETER = 602;
         /** 验证错误 603 */
-        Integer VALIDATE = 603;
+        int VALIDATE = 603;
         /** 拦截器错误 604 */
-        Integer INTERCEPTOR = 604;
+        int INTERCEPTOR = 604;
         /** 请求的资源找不到 605 */
-        Integer NOT_FOUND = 605;
+        int NOT_FOUND = 605;
         /** 无权限访问 606  */
-        Integer FORBIDDEN = 606;
+        int FORBIDDEN = 606;
         /** 你已经退出登录 608  */
-        Integer DROP_OUT = 607;
+        int DROP_OUT = 607;
         /** 需要登录 608  */
-        Integer NEED_LOGIN = 608;
+        int NEED_LOGIN = 608;
         /** 请勿重复操作 609  */
-        Integer NOT_REPEAT_OPERATION = 609;
+        int NOT_REPEAT_OPERATION = 609;
         /** 绑定类型冲突 610  */
-        Integer BINDING_TYPE_CONFLICT = 610;
+        int BINDING_TYPE_CONFLICT = 610;
         /** 请求的数据格式不符 611  */
-        Integer BAD_REQUEST = 611;
+        int BAD_REQUEST = 611;
+        /** 事务异常 612  */
+        int TRANSACTIONAL = 612;
 
         /** 异常 900 */
-        Integer ERROR = 900;
+        int ERROR = 900;
         /** 未知异常 */
-        Integer UNKNOWN = 901;
+        int UNKNOWN = 901;
 
         /** 非法token 801 */
-        Integer TOKEN_ILLEGAL = 801;
+        int TOKEN_ILLEGAL = 801;
         /** token 过期 802 */
-        Integer TOKEN_EXPIRE = 802;
+        int TOKEN_EXPIRE = 802;
 
     }
 }

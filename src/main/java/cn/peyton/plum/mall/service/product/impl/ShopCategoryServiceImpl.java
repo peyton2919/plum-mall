@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopCategoryBo;
 import cn.peyton.plum.mall.mapper.product.ShopCategoryMapper;
 import cn.peyton.plum.mall.param.product.ShopCategoryParam;
@@ -24,18 +24,18 @@ import java.util.List;
  * </pre>
  */
 @Service("shopCategoryService")
-public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, ShopCategory, ShopCategoryParam> implements ShopCategoryService {
+public class ShopCategoryServiceImpl extends RealizeService<Integer, ShopCategory, ShopCategoryParam> implements ShopCategoryService {
     private String TABEL_NAME = "tb_shop_category";
     @Resource
     private ShopCategoryMapper shopCategoryMapper;
 
     @Override
-    public BaseConvertBo<ShopCategory, ShopCategoryParam> initBo() {
+    public BaseConvertBo<ShopCategory, ShopCategoryParam> bo() {
         return new ShopCategoryBo();
     }
 
     @Override
-    public IBaseMapper<Integer, ShopCategory> initMapper() {
+    public IBaseMapper<Integer, ShopCategory> mapper() {
         return shopCategoryMapper;
     }
 
@@ -58,10 +58,7 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
     public Boolean updateSeq(Integer id, Short seq) {
         int res = shopCategoryMapper.updateSeq(id, seq);
         if (res > 0) {
-            if(enabledCache){
-                System.out.println("更新操作清空缓存;");
-                removeCache();
-            }
+            clearCache("更新商品分类排序");
             return true;
         }
         return false;
@@ -70,47 +67,34 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
     @Override
     public List<ShopCategoryParam> findByOutside() {
         String key = keyPrefix + "select_all_2311282020";
-        if(enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<ShopCategoryParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<ShopCategoryParam> adapter = bo().adapter(CategoryUtils.reorganize(shopCategoryMapper.selectByOutside()));
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<ShopCategoryParam> pList = initBo().adapter(CategoryUtils.reorganize(shopCategoryMapper.selectByOutside()));
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+        return (List<ShopCategoryParam>) objs;
+
+
     }
 
     @Override
     public List<ShopCategoryParam> findByInner() {
         String key = keyPrefix + "select_all_2312101102";
-        if(enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<ShopCategoryParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<ShopCategoryParam> adapter = bo().adapter(shopCategoryMapper.selectByInner());
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<ShopCategoryParam> pList = initBo().adapter(shopCategoryMapper.selectByInner());
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+        return (List<ShopCategoryParam>) objs;
     }
 
     @Override
     public Boolean updateShow(Integer id, Integer isShow) {
         int res = shopCategoryMapper.updateShow(id, isShow);
         if (res > 0) {
-            if(enabledCache){
-                System.out.println("更新操作清空缓存;");
-                removeCache();
-            }
+            clearCache("更新商品分类显示");
             return true;
         }
         return false;
@@ -124,6 +108,7 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
                 System.out.println("更新操作清空缓存;");
                 removeCache();
             }
+            clearCache("删除商品分类");
             return true;
         }
         return false;
@@ -132,24 +117,17 @@ public class ShopCategoryServiceImpl extends AbstractRealizeService<Integer, Sho
     @Override
     public List<ShopCategoryParam> findByTree() {
         String key = keyPrefix + "find_tree_all_1";
-        if (enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<ShopCategoryParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<ShopCategoryParam> adapter = bo().adapter(CategoryUtils.reorganize(shopCategoryMapper.selectByTree()));
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<ShopCategoryParam> pList = initBo().adapter(CategoryUtils.reorganize(shopCategoryMapper.selectByTree()));
-
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+        return (List<ShopCategoryParam>) objs;
     }
 
     @Override
     public List<ShopCategoryParam> findAndroidByRand(int limit) {
-        return initBo().adapter(shopCategoryMapper.selectAndroidByRand(limit));
+        return bo().adapter(shopCategoryMapper.selectAndroidByRand(limit));
     }
 }

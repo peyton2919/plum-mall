@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.party.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShareBindBo;
 import cn.peyton.plum.mall.mapper.party.ShareBindMapper;
 import cn.peyton.plum.mall.param.party.ShareBindParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shareBindService")
-public class ShareBindServiceImpl extends AbstractRealizeService<Long, ShareBind, ShareBindParam> implements ShareBindService {
+public class ShareBindServiceImpl extends RealizeService<Long, ShareBind, ShareBindParam> implements ShareBindService {
     @Resource
     private ShareBindMapper shareBindMapper;
 
     @Override
-    public BaseConvertBo<ShareBind, ShareBindParam> initBo() {
+    public BaseConvertBo<ShareBind, ShareBindParam> bo() {
         return new ShareBindBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShareBind> initMapper() {
+    public IBaseMapper<Long, ShareBind> mapper() {
         return shareBindMapper;
     }
 

@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopOrderParam;
 import cn.peyton.plum.mall.pojo.product.ShopOrder;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopOrderService extends IBaseService<Long, ShopOrder, ShopOrderParam> {
+public interface ShopOrderService extends IRealizeService<Long, ShopOrder, ShopOrderParam> {
 
     /**
      * <h4>批量删除 {更新 is_del =0}</h4>
@@ -41,4 +41,11 @@ public interface ShopOrderService extends IBaseService<Long, ShopOrder, ShopOrde
      * @return
      */
     List<ShopOrderParam> findSimpleByCondition(ShopOrderParam record, Integer start, Integer end);
+
+    /**
+     * <h4>创建订单</h4>
+     * @param param 订单对象
+     * @return true 成功
+     */
+    ShopOrderParam create(ShopOrderParam param);
 }

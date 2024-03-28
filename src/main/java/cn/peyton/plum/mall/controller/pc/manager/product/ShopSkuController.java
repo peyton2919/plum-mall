@@ -2,14 +2,14 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopProductSkuParam;
 import cn.peyton.plum.mall.param.product.ShopSkuParam;
 import cn.peyton.plum.mall.service.product.ShopProductSkuService;
@@ -32,8 +32,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/productsku")
-public class ShopSkuController extends PcController<ShopSkuParam>
-        implements IBasePCController<Long, ShopSkuParam> {
+public class ShopSkuController extends RealizeController
+        implements IController<Long, ShopSkuParam> {
 
     @Resource
     private ShopSkuService shopSkuService;
@@ -56,7 +56,7 @@ public class ShopSkuController extends PcController<ShopSkuParam>
         if (null != res) {
             return JSONResult.success(FIND_DATA, res);
         }
-        return baseHandleCreate(record, null, shopSkuService, TIP_SHOP_SKU);
+        return handle(record, null, false, shopSkuService, TIP_SHOP_SKU, CREATE);
     }
 
     // record、keyLong、bool
@@ -80,11 +80,12 @@ public class ShopSkuController extends PcController<ShopSkuParam>
         if (null != res) {
             return JSONResult.success(FIND_DATA, res);
         }
-        ShopSkuParam param = shopSkuService.add(record);
+        ShopSkuParam param = shopSkuService.insert(record);
         if(null != param){
             return JSONResult.success((TIP_SHOP_SKU + OPERATE + SUCCESS), param);
         }
         return JSONResult.fail(TIP_SHOP_SKU + OPERATE + FAIL);
+
     }
 
     // 15. 删除 规格

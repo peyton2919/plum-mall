@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.product.ShopCouponMemberParam;
 import cn.peyton.plum.mall.pojo.product.ShopCouponMember;
@@ -17,7 +17,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopCouponMemberService extends IBaseService<Long, ShopCouponMember, ShopCouponMemberParam> {
+public interface ShopCouponMemberService extends IRealizeService<Long, ShopCouponMember, ShopCouponMemberParam> {
 
     /**
      * <h4>当前用户所有优惠券</h4>

@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopSkuValueParam;
 import cn.peyton.plum.mall.pojo.product.ShopSkuValue;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopSkuValueService extends IBaseService<Long, ShopSkuValue, ShopSkuValueParam> {
+public interface ShopSkuValueService extends IRealizeService<Long, ShopSkuValue, ShopSkuValueParam> {
 
     /**
      * <h4>根据 规格Id 和 规格值 查找 规格值对象</h4>

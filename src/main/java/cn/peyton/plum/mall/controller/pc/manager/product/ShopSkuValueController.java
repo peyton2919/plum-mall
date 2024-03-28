@@ -2,14 +2,14 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopProductSkuParam;
 import cn.peyton.plum.mall.param.product.ShopSkuValueParam;
 import cn.peyton.plum.mall.service.product.ShopProductSkuService;
@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/productskuvalue")
-public class ShopSkuValueController extends PcController<ShopSkuValueParam>
-        implements IBasePCController<Long, ShopSkuValueParam> {
+public class ShopSkuValueController extends RealizeController
+        implements IController<Long, ShopSkuValueParam> {
     String TIP_NAME = "规格值";
 
     @Resource
@@ -49,7 +49,7 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
         if(null != res){
             return JSONResult.success(FIND_DATA, res);
         }
-        return baseHandleCreate(record, null, shopSkuValueService, TIP_SHOP_SKU_VALUE);
+        return handle(record, null, false, shopSkuValueService, TIP_SHOP_SKU_VALUE, CREATE);
     }
 
     // keyLong,record,bool
@@ -73,7 +73,7 @@ public class ShopSkuValueController extends PcController<ShopSkuValueParam>
         if(null != res){
             return JSONResult.success("查找相应数据;", res);
         }
-        return baseHandleCreate(record, null, shopSkuValueService, TIP_SHOP_SKU_VALUE);
+        return handle(record, null, false, shopSkuValueService, TIP_SHOP_SKU_VALUE, CREATE);
     }
     // 商品Id、规格值Id
     //  19. 删除 规格值

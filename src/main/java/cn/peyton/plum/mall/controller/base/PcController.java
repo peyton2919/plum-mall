@@ -1,11 +1,12 @@
 package cn.peyton.plum.mall.controller.base;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.controller.CommonController;
+import cn.peyton.plum.core.inf.controller.IBaseController;
+import cn.peyton.plum.core.inf.controller.ITipMessages;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
-import cn.peyton.plum.core.utils.HttpServletRequestUtils;
-import cn.peyton.plum.core.utils.TokenUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -37,67 +38,8 @@ import java.util.List;
  */
 @Controller
 @CrossOrigin(origins = "*")
-public class PcController<P> extends CommonController implements IBaseController,ITipMessages,IValidMessages {
-    /**
-     * Token 过期时间 1 天
-     */
-    protected long expireTime = 24 * 60 * 60 * 1000L;
+public class PcController<P> extends CommonController implements IBaseController, ITipMessages {
 
-    /**
-     * <h4>初始化对象</h4>
-     *
-     * @param param
-     */
-    public void initProps(P param) { }
-
-    /**
-     * <h4>保存 Token</h4>
-     *
-     * @param record 要保存的对象
-     * @return 对象转换成加密后的字符串
-     */
-    protected String saveToken(P record) {
-        return new TokenUtils<P>().sign(KEY_TOKEN, record, expireTime);
-    }
-
-    /**
-     * <h4>获取 Token</h4>
-     *
-     * @param record 保存token内的对象
-     * @param <P>
-     * @return null 表示 非法 token
-     */
-    protected <P> P handleToken(P record) {
-        String _tokenValue = HttpServletRequestUtils.getRequest().getHeader(ACCESS_TOKEN);
-        if (null != _tokenValue) {
-            return new TokenUtils<P>().getObject(KEY_TOKEN, _tokenValue, record);
-        }
-        return null;
-    }
-
-    /**
-     * <h4>验证 Token 是否合法</h4>
-     *
-     * @param <P>
-     * @return 返回 true 表示 没被篡改 ; false 表示 被篡改过;
-     */
-    protected <P> Boolean verifyToken() {
-        String _tokenValue = HttpServletRequestUtils.getRequest().getHeader(ACCESS_TOKEN);
-        if (null != _tokenValue) {
-            return new TokenUtils<P>().verify(_tokenValue);
-        }
-        return false;
-    }
-
-    /**
-     * <h>赋值转换</h>
-     *
-     * @param record
-     * @return
-     */
-    protected P assign(P record) {
-        return record;
-    }
 
     /**
      * <h4>基础 添加 Param 对象</h4>
@@ -111,7 +53,7 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {success:成功(返回含Id的对象),fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleCreate(P param, P repeat, IBaseService<K, T, P> service, String... tip) {
+    public <K, T, P> JSONResult<?> baseHandleCreate(P param, P repeat, IRealizeService<K, T, P> service, String... tip) {
         if (null != repeat) {
             if (service.repeat(repeat)) {
                 return JSONResult.fail(REPEAT);
@@ -125,7 +67,7 @@ public class PcController<P> extends CommonController implements IBaseController
                 _msg.append(t);
             }
         }
-        P res = service.add(param);
+        P res = service.insert(param);
         if (null != res) {
             return JSONResult.success((len > 1) ? _msg.append(SUCCESS).toString() : (_msg + ADD + SUCCESS), res);
         }
@@ -144,7 +86,7 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleEdit(P param, P repeat, IBaseService<K, T, P> service, String... tip) {
+    public <K, T, P> JSONResult<?> baseHandleEdit(P param, P repeat, IRealizeService<K, T, P> service, String... tip) {
         StringBuffer _msg = new StringBuffer();
         int len = 0;
         if (null != tip) {
@@ -175,7 +117,7 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleDelete(K id, IBaseService<K, T, P> service, String tip) {
+    public <K, T, P> JSONResult<?> baseHandleDelete(K id, IRealizeService<K, T, P> service, String tip) {
         if (service.delete(id)) {
             return JSONResult.success(tip + DELETE + SUCCESS);
         }
@@ -214,7 +156,7 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {data:PageResult, success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleList(P param, PageQuery page, IBaseService<K, T, P> service, Object expand) {
+    public <K, T, P> JSONResult<?> baseHandleList(P param, PageQuery page, IRealizeService<K, T, P> service, Object expand) {
         return baseHandleList(param, page, service, expand, null);
     }
 
@@ -231,8 +173,8 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {data:PageResult, success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleList(P param, PageQuery page, IBaseService<K, T, P> service, Object expand, String key) {
-        PageResult<?> result = service.likeByPage(param, page, key);
+    public <K, T, P> JSONResult<?> baseHandleList(P param, PageQuery page, IRealizeService<K, T, P> service, Object expand, String key) {
+        PageResult<?> result = service.page(param, page, key,true);
         if (result.isSuccess) {
             return JSONResult.success(DATA_LOADING_SUCCESS, result,expand);
         }
@@ -250,8 +192,8 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {data:List<P>, success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleList (P param, PageQuery page, IBaseService<K, T, P> service) {
-        List<P> result = service.like(param, page);
+    public <K, T, P> JSONResult<?> baseHandleList (P param, PageQuery page, IRealizeService<K, T, P> service) {
+        List<P> result = service.list(param, page,true);
         if (null != result) {
             return JSONResult.success(result);
         }
@@ -282,8 +224,8 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {data:PageResult, success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleListPageReulst(P param, PageQuery page, IBaseService<K, T, P> service) {
-        PageResult<?> result = service.listByPage(param, page);
+    public <K, T, P> JSONResult<?> baseHandleListPageReulst(P param, PageQuery page, IRealizeService<K, T, P> service) {
+        PageResult<?> result = service.page(param, page, true);
         if (result.isSuccess) {
             return JSONResult.success(result);
         }
@@ -301,8 +243,8 @@ public class PcController<P> extends CommonController implements IBaseController
      * @param <P>     Param 对象
      * @return JSONResult {data:List<P>, success:成功,fail:失败}
      */
-    public <K, T, P> JSONResult<?> baseHandleListSimple(P param, PageQuery page, IBaseService<K, T, P> service) {
-        List<P> result = service.list(param, page);
+    public <K, T, P> JSONResult<?> baseHandleListSimple(P param, PageQuery page, IRealizeService<K, T, P> service) {
+        List<P> result = service.list(param, page,true);
         if (null != result) {
             return JSONResult.success(result);
         }

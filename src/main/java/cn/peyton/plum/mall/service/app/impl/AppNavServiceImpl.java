@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.app.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.AppNavBo;
 import cn.peyton.plum.mall.mapper.app.AppNavMapper;
 import cn.peyton.plum.mall.param.app.AppNavParam;
@@ -23,18 +23,19 @@ import java.util.List;
  * </pre>
 */
 @Service("appNavService")
-public class AppNavServiceImpl  extends AbstractRealizeService<Integer, AppNav, cn.peyton.plum.mall.param.app.AppNavParam> implements AppNavService {
+public class AppNavServiceImpl  extends RealizeService<Integer, AppNav, AppNavParam> implements AppNavService {
+
 	private String TABLE_NAME = "tb_app_nav";
 	@Resource
 	private AppNavMapper appNavMapper;
 
 	@Override
-	public BaseConvertBo<AppNav, cn.peyton.plum.mall.param.app.AppNavParam> initBo() {
+	public BaseConvertBo<AppNav, cn.peyton.plum.mall.param.app.AppNavParam> bo() {
 		return new AppNavBo();
 	}
 
 	@Override
-	public IBaseMapper<Integer, AppNav> initMapper() {
+	public IBaseMapper<Integer, AppNav> mapper() {
 		return appNavMapper;
 	}
 
@@ -49,10 +50,7 @@ public class AppNavServiceImpl  extends AbstractRealizeService<Integer, AppNav, 
 	public Boolean upStatus(Integer id, Integer status) {
 		int res = appNavMapper.updateStatus(TABLE_NAME,id,status);
 		if (res > 0) {
-			if(enabledCache){
-				System.out.println("更新状态操作清空缓存");
-				removeCache();
-			}
+			clearCache("App Nav 更新状态");
 			return true;
 		}
 		return false;
@@ -60,6 +58,6 @@ public class AppNavServiceImpl  extends AbstractRealizeService<Integer, AppNav, 
 
 	@Override
 	public List<AppNavParam> findAndroidByList(Integer limit) {
-		return initBo().adapter(appNavMapper.selectAndroidByList(limit));
+		return bo().adapter(appNavMapper.selectAndroidByList(limit));
 	}
 }

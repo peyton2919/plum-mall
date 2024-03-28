@@ -2,7 +2,9 @@ package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.ITipMessages;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -10,8 +12,6 @@ import cn.peyton.plum.core.utils.DateUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.ITipMessages;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.param.product.ShopCouponMemberParam;
 import cn.peyton.plum.mall.service.product.ShopCouponMemberService;
@@ -34,8 +34,8 @@ import java.math.BigDecimal;
  */
 @RestController
 @RequestMapping("/pc/couponmember")
-public class ShopCouponMemberController extends PcController<ShopCouponMemberParam>
-        implements IBasePCController<Long, ShopCouponMemberParam> {
+public class ShopCouponMemberController extends RealizeController
+        implements IController<Long, ShopCouponMemberParam> {
 
     @Resource
     private ShopCouponMemberService shopCouponMemberService;
@@ -50,7 +50,7 @@ public class ShopCouponMemberController extends PcController<ShopCouponMemberPar
 
     @Override
     public JSONResult<?> create(ShopCouponMemberParam record) {
-        MemberParam _param = handleToken(new MemberParam());
+        MemberParam _param = getToken(new MemberParam());
         return null;
     }
 
@@ -60,7 +60,7 @@ public class ShopCouponMemberController extends PcController<ShopCouponMemberPar
     @PostMapping("/manager/receive")
     public JSONResult<?> receive(@NotBlank(message = "优惠券 Id 不能为空;") @Min(value = 1,message = "最小为1")Long couponId) {
 
-        MemberParam _user = handleToken(new MemberParam());
+        MemberParam _user = getToken(new MemberParam());
         ShopCouponMemberParam _param = new ShopCouponMemberParam();
         _param.setShareId(_user.getId());
         _param.setShareType(_user.getUserType());
@@ -78,7 +78,7 @@ public class ShopCouponMemberController extends PcController<ShopCouponMemberPar
         if (!shopCouponService.isUseableAndGet(couponId,false,null)) {
             return JSONResult.fail(TIP_SHOP_COPON + ITipMessages.DISABLED);
         }
-        return baseHandleCreate(_param,null,shopCouponMemberService,TIP_SHOP_COPON,RECEIVE);
+        return handle(_param,null,false,shopCouponMemberService,TIP_SHOP_COPON,RECEIVE);
     }
 
     // 使用 优惠券
@@ -90,7 +90,7 @@ public class ShopCouponMemberController extends PcController<ShopCouponMemberPar
         if (!shopCouponService.isUseableAndGet(couponId,true,price)) {
             return JSONResult.fail(TIP_SHOP_COPON + ITipMessages.DISABLED);
         }
-        MemberParam _user = handleToken(new MemberParam());
+        MemberParam _user = getToken(new MemberParam());
         if (!shopCouponMemberService.isUsed(couponId, _user.getId(), _user.getUserType())) {
             return JSONResult.fail(TIP_SHOP_COPON + ITipMessages.DISABLED);
         }
@@ -109,7 +109,7 @@ public class ShopCouponMemberController extends PcController<ShopCouponMemberPar
                 return JSONResult.fail(ERROR);
             }
         }
-        MemberParam _user = handleToken(new MemberParam());
+        MemberParam _user = getToken(new MemberParam());
         return JSONResult.success(shopCouponMemberService.findByUseableOrAll(_user.getId(), _user.getUserType(), price, DateUtils.dateToTimestamp(),
                 (null != price && price.doubleValue() > 0) ? null : new PageQuery(pageNo)));
     }

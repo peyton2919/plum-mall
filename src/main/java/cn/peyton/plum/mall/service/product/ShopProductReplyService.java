@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
 import cn.peyton.plum.mall.pojo.product.ShopProductReply;
@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopProductReplyService extends IBaseService<Long, ShopProductReply, ShopProductReplyParam> {
+public interface ShopProductReplyService extends IRealizeService<Long, ShopProductReply, ShopProductReplyParam> {
 
     /**
      * <h4>删除 对象 {更新 is_del=0}</h4>

@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.pub.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.NoticeBo;
 import cn.peyton.plum.mall.mapper.pub.NoticeMapper;
 import cn.peyton.plum.mall.param.pub.NoticeParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("noticeService")
-public class NoticeServiceImpl extends AbstractRealizeService<Long, Notice, NoticeParam> implements NoticeService {
+public class NoticeServiceImpl extends RealizeService<Long, Notice, NoticeParam> implements NoticeService {
     @Resource
     private NoticeMapper noticeMapper;
 
     @Override
-    public BaseConvertBo<Notice, NoticeParam> initBo() {
+    public BaseConvertBo<Notice, NoticeParam> bo() {
         return new NoticeBo();
     }
 
     @Override
-    public IBaseMapper<Long, Notice> initMapper() {
+    public IBaseMapper<Long, Notice> mapper() {
         return noticeMapper;
     }
 

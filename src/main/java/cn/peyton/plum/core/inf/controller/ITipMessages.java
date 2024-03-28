@@ -1,4 +1,4 @@
-package cn.peyton.plum.mall.controller.base;
+package cn.peyton.plum.core.inf.controller;
 
 /**
  * <h4>提示信息相关</h4>
@@ -53,13 +53,16 @@ public interface ITipMessages {
     String UPLOAD = "上传";
 
     String PARAM_TYPE_FAIL = "[参数] 类型错误";
-
+    String RECOMMEND = "推荐";
+    String JOIN = "关联";
     String SPEC_SINGLE = "单规格";
     String SPEC_MULTI = "多规格";
     String CATEGORY = "分类";
     String NAME = "名称";
     String TELPHONE = "电话|手机号码";
     String INCORRECT = "不正确";
+
+    String TIP_ROLE = "角色";
 
     String TIP_PRODUCT = "商品";
     String TIP_SHOP_SKU = "规格";
@@ -70,6 +73,8 @@ public interface ITipMessages {
     String TIP_SHOP_ORDER = "订单";
     String TIP_SHOP_STOCK = "库存";
     String TIP_SHOP_SKU_RULE = "规则";
+    String TIP_COMMENT = "评论";
+    String TIP_REPLY = "回复";
 
     String TIP_MATERIAL = "图片";
     String TIP_MATERIAL_GROUP = "图片分组";
@@ -93,7 +98,10 @@ public interface ITipMessages {
     String TIP_GROUP = "分组";
     String TIP_CONTACT = "通讯录";
 
+    String TIP_MANAGER = "管理员";
+
     String TIP_ARREARS = "欠款";
+    String TIP_STYTEM = "系统";
 
     String TIP_APP_CATEGORY = "APP分类";
 

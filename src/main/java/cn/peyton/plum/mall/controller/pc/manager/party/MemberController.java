@@ -3,11 +3,12 @@ package cn.peyton.plum.mall.controller.pc.manager.party;
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.cipher.BaseCipher;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.users.IUser;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.controller.base.UserOperationController;
@@ -33,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/pc/member")
 public class MemberController extends UserOperationController
-        implements IBasePCController<Long, MemberParam> {
+        implements IController<Long, MemberParam> {
 
     /** 验证码 在缓存中的时间 */
     public final static String KEY_PHONE_CODE_CACHE_TIME = "MEM_PHONE_TIME_202312261559";
@@ -59,7 +60,7 @@ public class MemberController extends UserOperationController
         _param.setUsername(query.getKeyword());
         _param.getMemberLevel().setId(query.getIntValue());
 
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), memberService,memberLevelService.findByDownList());
+        return page(_param, new PageQuery(query.getPageNo()), memberService,memberLevelService.findByDownList(),true);
     }
 
     @Token
@@ -74,9 +75,9 @@ public class MemberController extends UserOperationController
         _repeat.setUsername(record.getUsername());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
-        record.setAvatar(convertImgPath(record.getAvatar()));
+        record.setAvatar(new CtrlUtils().convertImgPath(record.getAvatar()));
         record.setPassword(BaseCipher.encoderMD5(record.getPassword(), KEY_MEMBER_PASSWORD_ENCODER));
-        return baseHandleCreate(record, _repeat, memberService, TIP_MEMBER);
+        return handle(record, _repeat, false, memberService, TIP_MEMBER, CREATE);
     }
 
     @Token
@@ -92,20 +93,17 @@ public class MemberController extends UserOperationController
         _repeat.setUsername(record.getUsername());
         _repeat.setPhone(record.getPhone());
         _repeat.setEmail(record.getEmail());
-        record.setAvatar(convertImgPath(record.getAvatar()));
-        return baseHandleEdit(record, _repeat, memberService, TIP_MEMBER,UPDATE);
+        record.setAvatar(new CtrlUtils().convertImgPath(record.getAvatar()));
+        return handle(record, _repeat, true, memberService, TIP_MEMBER, UPDATE);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/delete")
     @Override
-    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;")
-                                    @Min(value = 1,message = "最小为1")Long id) {
-        if(memberService.upDelete(id)){
-            return JSONResult.success("会员删除成功;");
-        }
-        return JSONResult.fail("会员删除失败;");
+    public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "Id最小值为1")Long id) {
+
+        return handle(memberService.upDelete(id), TIP_MEMBER, DELETE);
     }
 
     @Token
@@ -115,10 +113,7 @@ public class MemberController extends UserOperationController
                                       @Min(value = 1,message = "最小为1")Long id,
                                       @NotBlank(message = "status 不能为空;")@Size(min = 0,max = 1) Integer status) {
 
-        if(memberService.upStatus(id,status)){
-            return JSONResult.success("会员状态更新成功;");
-        }
-        return JSONResult.fail("会员状态更新失败;");
+        return handle(memberService.upStatus(id, status), TIP_MEMBER, STATUS, UPDATE);
     }
 
     @Token
@@ -159,7 +154,7 @@ public class MemberController extends UserOperationController
             String newPassword,
             @NotBlank(message = "确认密码不能为空！")String confirmPassword) {
         // 从 token 获取 对象
-        MemberParam _param = handleToken(new MemberParam());
+        MemberParam _param = getToken(new MemberParam());
 
         return super.editPassword(_param.getId(),oldPassword,newPassword,confirmPassword, KEY_MEMBER_PASSWORD_ENCODER,memberService);
     }
@@ -180,7 +175,7 @@ public class MemberController extends UserOperationController
     @PostMapping("/manager/edituseravatar")
     @Token
     public JSONResult<?> editAvatar(MultipartFile file) {
-        MemberParam _param = handleToken(new MemberParam());
+        MemberParam _param = getToken(new MemberParam());
 
         return super.editAvatar(file, _param.getId(), memberService);
     }

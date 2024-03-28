@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.MenuBo;
 import cn.peyton.plum.mall.mapper.sys.MenuMapper;
 import cn.peyton.plum.mall.param.sys.MenuParam;
@@ -24,19 +24,19 @@ import java.util.List;
  * </pre>
  */
 @Service("menuService")
-public class MenuServiceImpl extends AbstractRealizeService<Long, Menu, MenuParam> implements MenuService {
+public class MenuServiceImpl extends RealizeService<Long, Menu, MenuParam> implements MenuService {
     private String TABLE_NAME = "sys_menu";
 
     @Resource
     private MenuMapper menuMapper;
 
     @Override
-    public BaseConvertBo<Menu, MenuParam> initBo() {
+    public BaseConvertBo<Menu, MenuParam> bo() {
         return new MenuBo();
     }
 
     @Override
-    public IBaseMapper<Long, Menu> initMapper() {
+    public IBaseMapper<Long, Menu> mapper() {
         return menuMapper;
     }
 
@@ -57,30 +57,20 @@ public class MenuServiceImpl extends AbstractRealizeService<Long, Menu, MenuPara
     @Override
     public List<MenuParam> findByTree() {
         String key = keyPrefix + "_find_tree_all";
-        if (enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<MenuParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<MenuParam> adapter = bo().adapter(MenuUtils.reorganize(menuMapper.selectByTree()));
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<MenuParam> pList = initBo().adapter(MenuUtils.reorganize(menuMapper.selectByTree()));
-
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+        return (List<MenuParam>) objs;
     }
 
     @Override
     public Boolean upStatus(Long id, Integer status) {
         int res = menuMapper.updateStatus(TABLE_NAME, id, status);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新目录状态");
             return true;
         }
         return false;

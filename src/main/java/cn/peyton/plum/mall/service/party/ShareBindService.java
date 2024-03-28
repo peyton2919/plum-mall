@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.party.ShareBindParam;
 import cn.peyton.plum.mall.pojo.party.ShareBind;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.party.ShareBind;
  * @version 1.0.0
  * </pre>
  */
-public interface ShareBindService extends IBaseService<Long, ShareBind, ShareBindParam> {
+public interface ShareBindService extends IRealizeService<Long, ShareBind, ShareBindParam> {
 
 }

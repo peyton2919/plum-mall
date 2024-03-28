@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.pc.manager.app;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -9,7 +10,6 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.app.AppCategoryParam;
 import cn.peyton.plum.mall.service.app.AppCategoryService;
 import jakarta.annotation.Resource;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/pc/appcategory")
-public class AppCategoryController extends PcController<AppCategoryParam>
-		implements IBasePCController<Integer, AppCategoryParam> {
+public class AppCategoryController extends RealizeController
+		implements IController<Integer, AppCategoryParam> {
 
 	@Resource
 	private AppCategoryService appCategoryService;
@@ -43,7 +43,7 @@ public class AppCategoryController extends PcController<AppCategoryParam>
 
 		_param.setName(query.getKeyword());
 		// 其他处理判断
-		return baseHandleList(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), appCategoryService,null);
+		return page(_param, new PageQuery(query.getPageNo(), ORDER_BY_FILED), appCategoryService,true);
 	}
 
 	@Token
@@ -53,7 +53,7 @@ public class AppCategoryController extends PcController<AppCategoryParam>
 	public JSONResult<?> create(AppCategoryParam record) {
 		AppCategoryParam _repeat = new AppCategoryParam();
 		_repeat.setName(record.getName());
-		return baseHandleCreate(record, _repeat, appCategoryService, TIP_APP_CATEGORY);
+		return handle(record, _repeat, false, appCategoryService, TIP_APP_CATEGORY,CREATE);
 	}
 
 	@Token
@@ -64,7 +64,7 @@ public class AppCategoryController extends PcController<AppCategoryParam>
 		AppCategoryParam _repeat = new AppCategoryParam();
 		_repeat.setId(record.getId());
 		_repeat.setName(record.getName());
-		return baseHandleEdit(record, _repeat, appCategoryService, TIP_APP_CATEGORY,UPDATE);
+		return handle(record, _repeat, true, appCategoryService, TIP_APP_CATEGORY, UPDATE);
 	}
 
 	@Token
@@ -72,7 +72,7 @@ public class AppCategoryController extends PcController<AppCategoryParam>
 	@PostMapping("/manager/delete")
 	@Override
 	public JSONResult<?> delete(@NotBlank(message = "APP分类Id 不能为空;") @Min(value = 1,message = "最小值为1")Integer id) {
-		return baseHandleDelete(id,appCategoryService,TIP_APP_CATEGORY);
+		return delete(id,appCategoryService,TIP_APP_CATEGORY);
 	}
 
 	@Token
@@ -83,7 +83,6 @@ public class AppCategoryController extends PcController<AppCategoryParam>
 		AppCategoryParam _param = new AppCategoryParam();
 		_param.setId(id);
 		_param.setStatus(status);
-		//return baseHandleEdit(_param,null,appCategoryService,TIP_APP_CATEGORY,STATUS);
-		return baseHandle(appCategoryService.upStatus(id, status), TIP_APP_CATEGORY, STATUS, UPDATE);
+		return handle(appCategoryService.upStatus(id, status), TIP_APP_CATEGORY, STATUS, UPDATE);
 	}
 }

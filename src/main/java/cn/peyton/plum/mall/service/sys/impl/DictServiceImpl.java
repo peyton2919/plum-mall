@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.DictBo;
 import cn.peyton.plum.mall.mapper.sys.DictMapper;
 import cn.peyton.plum.mall.param.sys.DictParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("dictService")
-public class DictServiceImpl extends AbstractRealizeService<Long, Dict, DictParam> implements DictService {
+public class DictServiceImpl extends RealizeService<Long, Dict, DictParam> implements DictService {
     @Resource
     private DictMapper dictMapper;
 
     @Override
-    public BaseConvertBo<Dict, DictParam> initBo() {
+    public BaseConvertBo<Dict, DictParam> bo() {
         return new DictBo();
     }
 
     @Override
-    public IBaseMapper<Long, Dict> initMapper() {
+    public IBaseMapper<Long, Dict> mapper() {
         return dictMapper;
     }
 

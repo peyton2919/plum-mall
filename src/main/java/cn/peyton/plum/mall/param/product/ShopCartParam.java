@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.param.product;
 
 
 import cn.peyton.plum.core.utils.DateUtils;
-import cn.peyton.plum.core.validator.constraints.Date;
+import cn.peyton.plum.core.validator.constraints.Datetime;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.Size;
 import cn.peyton.plum.mall.pojo.product.ShopCart;
@@ -43,11 +43,6 @@ public class ShopCartParam implements Serializable {
     @Size(min = 0,max = 1)
     private Integer isPay;
     /**
-     * 是否为立即购买,默认0 未立即购买 1购买
-     */
-    @Size(min = 0,max = 1)
-    private Integer isNew;
-    /**
      * 拼团id
      */
     @Min(value = 1,message = "拼团Id要大于0;")
@@ -67,12 +62,12 @@ public class ShopCartParam implements Serializable {
     /**
      * 添加时间
      */
-    @Date
+    @Datetime
     private String createTime;
     /**
      * 更新时间
      */
-    @Date
+    @Datetime
     private String updateTime;
 
     //================================== Constructor =======================================//
@@ -150,20 +145,6 @@ public class ShopCartParam implements Serializable {
      */
     public Integer getIsPay() {
         return isPay;
-    }
-
-    /**
-     * @param isNew 是否为立即购买,默认0 未立即购买 1购买
-     */
-    public void setIsNew(Integer isNew) {
-        this.isNew = isNew;
-    }
-
-    /**
-     * @return 是否为立即购买, 默认0 未立即购买 1购买
-     */
-    public Integer getIsNew() {
-        return isNew;
     }
 
     /**
@@ -263,7 +244,6 @@ public class ShopCartParam implements Serializable {
         shopCart.setShareType(shareType);
         shopCart.setNum(num);
         shopCart.setIsPay(isPay);
-        shopCart.setIsNew(isNew);
         shopCart.setPinkId(pinkId);
         shopCart.setSeckillId(seckillId);
         shopCart.setBargainId(bargainId);
@@ -289,7 +269,6 @@ public class ShopCartParam implements Serializable {
         this.setShareType(shopCart.getShareType());
         this.setNum(shopCart.getNum());
         this.setIsPay(shopCart.getIsPay());
-        this.setIsNew(shopCart.getIsNew());
         this.setPinkId(shopCart.getPinkId());
         this.setSeckillId(shopCart.getSeckillId());
         this.setBargainId(shopCart.getBargainId());

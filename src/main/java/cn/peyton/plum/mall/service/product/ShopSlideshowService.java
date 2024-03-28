@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopSlideshowParam;
 import cn.peyton.plum.mall.pojo.product.ShopSlideshow;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopSlideshowService extends IBaseService<Long, ShopSlideshow, ShopSlideshowParam> {
+public interface ShopSlideshowService extends IRealizeService<Long, ShopSlideshow, ShopSlideshowParam> {
 
     /**
      * <h4>批量添加轮播图</h4>

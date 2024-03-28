@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.join;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.join.ShopArrearPoolParam;
 import cn.peyton.plum.mall.pojo.join.ShopArrearPool;
 
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * @version 1.0.0
  * </pre>
 */
-public interface ShopArrearPoolService extends IBaseService<Long, ShopArrearPool, ShopArrearPoolParam> {
+public interface ShopArrearPoolService extends IRealizeService<Long, ShopArrearPool, ShopArrearPoolParam> {
 
 
     /**

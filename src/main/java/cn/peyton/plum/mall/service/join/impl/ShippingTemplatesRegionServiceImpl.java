@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.join.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShippingTemplatesRegionBo;
 import cn.peyton.plum.mall.mapper.join.ShippingTemplatesRegionMapper;
 import cn.peyton.plum.mall.param.join.ShippingTemplatesRegionParam;
@@ -21,19 +21,20 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shippingTemplatesRegionService")
-public class ShippingTemplatesRegionServiceImpl extends AbstractRealizeService<Integer, ShippingTemplatesRegion, ShippingTemplatesRegionParam> implements ShippingTemplatesRegionService {
+public class ShippingTemplatesRegionServiceImpl extends RealizeService<Integer, ShippingTemplatesRegion, ShippingTemplatesRegionParam> implements ShippingTemplatesRegionService {
     @Resource
     private ShippingTemplatesRegionMapper shippingTemplatesRegionMapper;
 
     @Override
-    public BaseConvertBo<ShippingTemplatesRegion, ShippingTemplatesRegionParam> initBo() {
+    public BaseConvertBo<ShippingTemplatesRegion, ShippingTemplatesRegionParam> bo() {
         return new ShippingTemplatesRegionBo();
     }
 
     @Override
-    public IBaseMapper<Integer, ShippingTemplatesRegion> initMapper() {
+    public IBaseMapper<Integer, ShippingTemplatesRegion> mapper() {
         return shippingTemplatesRegionMapper;
     }
+
     public ShippingTemplatesRegionServiceImpl() {
         enabledCache = true;
         keyPrefix = this.getClass().getName();

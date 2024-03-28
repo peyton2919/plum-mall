@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.party.MemberLevelParam;
 import cn.peyton.plum.mall.pojo.party.MemberLevel;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface MemberLevelService extends IBaseService<Integer, MemberLevel, MemberLevelParam> {
+public interface MemberLevelService extends IRealizeService<Integer, MemberLevel, MemberLevelParam> {
     /**
      * <h4>根据会员类型查找</h4>
      * @return 会员类型集合

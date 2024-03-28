@@ -1,9 +1,9 @@
 package cn.peyton.plum.mall.controller.pc.manager.party;
 
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.Query;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.ShareBindParam;
 import cn.peyton.plum.mall.service.party.ShareBindService;
 import jakarta.annotation.Resource;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/sharebind")
-public class ShareBindController extends PcController<ShareBindParam>
-        implements IBasePCController<Long, ShareBindParam> {
+public class ShareBindController extends RealizeController
+        implements IController<Long, ShareBindParam> {
 
     @Resource
     private ShareBindService shareBindService;

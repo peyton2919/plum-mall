@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.join;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.join.WarehouseInfoParam;
 import cn.peyton.plum.mall.pojo.join.WarehouseInfo;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface WarehouseInfoService extends IBaseService<Integer, WarehouseInfo, WarehouseInfoParam> {
+public interface WarehouseInfoService extends IRealizeService<Integer, WarehouseInfo, WarehouseInfoParam> {
 
     /**
      * <h4>下拉框查找</h4>

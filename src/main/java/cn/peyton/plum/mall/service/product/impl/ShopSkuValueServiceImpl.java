@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopSkuValueBo;
 import cn.peyton.plum.mall.mapper.product.ShopSkuValueMapper;
 import cn.peyton.plum.mall.param.product.ShopSkuValueParam;
@@ -23,17 +23,17 @@ import java.util.List;
  * </pre>
  */
 @Service("shopSkuValueService")
-public class ShopSkuValueServiceImpl extends AbstractRealizeService<Long, ShopSkuValue, ShopSkuValueParam> implements ShopSkuValueService {
+public class ShopSkuValueServiceImpl extends RealizeService<Long, ShopSkuValue, ShopSkuValueParam> implements ShopSkuValueService {
     @Resource
     private ShopSkuValueMapper shopSkuValueMapper;
 
     @Override
-    public BaseConvertBo<ShopSkuValue, ShopSkuValueParam> initBo() {
+    public BaseConvertBo<ShopSkuValue, ShopSkuValueParam> bo() {
         return new ShopSkuValueBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopSkuValue> initMapper() {
+    public IBaseMapper<Long, ShopSkuValue> mapper() {
         return shopSkuValueMapper;
     }
 
@@ -52,10 +52,7 @@ public class ShopSkuValueServiceImpl extends AbstractRealizeService<Long, ShopSk
     public Boolean batchCreate(List<ShopSkuValueParam> list) {
         Boolean res = shopSkuValueMapper.batchInsert(new ShopSkuValueBo().reverse(list)) > 0;
         if(res){
-            if(enabledCache){
-                System.out.println("规格值集合插入操作,清空缓存;");
-                removeCache();
-            }
+            clearCache("批量新增规格值");
             return true;
         }
         return false;

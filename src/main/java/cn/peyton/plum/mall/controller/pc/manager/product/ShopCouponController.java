@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -10,7 +11,6 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopCouponParam;
 import cn.peyton.plum.mall.service.product.ShopCouponMemberService;
 import cn.peyton.plum.mall.service.product.ShopCouponService;
@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/coupon")
-public class ShopCouponController extends PcController<ShopCouponParam>
-        implements IBasePCController<Long, ShopCouponParam> {
+public class ShopCouponController extends RealizeController
+        implements IController<Long, ShopCouponParam> {
 
 
     @Resource
@@ -46,7 +46,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
                  @NotBlank(message = "页码数不能为空;") @Min(message = "当前页码要大于0的数!")Integer pageNo) {
         ShopCouponParam _param = new ShopCouponParam();
         _param.setName(keyword);
-        return baseHandleList(_param,new PageQuery(pageNo,ORDER_BY_FILED),shopCouponService,null);
+        return page(_param,new PageQuery(pageNo,ORDER_BY_FILED),shopCouponService,true);
     }
 
     // keyword
@@ -57,7 +57,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
     public JSONResult<?> list(Query query) {
         ShopCouponParam _param = new ShopCouponParam();
         _param.setName(query.getKeyword());
-        return baseHandleList(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopCouponService,null);
+        return page(_param,new PageQuery(query.getPageNo(),ORDER_BY_FILED),shopCouponService,true);
     }
 
     @Token
@@ -67,7 +67,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
     public JSONResult<?> create(ShopCouponParam record) {
         ShopCouponParam _repeat = new ShopCouponParam();
         _repeat.setName(record.getName());
-        return baseHandleCreate(record, _repeat, shopCouponService, TIP_SHOP_COPON);
+        return handle(record, _repeat,false, shopCouponService, TIP_SHOP_COPON,CREATE);
     }
 
     @Token
@@ -84,13 +84,13 @@ public class ShopCouponController extends PcController<ShopCouponParam>
         ShopCouponParam _repeat = new ShopCouponParam();
         _repeat.setName(record.getName());
         _repeat.setId(record.getId());
-        return baseHandleEdit(record, _repeat, shopCouponService, TIP_SHOP_COPON);
+        return handle(record, _repeat, true, shopCouponService, TIP_SHOP_COPON, UPDATE);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/upstatus")
-    public JSONResult<?> updateStatus(@NotBlank(message = "Id不能为空;") @Min(message = "Id大于0的数!")Long id,
+    public JSONResult<?> updateStatus(@NotBlank(message = "Id不能为空;") @Min(message = "Id最小值为1")Long id,
         @NotBlank(message="状态码不能为空") @Size(min = 0,max = 3) Integer status) {
         //if (shopCouponMemberService.isJoinCoupon(id)) {
         //    return JSONResult.fail("优惠券已被领取, 状态不能修改;");
@@ -98,7 +98,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
         //if (shopCouponService.isEffective(id, DateUtils.dateToTimestamp())) {
         //    return JSONResult.fail("优惠券在使用期间, 状态不能修改;");
         //}
-        return baseHandle(shopCouponService.upStatus(id,status), STATUS,MODIFY);
+        return handle(shopCouponService.upStatus(id, status), TIP_SHOP_COPON, STATUS, MODIFY);
     }
 
     @Token
@@ -112,7 +112,7 @@ public class ShopCouponController extends PcController<ShopCouponParam>
         if (shopCouponService.isEffective(id, DateUtils.dateToTimestamp())) {
             return JSONResult.fail("优惠券在使用期间, 不能删除;");
         }
-        return baseHandle(shopCouponService.upStatus(id,STATUS_4), TIP_SHOP_COPON,DELETE);
+        return handle(shopCouponService.upStatus(id,STATUS_4), TIP_SHOP_COPON,DELETE);
     }
 
 }

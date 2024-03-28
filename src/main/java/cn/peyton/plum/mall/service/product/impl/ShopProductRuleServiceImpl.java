@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopProductRuleBo;
 import cn.peyton.plum.mall.mapper.product.ShopProductRuleMapper;
 import cn.peyton.plum.mall.param.product.ShopProductRuleParam;
@@ -23,17 +23,17 @@ import java.util.List;
  * </pre>
  */
 @Service("shopProductRuleService")
-public class ShopProductRuleServiceImpl extends AbstractRealizeService<Integer, ShopProductRule, ShopProductRuleParam> implements ShopProductRuleService {
+public class ShopProductRuleServiceImpl extends RealizeService<Integer, ShopProductRule, ShopProductRuleParam> implements ShopProductRuleService {
     @Resource
     private ShopProductRuleMapper shopProductRuleMapper;
 
     @Override
-    public BaseConvertBo<ShopProductRule, ShopProductRuleParam> initBo() {
+    public BaseConvertBo<ShopProductRule, ShopProductRuleParam> bo() {
         return new ShopProductRuleBo();
     }
 
     @Override
-    public IBaseMapper<Integer, ShopProductRule> initMapper() {
+    public IBaseMapper<Integer, ShopProductRule> mapper() {
         return shopProductRuleMapper;
     }
 
@@ -45,9 +45,8 @@ public class ShopProductRuleServiceImpl extends AbstractRealizeService<Integer, 
     @Override
     public Boolean batchDelete(List<Integer> ids) {
         int res = shopProductRuleMapper.batchDelete(ids);
-        if (res > 0 && enabledCache) {
-            System.out.println("删除数据,清空缓存");
-            removeCache();
+        if (res > 0) {
+            clearCache("删除商品规格");
             return true;
         }
         return false;

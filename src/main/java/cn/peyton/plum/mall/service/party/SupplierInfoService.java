@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.party.SupplierInfoParam;
 import cn.peyton.plum.mall.pojo.party.SupplierInfo;
 
@@ -13,7 +13,7 @@ import cn.peyton.plum.mall.pojo.party.SupplierInfo;
  * @version 1.0.0
  * </pre>
  */
-public interface SupplierInfoService extends IBaseService<Long, SupplierInfo, SupplierInfoParam> {
+public interface SupplierInfoService extends IRealizeService<Long, SupplierInfo, SupplierInfoParam> {
 
     /**
      * <h4>创建 供应商基础信息</h4>

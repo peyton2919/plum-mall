@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.MenuParam;
 import cn.peyton.plum.mall.pojo.sys.Menu;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface MenuService extends IBaseService<Long, Menu, MenuParam> {
+public interface MenuService extends IRealizeService<Long, Menu, MenuParam> {
 
     /**
      * <h4>根据用户Id及类型查找菜单对象集合</h4>

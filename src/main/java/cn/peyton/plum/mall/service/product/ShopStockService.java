@@ -1,8 +1,10 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopStockParam;
 import cn.peyton.plum.mall.pojo.product.ShopStock;
+
+import java.util.List;
 
 /**
  * <h3> 商品库存汇总 Service 接口</h3>
@@ -13,8 +15,15 @@ import cn.peyton.plum.mall.pojo.product.ShopStock;
  * @version 1.0.0
  * </pre>
 */
-public interface ShopStockService extends IBaseService<Long, ShopStock, cn.peyton.plum.mall.param.product.ShopStockParam> {
+public interface ShopStockService extends IRealizeService<Long, ShopStock, ShopStockParam> {
 
+
+    /**
+     * <h4>根据商品明细Id 集合查找</h4>
+     * @param ids 商品明细Id集合
+     * @return 库存集合
+     */
+    List<ShopStockParam> findByIds(List<Long> ids);
 
     /**
      * <h4>联合编辑</h4>

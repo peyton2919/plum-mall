@@ -31,10 +31,6 @@ public class ShopOrderItemParam implements Serializable {
      */
     private String orderNo;
     /**
-     * 购物车id
-     */
-    private Long cartId;
-    /**
      * 商品规格详细Id(shop_product_detail)
      */
     private Long psdId;
@@ -120,20 +116,6 @@ public class ShopOrderItemParam implements Serializable {
      */
     public String getOrderNo() {
         return orderNo;
-    }
-
-    /**
-     * @param cartId 购物车id
-     */
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
-
-    /**
-     * @return 购物车id
-     */
-    public Long getCartId() {
-        return cartId;
     }
 
     /**
@@ -298,7 +280,6 @@ public class ShopOrderItemParam implements Serializable {
         shopOrderItem.setId(id);
         shopOrderItem.setOId(oId);
         shopOrderItem.setOrderNo(orderNo);
-        shopOrderItem.setCartId(cartId);
         shopOrderItem.setPsdId(psdId);
         shopOrderItem.setProductId(productId);
         shopOrderItem.setSpecType(specType);
@@ -327,7 +308,6 @@ public class ShopOrderItemParam implements Serializable {
         this.setId(shopOrderItem.getId());
         this.setOId(shopOrderItem.getOId());
         this.setOrderNo(shopOrderItem.getOrderNo());
-        this.setCartId(shopOrderItem.getCartId());
         this.setPsdId(shopOrderItem.getPsdId());
         this.setProductId(shopOrderItem.getProductId());
         this.setSpecType(shopOrderItem.getSpecType());

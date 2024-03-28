@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.pc.manager.sys;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.FormData;
 import cn.peyton.plum.core.page.PageQuery;
@@ -11,7 +12,6 @@ import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
 import cn.peyton.plum.core.validator.constraints.Size;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.sys.RoleMenuParam;
 import cn.peyton.plum.mall.param.sys.RoleParam;
 import cn.peyton.plum.mall.service.sys.RoleMenuService;
@@ -37,9 +37,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/pc/role")
 @CrossOrigin(origins = "*")
-public class RoleController extends PcController<RoleParam>
-        implements IBasePCController<Long, RoleParam> {
-    String TIP_NAME = "角色";
+public class RoleController extends RealizeController
+        implements IController<Long, RoleParam> {
+
 
     @Resource
     private RoleService roleService;
@@ -64,7 +64,7 @@ public class RoleController extends PcController<RoleParam>
     public JSONResult<?> list(Query query) {
         RoleParam _param = new RoleParam();
         _param.setName(query.getKeyword());
-        return baseHandleList(_param,new PageQuery(query.getPageNo()),roleService,null);
+        return page(_param,new PageQuery(query.getPageNo()),roleService,true);
     }
 
     @Token
@@ -72,10 +72,10 @@ public class RoleController extends PcController<RoleParam>
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(RoleParam param) {
-        initProps(param);
+        props(param);
         RoleParam _repeat = new RoleParam();
         _repeat.setName(param.getName());
-        return baseHandleCreate(param, _repeat, roleService, TIP_NAME);
+        return handle(param, _repeat, false, roleService, TIP_ROLE, CREATE);
     }
 
     @Token
@@ -83,14 +83,14 @@ public class RoleController extends PcController<RoleParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(RoleParam param) {
-        initProps(param);
+        props(param);
         if (null != param.getId() && param.getId() == 1L) {
             return JSONResult.fail("角色为超级管理员,不能被修改!!!");
         }
         RoleParam _repeat = new RoleParam();
         _repeat.setName(param.getName());
         _repeat.setId(param.getId());
-        return baseHandleEdit(param, _repeat, roleService, TIP_NAME);
+        return handle(param, _repeat,true, roleService, TIP_ROLE,UPDATE);
     }
 
     @Token
@@ -104,7 +104,7 @@ public class RoleController extends PcController<RoleParam>
         RoleParam _param = new RoleParam();
         _param.setStatus(status);
         _param.setId(id);
-        return baseHandleEdit(_param, null, roleService, TIP_NAME);
+        return handle(_param, null, true, roleService, TIP_ROLE, STATUS, UPDATE);
     }
 
     @Token
@@ -118,7 +118,7 @@ public class RoleController extends PcController<RoleParam>
         RoleParam _param = new RoleParam();
         _param.setIsDel(0);
         _param.setId(id);
-        return baseHandleEdit(_param, null, roleService, null);
+        return handle(_param, null, true, roleService, TIP_ROLE, DELETE);
     }
 
     // @Min(value = 1,message = "最小值为1") Long id,
@@ -153,9 +153,7 @@ public class RoleController extends PcController<RoleParam>
     }
 
 
-
-    @Override
-    public void initProps(RoleParam param) {
+    public void props(RoleParam param) {
         param.setIsDel(null);
     }
 

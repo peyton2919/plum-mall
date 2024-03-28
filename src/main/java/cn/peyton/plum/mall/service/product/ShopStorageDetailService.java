@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.mall.param.product.ShopStorageDetailParam;
@@ -15,7 +15,7 @@ import cn.peyton.plum.mall.pojo.product.ShopStorageDetail;
  * @version 1.0.0
  * </pre>
 */
-public interface ShopStorageDetailService extends IBaseService<Long, ShopStorageDetail, ShopStorageDetailParam> {
+public interface ShopStorageDetailService extends IRealizeService<Long, ShopStorageDetail, ShopStorageDetailParam> {
 
 
     /**

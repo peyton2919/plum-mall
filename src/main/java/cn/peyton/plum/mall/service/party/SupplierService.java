@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.*;
+import cn.peyton.plum.core.inf.service.base.*;
 import cn.peyton.plum.mall.param.party.SupplierParam;
 import cn.peyton.plum.mall.pojo.party.Supplier;
 
@@ -14,7 +14,7 @@ import cn.peyton.plum.mall.pojo.party.Supplier;
  * </pre>
  */
 public interface SupplierService extends IStatusService<Long>, IDeleteService<Long>, IDownListService<SupplierParam>,
-        IBaseService<Long, Supplier, SupplierParam>, IUserService<SupplierParam> {
+        IRealizeService<Long, Supplier, SupplierParam>, IUserService<SupplierParam> {
 
     /**
      * <h4>更新供应商基础信息Id</h4>

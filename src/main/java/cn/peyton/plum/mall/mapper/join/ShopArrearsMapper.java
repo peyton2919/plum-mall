@@ -1,39 +1,41 @@
 package cn.peyton.plum.mall.mapper.join;
 
-
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
 import cn.peyton.plum.core.page.PageQuery;
+import cn.peyton.plum.mall.DO.ArrearDo;
 import cn.peyton.plum.mall.pojo.join.ShopArrears;
 import org.apache.ibatis.annotations.Select;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <h3> 欠款信息 Mapper 接口</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2024年01月16日 21:12:27
+ * @date 2024年02月06日 22:33:31
  * @version 1.0.0
  * </pre>
 */
 public interface ShopArrearsMapper extends IBaseMapper<Long, ShopArrears> {
 
     /**
-     * <h4>多条件查找</h4>
-     * @param memberId 客户Id
-     * @param status 状态 0 未清 1 已清
-     * @param repayType 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他
-     * @param debt 欠款金额
-     * @param actualPayment 实际付款金额
-     * @param page 分页
-     * @param timeInterval 查找时段{ 今天(1天) 7天 1个月 6个月 1年 }
-     * @param mode 查找方向 {欠款时间create_time | 还款时间update_time}
-     * @return 集合
+     * <h4>根据会员Id 计算欠款金额</h4>
+     * @param memberId 会员Id
+     * @param status 欠款状态 默认 0 未清 1 已清
+     * @return 当前客户欠款总额
      */
-    List<ShopArrears> selectMulti(Long memberId, Integer status,Integer repayType, BigDecimal debt, BigDecimal actualPayment, PageQuery page, String timeInterval, String mode);
+    @Select("SELECT SUM(money) FROM tb_shop_arrears where member_id=#{memberId} and status= #{status}")
+    BigDecimal calcMoney(Long memberId, Integer status);
+
+    /**
+     * <h4>批量更新欠款信息</h4>
+     * @param ids 欠款Id 集合
+     * @param repId 还款Id
+     * @return 受影响行数
+     */
+    int batchUpdate(List<Long> ids, Long repId);
 
     /**
      * <h4>根据会员Id 查找欠款</h4>
@@ -44,38 +46,31 @@ public interface ShopArrearsMapper extends IBaseMapper<Long, ShopArrears> {
     List<ShopArrears> selectByMemberId(long memberId,Integer status);
 
     /**
-     * <h4>条件查找总记录数</h4>
-     * @param memberId 客户Id
-     * @param status 状态 0 未清 1 已清
-     * @param repayType 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他
-     * @param debt 欠款金额
-     * @param actualPayment 实际付款金额
+     * <h4>多条件查找</h4>
+     * @param arrear 欠款对象
      * @param page 分页
-     * @param timeInterval 查找时段{ 今天(1天) 7天 1个月 6个月 1年 }
-     * @param mode 查找方向 {欠款时间create_time | 还款时间update_time}
+     * @return 集合
+     */
+    List<ShopArrears> selectMulti(ArrearDo arrear,PageQuery page);
+    /**
+     * <h4>条件查找总记录数</h4>
+     * @param arrear 欠款对象
      * @return 记录数
      */
-    int countMulti(Long memberId, Integer status,Integer repayType, BigDecimal debt, BigDecimal actualPayment, PageQuery page, String timeInterval, String mode);
+    int countMulti(ArrearDo arrear);
 
-    @Select("select sum(debt) as total,sum(repay_debt) as payCount from tb_shop_arrears where member_id=#{memberId} and status = 0")
-    Map<String, BigDecimal> calcArrears(Long memberId);
+    /**
+     * <h4>多条件联合查找</h4>
+     * @param arrear 欠款条件对象
+     * @param page 分页对象
+     * @return 集合
+     */
+    List<ShopArrears> selectByJoin(ArrearDo arrear,PageQuery page);
 
-    public interface Props {
-        /**  今天 */
-        String TODAY = "today";
-        /** 7天  */
-        String WEEK = "week";
-        /** 1个月  */
-        String MONTH = "month";
-        /** 3个月  */
-        String QUARTER = "quarter";
-        /** 6个月  */
-        String HALF_YEAR = "half_year";
-        /** 1年 */
-        String YEAR = "year";
-        /** 欠款时间 */
-        String CREATE_TIME = "create_time";
-        /** 还款时间  */
-        String UPDATE_TIME = "update_time";
-    }
+    /**
+     * <h4>多条件联合查找 总记录数</h4>
+     * @param arrear 欠款条件对象
+     * @return 总记录数
+     */
+    int countJoin(ArrearDo arrear);
 }

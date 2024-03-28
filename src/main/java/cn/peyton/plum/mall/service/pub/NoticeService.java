@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.pub;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.pub.NoticeParam;
 import cn.peyton.plum.mall.pojo.pub.Notice;
 
@@ -13,7 +13,7 @@ import cn.peyton.plum.mall.pojo.pub.Notice;
  * @version 1.0.0
  * </pre>
  */
-public interface NoticeService extends IBaseService<Long, Notice, NoticeParam> {
+public interface NoticeService extends IRealizeService<Long, Notice, NoticeParam> {
     /**
      * <h4>判断有没有关联分类</h4>
      * @param cateId 分类Id

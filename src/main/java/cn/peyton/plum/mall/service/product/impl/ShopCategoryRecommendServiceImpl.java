@@ -1,8 +1,9 @@
 package cn.peyton.plum.mall.service.product.impl;
 
+import cn.peyton.plum.core.err.TransactionalException;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShopCategoryRecommendBo;
 import cn.peyton.plum.mall.mapper.product.ShopCategoryRecommendMapper;
 import cn.peyton.plum.mall.param.product.ShopCategoryRecommendParam;
@@ -24,17 +25,17 @@ import java.util.List;
  * </pre>
 */
 @Service("shopCategoryRecommendService")
-public class ShopCategoryRecommendServiceImpl extends AbstractRealizeService<Long, ShopCategoryRecommend, ShopCategoryRecommendParam> implements ShopCategoryRecommendService {
+public class ShopCategoryRecommendServiceImpl extends RealizeService<Long, ShopCategoryRecommend, ShopCategoryRecommendParam> implements ShopCategoryRecommendService {
 	@Resource
 	private ShopCategoryRecommendMapper shopCategoryRecommendMapper;
 
 	@Override
-	public BaseConvertBo<ShopCategoryRecommend, ShopCategoryRecommendParam> initBo() {
+	public BaseConvertBo<ShopCategoryRecommend, ShopCategoryRecommendParam> bo() {
 		return new ShopCategoryRecommendBo();
 	}
 
 	@Override
-	public IBaseMapper<Long, ShopCategoryRecommend> initMapper() {
+	public IBaseMapper<Long, ShopCategoryRecommend> mapper() {
 		return shopCategoryRecommendMapper;
 	}
 
@@ -52,16 +53,13 @@ public class ShopCategoryRecommendServiceImpl extends AbstractRealizeService<Lon
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = {TransactionalException.class})
 	public Boolean batchCreate(List<ShopCategoryRecommendParam> list) {
 		int res = 0;
 		shopCategoryRecommendMapper.deleteByJoinId(null, list.get(0).getCategoryId());
-		res = shopCategoryRecommendMapper.batchInsert(initBo().reverse(list));
+		res = shopCategoryRecommendMapper.batchInsert(bo().reverse(list));
 		if (res > 0) {
-			if(enabledCache){
-				System.out.println("批量操作数据,清空缓存;");
-				removeCache();
-			}
+			clearCache("批量新增商品分类推荐");
 			return true;
 		}
 		return false;
@@ -71,10 +69,7 @@ public class ShopCategoryRecommendServiceImpl extends AbstractRealizeService<Lon
 	public Boolean deleteByJoinId(Long productId, Integer categoryId) {
 		int res = shopCategoryRecommendMapper.deleteByJoinId(productId,categoryId);
 		if (res > 0) {
-			if(enabledCache){
-				System.out.println("删除数据操作,清空缓存;");
-				removeCache();
-			}
+			clearCache("删除商品分类推荐");
 			return true;
 		}
 		return false;

@@ -144,6 +144,104 @@
 		  and end_time &gt;= #{currentTime}
 	</select>
 
+	<!-- 条件查找优惠券  -->
+	<select id="selectCurrentUsableCoupon" resultMap="result_coupon_fk_map" parameterType="map">
+		SELECT
+			sc.id,sc.name,sc.type,sc.value,sc.total,sc.used,sc.min_price,sc.max_price,sc.start_time,sc.end_time,sc.status
+		from tb_shop_coupon sc,tb_shop_coupon_member scm
+		where sc.id = scm.coupon_id  and share_type= 0
+		 <if test="memberId != null">
+			<if test="condition == 'eq'">
+				and share_id = #{memberId}
+			</if>
+			 <if test="condition == 'neq'">
+				 and share_id != #{memberId}
+			 </if>
+		 </if>
+		  <if test="status != null">
+			  and scm.status = #{status}
+		  </if>
+		  <if test="used != null">
+			  and scm.used=#{used}
+		  </if>
+		  <if test="total != null">
+			  and sc.min_price &lt;= #{total}
+		  </if>
+		  <if test="currentDatetime != null">
+			  and sc.start_time &lt;= #{currentDatetime} and sc.end_time &gt;= #{currentDatetime}
+		  </if>
+		  <if test="page.orderColumnName != null">
+				order by ${page.orderColumnName} ${page.orderMode}
+		  </if>
+		  <if test="page.orderColumnName == null">
+			  order by `id` ${page.orderMode}
+		  </if>
+		  <if test="page.enablePaging">
+			  limit #{page.offset},#{page.pageSize}
+		  </if>
+	</select>
+
+	<!-- 条件查找优惠券{根据用户Id 查找可用优惠券}  -->
+	<select id="selectUsableCouponByMemberId" resultMap="result_coupon_fk_map" parameterType="map">
+		SELECT
+			<include refid="Column_tb_shop_coupon_List"/>
+		FROM tb_shop_coupon where id  not in
+			(SELECT sc.id from tb_shop_coupon sc, tb_shop_coupon_member scm
+			              WHERE sc.id = scm.coupon_id and scm.share_id = #{memberId})
+		    and ((total-used) > 1) and `status` &lt; 3 and (end_time &gt; UNIX_TIMESTAMP())
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<!-- 条件查找优惠券{根据用户Id 查找 失效优惠券}  -->
+	<select id="selectUnusableCouponByMemberId" resultMap="result_coupon_fk_map" parameterType="map">
+		SELECT
+			sc.id,sc.name,sc.type,sc.value,sc.total,sc.used,sc.min_price,sc.max_price,sc.start_time,sc.end_time,sc.status
+		from tb_shop_coupon sc,tb_shop_coupon_member scm
+		where sc.id = scm.coupon_id
+		  and share_type= 0 and share_id = #{memberId} and scm.used = 0
+		and (UNIX_TIMESTAMP() &gt; sc.end_time
+		    <if test="status != null">
+				or sc.status = #{status}
+			</if>
+		    )
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
+	<!--  根据用户Id 查找 已使用的优惠卷 -->
+	<select id="selectUseCouponByMemberId" resultMap="result_coupon_fk_map" parameterType="map">
+		SELECT
+		sc.id,sc.name,sc.type,sc.value,sc.total,sc.used,sc.min_price,sc.max_price,sc.start_time,sc.end_time,sc.status
+		from tb_shop_coupon sc,tb_shop_coupon_member scm
+		where sc.id = scm.coupon_id
+		  and share_type= 0 and share_id = #{memberId}  and scm.used = 1
+
+		<if test="page.orderColumnName != null">
+			order by ${page.orderColumnName} ${page.orderMode}
+		</if>
+		<if test="page.orderColumnName == null">
+			order by `id` ${page.orderMode}
+		</if>
+		<if test="page.enablePaging">
+			limit #{page.offset},#{page.pageSize}
+		</if>
+	</select>
+
 	<select id="selectByLikeAndObj" resultMap="ResultShopCouponMap" parameterType="map">
 		select
 			<include refid="Column_tb_shop_coupon_List"/>

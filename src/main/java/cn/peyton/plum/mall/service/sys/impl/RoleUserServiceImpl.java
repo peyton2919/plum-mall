@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.core.utils.StrUtils;
 import cn.peyton.plum.mall.bo.RoleUserBo;
 import cn.peyton.plum.mall.mapper.sys.RoleUserMapper;
@@ -25,18 +25,18 @@ import java.util.List;
  * </pre>
  */
 @Service("roleUserService")
-public class RoleUserServiceImpl extends AbstractRealizeService<Long, RoleUser, RoleUserParam> implements RoleUserService {
+public class RoleUserServiceImpl extends RealizeService<Long, RoleUser, RoleUserParam> implements RoleUserService {
     @Resource
     @Transient
     private RoleUserMapper roleUserMapper;
 
     @Override
-    public BaseConvertBo<RoleUser, RoleUserParam> initBo() {
+    public BaseConvertBo<RoleUser, RoleUserParam> bo() {
         return new RoleUserBo();
     }
 
     @Override
-    public IBaseMapper<Long, RoleUser> initMapper() {
+    public IBaseMapper<Long, RoleUser> mapper() {
         return roleUserMapper;
     }
 
@@ -48,45 +48,32 @@ public class RoleUserServiceImpl extends AbstractRealizeService<Long, RoleUser, 
     @Override
     public List<Long> findRoleIdListByUserId(Long shareId, Integer shareType) {
         String key = keyPrefix + "_findRoleIdListByUserId_" + shareId + "_" + shareType;
-        if (enabledCache){
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<Long>) obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<Long> result = roleUserMapper.selecRoleIdListByUserId(shareId, shareType);
+            saveCache(key, result);
+            return result;
         }
-        List<Long> result = roleUserMapper.selecRoleIdListByUserId(shareId, shareType);
-        if (result.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key, result);
-        }
-        return result;
+        return (List<Long>) objs;
     }
 
     @Override
     public List<Long> findUserIdListByRoleId(Long roleId, Integer shareType) {
         String key = keyPrefix + "_findUserIdListByRoleId_" + roleId + "_" + shareType;
-        if (enabledCache){
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<Long>) obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<Long> result = roleUserMapper.selctUserIdListByRoleId(roleId, shareType);
+            saveCache(key, result);
+            return result;
         }
-        List<Long> result = roleUserMapper.selctUserIdListByRoleId(roleId, shareType);
-        if (result.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key, result);
-        }
-        return result;
+        return (List<Long>) objs;
     }
 
     @Override
     public Boolean deleteUserByRoleId(Long roleId, Integer shareType) {
         int result = roleUserMapper.deleteUserByRoleId(roleId, shareType);
-        if (result > 0 && enabledCache) {
-            System.out.println("删除对象操作,清空缓存");
-            removeCache();
+        if (result > 0) {
+            clearCache("删除用户角色");
             return true;
         }
         return false;
@@ -95,9 +82,8 @@ public class RoleUserServiceImpl extends AbstractRealizeService<Long, RoleUser, 
     @Override
     public Boolean batchAdd(List<RoleUser> roleUserList) {
         int result = roleUserMapper.batchAdd(roleUserList);
-        if (result > 0 && enabledCache) {
-            System.out.println("删除对象操作,清空缓存");
-            removeCache();
+        if (result > 0 ) {
+            clearCache("批量新增用户角色");
             return true;
         }
         return false;
@@ -106,41 +92,30 @@ public class RoleUserServiceImpl extends AbstractRealizeService<Long, RoleUser, 
     @Override
     public List<Long> findUserIdListByRoleIdList(List<Integer> roleIdList, Integer shareType) {
         String key = keyPrefix + "_findUserIdListByRoleIdList_" + StrUtils.join(roleIdList,null) + "_" + shareType;
-        if (enabledCache){
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<Long>) obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<Long> result = roleUserMapper.selectUserIdListByRoleIdList(roleIdList, shareType);
+            saveCache(key, result);
+            return result;
         }
-        List<Long> result = roleUserMapper.selectUserIdListByRoleIdList(roleIdList, shareType);
-        if (result.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key, result);
-        }
-        return result;
+        return (List<Long>) objs;
     }
 
     @Override
     public RoleUserParam findByThree(RoleUserParam record) {
         StringBuffer sb = new StringBuffer();
-        createKeySuffix(record,sb);
+        keywords(record,sb);
         String key = keyPrefix + "_findByThree_" + sb;
-        if (enabledCache){
-            Object obj = cache.get(key);
-            if (null != obj) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (RoleUserParam) obj;
-            }
-        }
-        RoleUser roleUser = roleUserMapper.selectByThree(initBo().convert(record));
+        Object obj = getCache(key);
+        if (null == obj) {
+            RoleUser roleUser = roleUserMapper.selectByThree(bo().convert(record));
 
-        RoleUserParam result = (null == roleUser) ? null : initBo().compat(roleUser);
-        if (null != result && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n", key);
-            cache.put(key, result);
+            RoleUserParam result = (null == roleUser) ? null : bo().compat(roleUser);
+            saveCache(key, result);
+            return result;
         }
-        return result;
+        return (RoleUserParam) obj;
+
     }
 
     @Override

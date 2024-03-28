@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.MaterialParam;
 import cn.peyton.plum.mall.pojo.sys.Material;
 
@@ -13,7 +13,7 @@ import cn.peyton.plum.mall.pojo.sys.Material;
  * @version 1.0.0
  * </pre>
  */
-public interface MaterialService extends IBaseService<Long, Material, MaterialParam> {
+public interface MaterialService extends IRealizeService<Long, Material, MaterialParam> {
 
     /**
      * <h4>判断有没有关联分组</h4>

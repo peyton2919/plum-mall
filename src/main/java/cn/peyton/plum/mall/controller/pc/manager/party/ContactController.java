@@ -2,7 +2,8 @@ package cn.peyton.plum.mall.controller.pc.manager.party;
 
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
@@ -10,7 +11,6 @@ import cn.peyton.plum.core.validator.Regulation;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.ContactParam;
 import cn.peyton.plum.mall.service.party.ContactService;
 import jakarta.annotation.Resource;
@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
 */
 @RestController
 @RequestMapping("/pc/contact")
-public class ContactController extends PcController<ContactParam>
-		implements IBasePCController<Integer, ContactParam> {
+public class ContactController extends RealizeController
+		implements IController<Integer, ContactParam> {
 
 	@Resource
 	private ContactService contactService;
@@ -50,7 +50,7 @@ public class ContactController extends PcController<ContactParam>
 		ContactParam _param = new ContactParam();
 		_param.setGroupId(query.getIntValue());
 		// 其他处理判断
-		return baseHandleList(_param, new PageQuery(query.getPageNo()), contactService,null);
+		return page(_param, new PageQuery(query.getPageNo()), contactService,true);
 	}
 
 	//
@@ -66,7 +66,7 @@ public class ContactController extends PcController<ContactParam>
 		}
 
 		// 其他处理判断
-		return baseHandleList(_param, new PageQuery(pageNo), contactService,null);
+		return page(_param, new PageQuery(pageNo), contactService,true);
 	}
 
 	@Token
@@ -81,7 +81,7 @@ public class ContactController extends PcController<ContactParam>
 		if(!regexp(record.getPhone())){
 			return JSONResult.fail(TELPHONE + INCORRECT);
 		}
-		return baseHandleCreate(record, null, contactService, TIP_CONTACT);
+		return handle(record, null,false, contactService, TIP_CONTACT,CREATE);
 	}
 
 	@Token
@@ -96,7 +96,7 @@ public class ContactController extends PcController<ContactParam>
 		if(!regexp(record.getPhone())){
 			return JSONResult.fail(TELPHONE + INCORRECT);
 		}
-		return baseHandleEdit(record, null, contactService, TIP_CONTACT,UPDATE);
+		return handle(record, null, true, contactService, TIP_CONTACT, UPDATE);
 	}
 
 	@Token
@@ -112,9 +112,9 @@ public class ContactController extends PcController<ContactParam>
 	@Valid
 	@PostMapping("/manager/delete")
 	@Override
-	public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小为1")Integer id) {
+	public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "Id最小为值1")Integer id) {
 
-		return baseHandleDelete(id, contactService, TIP_CONTACT);
+		return delete(id, contactService, TIP_CONTACT);
 	}
 
 	/**

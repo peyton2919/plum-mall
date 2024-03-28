@@ -146,4 +146,6 @@ public interface IBaseMapper<K, T> {
      */
     @Update("update ${tableName} set status = #{status} where id = #{id}")
     int updateStatus(String tableName, K id,Integer status);
+
+
 }

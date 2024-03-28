@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.CityBo;
 import cn.peyton.plum.mall.mapper.sys.CityMapper;
 import cn.peyton.plum.mall.param.sys.CityParam;
@@ -24,18 +24,18 @@ import java.util.List;
  * </pre>
 */
 @Service("cityService")
-public class CityServiceImpl  extends AbstractRealizeService<Integer, City, CityParam> implements CityService {
+public class CityServiceImpl  extends RealizeService<Integer, City, CityParam> implements CityService {
 	private String TABLE_NAME = "sys_city";
 	@Resource
 	private CityMapper cityMapper;
 
 	@Override
-	public BaseConvertBo<City, CityParam> initBo() {
+	public BaseConvertBo<City, CityParam> bo() {
 		return new CityBo();
 	}
 
 	@Override
-	public IBaseMapper<Integer, City> initMapper() {
+	public IBaseMapper<Integer, City> mapper() {
 		return cityMapper;
 	}
 
@@ -49,66 +49,44 @@ public class CityServiceImpl  extends AbstractRealizeService<Integer, City, City
 	@Override
 	public List<CityParam> findByTree() {
 		String key = keyPrefix + "_find_tree_all_202401071748";
-		if (enabledCache){
-			Object list = cache.get(key);
-			if (null != list) {
-				System.out.printf("从缓存获取到对象: key= %s;\n",key);
-				return (List<CityParam>)list;
-			}
+		Object objs = getCache(key);
+		if (null == objs) {
+			List<CityParam> adapter = bo().adapter(CityUtils.reorganize(cityMapper.selectByTree(),0));
+			saveCache(key, adapter);
+			return adapter;
 		}
-		List<CityParam> pList = initBo().adapter(CityUtils.reorganize(cityMapper.selectByTree(),0));
-
-		if (null != pList && pList.size() > 0 && enabledCache) {
-			System.out.printf("添加对象到缓存: key= %s;\n",key);
-			cache.put(key,pList);
-		}
-		return pList;
+		return (List<CityParam>) objs;
 	}
 
 	@Override
 	public List<CityParam> findByPid(Integer pid,Integer status) {
 		String key = keyPrefix + "_find_pid_" + pid + status;
-		if (enabledCache){
-			Object list = cache.get(key);
-			if (null != list) {
-				System.out.printf("从缓存获取到对象: key= %s;\n",key);
-				return (List<CityParam>)list;
-			}
+		Object objs = getCache(key);
+		if (null == objs) {
+			List<CityParam> adapter = bo().adapter(cityMapper.selectByPid(pid, status));
+			saveCache(key, adapter);
+			return adapter;
 		}
-		List<CityParam> pList = initBo().adapter(cityMapper.selectByPid(pid, status));
-		if (null != pList && pList.size() > 0 && enabledCache) {
-			System.out.printf("添加对象到缓存: key= %s;\n",key);
-			cache.put(key,pList);
-		}
-		return pList;
+		return (List<CityParam>) objs;
 	}
 
 	@Override
 	public List<CityParam> findByDown(Integer level) {
 		String key = keyPrefix + "_find_down_" + level;
-		if (enabledCache){
-			Object list = cache.get(key);
-			if (null != list) {
-				System.out.printf("从缓存获取到对象: key= %s;\n",key);
-				return (List<CityParam>)list;
-			}
+		Object objs = getCache(key);
+		if (null == objs) {
+			List<CityParam> adapter = bo().adapter(CityUtils.reorganize(cityMapper.selectByDown(level),0));
+			saveCache(key, adapter);
+			return adapter;
 		}
-		List<CityParam> pList = initBo().adapter(CityUtils.reorganize(cityMapper.selectByDown(level),0));
-		if (null != pList && pList.size() > 0 && enabledCache) {
-			System.out.printf("添加对象到缓存: key= %s;\n",key);
-			cache.put(key,pList);
-		}
-		return pList;
+		return (List<CityParam>) objs;
 	}
 
 	@Override
 	public Boolean upStatus(Integer id, Integer status) {
 		int res = cityMapper.updateStatus(TABLE_NAME, id, status);
 		if (res > 0) {
-			if (enabledCache) {
-				System.out.println("更新操作,清空缓存");
-				removeCache();
-			}
+			clearCache("更新城市状态");
 			return true;
 		}
 		return false;
@@ -129,10 +107,7 @@ public class CityServiceImpl  extends AbstractRealizeService<Integer, City, City
 	public Boolean batchUpdate(List<Integer> ids, Integer status) {
 		int res = cityMapper.batchUpdate(ids, status);
 		if (res > 0) {
-			if (enabledCache) {
-				System.out.println("批量更新操作,清空缓存");
-				removeCache();
-			}
+			clearCache("批量更新城市");
 			return true;
 		}
 		return false;

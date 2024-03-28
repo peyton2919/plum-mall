@@ -1,15 +1,17 @@
 package cn.peyton.plum.mall.pojo.join;
 
 import cn.peyton.plum.mall.pojo.party.Member;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <h3> 欠款信息 实体类</h3>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
- * @date 2024年01月16日 21:12:27
+ * @date 2024年02月06日 22:33:31
  * @version 1.0.0
  * </pre>
 */
@@ -18,36 +20,29 @@ public class ShopArrears implements Serializable {
 	private Long id;
 	/** 订单Id  */
 	private Long oid;
+	/** 还款Id  */
+	private Long repId;
 	/** 欠款金额  */
-	private BigDecimal debt;
-	/** 还款金额  */
-	private BigDecimal repayDebt;
-	/** 实际付款金额  */
-	private BigDecimal actualPayment;
+	private BigDecimal money;
 	/** 付款状态 默认 0 未清 1 已清  */
 	private Integer status;
-	/** 欠还多种对充;默认 0 不启用 1 欠1还N 2 欠N还N 3 欠N还1  */
-	private Integer isMulti;
-	/** 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他  */
-	private Integer repayType;
 	/** 客户Id  */
 	private Long memberId;
-	/** 关联欠款与还款对象集合(JSON格式)  */
-	private String correlation;
 	/** 备注  */
 	private String remark;
-	/** 备用  */
-	private String reserve;
 	/** 欠款时间  */
 	private Integer createTime;
-	/** 还款时间  */
-	private Integer updateTime;
-	/** 会员对象*/
+	/** 会员对象 */
 	private Member member;
+
+	/** 还款集合 */
+	private List<ShopRepayment> shopRepayments;
+
 
 	//================================== Constructor =======================================//
 	public ShopArrears(){
 		if (null == member) {member = new Member();}
+		if (null == shopRepayments) { shopRepayments = new ArrayList<>();}
 	}
 	//================================== Method =======================================//
 
@@ -68,60 +63,46 @@ public class ShopArrears implements Serializable {
 		return id;
 	}
 
-	/**
-	 * @return 订单Id
-	 */
-	public Long getOid() {
-		return oid;
-	}
-
-	/**
-	 * @param oid 订单Id
-	 */
-	public void setOid(Long oid) {
+	/** 
+	 * @param oid 订单Id 
+	 */ 
+	public void setOid(Long oid){
 		this.oid = oid;
 	}
 
 	/** 
-	 * @param debt 欠款金额 
+	 * @return 订单Id 
 	 */ 
-	public void setDebt(BigDecimal debt){
-		this.debt = debt;
+	public Long getOid(){
+		return oid;
+	}
+
+	/** 
+	 * @param repId 还款Id 
+	 */ 
+	public void setRepId(Long repId){
+		this.repId = repId;
+	}
+
+	/** 
+	 * @return 还款Id 
+	 */ 
+	public Long getRepId(){
+		return repId;
+	}
+
+	/** 
+	 * @param money 欠款金额 
+	 */ 
+	public void setMoney(BigDecimal money){
+		this.money = money;
 	}
 
 	/** 
 	 * @return 欠款金额 
 	 */ 
-	public BigDecimal getDebt(){
-		return debt;
-	}
-
-	/** 
-	 * @param repayDebt 还款金额 
-	 */ 
-	public void setRepayDebt(BigDecimal repayDebt){
-		this.repayDebt = repayDebt;
-	}
-
-	/** 
-	 * @return 还款金额 
-	 */ 
-	public BigDecimal getRepayDebt(){
-		return repayDebt;
-	}
-
-	/** 
-	 * @param actualPayment 实际付款金额 
-	 */ 
-	public void setActualPayment(BigDecimal actualPayment){
-		this.actualPayment = actualPayment;
-	}
-
-	/** 
-	 * @return 实际付款金额 
-	 */ 
-	public BigDecimal getActualPayment(){
-		return actualPayment;
+	public BigDecimal getMoney(){
+		return money;
 	}
 
 	/** 
@@ -139,34 +120,6 @@ public class ShopArrears implements Serializable {
 	}
 
 	/** 
-	 * @param isMulti 欠还多种对充;默认 0 不启用 1 欠1还N 2 欠N还N 3 欠N还1 
-	 */ 
-	public void setIsMulti(Integer isMulti){
-		this.isMulti = isMulti;
-	}
-
-	/** 
-	 * @return 欠还多种对充;默认 0 不启用 1 欠1还N 2 欠N还N 3 欠N还1 
-	 */ 
-	public Integer getIsMulti(){
-		return isMulti;
-	}
-
-	/** 
-	 * @param repayType 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他 
-	 */ 
-	public void setRepayType(Integer repayType){
-		this.repayType = repayType;
-	}
-
-	/** 
-	 * @return 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他 
-	 */ 
-	public Integer getRepayType(){
-		return repayType;
-	}
-
-	/** 
 	 * @param memberId 客户Id 
 	 */ 
 	public void setMemberId(Long memberId){
@@ -178,20 +131,6 @@ public class ShopArrears implements Serializable {
 	 */ 
 	public Long getMemberId(){
 		return memberId;
-	}
-
-	/** 
-	 * @param correlation 关联欠款与还款对象集合(JSON格式) 
-	 */ 
-	public void setCorrelation(String correlation){
-		this.correlation = correlation;
-	}
-
-	/** 
-	 * @return 关联欠款与还款对象集合(JSON格式) 
-	 */ 
-	public String getCorrelation(){
-		return correlation;
 	}
 
 	/** 
@@ -209,20 +148,6 @@ public class ShopArrears implements Serializable {
 	}
 
 	/** 
-	 * @param reserve 备用 
-	 */ 
-	public void setReserve(String reserve){
-		this.reserve = reserve;
-	}
-
-	/** 
-	 * @return 备用 
-	 */ 
-	public String getReserve(){
-		return reserve;
-	}
-
-	/** 
 	 * @param createTime 欠款时间 
 	 */ 
 	public void setCreateTime(Integer createTime){
@@ -236,20 +161,19 @@ public class ShopArrears implements Serializable {
 		return createTime;
 	}
 
-	/** 
-	 * @param updateTime 还款时间 
-	 */ 
-	public void setUpdateTime(Integer updateTime){
-		this.updateTime = updateTime;
+	/**
+	 * @return 还款集合
+	 */
+	public List<ShopRepayment> getShopRepayments() {
+		return shopRepayments;
 	}
 
-	/** 
-	 * @return 还款时间 
-	 */ 
-	public Integer getUpdateTime(){
-		return updateTime;
+	/**
+	 * @param shopRepayments 还款集合
+	 */
+	public void setShopRepayments(List<ShopRepayment> shopRepayments) {
+		this.shopRepayments = shopRepayments;
 	}
-
 	/**
 	 * @return 会员对象
 	 */
@@ -263,5 +187,4 @@ public class ShopArrears implements Serializable {
 	public void setMember(Member member) {
 		this.member = member;
 	}
-
 }

@@ -19,20 +19,27 @@ import java.math.BigDecimal;
  * </pre>
  */
 public class ArrearVo implements Serializable {
+
     /** 会员主键 */
     private Long memberId;
+    /** 订单主键 */
+    private Long oid;
     /**
      * 状态 默认 0 未清 1 已清
      */
     @Size(min = 0, max = 1)
-    private Integer status;
+    private Integer status=0;
     /**
      * 还款方式: 0 微信 1 支付宝 2 转账 3 现金 4 其他
      */
-    @Size(min = 0, max = 4)
+    @Size(min = -1, max = 4)
     private Integer repayType;
-    /** 欠款金额 */
-    private BigDecimal debt;
+    /** 金额 */
+    private BigDecimal money;
+    /** 查询金额范围:最小金额 */
+    private BigDecimal minMoney;
+    /** 查询金额范围:最大金额 */
+    private BigDecimal maxMoney;
     /** 实际付款金额 */
     private BigDecimal actualPayment;
     /** 时间 */
@@ -40,15 +47,20 @@ public class ArrearVo implements Serializable {
     private String time;
     /** 查找时段{ 1天 7天 1个月 6个月 1年 } */
     private String timeInterval;
-    /** 查找方向 {欠款时间create_time | 还款时间update_time} */
+    /** 查找方向 {欠款 arrear | 还款 repay} */
     private String mode;
     /** 当前页码 */
     @NotBlank(message = "页码不能为空")
     @Min(value = 1,message = "页码最小值为1")
     private Integer pageNo;
+
     /** 每页记录条数 */
     @Min(value = 1,message = "页码最小值为1")
     private Integer limit;
+    /** 开始时间 */
+    private String startTime;
+    /** 结束时间 */
+    private String endTime;
 
     /**
      * @return 会员主键
@@ -62,6 +74,20 @@ public class ArrearVo implements Serializable {
      */
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    /**
+     * @return 订单主键
+     */
+    public Long getOid() {
+        return oid;
+    }
+
+    /**
+     * @param oid 订单主键
+     */
+    public void setOid(Long oid) {
+        this.oid = oid;
     }
 
     /**
@@ -95,17 +121,44 @@ public class ArrearVo implements Serializable {
     /**
      * @return 欠款金额
      */
-    public BigDecimal getDebt() {
-        return debt;
+    public BigDecimal getMoney() {
+        return money;
     }
 
     /**
-     * @param debt 欠款金额
+     * @param money 欠款金额
      */
-    public void setDebt(BigDecimal debt) {
-        this.debt = debt;
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 
+    /**
+     * @return 查询金额范围:最小金额
+     */
+    public BigDecimal getMinMoney() {
+        return minMoney;
+    }
+
+    /**
+     * @param minMoney 查询金额范围:最小金额
+     */
+    public void setMinMoney(BigDecimal minMoney) {
+        this.minMoney = minMoney;
+    }
+
+    /**
+     * @return 查询金额范围:最大金额
+     */
+    public BigDecimal getMaxMoney() {
+        return maxMoney;
+    }
+
+    /**
+     * @param maxMoney 查询金额范围:最大金额
+     */
+    public void setMaxMoney(BigDecimal maxMoney) {
+        this.maxMoney = maxMoney;
+    }
     /**
      * @return 实际付款金额
      */
@@ -188,5 +241,33 @@ public class ArrearVo implements Serializable {
      */
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+
+    /**
+     * @return 开始时间
+     */
+    public String getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * @param startTime 开始时间
+     */
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @return 结束时间
+     */
+    public String getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @param endTime 结束时间
+     */
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

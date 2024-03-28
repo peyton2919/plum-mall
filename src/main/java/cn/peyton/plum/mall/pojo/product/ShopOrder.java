@@ -37,6 +37,9 @@ public class ShopOrder implements Serializable {
      * 用户类型 默认: 0 会员、1 顾客 2 供应商、3 用户 4 员工 5 超级管理员
      */
     private Integer shareType;
+    /** 用户地址Id */
+    private Long userAddrId;
+
     /**
      * 备注
      */
@@ -263,7 +266,19 @@ public class ShopOrder implements Serializable {
     public Integer getShareType() {
         return shareType;
     }
+    /**
+     * @return 用户地址Id
+     */
+    public Long getUserAddrId() {
+        return userAddrId;
+    }
 
+    /**
+     * @param userAddrId 用户地址Id
+     */
+    public void setUserAddrId(Long userAddrId) {
+        this.userAddrId = userAddrId;
+    }
     /**
      * @param explain 备注
      */

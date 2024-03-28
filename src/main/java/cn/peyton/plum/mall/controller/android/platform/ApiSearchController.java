@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.controller.android.platform;
 
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
-import cn.peyton.plum.mall.controller.base.AndroidController;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.mall.param.join.BrandParam;
 import cn.peyton.plum.mall.param.pub.AdvertParam;
 import cn.peyton.plum.mall.service.join.BrandService;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <h4></h4>
+ * <h4>搜索 API controller</h4>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -28,7 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/search")
-public class ApiSearchController extends AndroidController {
+public class ApiSearchController extends RealizeController {
 
     @Resource
     private AdvertService advertService;
@@ -46,9 +47,9 @@ public class ApiSearchController extends AndroidController {
         map.put("category", shopCategoryService.findAndroidByRand(8));
         List<BrandParam> brands = brandService.findAndroidRandom(10);
         for (int i = 0; i < brands.size(); i++) {
-            brands.get(i).setLogo(convertImgPath( brands.get(i).getLogo()));
+            brands.get(i).setLogo(new CtrlUtils().convertImgPath( brands.get(i).getLogo()));
         }
         map.put("brand", brands);
-        return handelMulti(map, null);
+        return map(map);
     }
 }

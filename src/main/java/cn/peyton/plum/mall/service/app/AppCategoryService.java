@@ -1,7 +1,8 @@
 package cn.peyton.plum.mall.service.app;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
-import cn.peyton.plum.core.inf.service.IStatusService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
+import cn.peyton.plum.core.inf.service.base.IStatusService;
+import cn.peyton.plum.mall.param.app.AppCategoryParam;
 import cn.peyton.plum.mall.pojo.app.AppCategory;
 
 import java.util.List;
@@ -15,12 +16,12 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
 */
-public interface AppCategoryService extends IStatusService<Integer>, IBaseService<Integer, AppCategory, cn.peyton.plum.mall.param.app.AppCategoryParam> {
+public interface AppCategoryService extends IStatusService<Integer>, IRealizeService<Integer, AppCategory, AppCategoryParam> {
 
 
     /**
      * <h4>获取tabbars集合</h4>
      * @return
      */
-    List<cn.peyton.plum.mall.param.app.AppCategoryParam> findByTabBars();
+    List<AppCategoryParam> findByTabBars();
 }

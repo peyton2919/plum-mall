@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.*;
+import cn.peyton.plum.core.inf.service.base.*;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.mall.param.party.MemberParam;
@@ -16,7 +16,7 @@ import cn.peyton.plum.mall.pojo.party.Member;
  * </pre>
  */
 public interface MemberService extends IStatusService<Long>, IDeleteService<Long>, IDownListService<MemberParam>,
-        IUserService<MemberParam>, IBaseService<Long, Member, MemberParam> {
+        IUserService<MemberParam>, IRealizeService<Long, Member, MemberParam> {
 
     /**
      * <h4>根据 会员等级Id 查找 </h4>

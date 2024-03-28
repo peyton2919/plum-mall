@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.party.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ContactGroupBo;
 import cn.peyton.plum.mall.mapper.party.ContactGroupMapper;
 import cn.peyton.plum.mall.param.party.ContactGroupParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
 */
 @Service("contactGroupService")
-public class ContactGroupServiceImpl  extends AbstractRealizeService<Integer, ContactGroup, ContactGroupParam> implements ContactGroupService {
+public class ContactGroupServiceImpl  extends RealizeService<Integer, ContactGroup, ContactGroupParam> implements ContactGroupService {
 	@Resource
 	private ContactGroupMapper contactGroupMapper;
 
 	@Override
-	public BaseConvertBo<ContactGroup, ContactGroupParam> initBo() {
+	public BaseConvertBo<ContactGroup, ContactGroupParam> bo() {
 		return new ContactGroupBo();
 	}
 
 	@Override
-	public IBaseMapper<Integer, ContactGroup> initMapper() {
+	public IBaseMapper<Integer, ContactGroup> mapper() {
 		return contactGroupMapper;
 	}
 

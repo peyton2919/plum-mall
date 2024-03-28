@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopOrderRecordParam;
 import cn.peyton.plum.mall.pojo.product.ShopOrderRecord;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.product.ShopOrderRecord;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopOrderRecordService extends IBaseService<Long, ShopOrderRecord, ShopOrderRecordParam> {
+public interface ShopOrderRecordService extends IRealizeService<Long, ShopOrderRecord, ShopOrderRecordParam> {
 
 }

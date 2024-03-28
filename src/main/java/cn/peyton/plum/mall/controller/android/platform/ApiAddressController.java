@@ -1,12 +1,12 @@
 package cn.peyton.plum.mall.controller.android.platform;
 
 import cn.peyton.plum.core.anno.token.Token;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.AndroidController;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.param.party.UserAddressParam;
 import cn.peyton.plum.mall.service.party.UserAddressService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <h4></h4>
+ * <h4>用户地址 API controller</h4>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -27,42 +27,52 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/address")
-public class ApiAddressController extends AndroidController {
+public class ApiAddressController extends RealizeController {
     @Resource
     private UserAddressService userAddressService;
 
+    @Valid
     @Token
     @PostMapping("/list")
-    public JSONResult<?> list( @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo) {
-        MemberParam member = (MemberParam) handleToken(new MemberParam());
+    public JSONResult<?> list( @NotBlank(message = "页码 不能为空;") @Min(value = 1,message = "最小值为1")Integer pageNo) {
+        MemberParam member = (MemberParam) getToken(new MemberParam());
 
-        return handleList(userAddressService.findAndroidByShareId(member.getId(),member.getUserType(),new PageQuery(pageNo)), null);
+        return list(userAddressService.findAndroidByShareId(member.getId(),member.getUserType(),new PageQuery(pageNo)), null);
     }
 
     @Token
     @Valid
     @PostMapping("/create")
     public JSONResult<?> create(UserAddressParam record) {
-        MemberParam member = (MemberParam) handleToken(new MemberParam());
+        MemberParam member = (MemberParam) getToken(new MemberParam());
         record.setShareId(member.getId());
         record.setShareType(member.getUserType());
-        return handleObject(record, null, userAddressService,false, TIP_USER_ADDRESS,CREATE);
+        updateLastUsedTime(record);
+        return handle(record, null,false, userAddressService, TIP_USER_ADDRESS,CREATE);
     }
 
     @Token
     @Valid
     @PostMapping("/edit")
     public JSONResult<?> edit(UserAddressParam record) {
-        MemberParam member = (MemberParam) handleToken(new MemberParam());
+        MemberParam member = (MemberParam) getToken(new MemberParam());
         record.setShareId(member.getId());
         record.setShareType(member.getUserType());
-        return handleObject(record, null, userAddressService,true, TIP_USER_ADDRESS,UPDATE);
+        updateLastUsedTime(record);
+        return handle(record, null,true, userAddressService, TIP_USER_ADDRESS,UPDATE);
     }
 
     @Token
     @Valid
     @PostMapping("/delete")
     public JSONResult<?> delete(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小值为1")Long id) {
-        return handleDelete(id,userAddressService,TIP_USER_ADDRESS);
+        return delete(id,userAddressService,TIP_USER_ADDRESS);
+    }
+
+
+    private void updateLastUsedTime(UserAddressParam record) {
+        if (null != record.getLastUsedTime() && !"".equals(record.getLastUsedTime())) {
+            userAddressService.upLastUsedTimeNullByShareId(record.getShareId(),record.getShareType());
+        }
     }
 }

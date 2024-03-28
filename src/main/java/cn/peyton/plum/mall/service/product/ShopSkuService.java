@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopSkuParam;
 import cn.peyton.plum.mall.pojo.product.ShopSku;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopSkuService extends IBaseService<Long, ShopSku, ShopSkuParam> {
+public interface ShopSkuService extends IRealizeService<Long, ShopSku, ShopSkuParam> {
 
     /**
      * <h4>根据名称查找</h4>

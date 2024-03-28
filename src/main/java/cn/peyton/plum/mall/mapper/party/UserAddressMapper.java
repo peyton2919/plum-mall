@@ -33,6 +33,15 @@ public interface UserAddressMapper extends IBaseMapper<Long, UserAddress> {
      */
     @Update("update tb_user_address set last_used_time=#{lastUsedTime} where id=#{id}")
     int upLastUsedTime(Long id, Integer lastUsedTime);
+
+    /**
+     * <h4>根据用户Id 更新最后使用时间为空</h4>
+      * @param shareId 用户Id
+     * @param shareType 用户类型
+     * @return 受影响行数
+     */
+    @Update("UPDATE tb_user_address set last_used_time = NULL WHERE share_id = #{shareId} and share_type = #{shareType}")
+    int upLastUsedTimeNullByShareId(Long shareId,int shareType);
     // ==================================== new create method ==================================== //
 
     /**

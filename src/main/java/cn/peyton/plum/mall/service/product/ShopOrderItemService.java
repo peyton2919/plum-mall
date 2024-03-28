@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.mall.param.product.ShopOrderItemParam;
@@ -15,7 +15,7 @@ import cn.peyton.plum.mall.pojo.product.ShopOrderItem;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopOrderItemService extends IBaseService<Long, ShopOrderItem, ShopOrderItemParam> {
+public interface ShopOrderItemService extends IRealizeService<Long, ShopOrderItem, ShopOrderItemParam> {
 
     /**
      * <h4>根据 商品规格明细Id 查找销售明细</h4>

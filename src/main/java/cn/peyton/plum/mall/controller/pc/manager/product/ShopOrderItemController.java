@@ -1,15 +1,15 @@
 package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
-import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.page.Query;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.product.ShopOrderItemParam;
 import cn.peyton.plum.mall.service.product.ShopOrderItemService;
 import jakarta.annotation.Resource;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/orderitem")
-public class ShopOrderItemController extends PcController<ShopOrderItemParam>
-        implements IBasePCController<Long, ShopOrderItemParam> {
+public class ShopOrderItemController extends RealizeController
+        implements IController<Long, ShopOrderItemParam> {
 
     @Resource
     private ShopOrderItemService shopOrderItemService;
@@ -61,11 +61,8 @@ public class ShopOrderItemController extends PcController<ShopOrderItemParam>
                               @NotBlank(message = "页码不能为空;") @Min(value = 1,message = "最小为1")Integer pageNo, String between) {
 
 
-        Integer[] times = convertStrToBetweenIntArray(between);
-        PageResult<ShopOrderItemParam> result = shopOrderItemService.findByStockId(psdId, new PageQuery(pageNo), times[0], times[1]);
-        if(result.isSuccess){
-            return JSONResult.success(result);
-        }
-        return JSONResult.fail(JSONResult.Props.NO_DATA, NO_DATA);
+        int[] times = new CtrlUtils().convertStrToBetweenIntArray(between);
+
+        return page(shopOrderItemService.findByStockId(psdId, new PageQuery(pageNo), times[0], times[1]), null);
     }
 }

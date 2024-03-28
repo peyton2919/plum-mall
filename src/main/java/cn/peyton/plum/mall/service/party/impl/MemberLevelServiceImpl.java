@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.party.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.MemberLevelBo;
 import cn.peyton.plum.mall.mapper.party.MemberLevelMapper;
 import cn.peyton.plum.mall.param.party.MemberLevelParam;
@@ -23,17 +23,17 @@ import java.util.List;
  * </pre>
  */
 @Service("memberLevelService")
-public class MemberLevelServiceImpl extends AbstractRealizeService<Integer, MemberLevel, MemberLevelParam> implements MemberLevelService {
+public class MemberLevelServiceImpl extends RealizeService<Integer, MemberLevel, MemberLevelParam> implements MemberLevelService {
     @Resource
     private MemberLevelMapper memberLevelMapper;
 
     @Override
-    public BaseConvertBo<MemberLevel, MemberLevelParam> initBo() {
+    public BaseConvertBo<MemberLevel, MemberLevelParam> bo() {
         return new MemberLevelBo();
     }
 
     @Override
-    public IBaseMapper<Integer, MemberLevel> initMapper() {
+    public IBaseMapper<Integer, MemberLevel> mapper() {
         return memberLevelMapper;
     }
 
@@ -45,18 +45,12 @@ public class MemberLevelServiceImpl extends AbstractRealizeService<Integer, Memb
     @Override
     public List<MemberLevelParam> findByDownList() {
         String key = keyPrefix + "_202312251930";
-        if(enabledCache){
-            Object list = cache.get(key);
-            if (null != list) {
-                System.out.printf("从缓存获取到对象: key= %s;\n",key);
-                return (List<MemberLevelParam>)list;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<MemberLevelParam> res = bo().adapter(memberLevelMapper.selectByDownList());
+            saveCache(key, res);
+            return res;
         }
-        List<MemberLevelParam> pList = initBo().adapter(memberLevelMapper.selectByDownList());
-        if (null != pList && pList.size() > 0 && enabledCache) {
-            System.out.printf("添加对象到缓存: key= %s;\n",key);
-            cache.put(key,pList);
-        }
-        return pList;
+        return (List<MemberLevelParam>) objs;
     }
 }

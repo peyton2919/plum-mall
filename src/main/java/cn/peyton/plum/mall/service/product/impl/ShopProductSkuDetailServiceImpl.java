@@ -1,8 +1,10 @@
 package cn.peyton.plum.mall.service.product.impl;
 
+import cn.peyton.plum.core.err.TransactionalException;
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.mall.bo.ShopProductSkuDetailBo;
 import cn.peyton.plum.mall.mapper.product.ShopProductMapper;
 import cn.peyton.plum.mall.mapper.product.ShopProductSkuDetailMapper;
@@ -33,7 +35,7 @@ import java.util.Map;
  * </pre>
  */
 @Service("shopProductSkuDetailService")
-public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long, ShopProductSkuDetail, ShopProductSkuDetailParam> implements ShopProductSkuDetailService {
+public class ShopProductSkuDetailServiceImpl extends RealizeService<Long, ShopProductSkuDetail, ShopProductSkuDetailParam> implements ShopProductSkuDetailService {
     @Resource
     private ShopProductSkuDetailMapper shopProductSkuDetailMapper;
     @Resource
@@ -42,12 +44,12 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
     private ShopProductSkuMapper shopProductSkuMapper;
 
     @Override
-    public BaseConvertBo<ShopProductSkuDetail, ShopProductSkuDetailParam> initBo() {
+    public BaseConvertBo<ShopProductSkuDetail, ShopProductSkuDetailParam> bo() {
         return new ShopProductSkuDetailBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopProductSkuDetail> initMapper() {
+    public IBaseMapper<Long, ShopProductSkuDetail> mapper() {
         return shopProductSkuDetailMapper;
     }
 
@@ -59,30 +61,20 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
     @Override
     public List<ShopProductSkuDetailParam> findByProductId(Long productId) {
         String key = keyPrefix + "_find_product_id_" + productId;
-        if (enabledCache) {
-            Object obj = cache.get(key);
-            if (null != obj) {
-                return (List<ShopProductSkuDetailParam>) obj;
-            }
+        Object objs = getCache(key);
+        if (null == objs) {
+            List<ShopProductSkuDetailParam> adapter = bo().adapter(shopProductSkuDetailMapper.selectByProductId(productId));
+            saveCache(key, adapter);
+            return adapter;
         }
-        List<ShopProductSkuDetailParam> result = initBo().adapter(shopProductSkuDetailMapper.selectByProductId(productId));
-        if(enabledCache){
-            if (null != result && result.size() > 0) {
-                System.out.println("添加数据到缓存, key= " + key);
-                cache.put(key,result);
-            }
-        }
-        return result;
+        return (List<ShopProductSkuDetailParam>) objs;
     }
 
     @Override
     public Boolean updateWarehouse(Long id, Integer warehouseId, String warehouseExplain) {
         int res = shopProductSkuDetailMapper.updateWarehouse(id,warehouseId,warehouseExplain);
         if (res > 0) {
-            if (enabledCache) {
-                System.out.println("更新操作,清空缓存");
-                removeCache();
-            }
+            clearCache("更新仓库信息");
             return true;
         }
         return false;
@@ -90,7 +82,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
 
     // 单规格创建与更新
     @Override
-    @Transactional
+    @Transactional(rollbackFor = TransactionalException.class)
     public Boolean joinCreateAndEdit(ShopProductSkuDetailParam reocrd, String skus, Boolean bool) {
         int res = 0;
 
@@ -104,19 +96,16 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
             res = shopProductSkuDetailMapper.insertSelective(ssd);
             // 规格与 skus
             String operate = shopProductMapper.selectByOperate(reocrd.getProductId());
-            String[] strs = convertStrToArr(operate);
+            String[] strs = new CtrlUtils().convertStrToArr(operate);
             strs[0] = "1";
-            operate = convertArrToStr(strs);
+            operate = new CtrlUtils().convertArrToStr(strs);
             res = shopProductMapper.updateOperateAndSpecType(reocrd.getProductId(), operate, PROS.MULTI_SKU_0, skus);
         }
         // 更新 商品最低价格与市场价格
         shopProductMapper.updatePrice(reocrd.getProductId(), reocrd.getMinPrice(), reocrd.getPrice());
         if (res > 0) {
             if(!bool) {reocrd.setId(ssd.getId());}
-            if (enabledCache) {
-                System.out.println("新增操作,清空缓存");
-                removeCache();
-            }
+            clearCache("新增单规格明细");
             return true;
         }
         return false;
@@ -151,24 +140,18 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
         // 判断是 更新|新增
         if(bool){ // 更新
             if (batchEdit(reocrds, skus)) {
-                if (enabledCache) {
-                    System.out.println("更新操作,清空缓存");
-                    removeCache();
-                }
+                clearCache("更新单规格明细");
                 return true;
             }
         }else { // 新增
             productId = reocrds.get(0).getProductId();
             String operate = shopProductMapper.selectByOperate(productId);
-            String[] strs = convertStrToArr(operate);
+            String[] strs = new CtrlUtils().convertStrToArr(operate);
             strs[0] = "1";
-            operate = convertArrToStr(strs);
+            operate = new CtrlUtils().convertArrToStr(strs);
             if (shopProductMapper.updateOperateAndSpecType(productId, operate,PROS.MULTI_SKU_1,skus) > 0) {  // 更新 操作信息
                 if (batchCreate(reocrds, skus)) {
-                    if (enabledCache) {
-                        System.out.println("新增操作,清空缓存");
-                        removeCache();
-                    }
+                    clearCache("新增规格");
                     return true;
                 }
             }
@@ -183,7 +166,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
         // 更新 商品规格 和 skus(shopSkus集合) spceType = 1
         res = shopProductMapper.updateSpecType(list.get(0).getProductId(), PROS.MULTI_SKU_1, skus);
         // 批量创建 商品规格明细
-        List<ShopProductSkuDetail> _params = initBo().reverse(list);
+        List<ShopProductSkuDetail> _params = bo().reverse(list);
         // 调用创建方法
         return create(_params);
     }
@@ -194,7 +177,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
         // 更新 商品规格 和 skus(shopSkus集合) spceType = 1
         int res = 0;
         res = shopProductMapper.updateOperateAndSpecType(list.get(0).getProductId(), null, PROS.MULTI_SKU_1, skus);
-        List<ShopProductSkuDetail> _params = initBo().reverse(list);
+        List<ShopProductSkuDetail> _params = bo().reverse(list);
         List<ShopProductSkuDetail> _insert = new ArrayList<>();
         List<ShopProductSkuDetail> _update = new ArrayList<>();
         // 拆分 新增|更新
@@ -222,7 +205,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
      * @param _params 规格明细对象集合
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = TransactionalException.class)
     public boolean create(List<ShopProductSkuDetail> _params){
         int res = shopProductSkuDetailMapper.batchInsert(_params);
         if (res > 0) {
@@ -250,10 +233,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
             }
 
             // 清空缓存
-            if (enabledCache) {
-                System.out.println("批量添加操作,清空缓存!");
-                removeCache();
-            }
+            clearCache("批量新增");
             return true;
         }
         return false;
@@ -261,7 +241,7 @@ public class ShopProductSkuDetailServiceImpl extends AbstractRealizeService<Long
 
 
     // 删除ArrayList中重复元素，保持顺序
-    @Transactional
+    @Transactional(rollbackFor = TransactionalException.class)
     public List<ShopProductSku> removeDuplicate(List<ShopProductSku> list){
         Map<String, ShopProductSku> map = new HashMap<>();
         for (int i = 0; i < list.size(); i++) {

@@ -1,13 +1,13 @@
 package cn.peyton.plum.mall.controller.pc.manager.product;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.party.MemberParam;
 import cn.peyton.plum.mall.param.product.ShopCartParam;
 import cn.peyton.plum.mall.service.product.ShopCartService;
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/shopcart")
-public class ShopCartController extends PcController<ShopCartParam>
-        implements IBasePCController<Long, ShopCartParam> {
+public class ShopCartController extends RealizeController
+        implements IController<Long, ShopCartParam> {
 
     @Resource
     private ShopCartService shopCartService;
@@ -43,7 +43,7 @@ public class ShopCartController extends PcController<ShopCartParam>
     @PostMapping("/manager/create")
     @Override
     public JSONResult<?> create(ShopCartParam record) {
-        return baseHandleCreate(assign(record), null, shopCartService, TIP_SHOP_CART);
+        return handle(assign(record), null,false, shopCartService, TIP_SHOP_CART,CREATE);
     }
 
     @Token
@@ -51,7 +51,7 @@ public class ShopCartController extends PcController<ShopCartParam>
     @PostMapping("/manager/edit")
     @Override
     public JSONResult<?> edit(ShopCartParam record) {
-        return baseHandleEdit(assign(record), null, shopCartService, TIP_SHOP_CART,UPDATE);
+        return handle(assign(record), null, true, shopCartService, TIP_SHOP_CART, UPDATE);
     }
 
     @Token
@@ -59,23 +59,24 @@ public class ShopCartController extends PcController<ShopCartParam>
     @PostMapping("/manager/delete")
     @Override
     public JSONResult<?> delete(@NotBlank(message = "购物车 Id 不能为空;") @Min(value = 1,message = "最小为1")Long id) {
-        return baseHandle(shopCartService.upDelete(id), TIP_SHOP_CART);
+        return delete(id, shopCartService, TIP_SHOP_CART);
     }
 
     @Token
     @Valid
     @PostMapping("/manager/single")
     public JSONResult<?> single() {
-        MemberParam _param = handleToken(new MemberParam());
+        MemberParam _param = getToken(new MemberParam());
         return JSONResult.success(shopCartService.findByShareId(_param.getId(),_param.getUserType()));
     }
 
 
-    @Override
     protected ShopCartParam assign(ShopCartParam record) {
-        MemberParam _param = handleToken(new MemberParam());
+        MemberParam _param = getToken(new MemberParam());
         record.setShareId(_param.getId());
         record.setShareType(_param.getUserType());
         return record;
     }
+
+
 }

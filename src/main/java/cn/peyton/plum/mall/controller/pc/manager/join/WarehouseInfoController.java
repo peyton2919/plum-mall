@@ -1,14 +1,14 @@
 package cn.peyton.plum.mall.controller.pc.manager.join;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.join.WarehouseInfoParam;
 import cn.peyton.plum.mall.service.join.WarehouseInfoService;
 import cn.peyton.plum.mall.service.product.ShopProductSkuDetailService;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/pc/warehouse")
-public class WarehouseInfoController extends PcController<WarehouseInfoParam>
-        implements IBasePCController<Integer, WarehouseInfoParam> {
+public class WarehouseInfoController extends RealizeController
+        implements IController<Integer, WarehouseInfoParam> {
 
     @Resource
     private WarehouseInfoService warehouseInfoService;
@@ -45,7 +45,7 @@ public class WarehouseInfoController extends PcController<WarehouseInfoParam>
         WarehouseInfoParam _param = new WarehouseInfoParam();
         _param.setName(query.getKeyword());
         // 其他处理判断
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), warehouseInfoService,null);
+        return page(_param, new PageQuery(query.getPageNo()), warehouseInfoService,true);
     }
 
     @Token
@@ -55,7 +55,7 @@ public class WarehouseInfoController extends PcController<WarehouseInfoParam>
     public JSONResult<?> create(WarehouseInfoParam record) {
         WarehouseInfoParam _repeat = new WarehouseInfoParam();
         _repeat.setName(record.getName());
-        return baseHandleCreate(record, _repeat, warehouseInfoService, TIP_WAREHOUSE);
+        return handle(record, _repeat, false, warehouseInfoService, TIP_WAREHOUSE, CREATE);
     }
 
     @Token
@@ -70,7 +70,7 @@ public class WarehouseInfoController extends PcController<WarehouseInfoParam>
         WarehouseInfoParam _repeat = new WarehouseInfoParam();
         _repeat.setId(record.getId());
         _repeat.setName(record.getName());
-        return baseHandleEdit(record, _repeat, warehouseInfoService, TIP_WAREHOUSE,UPDATE);
+        return handle(record, _repeat, true, warehouseInfoService, TIP_WAREHOUSE, UPDATE);
     }
 
     @Token
@@ -82,7 +82,7 @@ public class WarehouseInfoController extends PcController<WarehouseInfoParam>
         if (shopProductSkuDetailService.isWarehouse(id)) {
             return JSONResult.fail("仓库关联商品信息,无法删除;如需要删除先清除相应的数据");
         }
-        return baseHandleDelete(id,warehouseInfoService,TIP_WAREHOUSE);
+        return delete(id, warehouseInfoService, TIP_WAREHOUSE);
     }
 
     // 下拉框

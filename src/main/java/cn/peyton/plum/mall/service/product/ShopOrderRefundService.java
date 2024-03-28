@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.product;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.product.ShopOrderRefundParam;
 import cn.peyton.plum.mall.pojo.product.ShopOrderRefund;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.product.ShopOrderRefund;
  * @version 1.0.0
  * </pre>
  */
-public interface ShopOrderRefundService extends IBaseService<Long, ShopOrderRefund, ShopOrderRefundParam> {
+public interface ShopOrderRefundService extends IRealizeService<Long, ShopOrderRefund, ShopOrderRefundParam> {
 
 }

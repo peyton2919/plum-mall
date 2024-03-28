@@ -1,12 +1,12 @@
 package cn.peyton.plum.mall.controller.pc.manager.join;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.join.ShopArrearPoolParam;
 import cn.peyton.plum.mall.service.join.ShopArrearPoolService;
 import cn.peyton.plum.mall.service.party.MemberService;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 */
 @RestController
 @RequestMapping("/pc/arrearpool")
-public class ShopArrearPoolController extends PcController<ShopArrearPoolParam>
-		implements IBasePCController<Long, ShopArrearPoolParam> {
+public class ShopArrearPoolController extends RealizeController
+		implements IController<Long, ShopArrearPoolParam> {
 
 	@Resource
 	private ShopArrearPoolService shopArrearPoolService;
@@ -41,7 +41,7 @@ public class ShopArrearPoolController extends PcController<ShopArrearPoolParam>
 	public JSONResult<?> list(Query query) {
 		ShopArrearPoolParam _param = new ShopArrearPoolParam();
 		_param.setStatus(STATUS_0);
-		return baseHandleList(_param,new PageQuery(query.getPageNo()),shopArrearPoolService,shopArrearPoolService.calcBalance());
+		return page(_param, new PageQuery(query.getPageNo()), shopArrearPoolService, shopArrearPoolService.calcBalance(), true);
 	}
 
 	@Override

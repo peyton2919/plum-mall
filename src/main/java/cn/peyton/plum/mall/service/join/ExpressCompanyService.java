@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.join;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.join.ExpressCompanyParam;
 import cn.peyton.plum.mall.pojo.join.ExpressCompany;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.join.ExpressCompany;
  * @version 1.0.0
  * </pre>
  */
-public interface ExpressCompanyService extends IBaseService<Integer, ExpressCompany, ExpressCompanyParam> {
+public interface ExpressCompanyService extends IRealizeService<Integer, ExpressCompany, ExpressCompanyParam> {
 
 }

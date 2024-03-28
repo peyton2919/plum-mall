@@ -24,7 +24,7 @@ public class DatetimeStrategy extends AbstractValidator {
         Datetime datetime = (Datetime) annotation;
         message = datetime.message();
         if (StrUtils.isEmpty(value)) {
-            if (regex(value.toString(), Regulation.REGX_SIMPLE_DATE)) {
+            if (regex(value.toString(), Regulation.REGEX_DATETIME)) {
                 map.put(name, message);
             }
         }

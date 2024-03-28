@@ -1,13 +1,13 @@
 package cn.peyton.plum.mall.controller.pc.manager.pub;
 
 import cn.peyton.plum.core.anno.token.Token;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
-import cn.peyton.plum.mall.controller.base.PcController;
 import cn.peyton.plum.mall.param.pub.NoticeCategoryParam;
 import cn.peyton.plum.mall.service.pub.NoticeCategoryService;
 import cn.peyton.plum.mall.service.pub.NoticeService;
@@ -29,8 +29,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/pc/noticecate")
-public class NoticeCategoryController extends PcController<NoticeCategoryParam>
-        implements IBasePCController<Integer, NoticeCategoryParam> {
+public class NoticeCategoryController extends RealizeController
+        implements IController<Integer, NoticeCategoryParam> {
 
     @Resource
     private NoticeCategoryService noticeCategoryService;
@@ -44,8 +44,8 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
         if (null != res && res.size() > 0) {
             return JSONResult.success(res);
         }
-        return baseHandleList(new NoticeCategoryParam(),
-                new PageQuery(1,ORDER_BY_FILED,false),noticeCategoryService,null);
+        return page(new NoticeCategoryParam(),
+                new PageQuery(1,ORDER_BY_FILED,false),noticeCategoryService,true);
     }
 
     @Token
@@ -55,7 +55,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> list(Query query) {
         NoticeCategoryParam _record = new NoticeCategoryParam();
         _record.setName(query.getKeyword());
-        return baseHandleList(_record,new PageQuery(query.getPageNo()),noticeCategoryService,null);
+        return page(_record,new PageQuery(query.getPageNo()),noticeCategoryService,true);
     }
 
     @Token
@@ -65,7 +65,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
     public JSONResult<?> create(NoticeCategoryParam param) {
         NoticeCategoryParam _repeat = new NoticeCategoryParam();
         _repeat.setName(param.getName());
-        return baseHandleCreate(param, _repeat, noticeCategoryService, TIP_NOTICE_CATEGORY);
+        return handle(param, _repeat,false, noticeCategoryService, TIP_NOTICE_CATEGORY,CREATE);
     }
 
     @Token
@@ -75,7 +75,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
         NoticeCategoryParam _repeat = new NoticeCategoryParam();
         _repeat.setName(param.getName());
         _repeat.setId(param.getId());
-        return baseHandleEdit(param, _repeat, noticeCategoryService, TIP_NOTICE_CATEGORY);
+        return handle(param, _repeat, true, noticeCategoryService, TIP_NOTICE_CATEGORY, UPDATE);
     }
 
     @Token
@@ -85,7 +85,7 @@ public class NoticeCategoryController extends PcController<NoticeCategoryParam>
         if (noticeService.isNoticeCategory(id)){
             return JSONResult.fail(JOIN_DATA + DELETE);
         }
-        return baseHandleDelete(id, noticeCategoryService, TIP_NOTICE_CATEGORY);
+        return delete(id, noticeCategoryService, TIP_NOTICE_CATEGORY);
     }
 
 }

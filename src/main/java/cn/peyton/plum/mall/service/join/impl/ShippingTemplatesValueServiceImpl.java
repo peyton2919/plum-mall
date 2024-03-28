@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.join.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.ShippingTemplatesValueBo;
 import cn.peyton.plum.mall.mapper.join.ShippingTemplatesValueMapper;
 import cn.peyton.plum.mall.param.join.ShippingTemplatesValueParam;
@@ -21,19 +21,21 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("shippingTemplatesValueService")
-public class ShippingTemplatesValueServiceImpl extends AbstractRealizeService<Integer, ShippingTemplatesValue, ShippingTemplatesValueParam> implements ShippingTemplatesValueService {
+public class ShippingTemplatesValueServiceImpl extends RealizeService<Integer, ShippingTemplatesValue, ShippingTemplatesValueParam> implements ShippingTemplatesValueService {
     @Resource
     private ShippingTemplatesValueMapper shippingTemplatesValueMapper;
 
     @Override
-    public BaseConvertBo<ShippingTemplatesValue, ShippingTemplatesValueParam> initBo() {
+    public BaseConvertBo<ShippingTemplatesValue, ShippingTemplatesValueParam> bo() {
         return new ShippingTemplatesValueBo();
     }
 
     @Override
-    public IBaseMapper<Integer, ShippingTemplatesValue> initMapper() {
+    public IBaseMapper<Integer, ShippingTemplatesValue> mapper() {
         return shippingTemplatesValueMapper;
     }
+
+
     public ShippingTemplatesValueServiceImpl() {
         enabledCache = true;
         keyPrefix = this.getClass().getName();

@@ -1,4 +1,4 @@
-package cn.peyton.plum.core.inf.service;
+package cn.peyton.plum.core.inf.service.base;
 
 /**
  * <h4>{规范}更新状态 服务接口</h4>

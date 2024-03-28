@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.RoleDeptParam;
 import cn.peyton.plum.mall.pojo.sys.RoleDept;
 
@@ -13,6 +13,6 @@ import cn.peyton.plum.mall.pojo.sys.RoleDept;
  * @version 1.0.0
  * </pre>
  */
-public interface RoleDeptService extends IBaseService<Long, RoleDept, RoleDeptParam> {
+public interface RoleDeptService extends IRealizeService<Long, RoleDept, RoleDeptParam> {
 
 }

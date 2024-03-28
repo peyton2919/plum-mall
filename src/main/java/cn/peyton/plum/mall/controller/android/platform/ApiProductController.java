@@ -1,18 +1,19 @@
 package cn.peyton.plum.mall.controller.android.platform;
 
 import cn.peyton.plum.core.err.ValidationException;
+import cn.peyton.plum.core.inf.controller.RealizeController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.Min;
 import cn.peyton.plum.core.validator.constraints.NotBlank;
-import cn.peyton.plum.mall.controller.base.AndroidController;
 import cn.peyton.plum.mall.dto.ProductDto;
 import cn.peyton.plum.mall.param.product.ShopProductParam;
 import cn.peyton.plum.mall.param.product.ShopProductReplyParam;
 import cn.peyton.plum.mall.service.product.ShopProductReplyService;
 import cn.peyton.plum.mall.service.product.ShopProductService;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 
 /**
- * <h4></h4>
+ * <h4>商品 API controller</h4>
  * <pre>
  * @author <a href="http://www.peyton.cn">peyton</a>
  * @mail <a href="mailto:fz2919@tom.com">fz2919@tom.com</a>
@@ -31,13 +32,14 @@ import java.math.BigDecimal;
  */
 @RestController
 @RequestMapping("/api/product")
-public class ApiProductController extends AndroidController {
+public class ApiProductController extends RealizeController {
 
     @Resource
     private ShopProductService shopProductService;
     @Resource
     private ShopProductReplyService shopProductReplyService;
 
+    // 商品详情
     @Valid
     @PostMapping("/one")
     public JSONResult<?> one(@NotBlank(message = "Id 不能为空;") @Min(value = 1,message = "最小值为1")Long id) {
@@ -56,6 +58,12 @@ public class ApiProductController extends AndroidController {
         }
         return JSONResult.success(_res);
     }
+
+    @GetMapping("/hotlist")
+    public JSONResult<?> hotList(){
+        return JSONResult.success(shopProductService.findForeignKeyByList(null));
+    }
+
     // tab {'','sale_counnt','min_price'} 标签
     // type {'asc','desc'} 排序
     // keyword 关键字
@@ -77,7 +85,7 @@ public class ApiProductController extends AndroidController {
                 return JSONResult.fail(JSONResult.Props.NO_DATA,"品牌Id参数错误");
             }
         }
-        return handleList(shopProductService.findAndroidByMulti(dto, page), null);
+        return list(shopProductService.findAndroidByMulti(dto, page), null);
     }
 
 
@@ -92,7 +100,7 @@ public class ApiProductController extends AndroidController {
         BigDecimal bigDecimal = shopProductService.findProductByGoodRate(id);
         String expand = "{\"total\":"+total+",\"goodRate\":" + bigDecimal + "}";
         //return list(_param, new PageQuery(pageNo), shopProductReplyService, expand, null);
-        return handleList(shopProductReplyService.findByProductId(id, new PageQuery(pageNo), tab), expand);
+        return list(shopProductReplyService.findByProductId(id, new PageQuery(pageNo), tab), expand);
     }
 
     /**

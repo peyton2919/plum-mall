@@ -232,6 +232,7 @@ public final class DateUtils implements Serializable {
         String DATE_FORMAT = "yyyy-MM-dd";
         String DATE_FORMAT_TIME = "yyyy-MM-dd HH:mm:ss";
         String DATE_FORMAT_STR = "yyyy年MM月dd日";
+        String DATE_FORMAT_TIME_S = "yyyyMMddHHmmssSSS";
     }
 
     public static void main(String[] args) {

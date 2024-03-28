@@ -1,8 +1,9 @@
 package cn.peyton.plum.mall.service.party;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.mall.param.party.UserAddressParam;
+import cn.peyton.plum.mall.pojo.party.UserAddress;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @version 1.0.0
  * </pre>
  */
-public interface UserAddressService extends IBaseService<Long, cn.peyton.plum.mall.pojo.party.UserAddress, UserAddressParam> {
+public interface UserAddressService extends IRealizeService<Long, UserAddress, UserAddressParam> {
 
 
     /**
@@ -42,4 +43,11 @@ public interface UserAddressService extends IBaseService<Long, cn.peyton.plum.ma
      * @return 对象集合
      */
     List<UserAddressParam> findAndroidByShareId(Long shareId, Integer shareType, PageQuery page);
+
+    /**
+     * <h4>根据用户Id 更新最后使用时间为空</h4>
+     * @param shareId 用户Id
+     * @param shareType 用户类型
+     */
+    void upLastUsedTimeNullByShareId(Long shareId,int shareType);
 }

@@ -3,17 +3,17 @@ package cn.peyton.plum.mall.controller.pc.manager.sys;
 import cn.peyton.plum.core.anno.resolver.RequestMultiple;
 import cn.peyton.plum.core.anno.token.Token;
 import cn.peyton.plum.core.cipher.BaseCipher;
-import cn.peyton.plum.core.inf.controller.IBasePCController;
+import cn.peyton.plum.core.inf.controller.IController;
 import cn.peyton.plum.core.json.JSONResult;
 import cn.peyton.plum.core.page.PageQuery;
-import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.core.page.Query;
 import cn.peyton.plum.core.users.IUser;
+import cn.peyton.plum.core.utils.base.CtrlUtils;
 import cn.peyton.plum.core.validator.anno.Valid;
 import cn.peyton.plum.core.validator.constraints.*;
 import cn.peyton.plum.mall.controller.base.UserOperationController;
-import cn.peyton.plum.mall.param.sys.UserParam;
 import cn.peyton.plum.mall.param.sys.RoleUserParam;
+import cn.peyton.plum.mall.param.sys.UserParam;
 import cn.peyton.plum.mall.service.sys.RoleService;
 import cn.peyton.plum.mall.service.sys.RoleUserService;
 import cn.peyton.plum.mall.service.sys.UserService;
@@ -36,7 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/pc/user")
 public class UserController extends UserOperationController
-        implements IBasePCController<Long,UserParam> {
+        implements IController<Long,UserParam> {
     /** 验证码 在缓存中的时间 */
     public final static String KEY_PHONE_CODE_CACHE_TIME = "USER_PHONE_TIME_2203262148";
     /** session中的 验证码 key */
@@ -61,7 +61,7 @@ public class UserController extends UserOperationController
     public JSONResult<?> list(Query query){
         UserParam _param = new UserParam();
         _param.setUsername(query.getKeyword());
-        return baseHandleList(_param, new PageQuery(query.getPageNo()), userService,roleService.findBySelect());
+        return page(_param, new PageQuery(query.getPageNo()), userService, roleService.findBySelect(), true);
     }
 
     //,@Min(value = 1,message = "ID 不能小于1的数值") Long roleId
@@ -78,14 +78,14 @@ public class UserController extends UserOperationController
             return JSONResult.fail("该用户名称已经存在,请重新输入。");
         }
         param.setPassword(BaseCipher.encoderMD5(param.getPassword(), KEY_USER_PASSWORD_ENCODER));
-        param.setAvatar(convertImgPath(param.getAvatar()));
-        UserParam _result = userService.add(param);
+        param.setAvatar(new CtrlUtils().convertImgPath(param.getAvatar()));
+        UserParam _result = userService.insert(param);
         if (null != _result) {
             RoleUserParam _urp = new RoleUserParam();
             _urp.setRoleId(param.getRoleParam().getId());
             _urp.setShareId(_result.getId());
             _urp.setShareType(IUser.TYPE_USER);
-            if (null != roleUserService.add(_urp)) {
+            if (null != roleUserService.insert(_urp)) {
                 return JSONResult.success("添加管理员成功",_result);
             }
         }
@@ -106,7 +106,7 @@ public class UserController extends UserOperationController
             return JSONResult.fail("修改的名称重名,请重新输入。");
         }
         param.setPassword(null);
-        param.setAvatar(convertImgPath(param.getAvatar()));
+        param.setAvatar(new CtrlUtils().convertImgPath(param.getAvatar()));
         if (userService.update(param)){
             // 更新角色
             RoleUserParam _urpParam = new RoleUserParam();
@@ -121,7 +121,7 @@ public class UserController extends UserOperationController
                 _resBool = roleUserService.update(_urpParam);
             }else {
                 // 添加
-                _resBool = roleUserService.add(_urpParam) != null ? true : false;
+                _resBool = roleUserService.insert(_urpParam) != null ? true : false;
             }
             if (_resBool){
                 return JSONResult.success("修改管理员成功");
@@ -141,17 +141,14 @@ public class UserController extends UserOperationController
             return JSONResult.fail("该用户为超级管理员,不能被删除;");
         }
         _param.setId(id);
-        if(userService.update(_param)){
-            return JSONResult.success("删除管理员成功");
-        }
-        return JSONResult.fail("删除管理员失败");
+        return handle(userService.update(_param), TIP_MANAGER, DELETE);
     }
 
     // 用户登录后获取信息
     @PostMapping("/manager/getinfo")
     @Token
     public JSONResult<?> findJoinById(){
-        UserParam userParam = handleToken(new UserParam());
+        UserParam userParam = getToken(new UserParam());
         if(null != userParam){
             return JSONResult.success(userService.findJoinById(userParam.getId(),userParam.getUserType()));
         }
@@ -188,7 +185,7 @@ public class UserController extends UserOperationController
             String newPassword,
             @NotBlank(message = "确认密码不能为空！")String confirmPassword) {
         // 从 token 获取 对象
-        UserParam _user = handleToken(new UserParam());
+        UserParam _user = getToken(new UserParam());
 
         return super.editPassword(_user.getId(),oldPassword,newPassword,confirmPassword, KEY_USER_PASSWORD_ENCODER,userService);
     }
@@ -209,7 +206,7 @@ public class UserController extends UserOperationController
     @PostMapping("/manager/edituseravatar")
     @Token
     public JSONResult<?> editAvatar(MultipartFile file) {
-        UserParam _user = handleToken(new UserParam());
+        UserParam _user = getToken(new UserParam());
 
         return super.editAvatar(file,_user.getId(),userService);
     }
@@ -223,10 +220,7 @@ public class UserController extends UserOperationController
         if (roleUserService.isSuperAdmin(id, IUser.TYPE_USER)) {
             return JSONResult.fail("该用户为超级管理员,不能被删除;");
         }
-        if(userService.upStatus(id,status)){
-            return JSONResult.success("状态更新成功");
-        }
-        return JSONResult.fail("状态更新失败");
+        return handle(userService.upStatus(id, status), TIP_MANAGER, STATUS, UPDATE);
     }
 
     // 编辑用户资料
@@ -235,7 +229,7 @@ public class UserController extends UserOperationController
     @PostMapping("/manager/edituser")
     public JSONResult<?> editUser(@RequestMultiple UserParam param) {
         // 从 token 获取 对象
-        UserParam userParam = handleToken(param);
+        UserParam userParam = getToken(param);
         // todo
         if(!userParam.getUsername().equals(param.getUsername())){
             if (userService.checkStatus(userParam.getUsername(), IUser.LOGIN_TYPE_ACCOUNT, STATUS_MINUS)) {
@@ -265,12 +259,7 @@ public class UserController extends UserOperationController
     public JSONResult<?> findAllByKeyword(String keyword, @Min(message = "当前页码要大于0的数！")Integer pageNo) {
         UserParam _param = new UserParam();
         _param.setUsername(keyword);
-        PageResult<?> result = userService.likeByPage(_param, new PageQuery(pageNo));
-        if (result.isSuccess){
-            result.setExpand(roleService.findBySelect());
-            return JSONResult.success("数据加载成功",result);
-        }
-        return JSONResult.fail(JSONResult.Props.NO_DATA,"没找到数据");
+        return page(userService.page(_param, new PageQuery(pageNo), true));
     }
 
     /**

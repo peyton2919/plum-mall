@@ -7,6 +7,7 @@
 		<result column="extend_order_no" property="extendOrderNo" jdbcType="VARCHAR"/>
 		<result column="share_id" property="shareId" jdbcType="BIGINT"/>
 		<result column="share_type" property="shareType" jdbcType="TINYINT"/>
+		<result column="user_addr_id" property="userAddrId" jdbcType="BIGINT"/>
 		<result column="explain" property="explain" jdbcType="VARCHAR"/>
 		<result column="closed" property="closed" jdbcType="TINYINT"/>
 		<result column="cart_id" property="cartId" jdbcType="BIGINT"/>
@@ -50,7 +51,7 @@
 	</resultMap>
 
 	<sql id="Column_tb_shop_order_List">
-		`id`,`order_no`,`extend_order_no`,`share_id`,`share_type`,`explain`,`closed`,`cart_id`,`freight_price`,
+		`id`,`order_no`,`extend_order_no`,`share_id`,`share_type`,`user_addr_id`,`explain`,`closed`,`cart_id`,`freight_price`,
 		    `total_num`,`total_price`,`total_postage`,`pay_price`,`pay_postage`,`deduction_price`,`coupon_id`,
 		    `coupon_price`,`paid`,`pay_time`,`pay_type`,`create_time`,`update_time`,`status`,`refund_status`,
 		    `refund_id`,`gain_integral`,`use_integral`,`pay_integral`,`back_integral`,`admin_remark`,
@@ -105,6 +106,7 @@
 			<if test="extendOrderNo != null">`extend_order_no`,</if>
 			<if test="shareId != null">`share_id`,</if>
 			<if test="shareType != null">`share_type`,</if>
+			<if test="userAddrId != null">`user_addr_id`,</if>
 			<if test="explain != null">`explain`,</if>
 			<if test="closed != null">`closed`,</if>
 			<if test="cartId != null">`cart_id`,</if>
@@ -145,6 +147,7 @@
 			<if test="extendOrderNo != null">#{extendOrderNo},</if>
 			<if test="shareId != null">#{shareId},</if>
 			<if test="shareType != null">#{shareType},</if>
+			<if test="userAddrId != null">#{userAddrId},</if>
 			<if test="explain != null">#{explain},</if>
 			<if test="closed != null">#{closed},</if>
 			<if test="cartId != null">#{cartId},</if>
@@ -189,6 +192,7 @@
 			<if test="extendOrderNo != null">`extend_order_no` = #{extendOrderNo},</if>
 			<if test="shareId != null">`share_id` = #{shareId},</if>
 			<if test="shareType != null">`share_type` = #{shareType},</if>
+		    <if test="userAddrId != null">`user_addr_id` = #{userAddrId},</if>
 			<if test="explain != null">`explain` = #{explain},</if>
 			<if test="closed != null">`closed` = #{closed},</if>
 			<if test="cartId != null">`cart_id` = #{cartId},</if>

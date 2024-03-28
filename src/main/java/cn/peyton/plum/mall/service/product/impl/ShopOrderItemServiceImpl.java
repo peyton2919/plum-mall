@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.product.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.core.page.PageQuery;
 import cn.peyton.plum.core.page.PageResult;
 import cn.peyton.plum.mall.bo.ShopOrderItemBo;
@@ -25,17 +25,17 @@ import java.util.List;
  * </pre>
  */
 @Service("shopOrderItemService")
-public class ShopOrderItemServiceImpl extends AbstractRealizeService<Long, ShopOrderItem, ShopOrderItemParam> implements ShopOrderItemService {
+public class ShopOrderItemServiceImpl extends RealizeService<Long, ShopOrderItem, ShopOrderItemParam> implements ShopOrderItemService {
     @Resource
     private ShopOrderItemMapper shopOrderItemMapper;
 
     @Override
-    public BaseConvertBo<ShopOrderItem, ShopOrderItemParam> initBo() {
+    public BaseConvertBo<ShopOrderItem, ShopOrderItemParam> bo() {
         return new ShopOrderItemBo();
     }
 
     @Override
-    public IBaseMapper<Long, ShopOrderItem> initMapper() {
+    public IBaseMapper<Long, ShopOrderItem> mapper() {
         return shopOrderItemMapper;
     }
 

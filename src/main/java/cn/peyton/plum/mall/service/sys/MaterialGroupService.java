@@ -1,6 +1,6 @@
 package cn.peyton.plum.mall.service.sys;
 
-import cn.peyton.plum.core.inf.service.IBaseService;
+import cn.peyton.plum.core.inf.service.base.IRealizeService;
 import cn.peyton.plum.mall.param.sys.MaterialGroupParam;
 import cn.peyton.plum.mall.pojo.sys.MaterialGroup;
 
@@ -13,7 +13,7 @@ import cn.peyton.plum.mall.pojo.sys.MaterialGroup;
  * @version 1.0.0
  * </pre>
  */
-public interface MaterialGroupService extends IBaseService<Long, MaterialGroup, MaterialGroupParam> {
+public interface MaterialGroupService extends IRealizeService<Long, MaterialGroup, MaterialGroupParam> {
 
 
 }

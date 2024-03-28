@@ -2,7 +2,7 @@ package cn.peyton.plum.mall.service.sys.impl;
 
 import cn.peyton.plum.core.inf.BaseConvertBo;
 import cn.peyton.plum.core.inf.mapper.IBaseMapper;
-import cn.peyton.plum.core.inf.service.AbstractRealizeService;
+import cn.peyton.plum.core.inf.service.RealizeService;
 import cn.peyton.plum.mall.bo.DeptBo;
 import cn.peyton.plum.mall.mapper.sys.DeptMapper;
 import cn.peyton.plum.mall.param.sys.DeptParam;
@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 @Service("deptService")
-public class DeptServiceImpl extends AbstractRealizeService<Integer, Dept, DeptParam> implements DeptService {
+public class DeptServiceImpl extends RealizeService<Integer, Dept, DeptParam> implements DeptService {
     @Resource
     private DeptMapper deptMapper;
 
     @Override
-    public BaseConvertBo<Dept, DeptParam> initBo() {
+    public BaseConvertBo<Dept, DeptParam> bo() {
         return new DeptBo();
     }
 
     @Override
-    public IBaseMapper<Integer, Dept> initMapper() {
+    public IBaseMapper<Integer, Dept> mapper() {
         return deptMapper;
     }
 
